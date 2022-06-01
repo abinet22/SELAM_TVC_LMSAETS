@@ -1,0 +1,524 @@
+<html lang="en" style="height: auto;"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SELAM_TVC</title>
+  
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../../dist/css/adminlte.min.css">
+  <style type="text/css">/* Chart.js */
+  @keyframes chartjs-render-animation{from{opacity:.99}to{opacity:1}}.chartjs-render-monitor{animation:chartjs-render-animation 1ms}.chartjs-size-monitor,.chartjs-size-monitor-expand,.chartjs-size-monitor-shrink{position:absolute;direction:ltr;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1}.chartjs-size-monitor-expand>div{position:absolute;width:1000000px;height:1000000px;left:0;top:0}.chartjs-size-monitor-shrink>div{position:absolute;width:200%;height:200%;left:0;top:0}</style></head>
+  <!--
+  `body` tag options:
+  
+    Apply one or more of the following classes to to the body tag
+    to get the desired effect
+  
+    * sidebar-collapse
+    * sidebar-mini
+  -->
+  <body class="sidebar-mini sidebar-closed sidebar-collapse" style="height: auto;">
+  <div class="wrapper">
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="/dashboard" class="nav-link">Home</a>
+        </li>
+     
+      </ul>
+  
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        <!-- Navbar Search -->
+       
+  
+        <!-- Messages Dropdown Menu -->
+    
+        <!-- Notifications Dropdown Menu -->
+        <li class="nav-item dropdown">
+          <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="far fa-bell"></i>
+            <span class="badge badge-warning navbar-badge">15</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <span class="dropdown-item dropdown-header">15 Notifications</span>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-envelope mr-2"></i> 4 new messages
+              <span class="float-right text-muted text-sm">3 mins</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-users mr-2"></i> 8 friend requests
+              <span class="float-right text-muted text-sm">12 hours</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-file mr-2"></i> 3 new reports
+              <span class="float-right text-muted text-sm">2 days</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+            <i class="fas fa-expand-arrows-alt"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"   href="/logout" role="button">
+            Logout
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.navbar -->
+  
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar  elevation-4">
+      <!-- Brand Logo -->
+      <%- include('./partials/sidebar') %>
+      <!-- /.sidebar -->
+    </aside>
+  
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" style="min-height: 2128.12px;">
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">Dashboard</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Add New Class</li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+  
+      <!-- Main content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class=" col-md-8 offset-md-2">
+            <div class="card card-primary">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <i class="fas fa-edit"></i>
+                   Create New Class
+                  </h3>
+                </div>
+                <div class="card-body">
+                   
+                    <div class="row">
+                        <div class="col-5 col-sm-3">
+                          <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="false">Level Based</a>
+                            <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">NGO Based</a>
+                            <a class="nav-link" id="vert-tabs-profile1-tab" data-toggle="pill" href="#vert-tabs-profile1" role="tab" aria-controls="vert-tabs-profile1" aria-selected="false">Industry Based</a>
+                        
+                          </div>
+                        </div>
+                        <div class="col-7 col-sm-9">
+                          
+                          <div class="tab-content" id="vert-tabs-tabContent">
+                            <div class="tab-pane text-left fade" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
+                                <form class="forms-sample" action="/classmanage/addnewclasslevelbased" method="post">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputConfirmPassword1">Program Name</label>
+                                                    <select class="form-control" id="batchid" name="batchid">
+                                                     <option value="0">please select training program name</option>
+                                                     <% if(levelbased.length >0) {%>
+                                                      <% levelbased.forEach(function (row){ %>
+                                                        <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
+                                                     <% })}else {}%>
+                                                      
+                                                    </select>
+                                                  </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputConfirmPassword1">Department Name</label>
+                                                    <select class="form-control" id="deptid" name="deptid">
+                                                     <option value="0">please select department name</option>
+                                                    
+                                                     <% if(department.length >0) {%>
+                                                        <% department.forEach(function (row){ %>
+                                                          <option value="<%= row.department_id %>"><%= row.department_name %></option>
+                                                       <% })}else {}%>
+                                                    </select>
+                                                  </div>
+                                            </div>
+                                           
+                                              
+                                        </div>
+                                   
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputConfirmPassword1">Training Type </label>
+                                            <select class="form-control" id="programtype" name="programtype">
+                                             <option value="0">please select training program type</option>
+                                             <option value="Regular">Regular</option>
+                                             <option value="Extension">Extension</option>
+                                           
+                                            </select>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputConfirmPassword1">Training Level</label>
+                                            <select class="form-control" id="level" name="level">
+                                             <option value="0">Please select training level</option>
+                                             <option value="Level_1">Level_1</option>
+                                             <option value="Level_2">Level_2</option>
+                                             <option value="Level_3">Level_3</option>
+                                             <option value="Level_4">Level_4</option>
+                                             <option value="Level_5">Level_5</option>
+                                           
+                                            </select>
+                                          </div>
+                                    </div>
+                                   
+                                    
+                                  </div>
+                                  
+                                    <div class="form-group">
+                                      <label for="exampleInputUsername1">Number Of Class </label>
+                                      <input type="text" class="form-control" id="noofclass" name="noofclass" placeholder="Number Of Class">
+                                    </div>
+                                   
+                                      <div class="form-group">
+                                        <div class="input-group">
+                                          <div class="input-group-prepend">
+                                            <button class="btn btn-sm form-control" id="addngo" style="background-color: #f48d5b;" type="button">Add Class Name</button>
+                                      
+                                          </div>
+                                          
+                                        
+                                        <input type="text" class="form-control" name="classname" id="classname" placeholder="Class Name">
+                                         
+                                        </div>
+                                      </div>
+                                      <input type="hidden" id="criteriango" name="criteriango">
+                                   
+                                          <div class="row">
+                                            <div class="col-md-6 offset-md-4 form-check form-check-primary">
+                                              <ul class="" id="listlevel">
+                                                <label>Class Name List<code></code><i class="input-helper"></i></label>
+                                              </ul>
+                                            </div>
+                                          </div>
+                                     
+                                     <script>
+                                                
+                         var criteria2 =[];
+                      
+                                        var criid2 =1 ;
+                                        $("#addngo").on("click", function(e){
+                                          var noofclass = document.getElementById("noofclass").value;
+                                          if(criid2 <= noofclass){
+                                       
+                                       var criname2 = document.getElementById("classname").value;
+                                       var programtype = document.getElementById("programtype").value;
+                                       var level = document.getElementById("level").value;
+                                       var dpt = $( "#deptid option:selected" ).text();
+                                       var dptname = dpt.substring(0,3);
+                                       var classname = dptname+"_"+ programtype  +"_"+level  +"_CN-"+criname2 +"_"+criid2;
+                                        var checkboxvalue2 = criname2  ;
+                                        criteria2.push(classname);
+                                       // $('#criteria').val([criteria]);
+                                       $('#criteriango').val( JSON.stringify(criteria2) );
+                                     console.log( JSON.stringify(criteria2) );
+                          
+                    $("#listlevel").append("<li><input type='checkbox' id="+ checkboxvalue2 +" class='form-check-input' checked >" + classname + "</li>");
+                    criid2 ++ ;
+                    return false;
+                    
+                                          }
+                                    
+                    });
+                         
+                                      </script>
+                                   <div class="col-md-6 offset-md-3">
+                                    <button type="submit" class="btn btn-primary btn-block me-2">Submit</button>
+                                   
+                                   </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
+                                <form action="/classmanage/addnewclasslevelbased" method="post">
+                                      <div class="row">
+                                        <div class="col-md-6">
+                                          <div class="form-group">
+                                            <label for="exampleInputConfirmPassword1">Program Name</label>
+                                            <select class="form-control" id="batchidn" name="batchidn">
+                                             <option value="0">please select training program name</option>
+                                             <% if(levelbased.length >0) {%>
+                                              <% levelbased.forEach(function (row){ %>
+                                                <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
+                                             <% })}else {}%>
+                                              
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                          <div class="form-group">
+                                            <label for="exampleInputConfirmPassword1">Department Name</label>
+                                            <select class="form-control" id="deptidn" name="deptidn">
+                                             <option value="0">please select department name</option>
+                                            
+                                             <% if(department.length >0) {%>
+                                                <% department.forEach(function (row){ %>
+                                                  <option value="<%= row.department_id %>"><%= row.department_name %></option>
+                                               <% })}else {}%>
+                                            </select>
+                                          </div>
+                                        </div>
+                                       
+                                       
+                                      </div>
+                                   
+                                  
+                                    <div class="form-group">
+                                      <label for="exampleInputConfirmPassword1">Training Type </label>
+                                      <select class="form-control" id="programtypen" name="programtypen">
+                                       <option value="0">please select training program type</option>
+                                       <option value="Regular">Regular</option>
+                                       <option value="Extension">Extension</option>
+                                     
+                                      </select>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                      <label for="exampleInputUsername1">Number Of Class </label>
+                                      <input type="text" class="form-control" id="noofclassn" name="noofclassn" placeholder="Number Of Class">
+                                    </div>
+                                   
+                                      <div class="form-group">
+                                        <div class="input-group">
+                                          <div class="input-group-prepend">
+                                            <button class="btn btn-sm form-control" id="add" style="background-color: #f48d5b;" type="button">Add Class Name</button>
+                                      
+                                          </div>
+                                          
+                                        
+                                        <input type="text" class="form-control" name="classnamen" id="classnamen" placeholder="Class Name">
+                                         
+                                        </div>
+                                      </div>
+                                      <input type="hidden" id="criteriango" name="criteriango">
+                                   
+                                          <div class="row">
+                                            <div class="col-md-6 offset-md-4 form-check form-check-primary">
+                                              <ul class="" id="listngo">
+                                                <label>Class Name List<code></code><i class="input-helper"></i></label>
+                                              </ul>
+                                            </div>
+                                          </div>
+                                     
+                                     <script>
+                                                
+                         var criteria =[];
+                      
+                                        var criid =1 ;
+                                        $("#add").on("click", function(e){
+                                          var noofclassn = document.getElementById("noofclassn").value;
+                                          console.log(noofclassn)
+                                          if(criid <= noofclassn){
+                                       
+                                       var criname = document.getElementById("classnamen").value;
+                                       var programtypen = document.getElementById("programtypen").value;
+                                       var dpt = $( "#deptidn option:selected" ).text();
+                                       var dptnamen = dpt.substring(0,3);
+                                       var classnamen = dptnamen +"_"+ programtypen  +"_CN-"+criname +"_"+criid;
+                                        var checkboxvalue = criname +"_"+ criid ;
+                                        criteria.push(classnamen);
+                                       // $('#criteria').val([criteria]);
+                                       $('#criteriango').val( JSON.stringify(criteria) );
+                                     console.log( JSON.stringify(criteria) );
+                          
+                    $("#listngo").append("<li><input type='checkbox' id="+ checkboxvalue +" class='form-check-input' checked >" + classnamen + "</li>");
+                    criid ++ ;
+                    return false;
+                    
+                                          }
+                                    
+                    });
+                         
+                                      </script>
+                                   <div class="col-md-6 offset-md-3">
+                                    <button type="submit" class="btn btn-primary btn-block me-2">Submit</button>
+                                   
+                                   </div>
+                                </form>
+                              </div>
+                              <div class="tab-pane fade" id="vert-tabs-profile1" role="tabpanel" aria-labelledby="vert-tabs-profile1-tab">
+                                <form action="/classmanage/addnewclasslevelbased" method="post">
+                                      <div class="row">
+                                        <div class="col-md-6">
+                                          <div class="form-group">
+                                            <label for="exampleInputConfirmPassword1">Program Name</label>
+                                            <select class="form-control" id="batchidi" name="batchidi">
+                                             <option value="0">please select training program name</option>
+                                             <% if(levelbased.length >0) {%>
+                                              <% levelbased.forEach(function (row){ %>
+                                                <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
+                                             <% })}else {}%>
+                                              
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                          <div class="form-group">
+                                            <label for="exampleInputConfirmPassword1">Department Name</label>
+                                            <select class="form-control" id="deptidi" name="deptidi">
+                                             <option value="0">please select department name</option>
+                                            
+                                             <% if(department.length >0) {%>
+                                                <% department.forEach(function (row){ %>
+                                                  <option value="<%= row.department_id %>"><%= row.department_name %></option>
+                                               <% })}else {}%>
+                                            </select>
+                                          </div>
+                                        </div>
+                                       
+                                       
+                                      </div>
+                                   
+                                  
+                                    <div class="form-group">
+                                      <label for="exampleInputConfirmPassword1">Training Type </label>
+                                      <select class="form-control" id="programtypei" name="programtypei">
+                                       <option value="0">please select training program type</option>
+                                       <option value="Regular">Regular</option>
+                                       <option value="Extension">Extension</option>
+                                     
+                                      </select>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                      <label for="exampleInputUsername1">Number Of Class </label>
+                                      <input type="text" class="form-control" id="noofclassi" name="noofclassi" placeholder="Number Of Class">
+                                    </div>
+                                   
+                                      <div class="form-group">
+                                        <div class="input-group">
+                                          <div class="input-group-prepend">
+                                            <button class="btn btn-sm form-control" id="addindustry" style="background-color: #f48d5b;" type="button">Add Class Name</button>
+                                      
+                                          </div>
+                                          
+                                        
+                                        <input type="text" class="form-control" name="classnamei" id="classnamei" placeholder="Class Name">
+                                         
+                                        </div>
+                                      </div>
+                                      <input type="hidden" id="criteriai" name="criteriai">
+                                   
+                                          <div class="row">
+                                            <div class="col-md-6 offset-md-4 form-check form-check-primary">
+                                              <ul class="" id="listindustry">
+                                                <label>Class Name List<code></code><i class="input-helper"></i></label>
+                                              </ul>
+                                            </div>
+                                          </div>
+                                     
+                                     <script>
+                                                
+                         var criteriai =[];
+                      
+                                        var criidi =1 ;
+                                        $("#addindustry").on("click", function(e){
+                                          var noofclassn = document.getElementById("noofclassi").value;
+                                          console.log(noofclassn)
+                                          if(criidi <= noofclassn){
+                                       
+                                       var criname = document.getElementById("classnamei").value;
+                                       var programtypen = document.getElementById("programtypei").value;
+                                       var dpt = $( "#deptidi option:selected" ).text();
+                                       var dptnamen = dpt.substring(0,3);
+                                       var classnamen = dptnamen +"_"+ programtypen  +"_CN-"+criname +"_"+criidi;
+                                        var checkboxvalue = criname +"_"+ criidi ;
+                                        criteriai.push(classnamen);
+                                       // $('#criteria').val([criteria]);
+                                       $('#criteriai').val( JSON.stringify(criteriai) );
+                                     console.log( JSON.stringify(criteriai) );
+                          
+                    $("#listindustry").append("<li><input type='checkbox' id="+ checkboxvalue +" class='form-check-input' checked >" + classnamen + "</li>");
+                    criidi ++ ;
+                    return false;
+                    
+                                          }
+                                    
+                    });
+                         
+                                      </script>
+                                   <div class="col-md-6 offset-md-3">
+                                    <button type="submit" class="btn btn-primary btn-block me-2">Submit</button>
+                                   
+                                   </div>
+                                </form>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+         
+          
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+  
+    <!-- Control Sidebar -->
+  <!-- /.control-sidebar -->
+  
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <%- include ('./partials/footer') %>
+    </footer>
+ 
+  <!-- ./wrapper -->
+  
+  <!-- REQUIRED SCRIPTS -->
+  
+  <!-- jQuery -->
+  <script src="../../../plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE -->
+  <script src="../../../dist/js/adminlte.js"></script>
+  
+  <!-- OPTIONAL SCRIPTS -->
+  <script src="../../../plugins/chart.js/Chart.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="../../../dist/js/demo.js"></script>
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  <script src="../../../dist/js/pages/dashboard3.js"></script>
+  <script src="../../plugins/toastr/toastr.min.js"></script>
+  
+  
+  </body></html>

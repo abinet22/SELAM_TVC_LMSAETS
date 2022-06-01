@@ -1,0 +1,513 @@
+<html lang="en" style="height: auto;"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SELAM_TVC</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="../../../plugins/fontawesome-free/css/all.min.css">
+  <!-- IonIcons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../../dist/css/adminlte.min.css">
+<!--
+`body` tag options:
+
+  Apply one or more of the following classes to to the body tag
+  to get the desired effect
+
+  * sidebar-collapse
+  * sidebar-mini
+-->
+=<style>
+/* Style the form */
+#regForm {
+background-color: #ffffff;
+margin: 0px auto;
+padding: 0px;
+width: 100%;
+min-width: 300px;
+}
+
+/* Style the input fields */
+input {
+padding: 5px;
+width: 100%;
+font-size: 17px;
+font-family: Raleway;
+border: 1px solid #aaaaaa;
+}
+
+/* Mark input boxes that gets an error on validation: */
+input.invalid {
+background-color: #ffdddd;
+}
+
+/* Hide all steps by default: */
+.tab {
+display: none;
+}
+
+/* Make circles that indicate the steps of the form: */
+.step {
+height: 15px;
+width: 15px;
+margin: 0 2px;
+background-color: #bbbbbb;
+border: none;
+border-radius: 50%;
+display: inline-block;
+opacity: 0.5;
+}
+
+/* Mark the active step: */
+.step.active {
+opacity: 1;
+}
+
+/* Mark the steps that are finished and valid: */
+.step.finish {
+background-color: #f48d5b;;
+}
+</style>
+<body class="sidebar-mini sidebar-closed sidebar-collapse" style="height: auto;">
+<div class="wrapper">
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="/dashboard" class="nav-link">Home</a>
+      </li>
+   
+    </ul>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Navbar Search -->
+     
+
+      <!-- Messages Dropdown Menu -->
+  
+      <!-- Notifications Dropdown Menu -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-bell"></i>
+          <span class="badge badge-warning navbar-badge">15</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-item dropdown-header">15 Notifications</span>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-envelope mr-2"></i> 4 new messages
+            <span class="float-right text-muted text-sm">3 mins</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-users mr-2"></i> 8 friend requests
+            <span class="float-right text-muted text-sm">12 hours</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-file mr-2"></i> 3 new reports
+            <span class="float-right text-muted text-sm">2 days</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+          <i class="fas fa-expand-arrows-alt"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"   href="/logout" role="button">
+          Logout
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar  elevation-4">
+    <!-- Brand Logo -->
+    <%- include('./partials/sidebar') %>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" style="min-height: 2128.12px;">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Dashboard</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+              <li class="breadcrumb-item">Dashboard</li>
+              <li class="breadcrumb-item active">NGO Level Based Program</li>
+         
+          </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-10 offset-md-1">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Add New NGO Based Training Program</h3>
+              </div>
+              <div class="card-body">
+                <%- include ('./partials/messages') %>
+                <form id="regForm" action="/programs/addnewngobasedprogram" method="post">
+          
+                  <!-- One "tab" for each step in the form: -->
+                  <div class="tab">Program General Info:
+                    <div class="form-group">
+                      <label for="exampleInputUsername1">Training Funder NGO</label>
+                   <select class="form-control" name="fundername" id="fundername" >
+                     <option>Please select funder NGO</option>
+                     <% if(funderinfo.length >0) {%>
+                      <% funderinfo.forEach(function (row){ %>
+                        <option value="<%= row.funder_id %>"><%= row.funder_name %></option>
+                     <% })}else {}%>
+                   </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputUsername1">Training Short Description</label>
+                      <input type="text" class="form-control" oninput="this.className = ''" id="description" name="description" placeholder="Enter Short Training Description">
+                    </div>
+                  
+                    <div class="input-group input-group-sm">
+                      <input type="text" class="form-control" oninput="this.className = ''"  id="batchname" name="batchname"> 
+                      <span class="input-group-append">
+                        <button type="button" class="btn btn-info btn-flat" style="background-color: #f48d5b;" type="button" onclick="generatebatchname();">Generate Batch Name</button>
+                      </span>
+                    </div>
+                    <script>
+                      function generatebatchname()
+                      {
+                        
+                        var batchnew = new Date();
+                        var thisyear = batchnew.getFullYear();
+                        var thismonth = batchnew.getMonth();
+                        var batchname = "Selam"+"_"+"Batch"+"_"+thismonth+"_"+thisyear;
+                        document.getElementById('batchname').value = batchname ;
+  
+                      }
+                    </script>
+                    <div class="form-group">
+                      <label for="exampleInputUsername1">Select Training Category Include</label>
+                      <select class="form-control" multiple="" id="trainingname" name="trainingname">
+                <% if(training.length >0) {%>
+                          <% training.forEach(function (row){ %>
+                            <option value="<%= row.training_name %>"><%= row.training_name %></option>
+                         <% })}else {}%>
+              </select>
+                    </div>
+                  
+                  </div>
+                  <div class="tab">Training Info:
+                    <div class="form-group">
+                      <label>Select Training Type Include</label>
+                      <select class="form-control" id="trainingtype" name="trainingtype" multiple="">
+                <option value="Regular">Regular</option>
+                <option value="Extension">Extension</option>
+              
+             
+              </select>
+                    </div>
+                   
+                    <div class="form-group">
+                      <label for="exampleInputUsername1">Application Entry Requirements</label>
+                      <textarea type="text" class="form-control" rows="3" id="requirement" name="requirement" placeholder="Enter Applicant Minimum Requirements"></textarea>
+                    </div>
+                 
+                  </div>
+                  <div class="tab">Application Info:
+
+                    <div class="row">
+               
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="exampleInputUsername1"> Application Start Date</label>
+                         <input type="date" class="form-control" id="appstartdate" name="appstartdate" placeholder="Enter Application Start Date">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="exampleInputUsername1"> Application End Date</label>
+                       
+                          <input type="date" class="form-control" id="appenddate" name="appenddate" placeholder="Enter Application End Date">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                 
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="exampleInputUsername1"> Training Start Date</label>
+                         <input type="date" class="form-control" id="trainingstartdate" name="trainingstartdate" placeholder="Enter Training Start Date">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="exampleInputUsername1"> Training End Date</label>
+                       
+                          <input type="date" class="form-control" id="trainingenddate" name="trainingenddate" placeholder="Enter Training End Date">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <button class="btn btn-sm form-control" id="add" style="background-color: #f48d5b;" type="button">Add Criteria List</button>
+                          
+                              </div>
+                              
+                            
+                             <select class="form-control" id="prenume" name="prenume">
+                        <option value="0">Please select application criterias</option>
+                            <% if(criteria.length >0) {%>
+                              <% criteria.forEach(function (row){ %>
+                                <option value="<%= row.criteria_name %>"><%= row.criteria_name %></option>
+                             <% })}else {}%>
+                             </select>
+                             
+                            </div>
+                          </div>
+                        
+                        </div>
+                        <div class="col-md-6">
+                         <div class="form-group">
+                        
+                           <div class="input-group">
+                             <input type="range" min="1" max="100" value="50" class="slider form-control" id="myRange">
+                         
+                             <div class="input-group-append">
+                               <span class="input-group-text" id="demo">50%</span>
+                             </div>
+                           </div>
+                         </div>
+                        
+                       </div>
+                      </div>
+                    </div>
+                    <input type="hidden" id="criteria" name="criteria">
+                  
+                        <div class="row">
+                          <div class="col-md-6 offset-md-3 form-check form-check-primary">
+                            <ul class="" id="list">
+                              <label>Applicant Criteria List<code>Uncheck If You Want To Omits</code><i class="input-helper"></i></label>
+                            </ul>
+                          </div>
+                        </div>
+             </div>
+                 
+                  <div style="overflow:auto;">
+                    <div style="float:right;">
+                      <button type="button" id="prevBtn" onclick="nextPrev(-1)" class="btn btn-sm " style="background-color: #f48d5b;;">Previous</button>
+                      <button type="button" id="nextBtn" onclick="nextPrev(1)" class="btn btn-sm " style="background-color: #f48d5b;;">Next</button>
+                    </div>
+                  </div>
+                  <!-- Circles which indicates the steps of the form: -->
+                  <div style="text-align:center;margin-top:40px;">
+                    <span class="step"></span>
+                    <span class="step"></span>
+                    <span class="step"></span>
+                  
+                  </div>
+                </form>
+              </div>
+              </div>
+        
+            -
+              <!-- general form elements -->
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+               
+              <script>
+                var slider = document.getElementById("myRange");
+             
+                var output = document.getElementById("demo");
+           
+              
+output.innerHTML = slider.value +"%"; // Display the default slider value
+
+// Update the current slider value (each time you drag the slider handle)
+slider.oninput = function() {
+output.innerHTML = this.value;
+} ;           
+     var criarry = [] ;
+     var criteria ={}; 
+
+                var criid =0 ;
+                $("#add").on("click", function(e){
+                  var data = document.getElementById("prenume").value;
+               if(data == "0")
+               {
+
+               }
+               else
+               {
+                criid ++ ;
+               var criname = document.getElementById("prenume").value;
+                var percent = document.getElementById("myRange").value;
+               
+                var checkboxvalue = criname + "_" +percent+"%";
+                criname.trim();
+              // criarry.push(checkboxvalue);
+              // criteria['name'] = criname;
+              //  criteria['val'] = criname;
+              //    criteria['id'] = criid;
+              criteria[criname] = parseInt(percent) ;
+              //criarry.push(criteria);
+               // $('#criteria').val([criteria]);
+               $('#criteria').val( JSON.stringify(criteria) );
+             console.log(criteria);            
+$("#list").append("<li><input type='checkbox' id="+ checkboxvalue +" class='form-check-input' checked >" + $("#prenume").val() + " " + $("#myRange").val() +"%"+"</li>");
+
+return false;
+               }
+             
+});
+ 
+              </script>
+              <!-- /.card -->
+  
+              <!-- general form elements -->
+            
+              <!-- /.card -->
+  
+            </div>
+          <!-- /.col-md-6 -->
+       
+          <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+<!-- /.control-sidebar -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+      <%- include ('./partials/footer') %>
+  </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+
+<!-- jQuery -->
+<script src="../../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE -->
+<script src="../../../dist/js/adminlte.js"></script>
+
+<!-- OPTIONAL SCRIPTS -->
+<script src="../../../plugins/chart.js/Chart.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../../dist/js/demo.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="../../../dist/js/pages/dashboard3.js"></script>
+
+<script>
+var currentTab = 0; // Current tab is set to be the first tab (0)
+showTab(currentTab); // Display the current tab
+
+function showTab(n) {
+  // This function will display the specified tab of the form...
+  var x = document.getElementsByClassName("tab");
+  x[n].style.display = "block";
+  //... and fix the Previous/Next buttons:
+  if (n == 0) {
+    document.getElementById("prevBtn").style.display = "none";
+  } else {
+    document.getElementById("prevBtn").style.display = "inline";
+  }
+  if (n == (x.length - 1)) {
+    document.getElementById("nextBtn").innerHTML = "Submit";
+  } else {
+    document.getElementById("nextBtn").innerHTML = "Next";
+  }
+  //... and run a function that will display the correct step indicator:
+  fixStepIndicator(n)
+}
+
+function nextPrev(n) {
+  // This function will figure out which tab to display
+  var x = document.getElementsByClassName("tab");
+  // Exit the function if any field in the current tab is invalid:
+  if (n == 1 && !validateForm()) return false;
+  // Hide the current tab:
+  x[currentTab].style.display = "none";
+  // Increase or decrease the current tab by 1:
+  currentTab = currentTab + n;
+  // if you have reached the end of the form...
+  if (currentTab >= x.length) {
+    // ... the form gets submitted:
+    document.getElementById("regForm").submit();
+    return false;
+  }
+  // Otherwise, display the correct tab:
+  showTab(currentTab);
+}
+
+function validateForm() {
+  // This function deals with validation of the form fields
+  var x, y, i, valid = true;
+  x = document.getElementsByClassName("tab");
+  y = x[currentTab].getElementsByTagName("input");
+  // A loop that checks every input field in the current tab:
+  for (i = 0; i < y.length; i++) {
+    // If a field is empty...
+    if (y[i].value == "") {
+      // add an "invalid" class to the field:
+      y[i].className += " invalid";
+      // and set the current valid status to false
+      valid = false;
+    }
+  }
+  // If the valid status is true, mark the step as finished and valid:
+  if (valid) {
+    document.getElementsByClassName("step")[currentTab].className += " finish";
+  }
+  return valid; // return the valid status
+}
+
+function fixStepIndicator(n) {
+  // This function removes the "active" class of all steps...
+  var i, x = document.getElementsByClassName("step");
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" active", "");
+  }
+  //... and adds the "active" class on the current step:
+  x[n].className += " active";
+}
+</script>
+
+</body></html>

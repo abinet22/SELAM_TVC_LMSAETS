@@ -1,0 +1,150 @@
+const express = require('express');
+const router = express.Router();
+
+const db = require('../models');
+const LevelBasedTraining = db.levelbasedtraining;
+const NGOBasedTraining = db.ngobasedtraining;
+const IndustryBasedTraining = db.industrybasedtraining;
+const FunderInfo = db.funderinfo;
+const Department = db.departments;
+const Course = db.courses;
+const User = db.users;
+const sequelize = db.sequelize ;
+const { Op } = require("sequelize");
+const bcrypt = require('bcryptjs');
+const passport = require('passport');
+const { v4: uuidv4 } = require('uuid');
+const Batch = db.batches;
+const ClassInDept = db.classindepts;
+const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
+
+router.get('/addnewclass',ensureAuthenticated, async function(req,res){
+    const [ngobased, metangobaseddata] = await sequelize.query(
+        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+      );
+      const [levelbased, metalevelbaseddata] = await sequelize.query(
+        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+      );
+      const [industrybased, metaindbaseddata] = await sequelize.query(
+        "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes'"
+      );
+    const department = await Department.findAll({});
+    res.render('addnewclass',{
+        department:department,
+        levelbased:levelbased,
+        ngobased:ngobased,
+        industrybased:industrybased
+    })
+
+})
+
+router.post('/addnewclasslevelbased',ensureAuthenticated,async function(req,res){
+    const{batchid,programtype,programtypen,deptid,deptidn,level,criteriango, criateriai,} = req.body;
+    const [ngobased, metangobaseddata] = await sequelize.query(
+        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+      );
+      const [levelbased, metalevelbaseddata] = await sequelize.query(
+        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+      );
+      const [industrybased, metaindbaseddata] = await sequelize.query(
+        "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes'"
+      );
+    const department = await Department.findAll({});
+  
+    let errors = [];
+    if(batchid =="0" ||  deptid=="0" ){
+  errors.push({msg:'please select required fileds'})
+    }
+    if(errors.length >0 ){
+        res.render('addnewclass',{
+            department:department,
+            levelbased:levelbased,
+            ngobased:ngobased,
+            industrybased:industrybased,
+            error_msg:'Please select all required fields'
+        })
+    }
+    else{
+        var classname = JSON.parse(criteriango)
+        if(criteriango.length >0){
+          for(var i = 0; i < classname.length ; i++)
+          {
+            const v1options = {
+              node: [0x01, 0x23],
+              clockseq: 0x1234,
+              msecs: new Date('2011-11-01').getTime(),
+              nsecs: 5678,
+            };
+            classid = uuidv4(v1options);
+            var clsnm = classname[i];
+            var classData = {
+                class_id:classid,
+                batch_id:batchid,
+                training_type:programtype,
+                training_level:level,
+                department_id:deptid,
+                class_name:clsnm,
+                rep_teacher_id:"",
+              teacher_name: ""
+              };
+         
+            ClassInDept.create(classData).then(classdt =>{
+                if(!classdt){
+    
+                }
+            }).catch(error =>{
+    
+            })
+      
+      
+          }
+          
+          res.render('addnewclass',{
+            department:department,
+            levelbased:levelbased,
+            ngobased:ngobased,
+            industrybased:industrybased,
+            success_msg:'You are successfully create new classes'
+        })
+        }
+        else{
+            res.render('addnewclass',{
+                department:department,
+                levelbased:levelbased,
+                ngobased:ngobased,
+                industrybased:industrybased,
+                error_msg:'Please create class names before submit the form'
+            })
+        }
+    }
+   
+  
+})
+router.get('/allclasslist',ensureAuthenticated,async function(req,res){
+    const [classlist, metadata] = await sequelize.query(
+        "SELECT * FROM classindepts INNER JOIN departments ON departments.department_id = classindepts.department_id inner join batches on classindepts.batch_id = batches.batch_id"
+      );
+      const batches = await Batch.findAll({});
+      const department = await Department.findAll({});
+      res.render('allclasslist',{
+          classlist:classlist,
+          department:department,
+          batches:batches
+      })
+});
+router.post('/filterclasslistbydepartmentandbatch',ensureAuthenticated,async function(req,res){
+ 
+    const {batch,dept} = req.body;
+    const batches = await Batch.findAll({});
+    const department = await Department.findAll({});
+    const [classlist, metadata] = await sequelize.query(
+        "SELECT * FROM classindepts  INNER JOIN departments ON departments.department_id = classindepts.department_id inner join batches on classindepts.batch_id = batches.batch_id"+
+        " where classindepts.batch_id='"+batch+"' and classindepts.department_id ='"+dept+"'"
+      );
+      res.render('allclasslist',{
+        classlist:classlist,
+        department:department,
+        batches:batches
+    })
+});
+module.exports = router;

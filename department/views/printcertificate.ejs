@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <style type='text/css'>
+            
+            body, html {
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                color: black;
+                display: table;
+                font-family: Georgia, serif;
+                font-size: 24px;
+                text-align: center;
+            }
+            .container {
+                border: 20px solid tan;
+              
+            }
+            .logo {
+                color: tan;
+            }
+
+            .marquee {
+                color: tan;
+                font-size: 48px;
+                margin: 20px;
+            }
+            .assignment {
+                margin: 20px;
+            }
+            .person {
+                border-bottom: 2px solid black;
+                font-size: 32px;
+                font-style: italic;
+                margin: 20px auto;
+                width: 400px;
+            }
+            .reason {
+                margin: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+           <div class="row col-md-12">
+            <div class="logo">
+              Selam Technical And Vocational Collage
+            </div>
+
+            <div class="marquee">
+                Certificate of Completion
+            </div>
+
+            <div class="assignment">
+                This certificate is presented to
+            </div>
+
+            <div class="person">
+                Joe Nathan
+            </div>
+
+            <div class="reason">
+                From Department Of Furniture In Level 2<br/>
+                ON July 12, 2022
+            </div>
+           </div>
+        </div>
+    </body>
+    <script>
+        window.addEventListener("load", function(){
+            var css = '@page { size: landscape; }',
+    head = document.head || document.getElementsByTagName('head')[0],
+    style = document.createElement('style');
+
+style.type = 'text/css';
+style.media = 'print';
+
+if (style.styleSheet){
+  style.styleSheet.cssText = css;
+} else {
+  style.appendChild(document.createTextNode(css));
+}
+
+head.appendChild(style);
+
+window.print();});
+       
+      </script>
+</html>

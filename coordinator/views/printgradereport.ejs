@@ -1,0 +1,148 @@
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SELAM </title>
+  
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  
+  </head>
+  <body>
+  <div class="wrapper">
+    <!-- Main content -->
+    <section class="invoice">
+      <!-- title row -->
+      <div class="invoice p-3 mb-3" id="tobebilled">
+        <!-- title row -->
+        <div class="row">
+          <div class="col-12">
+            <h4>
+              <i class="fas fa-globe"></i> Selam Technical And Vocational Collage
+             
+            </h4><br>
+            <h5> <small class="float-right">Office Of Registrar</small><br>
+                <small class="float-right">Registration Slip</small></h5>
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- info row -->
+        <div class="row invoice-info">
+          <div class="col-sm-4 invoice-col">
+            <%  dataphotos = 	'data:image/png;base64,' + new Buffer(applicant.applicant_photo, 'binary').toString('base64')
+            %>
+            <address>
+              <img class="profile-user-img img-fluid img-circle" id="appphoto"  src="<%= dataphotos %>" height="150px" width="150px" alt="User profile picture">
+                     
+              </address>
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-4 invoice-col">
+        
+            <address>
+              
+              <strong>FullName:<% var perinfo = JSON.parse(JSON.stringify(applicant.personal_info)) %> <%= perinfo.firstname %> &nbsp; <%= perinfo.middlename %> &nbsp; <%= perinfo.lastname %></strong><br>
+            
+              <strong>Department:</strong><%= department.department_name %><br>
+              <strong>Program Batch:</strong><%= applicant.application_id %><br>
+              <strong>Addmission Type:</strong><%= applicant.admission_type %><br>
+              <strong>Telephone:<% var contact = JSON.parse(JSON.stringify(applicant.contact_info)) %> <%= contact.phoneNumber_1 %></strong>
+            </address>
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-4 invoice-col">
+            <b>Nationality:</b>Ethiopian<br>
+            <br>
+            <b>Acadamic Year:</b> 4F3S8J<br>
+            <b>Semister:</b> 1<br>
+            <b>Class Name:</b> <%= classlist.class_name %><br>
+            <b>Level:</b> <%= applicant.current_level %><br>
+
+            <b>Sex:</b> <%= perinfo.gender %><br>
+            <b>ID:</b> <%= applicant.trainee_id%>
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <!-- Table row -->
+        <div class="row">
+          <div class="col-12 table-responsive">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th>No</th>
+                <th>Course Code</th>
+                <th>Course Name</th>
+                <th>Credit Hours</th>
+                <th>ECTS</th>
+              </tr>
+              </thead>
+              <tbody>
+                <% if(courselist.length >0) {%>
+                    <% var i =0 %>
+                    <% courselist.forEach(function (row){ %>
+                    <% i++ %>
+                        <tr>
+                      <td><%=i %></td>
+                      <td><%= row.course_code %></td>
+                      <td><%= row.course_name %></td>
+                      <td><%= row.training_hours %></td>
+                     <td><%= row.training_level %></td>
+                   </tr>
+                   
+                      <% })}else {}%>        
+         
+           
+              </tbody>
+            </table>
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+          <!-- accepted payments column -->
+          <div class="col-4">
+            <p class="lead">Date:<%var dt =  new Date(); %> <%= dt.toLocaleString()%></p>
+            
+          </div>
+          <div class="col-4">
+            <p class="lead"> Advisor Signiture:</p>
+            
+          </div>
+          <!-- /.col -->
+          <div class="col-4">
+            <p class="lead">Registrar Signiture </p>
+
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <!-- this row will not appear when printing -->
+        <div class="row no-print">
+          <div class="col-12">
+            
+            <a type="button " class="btn-block btn-sm btn no-print" style="background-color: aqua;" onclick="window.location.reload();"><i class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print Registration Slip</a>
+            <a type="button " class="btn-block btn-sm btn no-print" style="background-color: aqua;" href="/registration/newlevelbasedregistration"> Go Back</a>
+         
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- ./wrapper -->
+  <!-- Page specific script -->
+  <script>
+    window.addEventListener("load", window.print());
+   
+  </script>
+  
+  
+  </body></html>
