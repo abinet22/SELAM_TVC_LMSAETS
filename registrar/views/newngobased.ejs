@@ -27,95 +27,18 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="../../index3.html" class="nav-link">Home</a>
+        <a href="/dashboard" class="nav-link">Home</a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
+   
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
-      <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
-        <div class="navbar-search-block">
-          <form class="form-inline">
-            <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
-                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </li>
+     
 
       <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="../../dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="../../dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  John Pierce
-                  <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">I got your message bro</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="../../dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Nora Silvester
-                  <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">The subject goes here</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-        </div>
-      </li>
+  
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -149,8 +72,8 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
+        <a class="nav-link"   href="/logout" role="button">
+          Logout
         </a>
       </li>
     </ul>
@@ -177,7 +100,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">NGO Program Batch List</li>
+              <li class="breadcrumb-item active">Open NGO Based Programs</li>
             </ol>
           </div>
         </div>
@@ -190,179 +113,180 @@
         <div class="row">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card">
-                      <div class="card-body">
+                    <div class="card card-primary">
+                      <div class="card-header">
                         <h4 class="card-title">Open NGO Based Training Programs</h4>
-                      <br>
-                          <ul class="nav nav-tabs " id="myTab" role="tablist">
-                            
-                            <li class="nav-item" role="presentation">
-                              <button class="nav-link " style="background-color: #f48d5b;" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">NGO Based Programs  Batch</button>
-                            </li>
-                         
-                        
-                          </ul>
-                          <div class="tab-content " id="myTabContent">
-                            
-                          <div class="tab-pane " id="profile" role="tabpanel" aria-labelledby="profile-tab">    <div class="row">
-                            <div class="col-md-12  grid-margin stretch-card">     <div class="card">
-                                <div class="card-body">
-                               
-                                  <div class="table-responsive" id="trainingdata">
-                                    <table class="table table-hover" id="example1">
-                                      <thead>
-                                        <tr>
-                        <th>#</th>
-                        <th>Funder Name</th>     
-                        <th>Batch Name</th>
-                                          <th>Program Description</th>
-                                          <th>Training Name</th>
+                      </div>
+                      <div class="card-body">
+                        <%- include ('./partials/messages') %>
+                        <div class="row">
+                          <div class="col-md-12  grid-margin stretch-card">     <div class="card">
+                              <div class="card-body">
+                             
+                                <div class="table-responsive" id="trainingdata">
+                                  <table class="table table-hover" id="example1">
+                                    <thead>
+                                      <tr>
+                      <th>#</th>
+                      <th>Funder Name</th>     
+                      <th>Batch Name</th>
+                                        <th>Program Description</th>
+                                        <th>Training Name</th>
+                                       
+                                        <th>Training Type</th>
+                                        <th> Training From-To</th>
+                                        <th> Application From-To</th>
+                                        <th> Minimum Requirements </th>
+                                        <th> Applicant Selection Criteria  </th>
+                                        <th> Application Deadline  </th>
+                                        <th> Confirm </th>
+                                       
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                    
+                                       
+                                    
+                                     <% if(ngobased.length >0 ) { %>
+                                      <% var r = 0 ;%>
+                                         <% ngobased.forEach(function (row){ %>
+                                          <% r++ %>
+                                          <% var asd = new Date(row.app_start_date).toLocaleDateString(); %> 
+                                          <% var aed = new Date(row.app_end_date).toLocaleDateString();   %> 
+                                        
+                                          <% var tsd = new Date(row.training_start_date ).toLocaleDateString();%> 
+                                           <% var ted = new Date(row.training_end_date).toLocaleDateString();  %> 
+                                           <% var todayis = new Date().toLocaleDateString();%>
+                                          <tr>
+                                           
+                                              <td><%= r %></td>
+                                              <td>
+                                                <% var funder =  row.funder_id %>
+                                                <% if(funderinfo.length >0) {%>
+                                                  <% funderinfo.forEach(function (row){ %>
+                                                  <% if(funder == row.funder_id) { %>
+
+                                                  <%= row.funder_name %>
+                                                  
+                                                    <% }})}else {}%>
+                                              
+                                              </td>
+                                              <td><%= row.batch_name %>
+                                                 &nbsp;
+                                                 <% if(row.is_confirm == "Yes"){ %>
+                                                  <div class="icheck-success d-inline">
+                                                    <input type="checkbox" checked="" id="checkboxSuccess1">
+                                                    <label for="checkboxSuccess1">Confirmed
+                                                    </label>
+                                                  </div>
+                                                <%}else{ %>
+                                                  <label class="btn-warning">Not Confirmed Yet</label>
+                                                <%} %>
+                                              </td>
+                                              <td><%= row.program_description %></td>
+                                              <td><% var trainingnames =[];
+                                                  var abc ;
+                                                  trainingnames  =  JSON.parse(row.training_names);
+                                               
+                                                    %>
+                                                    <% for(var j =0 ; j< trainingnames.length ;j++) { %>
+                                                      <% var nameid =  trainingnames[j]; %>
+                                                    
+                                                      <label class="form-check-label">
+                                                          <input type="checkbox" class="form-check-input" checked="">
+                                                          <%= trainingnames[j] %>
+                                                        <i class="input-helper"></i></label>
+                                                 <% } %>
+                                                 
+                                                 
+                                                  </td>
+                                                 
+                                                  <td><% var trainingtype =[];
+                                                    trainingtype  =  JSON.parse(row.training_types);
+                                                    %>
+                                                    <% for(var j =0 ; j< trainingtype.length ;j++) { %>
+                                                    <label class="form-check-label">
+                                                      <input type="checkbox" class="form-check-input" checked="">
+                                                      <%= trainingtype[j] %>
+                                                    <i class="input-helper"></i></label>
+                                                 <% } %>
+                                                  </td>
                                          
-                                          <th>Training Type</th>
-                                          <th> Training From-To</th>
-                                          <th> Application From-To</th>
-                                          <th> Minimum Requirements </th>
-                                          <th> Applicant Selection Criteria  </th>
-                                          <th> Application Deadline  </th>
-                                          <th> Register Applicant </th>
-                                         
-                                        </tr>
-                                      </thead>
-                                      <tbody>
+                                              <td><%= tsd +"-"+ ted %></td>
+                                              <td><%= asd +"-"+ aed %></td>
+                                              <td><%= row.minimum_criteria %> </td>
+                                              <td><% var selectioncriteria= [];
+                                               var x =[];
+                                               var objs = JSON.parse(row.selection_criteria);
+                                               selectioncriteria.push(objs);
+                                               selectioncriteria.forEach(obj => {
+                                                 Object.entries(obj).forEach(([key, value]) => {
+                                                    var key  = key;
+                                                    var value =value;
+                                                    x.push(key+"="+value+ "%");
+                                                 });
+                                               
+                                             }); %>
+                                             
+                                             <% for(var i= 0 ; i < x.length ; i++ ) { %>
+                                               <label class="form-check-label">
+                                                 <input type="checkbox" class="form-check-input" checked="">
+                                                  <%= x[i] %>  
+                                               <i class="input-helper"></i></label>
+                                             <% } %>
+                                           
+                                           
+                                             </td>
+                                              <td> 
+                                                <% if(new Date(aed) > new Date(todayis)){ %> 
+                                               <form >
+                                               
+                                           <button class="btn btn-block btn-info">Not Passed</button>     
+                                               </form>
+                                             <% }else{%>
+                                               <form >
+                                                 <button class="btn btn-block btn-danger">Passed</button>      
+                                               </form>
+                                             
+                                               <% }%>
+                                             </td>
+                              
+                                             <td> 
+                                              <% if(new Date(aed) > new Date(todayis)){ %> 
+                                                <form action="/programs/updateconfirmprogram" method="post">
+                                                  <input name="programid" value="<%= row.program_id %>" type="hidden">
+                                                  <input type="hidden" name="infotag" value="ngo">
+                                              
+                                                  <button class="btn btn-block btn-info"><i class="fa fa-edit"></i>Confirm For Registration</button> 
+                                              
+                                                </form>
+                                              <% }else{%>
+                                                <form >
+                                                  <button class="btn btn-block btn-danger">Application End Date Passed</button>      
+                                                </form>
+                                              
+                                                <% }%>
+                                            
+                                           
+                                                 </td>
+                                            </tr>
+                                       <%  })} else{}     %>
+                                      
+                                  
                       
                                          
-                                      
-                                       <% if(levelbased.length >0 ) { %>
-                                        <% var r = 0 ;%>
-                                           <% levelbased.forEach(function (row){ %>
-                                            <% r++ %>
-                                            <% var asd = new Date(row.app_start_date).toLocaleDateString(); %> 
-                                            <% var aed = new Date(row.app_end_date).toLocaleDateString();   %> 
-                                          
-                                            <% var tsd = new Date(row.training_start_date ).toLocaleDateString();%> 
-                                             <% var ted = new Date(row.training_end_date).toLocaleDateString();  %> 
-                                             <% var todayis = new Date().toLocaleDateString();%>
-                                            <tr>
-                                             
-                                                <td><%= r %></td>
-                                                <td>
-                                                  <% var funder =  row.funder_id %>
-                                                  <% if(funderinfo.length >0) {%>
-                                                    <% funderinfo.forEach(function (row){ %>
-                                                    <% if(funder == row.funder_id) { %>
-
-                                                    <%= row.funder_name %>
-                                                    
-                                                      <% }})}else {}%>
-                                                
-                                                </td>
-                                                <td><%= row.batch_name %></td>
-                                                <td><%= row.program_description %></td>
-                                                <td><% var trainingnames =[];
-                                                    var abc ;
-                                                    trainingnames  =  JSON.parse(row.training_names);
-                                                 
-                                                      %>
-                                                      <% for(var j =0 ; j< trainingnames.length ;j++) { %>
-                                                        <% var nameid =  trainingnames[j]; %>
-                                                      
-                                                        <label class="form-check-label">
-                                                            <input type="checkbox" class="form-check-input" checked="">
-                                                            <%= trainingnames[j] %>
-                                                          <i class="input-helper"></i></label>
-                                                   <% } %>
-                                                   
-                                                   
-                                                    </td>
-                                                   
-                                                    <td><% var trainingtype =[];
-                                                      trainingtype  =  JSON.parse(row.training_types);
-                                                      %>
-                                                      <% for(var j =0 ; j< trainingtype.length ;j++) { %>
-                                                      <label class="form-check-label">
-                                                        <input type="checkbox" class="form-check-input" checked="">
-                                                        <%= trainingtype[j] %>
-                                                      <i class="input-helper"></i></label>
-                                                   <% } %>
-                                                    </td>
-                                           
-                                                <td><%= tsd +"-"+ ted %></td>
-                                                <td><%= asd +"-"+ aed %></td>
-                                                <td><%= row.minimum_criteria %> </td>
-                                                <td><% var selectioncriteria= [];
-                                                 var x =[];
-                                                 var objs = JSON.parse(row.selection_criteria);
-                                                 selectioncriteria.push(objs);
-                                                 selectioncriteria.forEach(obj => {
-                                                   Object.entries(obj).forEach(([key, value]) => {
-                                                      var key  = key;
-                                                      var value =value;
-                                                      x.push(key+"="+value+ "%");
-                                                   });
-                                                 
-                                               }); %>
-                                               
-                                               <% for(var i= 0 ; i < x.length ; i++ ) { %>
-                                                 <label class="form-check-label">
-                                                   <input type="checkbox" class="form-check-input" checked="">
-                                                    <%= x[i] %>  
-                                                 <i class="input-helper"></i></label>
-                                               <% } %>
-                                             
-                                             
-                                               </td>
-                                                <td> 
-                                                  <% if(aed.valueOf() > todayis.valueOf()){ %> 
-                                                 <form >
-                                                 
-                                             <button class="btn btn-block btn-info">Not Passed</button>     
-                                                 </form>
-                                               <% }else{%>
-                                                 <form >
-                                                   <button class="btn btn-block btn-danger">Passed</button>      
-                                                 </form>
-                                               
-                                                 <% }%>
-                                               </td>
-                                
-                                               <td> 
-                                                <% if(aed.valueOf() > todayis.valueOf()){ %> 
-                                                  <form action="/registration/registerngobasedapplicant/<%= row.program_id %>" method="get">
-                                                    <button class="btn btn-block btn-info"><i class="fa fa-edit"></i>Register Applicants</button> 
-                                                
-                                                  </form>
-                                                <% }else{%>
-                                                  <form >
-                                                    <button class="btn btn-block btn-danger">Application End Date Passed</button>      
-                                                  </form>
-                                                
-                                                  <% }%>
-                                              
-                                             
-                                                   </td>
-                                              </tr>
-                                         <%  })} else{}     %>
-                                        
+                                     
                                     
-                        
-                                           
-                                       
-                                      
-                                      </tbody>
-                                   
-                                    </table>
-                                  </div>
-                                
+                                    </tbody>
+                                 
+                                  </table>
                                 </div>
+                              
                               </div>
                             </div>
-                         
-                        
                           </div>
-                        </div>
+                       
                       
-                        
-                
                         </div>
                       </div>
                     </div>

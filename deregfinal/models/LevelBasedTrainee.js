@@ -20,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
         trainee_id: {
             type: DataTypes.STRING,
         },
+        student_unique_id: {
+            type: DataTypes.STRING,
+        },
         personal_info: {
             type: DataTypes.JSON,
         },
@@ -91,6 +94,12 @@ module.exports = (sequelize, DataTypes) => {
         },
         countinue_study:{
             type: DataTypes.STRING,
+        },
+        payment_info: {
+            type: DataTypes.STRING,
+        },
+        is_pass_semister:{
+            type:DataTypes.STRING,
         }
         
     });

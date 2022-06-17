@@ -42,7 +42,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         is_open: {
             type: DataTypes.STRING,
+        },
+        is_confirm:{
+            type: DataTypes.STRING,
         }
+       
         
        
     });

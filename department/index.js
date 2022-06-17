@@ -76,9 +76,14 @@ app.use('/staff',require('./routes/staff.js'));
 
 app.use('/classmanage',require('./routes/classmanage.js'));
 
+app.use('/evaluation',require('./routes/evaluation.js'));
+
+app.use('/attendance',require('./routes/attendance.js'));
+app.use('/grade',require('./routes/grade.js'));
 
 
-const PORT = process.env.PORT || 5006;
+
+const PORT = process.env.PORT || 5009;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);

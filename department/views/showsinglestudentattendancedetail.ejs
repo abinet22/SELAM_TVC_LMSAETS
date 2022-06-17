@@ -1,0 +1,1044 @@
+<html lang="en" style="height: auto;"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SELAM_TVC</title>
+  
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../../dist/css/adminlte.min.css">
+  <style type="text/css">/* Chart.js */
+  @keyframes chartjs-render-animation{from{opacity:.99}to{opacity:1}}.chartjs-render-monitor{animation:chartjs-render-animation 1ms}.chartjs-size-monitor,.chartjs-size-monitor-expand,.chartjs-size-monitor-shrink{position:absolute;direction:ltr;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1}.chartjs-size-monitor-expand>div{position:absolute;width:1000000px;height:1000000px;left:0;top:0}.chartjs-size-monitor-shrink>div{position:absolute;width:200%;height:200%;left:0;top:0}</style></head>
+  <!--
+  `body` tag options:
+  
+    Apply one or more of the following classes to to the body tag
+    to get the desired effect
+  
+    * sidebar-collapse
+    * sidebar-mini
+  -->
+  <body class="sidebar-mini sidebar-closed sidebar-collapse" style="height: auto;">
+  <div class="wrapper">
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="/dashboard" class="nav-link">Home</a>
+        </li>
+     
+      </ul>
+  
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        <!-- Navbar Search -->
+       
+  
+        <!-- Messages Dropdown Menu -->
+    
+        <!-- Notifications Dropdown Menu -->
+        <li class="nav-item dropdown">
+          <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="far fa-bell"></i>
+            <span class="badge badge-warning navbar-badge">15</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <span class="dropdown-item dropdown-header">15 Notifications</span>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-envelope mr-2"></i> 4 new messages
+              <span class="float-right text-muted text-sm">3 mins</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-users mr-2"></i> 8 friend requests
+              <span class="float-right text-muted text-sm">12 hours</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-file mr-2"></i> 3 new reports
+              <span class="float-right text-muted text-sm">2 days</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+            <i class="fas fa-expand-arrows-alt"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"   href="/logout" role="button">
+            Logout
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.navbar -->
+  
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar  elevation-4">
+      <!-- Brand Logo -->
+      <%- include('./partials/sidebar') %>
+      <!-- /.sidebar -->
+    </aside>
+  
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" style="min-height: 2128.12px;">
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">Dashboard</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Attendance Detail Report</li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+  
+      <!-- Main content -->
+      <div class="content">
+        <div class="container-fluid">
+            <section class="content">
+
+                <!-- Default box -->
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Attendance Detail</h3>
+          
+                    <div class="card-tools">
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                      </button>
+                      <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
+                        <div class="row">
+                          <div class="col-12 col-sm-4">
+                            <div class="info-box bg-success">
+                              <div class="info-box-content">
+                                <span class="info-box-text text-center text-light">Present</span>
+                                <span class="info-box-number text-center text-light mb-0">
+                                    <% if(lbattendancedata.length >0 ) { %>
+                                                           
+                                        <%  lbattendancedata.forEach(function (row){ %>
+                                       <% var stid = row.student_id %>
+                                    <% if(studentid==stid){ %>
+                                       <%var perm= (row.present * 100 / row.total).toFixed(2) %>
+                                       <span class=""><%= row.present %>/<%= perm+"%"%></span>
+                                       <div class="progress progress-xxs">
+                                         <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="<%=perm %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= perm+"%"%>">
+                                          
+                                         </div>
+                                       </div>
+                                         <% }})}else{} %>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-4">
+                            <div class="info-box bg-danger">
+                              <div class="info-box-content">
+                                <span class="info-box-text text-center text-light">Absent </span>
+                                <span class="info-box-number text-center text-light mb-0">
+                                    <% if(lbattendancedata.length >0 ) { %>
+                                                           
+                                        <%  lbattendancedata.forEach(function (row){ %>
+                                       <% var stid = row.student_id %>
+                                    <% if(studentid==stid){ %>
+                                       <%var perm= (row.absent * 100 / row.total).toFixed(2) %>
+                                       <span class=""><%= row.absent %>/<%= perm+"%"%></span>
+                                       <div class="progress progress-xxs">
+                                         <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="<%=perm %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= perm+"%"%>">
+                                          
+                                         </div>
+                                       </div>
+                                         <% }})}else{} %>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-4">
+                            <div class="info-box bg-info">
+                              <div class="info-box-content">
+                                <span class="info-box-text text-center text-light">Permission</span>
+                                <span class="info-box-number text-center text-light mb-0">
+                                    <% if(lbattendancedata.length >0 ) { %>
+                                                           
+                                        <%  lbattendancedata.forEach(function (row){ %>
+                                       <% var stid = row.student_id %>
+                                    <% if(studentid==stid){ %>
+                                       <%var perm= (row.permission * 100 / row.total).toFixed(2) %>
+                                       <span class=""><%= row.permission %>/<%= perm+"%"%></span>
+                                       <div class="progress progress-xxs">
+                                         <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="<%=perm %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= perm+"%"%>">
+                                          
+                                         </div>
+                                       </div>
+                                         <% }})}else{} %>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12">
+                            <h4>Detail Days</h4>
+                              <div class="post">
+                                <div class="col-lg-12 grid-margin stretch-card">
+                                    <div class="card">
+                                      <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                                        <li class="nav-item">
+                                          <a class="nav-link active page-month" id="custom-tabs-three-home-tab1" data-toggle="pill" href="#custom-tabs-three-home1" role="tab" aria-controls="custom-tabs-three-home1" aria-selected="true"> <p class="page-month">Jan</p></a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="nav-link page-month" id="custom-tabs-three-profile-tab2" data-toggle="pill" href="#custom-tabs-three-profile2" role="tab" aria-controls="custom-tabs-three-profile2" aria-selected="false"> <p class="page-month">Feb</p></a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="nav-link page-month" id="custom-tabs-three-messages-tab3" data-toggle="pill" href="#custom-tabs-three-messages3" role="tab" aria-controls="custom-tabs-three-messages3" aria-selected="false"> <p class="page-month">Mar</p></a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="nav-link page-month" id="custom-tabs-three-settings-tab4" data-toggle="pill" href="#custom-tabs-three-settings4" role="tab" aria-controls="custom-tabs-three-settings4" aria-selected="false"> <p class="page-month">May</p></a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="nav-link  page-month" id="custom-tabs-three-home-tab5" data-toggle="pill" href="#custom-tabs-three-home5" role="tab" aria-controls="custom-tabs-three-home5" aria-selected="true"> <p class="page-month">Jan</p></a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="nav-link page-month" id="custom-tabs-three-profile-tab6" data-toggle="pill" href="#custom-tabs-three-profile6" role="tab" aria-controls="custom-tabs-three-profile6" aria-selected="false"> <p class="page-month">Jun</p></a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="nav-link page-month" id="custom-tabs-three-messages-tab7" data-toggle="pill" href="#custom-tabs-three-messages7" role="tab" aria-controls="custom-tabs-three-messages7" aria-selected="false"> <p class="page-month">Jul</p></a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="nav-link page-month" id="custom-tabs-three-settings-tab8" data-toggle="pill" href="#custom-tabs-three-settings8" role="tab" aria-controls="custom-tabs-three-settings8" aria-selected="false"> <p class="page-month">Aug</p></a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="nav-link  page-month" id="custom-tabs-three-home-tab9" data-toggle="pill" href="#custom-tabs-three-home9" role="tab" aria-controls="custom-tabs-three-home9" aria-selected="true"> <p class="page-month">Sep</p></a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="nav-link page-month" id="custom-tabs-three-profile-tab10" data-toggle="pill" href="#custom-tabs-three-profile10" role="tab" aria-controls="custom-tabs-three-profile10" aria-selected="false"> <p class="page-month">Oct</p></a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="nav-link page-month" id="custom-tabs-three-messages-tab11" data-toggle="pill" href="#custom-tabs-three-messages11" role="tab" aria-controls="custom-tabs-three-messages11" aria-selected="false"> <p class="page-month">Nov</p></a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="nav-link page-month" id="custom-tabs-three-settings-tab12" data-toggle="pill" href="#custom-tabs-three-settings12" role="tab" aria-controls="custom-tabs-three-settings12" aria-selected="false"> <p class="page-month">Dec</p></a>
+                                        </li>
+                                      </ul>
+                                      <div class="tab-content" id="custom-tabs-three-tabContent">
+                                        <div class="tab-pane fade active show" id="custom-tabs-three-home1" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab1">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-success">
+                                                           <small>Days of<cite title="Source Title">  Present</cite></small>
+                                                           <% if(present.length >0 ) { %>
+                                                               
+                                                            <%  present.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 0){ %>
+                                                                <li style="color: green;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-danger">
+                                                           <small>Days of<cite title="Source Title"> Absent</cite></small>
+                                                           <% if(absent.length >0 ) { %>
+                                                               
+                                                            <%  absent.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 0){ %>
+                                                                <li style="color: red;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-info">
+                                                           <small>Days of<cite title="Source Title"> Permission</cite></small>
+                                                           <% if(permission.length >0 ) { %>
+                                                               
+                                                            <%  permission.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 0){ %>
+                                                                <li style="color: blue;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="custom-tabs-three-profile2" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab2">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-success">
+                                                           <small>Days of<cite title="Source Title">  Present</cite></small>
+                                                           <% if(present.length >0 ) { %>
+                                                               
+                                                            <%  present.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 1){ %>
+                                                                <li style="color: green;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-danger">
+                                                           <small>Days of<cite title="Source Title"> Absent</cite></small>
+                                                           <% if(absent.length >0 ) { %>
+                                                               
+                                                            <%  absent.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 1){ %>
+                                                                <li style="color: red;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-info">
+                                                           <small>Days of<cite title="Source Title"> Permission</cite></small>
+                                                           <% if(permission.length >0 ) { %>
+                                                               
+                                                            <%  permission.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 1){ %>
+                                                                <li style="color: blue;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                       </div>
+                                        <div class="tab-pane fade" id="custom-tabs-three-messages3" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab3">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-success">
+                                                           <small>Days of<cite title="Source Title">  Present</cite></small>
+                                                           <% if(present.length >0 ) { %>
+                                                               
+                                                            <%  present.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 2){ %>
+                                                                <li style="color: green;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-danger">
+                                                           <small>Days of<cite title="Source Title"> Absent</cite></small>
+                                                           <% if(absent.length >0 ) { %>
+                                                               
+                                                            <%  absent.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 2){ %>
+                                                                <li style="color: red;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-info">
+                                                           <small>Days of<cite title="Source Title"> Permission</cite></small>
+                                                           <% if(permission.length >0 ) { %>
+                                                               
+                                                            <%  permission.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 2){ %>
+                                                                <li style="color: blue;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="custom-tabs-three-settings4" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab4">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-success">
+                                                           <small>Days of<cite title="Source Title">  Present</cite></small>
+                                                           <% if(present.length >0 ) { %>
+                                                               
+                                                            <%  present.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 3){ %>
+                                                                <li style="color: green;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-danger">
+                                                           <small>Days of<cite title="Source Title"> Absent</cite></small>
+                                                           <% if(absent.length >0 ) { %>
+                                                               
+                                                            <%  absent.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 3){ %>
+                                                                <li style="color: red;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-info">
+                                                           <small>Days of<cite title="Source Title"> Permission</cite></small>
+                                                           <% if(permission.length >0 ) { %>
+                                                               
+                                                            <%  permission.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 3){ %>
+                                                                <li style="color: blue;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane fade" id="custom-tabs-three-home5" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab5">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-success">
+                                                           <small>Days of<cite title="Source Title">  Present</cite></small>
+                                                           <% if(present.length >0 ) { %>
+                                                               
+                                                            <%  present.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 4){ %>
+                                                                <li style="color: green;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-danger">
+                                                           <small>Days of<cite title="Source Title"> Absent</cite></small>
+                                                           <% if(absent.length >0 ) { %>
+                                                               
+                                                            <%  absent.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 4){ %>
+                                                                <li style="color: red;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-info">
+                                                           <small>Days of<cite title="Source Title"> Permission</cite></small>
+                                                           <% if(permission.length >0 ) { %>
+                                                               
+                                                            <%  permission.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 4){ %>
+                                                                <li style="color: blue;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="custom-tabs-three-profile6" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab6">
+                                          
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-success">
+                                                           <small>Days of<cite title="Source Title">  Present</cite></small>
+                                                           <% if(present.length >0 ) { %>
+                                                               
+                                                            <%  present.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 5){ %>
+                                                                <li style="color: green;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-danger">
+                                                           <small>Days of<cite title="Source Title"> Absent</cite></small>
+                                                           <% if(absent.length >0 ) { %>
+                                                               
+                                                            <%  absent.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 5){ %>
+                                                                <li style="color: red;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-info">
+                                                           <small>Days of<cite title="Source Title"> Permission</cite></small>
+                                                           <% if(permission.length >0 ) { %>
+                                                               
+                                                            <%  permission.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 5){ %>
+                                                                <li style="color: blue;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                         
+                                                 
+                                       </div>
+                                        <div class="tab-pane fade" id="custom-tabs-three-messages7" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab7">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-success">
+                                                           <small>Days of<cite title="Source Title">  Present</cite></small>
+                                                           <% if(present.length >0 ) { %>
+                                                               
+                                                            <%  present.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 6){ %>
+                                                                <li style="color: green;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-danger">
+                                                           <small>Days of<cite title="Source Title"> Absent</cite></small>
+                                                           <% if(absent.length >0 ) { %>
+                                                               
+                                                            <%  absent.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 6){ %>
+                                                                <li style="color: red;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-info">
+                                                           <small>Days of<cite title="Source Title"> Permission</cite></small>
+                                                           <% if(permission.length >0 ) { %>
+                                                               
+                                                            <%  permission.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 6){ %>
+                                                                <li style="color: blue;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="custom-tabs-three-settings8" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab8">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-success">
+                                                           <small>Days of<cite title="Source Title">  Present</cite></small>
+                                                           <% if(present.length >0 ) { %>
+                                                               
+                                                            <%  present.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 7){ %>
+                                                                <li style="color: green;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-danger">
+                                                           <small>Days of<cite title="Source Title"> Absent</cite></small>
+                                                           <% if(absent.length >0 ) { %>
+                                                               
+                                                            <%  absent.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 7){ %>
+                                                                <li style="color: red;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-info">
+                                                           <small>Days of<cite title="Source Title"> Permission</cite></small>
+                                                           <% if(permission.length >0 ) { %>
+                                                               
+                                                            <%  permission.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 7){ %>
+                                                                <li style="color: blue;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane fade" id="custom-tabs-three-home9" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab9">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-success">
+                                                           <small>Days of<cite title="Source Title">  Present</cite></small>
+                                                           <% if(present.length >0 ) { %>
+                                                               
+                                                            <%  present.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 8){ %>
+                                                                <li style="color: green;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-danger">
+                                                           <small>Days of<cite title="Source Title"> Absent</cite></small>
+                                                           <% if(absent.length >0 ) { %>
+                                                               
+                                                            <%  absent.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 8){ %>
+                                                                <li style="color: red;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-body clearfix">
+                                                        <blockquote class="quote-info">
+                                                           <small>Days of<cite title="Source Title"> Permission</cite></small>
+                                                           <% if(permission.length >0 ) { %>
+                                                               
+                                                            <%  permission.forEach(function (row){ %>
+                                                           <% var stid = row.student_id %>
+                                                        <% if(studentid=stid){ %>
+                                                            <% var date = new Date(row.attendance_date).getMonth() %>
+                                                           <% if(date == 8){ %>
+                                                                <li style="color: blue;"><%= row.attendance_date %></li> 
+                                                          
+                                                         
+                                                             <% }}})}else{} %>
+                                                        </blockquote>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="custom-tabs-three-profile10" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab10">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="card-body clearfix">
+                                                                <blockquote class="quote-success">
+                                                                   <small>Days of<cite title="Source Title">  Present</cite></small>
+                                                                   <% if(present.length >0 ) { %>
+                                                                       
+                                                                    <%  present.forEach(function (row){ %>
+                                                                   <% var stid = row.student_id %>
+                                                                <% if(studentid=stid){ %>
+                                                                    <% var date = new Date(row.attendance_date).getMonth() %>
+                                                                   <% if(date == 9){ %>
+                                                                        <li style="color: green;"><%= row.attendance_date %></li> 
+                                                                  
+                                                                 
+                                                                     <% }}})}else{} %>
+                                                                </blockquote>
+                                                              </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="card-body clearfix">
+                                                                <blockquote class="quote-danger">
+                                                                   <small>Days of<cite title="Source Title"> Absent</cite></small>
+                                                                   <% if(absent.length >0 ) { %>
+                                                                       
+                                                                    <%  absent.forEach(function (row){ %>
+                                                                   <% var stid = row.student_id %>
+                                                                <% if(studentid=stid){ %>
+                                                                    <% var date = new Date(row.attendance_date).getMonth() %>
+                                                                   <% if(date == 9){ %>
+                                                                        <li style="color: red;"><%= row.attendance_date %></li> 
+                                                                  
+                                                                 
+                                                                     <% }}})}else{} %>
+                                                                </blockquote>
+                                                              </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="card-body clearfix">
+                                                                <blockquote class="quote-info">
+                                                                   <small>Days of<cite title="Source Title"> Permission</cite></small>
+                                                                   <% if(permission.length >0 ) { %>
+                                                                       
+                                                                    <%  permission.forEach(function (row){ %>
+                                                                   <% var stid = row.student_id %>
+                                                                <% if(studentid=stid){ %>
+                                                                    <% var date = new Date(row.attendance_date).getMonth() %>
+                                                                   <% if(date == 9){ %>
+                                                                        <li style="color: blue;"><%= row.attendance_date %></li> 
+                                                                  
+                                                                 
+                                                                     <% }}})}else{} %>
+                                                                </blockquote>
+                                                              </div>
+                                                        </div>
+                                                    </div>
+                                               </div>
+                                                <div class="tab-pane fade" id="custom-tabs-three-messages11" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab11">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="card-body clearfix">
+                                                                <blockquote class="quote-success">
+                                                                   <small>Days of<cite title="Source Title">  Present</cite></small>
+                                                                   <% if(present.length >0 ) { %>
+                                                                       
+                                                                    <%  present.forEach(function (row){ %>
+                                                                   <% var stid = row.student_id %>
+                                                                <% if(studentid=stid){ %>
+                                                                    <% var date = new Date(row.attendance_date).getMonth() %>
+                                                                   <% if(date == 10){ %>
+                                                                        <li style="color: green;"><%= row.attendance_date %></li> 
+                                                                  
+                                                                 
+                                                                     <% }}})}else{} %>
+                                                                </blockquote>
+                                                              </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="card-body clearfix">
+                                                                <blockquote class="quote-danger">
+                                                                   <small>Days of<cite title="Source Title"> Absent</cite></small>
+                                                                   <% if(absent.length >0 ) { %>
+                                                                       
+                                                                    <%  absent.forEach(function (row){ %>
+                                                                   <% var stid = row.student_id %>
+                                                                <% if(studentid=stid){ %>
+                                                                    <% var date = new Date(row.attendance_date).getMonth() %>
+                                                                   <% if(date == 10){ %>
+                                                                        <li style="color: red;"><%= row.attendance_date %></li> 
+                                                                  
+                                                                 
+                                                                     <% }}})}else{} %>
+                                                                </blockquote>
+                                                              </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="card-body clearfix">
+                                                                <blockquote class="quote-info">
+                                                                   <small>Days of<cite title="Source Title"> Permission</cite></small>
+                                                                   <% if(permission.length >0 ) { %>
+                                                                       
+                                                                    <%  permission.forEach(function (row){ %>
+                                                                   <% var stid = row.student_id %>
+                                                                <% if(studentid=stid){ %>
+                                                                    <% var date = new Date(row.attendance_date).getMonth() %>
+                                                                   <% if(date == 10){ %>
+                                                                        <li style="color: blue;"><%= row.attendance_date %></li> 
+                                                                  
+                                                                 
+                                                                     <% }}})}else{} %>
+                                                                </blockquote>
+                                                              </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="custom-tabs-three-settings12" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab12">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="card-body clearfix">
+                                                                <blockquote class="quote-success">
+                                                                   <small>Days of<cite title="Source Title">  Present</cite></small>
+                                                                   <% if(present.length >0 ) { %>
+                                                                       
+                                                                    <%  present.forEach(function (row){ %>
+                                                                   <% var stid = row.student_id %>
+                                                                <% if(studentid=stid){ %>
+                                                                    <% var date = new Date(row.attendance_date).getMonth() %>
+                                                                   <% if(date == 11){ %>
+                                                                        <li style="color: green;"><%= row.attendance_date %></li> 
+                                                                  
+                                                                 
+                                                                     <% }}})}else{} %>
+                                                                </blockquote>
+                                                              </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="card-body clearfix">
+                                                                <blockquote class="quote-danger">
+                                                                   <small>Days of<cite title="Source Title"> Absent</cite></small>
+                                                                   <% if(absent.length >0 ) { %>
+                                                                       
+                                                                    <%  absent.forEach(function (row){ %>
+                                                                   <% var stid = row.student_id %>
+                                                                <% if(studentid=stid){ %>
+                                                                    <% var date = new Date(row.attendance_date).getMonth() %>
+                                                                   <% if(date == 11){ %>
+                                                                        <li style="color: red;"><%= row.attendance_date %></li> 
+                                                                  
+                                                                 
+                                                                     <% }}})}else{} %>
+                                                                </blockquote>
+                                                              </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="card-body clearfix">
+                                                                <blockquote class="quote-info">
+                                                                   <small>Days of<cite title="Source Title"> Permission</cite></small>
+                                                                   <% if(permission.length >0 ) { %>
+                                                                       
+                                                                    <%  permission.forEach(function (row){ %>
+                                                                   <% var stid = row.student_id %>
+                                                                <% if(studentid=stid){ %>
+                                                                    <% var date = new Date(row.attendance_date).getMonth() %>
+                                                                   <% if(date == 11){ %>
+                                                                        <li style="color: blue;"><%= row.attendance_date %></li> 
+                                                                  
+                                                                 
+                                                                     <% }}})}else{} %>
+                                                                </blockquote>
+                                                              </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                      </div>
+                                     
+                                      
+                                      
+                                      </div>
+                                    </div>
+                              </div>
+          
+                             
+                          </div>
+                        </div>
+                      </div>
+                    <%  if(levelbased.length >0 ) { %>
+                        <% levelbased.forEach(function (row){ %>
+                            <% var deptid = row.department_id %>
+                        <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
+                            <h3 class="text-primary" style="text-transform: uppercase;"><i class="fas fa-paint-brush"></i> <% var name = JSON.parse(row.personal_info) %> 
+                            <%= name.firstname %> &nbsp; <%= name.middlename %> &nbsp; <%= name.lastname %>
+                            </h3>
+                            <p class="text-muted"><% var gen =  name.gender %>
+                            Gender: <%= gen=="m"?"Male":"Female" %>
+                            </p>
+                            <br>
+                            <div class="text-center">
+                                <%  datapassp = 	'data:image/png;base64,' + new Buffer(row.applicant_photo, 'binary').toString('base64')
+                                %>
+                                <img class="profile-user-img img-fluid img-circle" src="<%= datapassp %>" alt="User profile picture">
+                              </div>
+                            <div class="text-muted">
+                              <p class="text-sm">Batch Name
+                                <b class="d-block"><%= row.batch_name %></b>
+                              </p>
+                              <p class="text-sm">Occupation
+                                  <% if(dpt.length > 0){ %>
+                                       <% dpt.forEach(function (row){ %>
+                                         <% if(row.department_id == deptid){ %>
+                                            <b class="d-block"> <%= row.department_name %></b>
+                                       <% }}) %>
+                                  <%}else{} %>
+                              
+                              </p>
+                              <p class="text-sm">Program Type
+                                <b class="d-block"><%= row.admission_type %></b>
+                              </p>
+                             
+                            </div>
+              
+                          </div>
+                     <% })}else{} %>
+                    
+                    </div>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+          
+              </section>
+          <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+  
+    <!-- Control Sidebar -->
+  <!-- /.control-sidebar -->
+  
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <%- include ('./partials/footer') %>
+    </footer>
+ 
+  <!-- ./wrapper -->
+  
+  <!-- REQUIRED SCRIPTS -->
+  
+  <!-- jQuery -->
+  <script src="../../../plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE -->
+  <script src="../../../dist/js/adminlte.js"></script>
+  
+  <!-- OPTIONAL SCRIPTS -->
+  <script src="../../../plugins/chart.js/Chart.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="../../../dist/js/demo.js"></script>
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  <script src="../../../dist/js/pages/dashboard3.js"></script>
+  <script src="../../plugins/toastr/toastr.min.js"></script>
+  
+  
+  </body></html>

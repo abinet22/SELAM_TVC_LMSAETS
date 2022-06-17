@@ -104,7 +104,7 @@
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Search My Class</li>
+                <li class="breadcrumb-item active">Search My Section</li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -119,7 +119,7 @@
                 <div class="card-header">
                   <h3 class="card-title">
                     <i class="fas fa-edit"></i>
-                   Select Training Program To Search Class
+                   Select Training Program To Search Section
                   </h3>
                 </div>
                 <div class="card-body">
@@ -128,7 +128,7 @@
                     <div class="col-5 col-sm-3">
                       <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
                         <a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="false">Level Based</a>
-                        <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">NGO Based</a>
+                        <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Short Term /Project/ Based</a>
                         <a class="nav-link" id="vert-tabs-profile1-tab" data-toggle="pill" href="#vert-tabs-profile1" role="tab" aria-controls="vert-tabs-profile1" aria-selected="false">Industry Based</a>
                    
                       </div>
@@ -149,9 +149,9 @@
                               
                             </div>
                             <div class="form-group">
-                                <label>Select Level Based Program Class Name</label>
-                                <select class="form-control " name="classname" id="classname">
-                                    <option value="0">Please Select Class Name</option>
+                                <label>Select Section Name</label>
+                                <select class="form-control " name="classid" id="classname">
+                                    <option value="0">Please Select Section Name</option>
                                     <% if(classlistl.length >0) {%>
                                        <% classlistl.forEach(function (row){ %>
                                          <option value="<%= row.class_id %>"><%= row.class_name %></option>
@@ -169,7 +169,7 @@
                         <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
                             <form action="/reportngo" method="post">
                                 <div class="form-group">
-                                    <label>Select NGO Based Program</label>
+                                    <label>Select Short Ter /Project/ Based Program</label>
                                     <select class="form-control " name="batchid" id="batchid">
                                      <option value="0">Please Select Program/Batch Name</option>
                                      <% if(ngobased.length >0) {%>
@@ -180,9 +180,9 @@
                                   
                                 </div>
                                 <div class="form-group">
-                                    <label>Select NGO Based Program Class Name</label>
-                                    <select class="form-control " name="classname" id="classname">
-                                        <option value="0">Please Select Class Name</option>
+                                    <label>Select Section Name</label>
+                                    <select class="form-control " name="classid" id="classname">
+                                        <option value="0">Please Select Section Name</option>
                                         <% if(classlistn.length >0) {%>
                                            <% classlistn.forEach(function (row){ %>
                                              <option value="<%= row.class_id %>"><%= row.class_name %></option>
@@ -202,17 +202,17 @@
                                     <label>Select Industry Based Program</label>
                                     <select class="form-control " name="batchid" id="batchid">
                                      <option value="0">Please Select Program/Batch Name</option>
-                                     <% if(ngobased.length >0) {%>
-                                        <% ngobased.forEach(function (row){ %>
+                                     <% if(industrybased.length >0) {%>
+                                        <% industrybased.forEach(function (row){ %>
                                           <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
                                        <% })}else {}%>
                                     </select>
                                   
                                 </div>
                                 <div class="form-group">
-                                    <label>Select Industry Based Program Class</label>
-                                    <select class="form-control " name="classname" id="classname">
-                                     <option value="0">Please Select Class Name</option>
+                                    <label>Select Section Name</label>
+                                    <select class="form-control " name="classid" id="classname">
+                                     <option value="0">Please Select Section Name</option>
                                      <% if(classlisti.length >0) {%>
                                         <% classlisti.forEach(function (row){ %>
                                           <option value="<%= row.class_id %>"><%= row.class_name %></option>

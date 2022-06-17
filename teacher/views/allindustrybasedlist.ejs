@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | DataTables</title>
+  <title>selam</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -27,95 +27,18 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="../../index3.html" class="nav-link">Home</a>
+        <a href="/dashboard" class="nav-link">Home</a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
+   
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
-      <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
-        <div class="navbar-search-block">
-          <form class="form-inline">
-            <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
-                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </li>
+     
 
       <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="../../dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="../../dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  John Pierce
-                  <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">I got your message bro</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="../../dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Nora Silvester
-                  <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">The subject goes here</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-        </div>
-      </li>
+  
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -149,8 +72,8 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
+        <a class="nav-link"   href="/logout" role="button">
+          Logout
         </a>
       </li>
     </ul>
@@ -177,7 +100,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Applicant List</li>
+              <li class="breadcrumb-item active">Student List</li>
             </ol>
           </div>
         </div>
@@ -190,145 +113,221 @@
         <div class="row">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h4 class="card-title">Student List</h4>
+                        </div>
                       <div class="card-body">
-                        <h4 class="card-title">New Program Applicant List</h4>
                         <%- include ('./partials/messages') %>
-                      <br>
-                          <ul class="nav nav-tabs " id="myTab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                              <button class="nav-link  active" style="background-color: #f48d5b;" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Applicant List</button>
-                            </li>
-                         
-                        
-                          </ul>
-                          <div class="tab-content " id="myTabContent">
-                              
-                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">    <div class="row">
-                                <div class="row" style="display: none;">
-                                    <div class="col-sm-12 col-md-6">
-                                        <div class="dt-buttons btn-group flex-wrap">               
-                                    <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Copy</span></button> 
-                                    <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>CSV</span></button> 
-                                    <button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Excel</span></button> 
-                                    <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>PDF</span></button>
-                                     <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="example1" type="button"><span>Print</span></button> <div class="btn-group">
-                                         <button class="btn btn-secondary buttons-collection dropdown-toggle buttons-colvis" tabindex="0" aria-controls="example1" type="button" aria-haspopup="true" aria-expanded="false"><span>Column visibility</span></button></div> </div></div>
-                                         
-                                         <div class="col-sm-12 col-md-6"><div id="example1_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1"></label></div></div>
-                                        </div>
-                                <div class="col-md-12  grid-margin stretch-card">     <div class="card">
-                                  <div class="card-body">
-                                   
-                                    <div class="table-responsive" >
-                                        <table aria-describedby="example1_info" role="grid" class="table table-bordered table-striped dataTable dtr-inline" id="example1">
-                                          <thead>
-                                            <tr>
-                            <th>#</th>
-                                              <th>Applicant Full Name</th>
-                                              <th>Gender</th>
-                                              <th>Contact Info</th>
-                                              <th>Emergency Info</th>
-                                              <th>Extra Info</th>
-                                              <th>Department Choice</th>  
-                                              <th>Entry Exam Result</th>                                        
-                                               <th>Grade 9 Transcript Ave</th>
-                                              <th>Grade 10 Transcript Ave</th>
-                                              <th>Grade 11 Transcript Ave</th>
-                                              <th>Grade 12 Transcript Ave</th>
-                                              <th>Grade 10 Leaving Exam</th>
-                                              <th>Grade 12 Leaving Exam</th>
-                                            
-                                            
-                                              <th>Action To Do</th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                          
-                                             
-                                          
-                                           <% if(industrybased.length >0 ) { %>
-                                            <% var i = 0 ;%>
-                                               <% industrybased.forEach(function (row){ %>
-                                                <% i++ %>
-                                                <% var one, two,three; %>
-                                                <% var name = JSON.parse(JSON.stringify(row.personal_info)); %>
-                                                <% var contact = JSON.parse(JSON.stringify(row.contact_info)); %>
-                                                <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
-                                                <% var contactself = name.firstname +"/ "+contact.phoneNumber_1  %>
-                                                <% var contactemergency = contact.emergencyname +"/ "+contact.emergencyphone  %>
-                                                <tr>
-                                                    <td><%= i %></td>
-                                                    <td><%= fullname %></td>
-                                                    <td><%= name.gender %></td>
-                                                    
-                                                    <td>Self:&nbsp;<%= contactself %></td>
-                                                    <td>Emergency:&nbsp;<%= contactemergency %></td>
-                                                  
-                                                    <td><%= row.is_disable %><br><%= row.disable_info %></td>
-                                                   
-                                                    <td><%var choice1 = row.choice_one %>
-                                                         <%var choice2 =  row.choice_two %>
-                                                         <% var choice3 = row.choice_three %>
-                                                         <% if(department.length > 0){ %>
-                                                            <% department.forEach(function (row){ %>
-                                                               <% var dptid = row.department_id %>
-                                                               <%  if(dptid == choice1)  {%>
-                                                                <%   one = row.department_name %>
-                                                                <%   }  else if(dptid == choice2){%>
-                                                                    <%   two = row.department_name %>
-                                                                  
-                                                                    <%   } else if(dptid == choice3){ %>
-                                                               
-                                                                <%    three = row.department_name %>
-                                                                 
-                                                                <%  }%>
-                                                           <% })} %>
-                                                        1:&nbsp; <%= one %><br>
-                                                        2:&nbsp; <%= two %><br>
-                                                        3:&nbsp; <%= three %><br>
-                                                    </td>
-                                                    <td><%= row.apptitude_result %></td>
-                                                    <td><%= row.grade9_ave %></td>
-                                                    <td><%= row.grade10_ave %></td>
-                                                    <td><%= row.grade11_ave %></td>
-                                                    <td><%= row.grade12_ave %></td>
-                                                  
-                                                    <td><%= row.grade10_leaving %></td>
-                                                    <td><%= row.grade12_leaving %></td>
-                                                   
-                                                    <td><form action="/applicant/updateentraceexamresult/<%= row.applicant_id %>" method="post">
-                                                   <div class="form-group">
-                                                       <label>Please Add Result Here</label>
-                                                       <input name="programidlevel" id="programidlevel" value="<%=programidlevel %>" type="hidden">
-                                                       <input class="form-control" name="entranceresult" id="entranceresult" placeholder="Exam Result" type="number">
-                                                   </div>
-                                                   <button class="btn btn-sm btn-success btn-block" type="submit">Update Result</button>
-                                                    </form></td>
-                                                 
-
-                                                
-                                                  </tr>
-                                             <%  })} else{}     %>
-                                            
-                                        
-                            
-                                               
-                                           
-                                          
-                                          </tbody>
-                                        </table>
-                                      </div>
-                                  
-                                  </div>
-                                </div>
-                              </div>
-                           
-                          
-                            </div>
+                        <div class="alert  alert-dismissible fade show" role="alert" style="display: none;" id="servermsg">
+                           <p id="msg"></p>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
                           </div>
-                       
+                      <br>
+                      <div class="row">
+                        <div class="col-md-8">
+                            <div class="callout callout-success">
+                                Add Evaluation To:
+                              <% if(courselist.length >0) {%>
+                                <% courselist.forEach(function (row){ %>
+                                  
+                                    <p>Course Name :<%= row.course_name %></br>
+                                    Module Code: <%= row.course_code %></br>
+                                    Duration: <%= row.training_hours %></p>
+                               <% })}else {}%>    
+                                                                  
+                               
+                              </div>
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+                      <div class="row">
+                        <div class="row mb-2">
+                            <div class="col-sm-6 mb-4 mb-xl-0">
+                              
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center justify-content-md-end">
+                                    <div class=" mb-3 mb-xl-0">
+                                    
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                          Add Theoretical Evaluation
+                                        </button>
+                                      
+                                          
+                                    </div>
+                                    <div class=" mb-3 mb-xl-0 ml-2 mr-2">
+                                    
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalp">
+                                          Add Technical Evaluation
+                                        </button>
+                                      
+                                          
+                                    </div>
+                                    <div class=" mb-3 mb-xl-0">
+                                    
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModali">
+                                          Add Industry Evaluation
+                                        </button>
+                                      
+                                          
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="display: none;">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="dt-buttons btn-group flex-wrap">               
+                            <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Copy</span></button> 
+                            <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>CSV</span></button> 
+                            <button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Excel</span></button> 
+                            <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>PDF</span></button>
+                             <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="example1" type="button"><span>Print</span></button> <div class="btn-group">
+                                 <button class="btn btn-secondary buttons-collection dropdown-toggle buttons-colvis" tabindex="0" aria-controls="example1" type="button" aria-haspopup="true" aria-expanded="false"><span>Column visibility</span></button></div> </div></div>
+                                 
+                                 <div class="col-sm-12 col-md-6"><div id="example1_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1"></label></div></div>
+                                </div>
+                        <div class="col-md-12  grid-margin stretch-card">    
+                             <div class="">
+
+                          <div class="">
+                           
+                            <div class="table-responsive" >
+                                <table aria-describedby="example1_info" role="grid" class="table table-bordered table-striped dataTable dtr-inline" id="example1">
+                                  <thead>
+                                    <tr>
+                    <th>#</th>
+                    <th>Student ID</th>
+                                      <th>Full Name</th>
+                                      <th>Gender</th>
+                                      <th>Contact Info</th>
+                                      <% if(courselist.length >0) {%>
+                                        <% courselist.forEach(function (row){ %>
+                                      
+                                            <%
+                                            var selectioncriteria= [];
+                                           var x =[];
+                                           var z= [];
+                                           var objs = JSON.parse(JSON.stringify(row.learning_obj));
+                                           selectioncriteria.push(objs);
+                                           selectioncriteria.forEach(obj => {
+                                             Object.entries(obj).forEach(([key, value]) => {
+                                                var key  = key;
+                                                var value =value;
+                                                x.push(key);
+                                                z.push(value);
+                                             });
+                                           
+                                         });%>
+                                         
+                                         <% for(var i= 0 ; i < x.length ; i++ ) { %>
+                                         <th><%= z[i] %></th>
+                                           
+                                        
+                                        
+                                         <% } %>
+                                   
+                                       <% })}else {}%>
+                                      
+                                    
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                  
+                                     
+                                  
+                                   <% if(levelbased.length >0 ) { %>
+                                    <% var i = 0 ;%>
+                                       <% levelbased.forEach(function (row){ %>
+                                        <% i++ %>
+                                        <% var one, two,three; %>
+                                        <% var name = JSON.parse(row.personal_info); %>
+                                        <% var contact = JSON.parse(row.contact_info); %>
+                                        <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
+                                        <% var contactself = name.firstname +"/ "+contact.phoneNumber_1  %>
+                                        <% var contactemergency = contact.emergencyname +"/ "+contact.emergencyphone  %>
+                                        <% var trainee = row.trainee_id %>
+                                        <tr>
+                                            <td><%= i %></td>
+                                            <td><%= row.student_unique_id%></td>
+                                            <td><%= fullname %></td>
+                                            <td><%= name.gender %></td>
+                                            
+                                            <td><%= contactself %></td>
+                                          
+                                            <% if(courselist.length >0) {%>
+                                              <% courselist.forEach(function (row){ %>
+                                            
+                                                  <%
+                                                  var selectioncriteria= [];
+                                                 var x =[];
+                                                 var z= [];
+                                                 var objs = JSON.parse(JSON.stringify(row.learning_obj));
+                                                 selectioncriteria.push(objs);
+                                                 selectioncriteria.forEach(obj => {
+                                                   Object.entries(obj).forEach(([key, value]) => {
+                                                      var key  = key;
+                                                      var value =value;
+                                                      x.push(key);
+                                                      z.push(value);
+                                                   });
+                                                 
+                                               });%>
+                                               
+                                               <% for(var i= 0 ; i < x.length ; i++ ) { %>
+                                                <td>
+                                                  <form action="/trainee/singlethoreticalevaluation/<%= trainee %>" method="post">
+                                                      <div class="form-group">
+                                                  <input class="form-control" name="mark" id="mark" placeholder="Mark" type="number">
+                                                  <input class="form-control" name="tobeudt" id="tobeudt" type="hidden" value="<%= x[i] %>" >
+                                                 
+                                                  <select class="form-control" id="evaluationtype" name="evaluationtype">
+                                                    <option value="0">Evaluation type</option>
+                                                     <option>Theoretical(30%)</option>
+                                                     <option>Technical(40%)</option>
+                                                     <option>Industrial(30%)</option>
+                                                  </select>
+                                                  <input type="hidden" id="classid" name="classid" value="<%= classid %>">
+                                                  <input type="hidden" id="courseid" name="courseid" value="<%= courseid %>">
+                                                  <input type="hidden" id="level" name="level" value="<%= level %>">
+                                                  <input type="hidden" id="programtype" name="programtype" value="<%= programtype %>">
+                                                  <input type="hidden" id="dpt" name="dpt" value="<%= dpt %>">
+                                                  <input type="hidden" id="batchid" name="batchid" value="<%= batchid %>">
+                                                  <button type="submit" class="btn btn-primary btn-sm btn-block">Update</button>
+                                                      </div>
+                                                  </form>
+                                              </td>
+                                              
+                                               <% } %>
+                                         
+                                             <% })}else {}%>
+                                          
+                                           
+                                           
+                                         
+
+                                        
+                                          </tr>
+                                     <%  })} else{}     %>
+                                    
+                                
+                    
+                                       
+                                   
+                                  
+                                  </tbody>
+                                </table>
+                              </div>
+                          
+                          </div>
+                        </div>
                       </div>
+                   
+                  
+                    </div>
                         
                 
                         </div>
@@ -344,13 +343,756 @@
               </div>
           
           </div>
-    
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Add Theoretical Evaluation </h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="alert  alert-dismissible fade show" role="alert" style="display: none;" id="servermsg">
+                    <p id="msg"></p>
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                   </div>
+                  <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Student List</h4>
+                        </div>
+                      <div class="card-body">
+                       
+                        <p class="card-description">
+                          </p>
+                          <div class="form-group">
+                            <label>Please Select Learning Objective First</label>
+                          <select class="form-control" name="los" id="los">
+                            <option value="0">Please select learning objective</option>
+                            <% if(courselist.length >0) {%>
+                              <% courselist.forEach(function (row){ %>
+                            
+                                  <%
+                                  var selectioncriteria= [];
+                                 var x =[];
+                                 var z= [];
+                                 var objs = JSON.parse(JSON.stringify(row.learning_obj));
+                                 selectioncriteria.push(objs);
+                                 selectioncriteria.forEach(obj => {
+                                   Object.entries(obj).forEach(([key, value]) => {
+                                      var key  = key;
+                                      var value =value;
+                                      x.push(key);
+                                      z.push(value);
+                                   });
+                                 
+                               });%>
+                               
+                               <% for(var i= 0 ; i < x.length ; i++ ) { %>
+                               <option value="<%= x[i] %>"><%= z[i] %></option>
+                                 
+                              
+                              
+                               <% } %>
+                         
+                             <% })}else {}%>
+                          </select>
+                          <input class="form-control" name="totmark" id="totmark" placeholder="Please enter total marks">
+                          <input type="hidden" id="courseid" name="courseid" value="<%= courseid %>">
+                            <input type="hidden" id="classid" name="classid" value="<%= classid %>">
+                            <input type="hidden" id="level" name="level" value="<%= level %>">
+                            <input type="hidden" id="programtype" name="programtype" value="<%= programtype %>">
+                            <input type="hidden" id="dpt" name="dpt" value="<%= dpt %>">
+                            <input type="hidden" id="batchid" name="batchid" value="<%= batchid %>">
+                           
+                        </div>
+                        <p></p>
+                        <fieldset id="studentlist">
+                          <div class="table-responsive">
+                            <table class="table  table-responsive">
+                              <thead>
+                                <tr>
+                             
+                                  <th> # </th>
+                                  <th> Trainee ID </th>
+                                  <th> Full Name </th>
+                             
+                                  <th> Evaluation(Theoretical) </th>
+            
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <% if(levelbased.length >0 ) { %>
+                                    <% var i = 0 ;%>
+                                       <% levelbased.forEach(function (row){ %>
+                                      <% i++ %>
+                                        <tr>
+                                    
+                                            <% var name = JSON.parse(row.personal_info); %>
+                                            <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
+                                         
+                                            <td><%= i %></td>
+                                            <td><%= row.student_unique_id %></td>
+                                            <td><%= fullname %></td>
+                                          
+                                            <td><input id="<%= row.trainee_id %>" name="<%= row.trainee_id %>" type="number" class="form-control"> </td>
+                                       
+                                          </tr>
+
+                                        <% })}else{} %>
+                                  
+                                  
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6 offset-md-3  mt-2">
+                              <button type="submit" id="addevaluation" class="btn btn-block btn-sm form-control btn-primary">Submit</button>
+                            </div>
+                          </div>
+                        </fieldset>
+                       
+                      
+                      </div>
+                    </div>
+                  </div>
+               
+                </div>
+               
+              </div>
+            </div>
+          </div>
+         
+          <div class="modal fade" id="exampleModali" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Add Internship Evaluation </h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="alert  alert-dismissible fade show" role="alert" style="display: none;" id="servermsg">
+                    <p id="msg"></p>
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                   </div>
+                  <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Student List</h4>
+                        </div>
+                      <div class="card-body">
+                       
+                        <p class="card-description">
+                          </p>
+                          <div class="form-group">
+                            <label>Please Select Learning Objective First</label>
+                          <select class="form-control" name="losi" id="losi">
+                            <option value="0">Please select learning objective</option>
+                            <% if(courselist.length >0) {%>
+                              <% courselist.forEach(function (row){ %>
+                            
+                                  <%
+                                  var selectioncriteria= [];
+                                 var x =[];
+                                 var z= [];
+                                 var objs = JSON.parse(JSON.stringify(row.learning_obj));
+                                 selectioncriteria.push(objs);
+                                 selectioncriteria.forEach(obj => {
+                                   Object.entries(obj).forEach(([key, value]) => {
+                                      var key  = key;
+                                      var value =value;
+                                      x.push(key);
+                                      z.push(value);
+                                   });
+                                 
+                               });%>
+                               
+                               <% for(var i= 0 ; i < x.length ; i++ ) { %>
+                               <option value="<%= x[i] %>"><%= z[i] %></option>
+                                 
+                              
+                              
+                               <% } %>
+                         
+                             <% })}else {}%>
+                          </select>
+                          <input class="form-control" name="totmarki" id="totmarki" placeholder="Please enter total marks">
+                          <input type="hidden" id="courseid" name="courseid" value="<%= courseid %>">
+                            <input type="hidden" id="classid" name="classid" value="<%= classid %>">
+                            <input type="hidden" id="level" name="level" value="<%= level %>">
+                            <input type="hidden" id="programtype" name="programtype" value="<%= programtype %>">
+                            <input type="hidden" id="dpt" name="dpt" value="<%= dpt %>">
+                            <input type="hidden" id="batchid" name="batchid" value="<%= batchid %>">
+                           
+                        </div>
+                        <p></p>
+                        <fieldset id="studentlisti">
+                          <div class="table-responsive">
+                            <table class="table  table-responsive">
+                              <thead>
+                                <tr>
+                             
+                                  <th> # </th>
+                                  <th> Trainee ID </th>
+                                  <th> Full Name </th>
+                             
+                                  <th> Evaluation(Internship) </th>
+            
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <% if(levelbased.length >0 ) { %>
+                                    <% var i = 0 ;%>
+                                       <% levelbased.forEach(function (row){ %>
+                                      <% i++ %>
+                                        <tr>
+                                    
+                                            <% var name = JSON.parse(row.personal_info); %>
+                                            <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
+                                         
+                                            <td><%= i %></td>
+                                            <td><%= row.student_unique_id %></td>
+                                            <td><%= fullname %></td>
+                                          
+                                            <td><input id="<%= row.trainee_id %>" name="<%= row.trainee_id %>" type="number" class="form-control"> </td>
+                                       
+                                          </tr>
+
+                                        <% })}else{} %>
+                                  
+                                  
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6 offset-md-3  mt-2">
+                              <button type="submit" id="addevaluationi" class="btn btn-block btn-sm form-control btn-primary">Submit</button>
+                            </div>
+                          </div>
+                        </fieldset>
+                       
+                      
+                      </div>
+                    </div>
+                  </div>
+               
+                </div>
+               
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="exampleModalp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Add Practical Evaluation </h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="alert  alert-dismissible fade show" role="alert" style="display: none;" id="servermsg">
+                    <p id="msg"></p>
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                   </div>
+                  <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Student List</h4>
+                        </div>
+                      <div class="card-body">
+                       
+                        <p class="card-description">
+                          </p>
+                          <div class="form-group">
+                            <label>Please Select Learning Objective First</label>
+                          <select class="form-control" name="losp" id="losp">
+                            <option value="0">Please select learning objective</option>
+                            <% if(courselist.length >0) {%>
+                              <% courselist.forEach(function (row){ %>
+                            
+                                  <%
+                                  var selectioncriteria= [];
+                                 var x =[];
+                                 var z= [];
+                                 var objs = JSON.parse(JSON.stringify(row.learning_obj));
+                                 selectioncriteria.push(objs);
+                                 selectioncriteria.forEach(obj => {
+                                   Object.entries(obj).forEach(([key, value]) => {
+                                      var key  = key;
+                                      var value =value;
+                                      x.push(key);
+                                      z.push(value);
+                                   });
+                                 
+                               });%>
+                               
+                               <% for(var i= 0 ; i < x.length ; i++ ) { %>
+                               <option value="<%= x[i] %>"><%= z[i] %></option>
+                                 
+                              
+                              
+                               <% } %>
+                         
+                             <% })}else {}%>
+                          </select>
+                          <input class="form-control" name="totmarkp" id="totmarkp" placeholder="Please enter total marks">
+                          <input type="hidden" id="courseid" name="courseid" value="<%= courseid %>">
+                            <input type="hidden" id="classid" name="classid" value="<%= classid %>">
+                            <input type="hidden" id="level" name="level" value="<%= level %>">
+                            <input type="hidden" id="programtype" name="programtype" value="<%= programtype %>">
+                            <input type="hidden" id="dpt" name="dpt" value="<%= dpt %>">
+                            <input type="hidden" id="batchid" name="batchid" value="<%= batchid %>">
+                           
+                        </div>
+                        <p></p>
+                        <fieldset id="studentlistp">
+                          <div class="table-responsive">
+                            <table class="table  table-responsive">
+                              <thead>
+                                <tr>
+                             
+                                  <th> # </th>
+                                  <th> Trainee ID </th>
+                                  <th > Full Name </th>
+                             
+                                  <th> Evaluation(Practical) </th>
+            
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <% if(levelbased.length >0 ) { %>
+                                    <% var i = 0 ;%>
+                                       <% levelbased.forEach(function (row){ %>
+                                      <% i++ %>
+                                        <tr>
+                                    
+                                            <% var name = JSON.parse(row.personal_info); %>
+                                            <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
+                                         
+                                            <td><%= i %></td>
+                                            <td><%= row.student_unique_id %></td>
+                                            <td><%= fullname %></td>
+                                          
+                                            <td><input id="<%= row.trainee_id %>" name="<%= row.trainee_id %>" type="number" class="form-control"> </td>
+                                       
+                                          </tr>
+
+                                        <% })}else{} %>
+                                  
+                                  
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6 offset-md-3  mt-2">
+                              <button type="submit" id="addevaluationp" class="btn btn-block btn-sm form-control btn-primary">Submit</button>
+                            </div>
+                          </div>
+                        </fieldset>
+                       
+                      
+                      </div>
+                    </div>
+                  </div>
+               
+                </div>
+               
+              </div>
+            </div>
+          </div>
         <!-- /.row -->
       </div>
       <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>
+  <script>
+     
+    $(function(){
+$(document).on('click', '#addevaluation', function(){
+var formData = $('#studentlist').serializeArray(),
+rs = formObj2Json(formData);
+
+var personalinfo = [];
+
+console.log(JSON.stringify(rs, undefined, 2));
+
+personalinfo.push(rs);
+console.log(personalinfo);
+var senddt = [];
+var totmark = document.getElementById('totmark').value;
+var los = document.getElementById('los').value;
+var classid = document.getElementById('classid').value;
+var level = document.getElementById('level').value;
+var programtype = document.getElementById('programtype').value;
+var batch = document.getElementById('batchid').value;
+var dpt = document.getElementById('dpt').value;
+var courseid = document.getElementById('courseid').value;
+if(los == "0" || totmark == "" )
+{
+
+    var x = document.getElementById("servermsg");
+var msg = document.getElementById("msg");
+x.style.display = "block";
+x.className="alert alert-danger alert-dismissible fade show";
+msg.innerHTML="Please select couse name and add maximum mark first!"
+}
+
+if(personalinfo.length >0)
+{
+for(var i=0 ;i < personalinfo.length ; i++)
+{
+var obj = personalinfo[i];
+// console.log(obj)
+Object.getOwnPropertyNames(obj).forEach(
+function (val, idx, array) {
+var tblobj = {};
+var assigneval = obj[val] ;
+var eachval = parseFloat(obj[val]) ;
+var tot = parseFloat(totmark);
+ var per = (eachval * 30 )/ tot ;
+ per.toFixed(2);
+tblobj['courseid'] = courseid;
+tblobj['loid'] = los;
+tblobj['classid'] = classid;
+tblobj['studentid'] = val ;
+tblobj['evaluation'] = per ;
+tblobj['level'] = level ;
+tblobj['programtype'] = programtype;
+tblobj['batchid'] = batch ;
+tblobj['department'] = dpt;
+
+
+if(assigneval != "")
+{
+    senddt.push(tblobj) 
+}
+
+//  console.log(val + ' -> ' + obj[val]);
+// console.log(classname +'==='+ val +'==='+ obj[val])
+}
+);
+}
+var tobesaveddt = JSON.stringify(senddt) 
+console.log(JSON.stringify(senddt) );
+
+convertArrayToJSON(tobesaveddt);
+}
+
+
+});
+
+
+});
+
+function convertArrayToJSON(tobesaveddt)
+{
+var TableData;
+// TableData = $.toJSON(storeTblValues());
+TableData =  tobesaveddt ;
+//  $('#tbConvertToJSON').html('<br>JSON array: <br>' + TableData.replace(/},/g, "},<br>"));
+
+
+$.ajax({
+type: "POST",
+url: "/trainee/savestudentevaluationtheretical",
+data: "pTableData=" + TableData,    // post TableData to server script
+
+success: function (data) {
+var x = document.getElementById("servermsg");
+var msg = document.getElementById("msg");
+
+if(data.message == 'success'){ // if true (1)
+
+
+x.style.display = "block";
+x.className="alert alert-success alert-dismissible fade show";
+msg.innerHTML="You are successfully update student evaluation!";
+setTimeout(function(){// wait for 5 secs(2)
+location.reload(); // then reload the page.(3)
+}, 1000); 
+}
+else if(data.message == 'error'){
+
+x.style.display = "block";
+x.className="alert alert-danger alert-dismissible fade show";
+msg.innerHTML="Error while send student evaluation data try again!"
+setTimeout(function(){// wait for 5 secs(2)
+location.reload(); // then reload the page.(3)
+}, 1000); 
+}
+}
+});
+
+}
+function formObj2Json(formArray) { //serialize data function
+var returnArray = {};
+for (var i = 0, len = formArray.length; i < len; i++)
+returnArray[formArray[i].name] = formArray[i].value;
+return returnArray;
+}
+</script>
+<script>
+     
+  $(function(){
+$(document).on('click', '#addevaluationp', function(){
+var formData = $('#studentlistp').serializeArray(),
+rs = formObj2Json(formData);
+
+var personalinfo = [];
+
+console.log(JSON.stringify(rs, undefined, 2));
+
+personalinfo.push(rs);
+console.log(personalinfo);
+var senddt = [];
+var totmark = document.getElementById('totmarkp').value;
+var los = document.getElementById('losp').value;
+var classid = document.getElementById('classid').value;
+var level = document.getElementById('level').value;
+var programtype = document.getElementById('programtype').value;
+var batch = document.getElementById('batchid').value;
+var dpt = document.getElementById('dpt').value;
+var courseid = document.getElementById('courseid').value;
+if(los == "0" || totmark == "" )
+{
+
+    var x = document.getElementById("servermsg");
+var msg = document.getElementById("msg");
+x.style.display = "block";
+x.className="alert alert-danger alert-dismissible fade show";
+msg.innerHTML="Please select couse name first!"
+}
+
+if(personalinfo.length >0)
+{
+for(var i=0 ;i < personalinfo.length ; i++)
+{
+var obj = personalinfo[i];
+// console.log(obj)
+Object.getOwnPropertyNames(obj).forEach(
+function (val, idx, array) {
+var tblobj = {};
+var assigneval = obj[val] ;
+var eachval = parseFloat(obj[val]) ;
+var tot = parseFloat(totmark);
+ var per = (eachval * 30 )/ tot ;
+ per.toFixed(2);
+tblobj['courseid'] = courseid;
+tblobj['loid'] = los;
+tblobj['classid'] = classid;
+tblobj['studentid'] = val ;
+tblobj['evaluation'] = per ;
+tblobj['level'] = level ;
+tblobj['programtype'] = programtype;
+tblobj['batchid'] = batch ;
+tblobj['department'] = dpt;
+
+if(assigneval != "")
+{
+  senddt.push(tblobj) 
+}
+
+//  console.log(val + ' -> ' + obj[val]);
+// console.log(classname +'==='+ val +'==='+ obj[val])
+}
+);
+}
+var tobesaveddt = JSON.stringify(senddt) 
+console.log(JSON.stringify(senddt) );
+
+convertArrayToJSONp(tobesaveddt);
+}
+
+
+});
+
+
+});
+
+function convertArrayToJSONp(tobesaveddt)
+{
+var TableData;
+// TableData = $.toJSON(storeTblValues());
+TableData =  tobesaveddt ;
+//  $('#tbConvertToJSON').html('<br>JSON array: <br>' + TableData.replace(/},/g, "},<br>"));
+
+
+$.ajax({
+type: "POST",
+url: "/trainee/savestudentevaluationpractical",
+data: "pTableData=" + TableData,    // post TableData to server script
+
+success: function (data) {
+var x = document.getElementById("servermsg");
+var msg = document.getElementById("msg");
+
+if(data.message == 'success'){ // if true (1)
+
+
+x.style.display = "block";
+x.className="alert alert-success alert-dismissible fade show";
+msg.innerHTML="You are successfully update student practical evaluation !";
+setTimeout(function(){// wait for 5 secs(2)
+location.reload(); // then reload the page.(3)
+}, 1000); 
+}
+else if(data.message == 'error'){
+
+x.style.display = "block";
+x.className="alert alert-danger alert-dismissible fade show";
+msg.innerHTML="Error while send student evaluation data try again!"
+setTimeout(function(){// wait for 5 secs(2)
+location.reload(); // then reload the page.(3)
+}, 1000); 
+}
+}
+});
+
+}
+function formObj2Json(formArray) { //serialize data function
+var returnArray = {};
+for (var i = 0, len = formArray.length; i < len; i++)
+returnArray[formArray[i].name] = formArray[i].value;
+return returnArray;
+}
+</script>
+<script>
+     
+  $(function(){
+$(document).on('click', '#addevaluationi', function(){
+var formData = $('#studentlisti').serializeArray(),
+rs = formObj2Json(formData);
+
+var personalinfo = [];
+
+console.log(JSON.stringify(rs, undefined, 2));
+
+personalinfo.push(rs);
+console.log(personalinfo);
+var senddt = [];
+var totmark = document.getElementById('totmarki').value;
+var los = document.getElementById('losi').value;
+var classid = document.getElementById('classid').value;
+var level = document.getElementById('level').value;
+var programtype = document.getElementById('programtype').value;
+var batch = document.getElementById('batchid').value;
+var dpt = document.getElementById('dpt').value;
+var courseid = document.getElementById('courseid').value;
+if(los == "0" || totmark == "" )
+{
+
+    var x = document.getElementById("servermsg");
+var msg = document.getElementById("msg");
+x.style.display = "block";
+x.className="alert alert-danger alert-dismissible fade show";
+msg.innerHTML="Please select couse name first!"
+}
+
+if(personalinfo.length >0)
+{
+for(var i=0 ;i < personalinfo.length ; i++)
+{
+var obj = personalinfo[i];
+// console.log(obj)
+Object.getOwnPropertyNames(obj).forEach(
+function (val, idx, array) {
+var tblobj = {};
+var assigneval = obj[val] ;
+var eachval = parseFloat(obj[val]) ;
+var tot = parseFloat(totmark);
+ var per = (eachval * 30 )/ tot ;
+ per.toFixed(2);
+tblobj['courseid'] = courseid;
+tblobj['loid'] = los;
+tblobj['classid'] = classid;
+tblobj['studentid'] = val ;
+tblobj['evaluation'] = per ;
+tblobj['level'] = level ;
+tblobj['programtype'] = programtype;
+tblobj['batchid'] = batch ;
+tblobj['department'] = dpt;
+
+
+if(assigneval != "")
+{
+  senddt.push(tblobj) 
+}
+
+//  console.log(val + ' -> ' + obj[val]);
+// console.log(classname +'==='+ val +'==='+ obj[val])
+}
+);
+}
+var tobesaveddt = JSON.stringify(senddt) 
+console.log(JSON.stringify(senddt) );
+
+convertArrayToJSONi(tobesaveddt);
+}
+
+
+});
+
+
+});
+
+function convertArrayToJSONi(tobesaveddt)
+{
+var TableData;
+// TableData = $.toJSON(storeTblValues());
+TableData =  tobesaveddt ;
+//  $('#tbConvertToJSON').html('<br>JSON array: <br>' + TableData.replace(/},/g, "},<br>"));
+
+
+$.ajax({
+type: "POST",
+url: "/trainee/savestudentevaluationinternship",
+data: "pTableData=" + TableData,    // post TableData to server script
+
+success: function (data) {
+var x = document.getElementById("servermsg");
+var msg = document.getElementById("msg");
+
+if(data.message == 'success'){ // if true (1)
+
+
+x.style.display = "block";
+x.className="alert alert-success alert-dismissible fade show";
+msg.innerHTML="You are successfully update student evaluation!";
+setTimeout(function(){// wait for 5 secs(2)
+location.reload(); // then reload the page.(3)
+}, 1000); 
+}
+else if(data.message == 'error'){
+
+x.style.display = "block";
+x.className="alert alert-danger alert-dismissible fade show";
+msg.innerHTML="Error while send student evaluation data try again!"
+setTimeout(function(){// wait for 5 secs(2)
+location.reload(); // then reload the page.(3)
+}, 1000); 
+}
+}
+});
+
+}
+function formObj2Json(formArray) { //serialize data function
+var returnArray = {};
+for (var i = 0, len = formArray.length; i < len; i++)
+returnArray[formArray[i].name] = formArray[i].value;
+return returnArray;
+}
+</script>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
       <!-- Brand Logo -->

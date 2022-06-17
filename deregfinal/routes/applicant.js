@@ -228,9 +228,9 @@ router.post('/addnewapplicant',ensureAuthenticated,async function(req,res){
   const department = await Department.findAll({});
   
   const {perinfos,addinfo,grade9trans,grade10trans,grade11trans,grade12trans,ave12trans,appid,
-    programid, ave11trans,disableinfo,ave10trans,ave9trans,isdisable,choice1,choice2,choice3,level,trainingtype,egsec,ssle
+    programid, ave11trans,paymentinfo,ave10trans,ave9trans,isdisable,choice1,choice2,choice3,level,trainingtype,egsec,ssle
 } = req.body ;
-   if(choice1 =="0" || choice2== "0" || choice3 =="0"){
+   if(choice1 =="0" || choice2== "0" || choice3 =="0" || paymentinfo =="0"){
        errors.push({msg:'Please select department choices'})
    }
    else if(appid ==""){
@@ -267,7 +267,7 @@ router.post('/addnewapplicant',ensureAuthenticated,async function(req,res){
         choice_level:level,
         choice_program_type:trainingtype,
         is_disable:isdisable,
-        disable_info:disableinfo,
+        payment_info:paymentinfo,
         grade12_ave:parseFloat(ave12trans).toFixed(2),
         grade11_ave:parseFloat(ave11trans).toFixed(2),
         grade10_ave:parseFloat(ave10trans).toFixed(2),
@@ -299,10 +299,10 @@ router.post('/addnewapplicantngo',ensureAuthenticated,async function(req,res){
     const department = await Department.findAll({});
     
     const {perinfos,addinfo,grade9trans,grade10trans,grade11trans,grade12trans,ave12trans,appid,
-      programid, ave11trans,disableinfo,ave10trans,ave9trans,isdisable,choice1,choice2,choice3,trainingtype,egsec,ssle
+      programid, ave11trans,paymentinfo,ave10trans,ave9trans,isdisable,choice1,choice2,choice3,trainingtype,egsec,ssle
   } = req.body ;
  
-     if(choice1 =="0" || choice2== "0" || choice3 =="0"){
+     if(choice1 =="0" || choice2== "0" || choice3 =="0" ||paymentinfo =="0"){
          errors.push({msg:'Please select department choices'})
      }
      else if(appid ==""){
@@ -339,8 +339,7 @@ router.post('/addnewapplicantngo',ensureAuthenticated,async function(req,res){
           choice_three:choice3,
           choice_program_type:trainingtype,
           is_disable:isdisable,
-          payment_type:isdisable,
-          disable_info:disableinfo,
+          payment_info:paymentinfo,
           grade12_ave:parseFloat(ave12trans).toFixed(2),
           grade11_ave:parseFloat(ave11trans).toFixed(2),
           grade10_ave:parseFloat(ave10trans).toFixed(2),

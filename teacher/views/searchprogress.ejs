@@ -1,0 +1,275 @@
+<html lang="en" style="height: auto;"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SELAM_TVC</title>
+  
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../../dist/css/adminlte.min.css">
+  <style type="text/css">/* Chart.js */
+  @keyframes chartjs-render-animation{from{opacity:.99}to{opacity:1}}.chartjs-render-monitor{animation:chartjs-render-animation 1ms}.chartjs-size-monitor,.chartjs-size-monitor-expand,.chartjs-size-monitor-shrink{position:absolute;direction:ltr;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1}.chartjs-size-monitor-expand>div{position:absolute;width:1000000px;height:1000000px;left:0;top:0}.chartjs-size-monitor-shrink>div{position:absolute;width:200%;height:200%;left:0;top:0}</style></head>
+  <!--
+  `body` tag options:
+  
+    Apply one or more of the following classes to to the body tag
+    to get the desired effect
+  
+    * sidebar-collapse
+    * sidebar-mini
+  -->
+  <body class="sidebar-mini sidebar-closed sidebar-collapse" style="height: auto;">
+  <div class="wrapper">
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="/dashboard" class="nav-link">Home</a>
+        </li>
+     
+      </ul>
+  
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        <!-- Navbar Search -->
+       
+  
+        <!-- Messages Dropdown Menu -->
+    
+        <!-- Notifications Dropdown Menu -->
+        <li class="nav-item dropdown">
+          <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="far fa-bell"></i>
+            <span class="badge badge-warning navbar-badge">15</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <span class="dropdown-item dropdown-header">15 Notifications</span>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-envelope mr-2"></i> 4 new messages
+              <span class="float-right text-muted text-sm">3 mins</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-users mr-2"></i> 8 friend requests
+              <span class="float-right text-muted text-sm">12 hours</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-file mr-2"></i> 3 new reports
+              <span class="float-right text-muted text-sm">2 days</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+            <i class="fas fa-expand-arrows-alt"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"   href="/logout" role="button">
+            Logout
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.navbar -->
+  
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar  elevation-4">
+      <!-- Brand Logo -->
+      <%- include('./partials/sidebar') %>
+      <!-- /.sidebar -->
+    </aside>
+  
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" style="min-height: 2128.12px;">
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">Dashboard</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Search Evaluation Progress</li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+  
+      <!-- Main content -->
+      <div class="content">
+        <div class="container-fluid">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <i class="fas fa-edit"></i>
+                   Select Training Program To Search Section
+                  </h3>
+                </div>
+                <div class="card-body">
+                  <h4>Program</h4>
+                  <div class="row">
+                    <div class="col-5 col-sm-3">
+                      <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="false">Level Based</a>
+                        <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Short Term /Project/ Based</a>
+                        <a class="nav-link" id="vert-tabs-profile1-tab" data-toggle="pill" href="#vert-tabs-profile1" role="tab" aria-controls="vert-tabs-profile1" aria-selected="false">Industry Based</a>
+                   
+                      </div>
+                    </div>
+                    <div class="col-7 col-sm-9">
+                      <div class="tab-content" id="vert-tabs-tabContent">
+                        <div class="tab-pane text-left fade" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
+                          <form action="/evaluation/findmyclasstoevaluatecourselevel" method="post">
+                           <input type="hidden" name="showtype" value="progress">
+                            <div class="form-group">
+                                <label>Select Level Based Program</label>
+                                <select class="form-control " name="batchid"  id="batchid">
+                                 <option value="0">Please Select Program/Batch Name</option>
+                                 <% if(levelbased.length >0) {%>
+                                    <% levelbased.forEach(function (row){ %>
+                                      <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
+                                   <% })}else {}%>
+                                </select>
+                              
+                            </div>
+                            <div class="form-group">
+                                <label>Select Department</label>
+                                <select class="form-control " name="dpt"  id="dpt">
+                                 <option value="0">Please Select Department Name</option>
+                                 <% if(department.length >0) {%>
+                                    <% department.forEach(function (row){ %>
+                                      <option value="<%= row.department_id %>"><%= row.department_name%></option>
+                                   <% })}else {}%>
+                                </select>
+                              
+                            </div>
+                            <div class="col-md-6 offset-md-3">
+                                <button type="submit" class="btn btn-block btn-sm btn-primary">Submit</button>
+                     
+                            </div>  
+                        </form>
+                           
+                        </div>
+                        <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
+                            <form action="/evaluation/findmyclasstoevaluatecoursengo" method="post">
+                              <input type="hidden" name="showtype" value="progress">
+                              <div class="form-group">
+                                    <label>Select Short Term /Project/ Based Program</label>
+                                    <select class="form-control " name="batchid" id="batchid">
+                                     <option value="0">Please Select Program/Batch Name</option>
+                                     <% if(ngobased.length >0) {%>
+                                        <% ngobased.forEach(function (row){ %>
+                                          <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
+                                       <% })}else {}%>
+                                    </select>
+                                  
+                                </div>
+                                <div class="form-group">
+                                    <label>Select Department</label>
+                                    <select class="form-control " name="dpt"  id="dpt">
+                                     <option value="0">Please Select Department Name</option>
+                                     <% if(department.length >0) {%>
+                                        <% department.forEach(function (row){ %>
+                                          <option value="<%= row.department_id %>"><%= row.department_name%></option>
+                                       <% })}else {}%>
+                                    </select>
+                                  
+                                </div>
+                                <div class="col-md-6 offset-md-3">
+                                    <button type="submit" class="btn btn-block btn-sm btn-primary">Submit</button>
+                         
+                                </div>
+                                </form>
+                          </div>
+                          <div class="tab-pane fade" id="vert-tabs-profile1" role="tabpanel" aria-labelledby="vert-tabs-profile1-tab">
+                            <form action="/evaluation/findmyclasstoevaluatecourseindustry" method="post">
+                              <input type="hidden" name="showtype" value="progress"> 
+                              <div class="form-group">
+                                    <label>Select Industry Based Program</label>
+                                    <select class="form-control " name="batchid" id="batchid">
+                                     <option value="0">Please Select Program/Batch Name</option>
+                                     <% if(industrybased.length >0) {%>
+                                        <% industrybased.forEach(function (row){ %>
+                                          <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
+                                       <% })}else {}%>
+                                    </select>
+                                  
+                                </div>
+                                <div class="form-group">
+                                    <label>Select Department</label>
+                                <select class="form-control " name="dpt"  id="dpt">
+                                 <option value="0">Please Select Department Name</option>
+                                     <% if(department.length >0) {%>
+                                        <% department.forEach(function (row){ %>
+                                          <option value="<%= row.department_id %>"><%= row.department_name%></option>
+                                       <% })}else {}%>
+                                    </select>
+                                  
+                                </div>
+                                <div class="col-md-6 offset-md-3">
+                                    <button type="submit" class="btn btn-block btn-sm btn-primary">Submit</button>
+                         
+                                </div>
+                                </form>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                 
+                </div>
+                <!-- /.card -->
+              </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+  
+    <!-- Control Sidebar -->
+  <!-- /.control-sidebar -->
+  
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <%- include ('./partials/footer') %>
+    </footer>
+ 
+  <!-- ./wrapper -->
+  
+  <!-- REQUIRED SCRIPTS -->
+  
+  <!-- jQuery -->
+  <script src="../../../plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE -->
+  <script src="../../../dist/js/adminlte.js"></script>
+  <script src="../../plugins/select2/js/select2.full.min.js"></script>
+  <!-- OPTIONAL SCRIPTS -->
+  <script src="../../../plugins/chart.js/Chart.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="../../../dist/js/demo.js"></script>
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  <script src="../../../dist/js/pages/dashboard3.js"></script>
+  <script src="../../plugins/toastr/toastr.min.js"></script>
+  
+  
+  </body></html>

@@ -127,12 +127,10 @@
                   <div class="row">
                     <div class="col-5 col-sm-3">
                       <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
-                        <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Semister Registration</a>
-                        <a class="nav-link" id="vert-tabs-printid-tab" data-toggle="pill" href="#vert-tabs-printid" role="tab" aria-controls="vert-tabs-printid" aria-selected="false">Print ID</a>
-                        <a class="nav-link" id="vert-tabs-printgraderpt-tab" data-toggle="pill" href="#vert-tabs-printgraderpt" role="tab" aria-controls="vert-tabs-printgraderpt" aria-selected="false">Print Grade Report</a>
-                        <a class="nav-link" id="vert-tabs-printstudentcopy-tab" data-toggle="pill" href="#vert-tabs-printstudentcopy" role="tab" aria-controls="vert-tabs-printstudentcopy" aria-selected="false">Print Student Copy</a>
-                        <a class="nav-link" id="vert-tabs-printcertificate-tab" data-toggle="pill" href="#vert-tabs-printcertificate" role="tab" aria-controls="vert-tabs-printcertificate" aria-selected="false">Print Certificate</a>
-                   
+                        <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Search Single Student</a>
+                        <a class="nav-link" id="vert-tabs-printid-tab" data-toggle="pill" href="#vert-tabs-printid" role="tab" aria-controls="vert-tabs-printid" aria-selected="false">Search By Department </a>
+                        <a class="nav-link" id="vert-tabs-printgraderpt-tab" data-toggle="pill" href="#vert-tabs-printgraderpt" role="tab" aria-controls="vert-tabs-printgraderpt" aria-selected="false">Search By Class</a>
+                     
                     </div>
                     </div>
                     <div class="col-7 col-sm-9">
@@ -140,9 +138,9 @@
                       <div class="tab-content" id="vert-tabs-tabContent">
                 
                         <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
-                            <form action="/registration/selectallbybatchidtoregister" method="post">
+                            <form action="/trainee/selecttraineeebyid" method="post">
                                 <div class="form-group">
-                                    <label>Select Lable Based Program</label>
+                                    <label>Select Level Based Program</label>
                                     <select class="form-control " name="programidbatch" id="programidbatch">
                                      <option value="0">Please Select Program/Batch Name</option>
                                      <% if(levelbased.length >0) {%>
@@ -153,14 +151,8 @@
                                   
                                 </div>
                                 <div class="form-group">
-                                  <label>Select Department Name</label>
-                                  <select class="form-control " name="dept" id="dept">
-                                   <option value="0">Please Select Department Name</option>
-                                   <% if(department.length >0) {%>
-                                      <% department.forEach(function (row){ %>
-                                        <option value="<%= row.department_id %>"><%= row.department_name %></option>
-                                     <% })}else {}%>
-                                  </select>
+                                  <label>Enter ID</label>
+                                  <input name="traineeid" class="form-control" placeholder="Please enter trainee ID">
                                 
                               </div>
                                
@@ -171,9 +163,9 @@
                                 </form>
                           </div>
                           <div class="tab-pane fade" id="vert-tabs-printid" role="tabpanel" aria-labelledby="vert-tabs-printid-tab">
-                            <form action="/trainee/printstudentid" method="post">
+                            <form action="/trainee/allthisselecteddepartment" method="post">
                                 <div class="form-group">
-                                    <label>Select Lable Based Program</label>
+                                    <label>Select Level Based Program</label>
                                     <select class="form-control " name="programidbatch" id="programidbatch">
                                      <option value="0">Please Select Program/Batch Name</option>
                                      <% if(levelbased.length >0) {%>
@@ -202,9 +194,9 @@
                                 </form>
                           </div>
                           <div class="tab-pane fade" id="vert-tabs-printgraderpt" role="tabpanel" aria-labelledby="vert-tabs-printgraderpt-tab">
-                            <form action="/trainee/printgradereport" method="post">
+                            <form action="/trainee/allthisselactedclass" method="post">
                                 <div class="form-group">
-                                    <label>Select Lable Based Program</label>
+                                    <label>Select Level Based Program</label>
                                     <select class="form-control " name="programidbatch" id="programidbatch">
                                      <option value="0">Please Select Program/Batch Name</option>
                                      <% if(levelbased.length >0) {%>
@@ -225,7 +217,17 @@
                                   </select>
                                 
                               </div>
-                               
+                              <div class="form-group">
+                                <label>Select Class Name</label>
+                                <select class="form-control " name="dept" id="dept">
+                                 <option value="0">Please Select Class Name</option>
+                                 <% if(classlist.length >0) {%>
+                                    <% classlist.forEach(function (row){ %>
+                                      <option value="<%= row.class_id %>"><%= row.class_name %></option>
+                                   <% })}else {}%>
+                                </select>
+                              
+                            </div>
                                 <div class="col-md-6 offset-md-3">
                                     <button type="submit" class="btn btn-block btn-sm btn-primary">Submit</button>
                          
@@ -235,7 +237,7 @@
                           <div class="tab-pane fade" id="vert-tabs-printstudentcopy" role="tabpanel" aria-labelledby="vert-tabs-printstudentcopy-tab">
                             <form action="/registration/selectallbybatchidtoregister" method="post">
                                 <div class="form-group">
-                                    <label>Select Lable Based Program</label>
+                                    <label>Select Level Based Program</label>
                                     <select class="form-control " name="programidbatch" id="programidbatch">
                                      <option value="0">Please Select Program/Batch Name</option>
                                      <% if(levelbased.length >0) {%>
@@ -266,7 +268,7 @@
                           <div class="tab-pane fade" id="vert-tabs-printcertificate" role="tabpanel" aria-labelledby="vert-tabs-printcertificate-tab">
                             <form action="/trainee/printcertificate" method="post">
                                 <div class="form-group">
-                                    <label>Select Lable Based Program</label>
+                                    <label>Select Level Based Program</label>
                                     <select class="form-control " name="programidbatch" id="programidbatch">
                                      <option value="0">Please Select Program/Batch Name</option>
                                      <% if(levelbased.length >0) {%>
@@ -277,12 +279,12 @@
                                   
                                 </div>
                                 <div class="form-group">
-                                  <label>Select Department Name</label>
+                                  <label>Select Class Name</label>
                                   <select class="form-control " name="dept" id="dept">
-                                   <option value="0">Please Select Department Name</option>
-                                   <% if(department.length >0) {%>
-                                      <% department.forEach(function (row){ %>
-                                        <option value="<%= row.department_id %>"><%= row.department_name %></option>
+                                   <option value="0">Please Select Class Name</option>
+                                   <% if(classlist.length >0) {%>
+                                      <% classlist.forEach(function (row){ %>
+                                        <option value="<%= row.class_id %>"><%= row.class_name %></option>
                                      <% })}else {}%>
                                   </select>
                                 

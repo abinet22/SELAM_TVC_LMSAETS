@@ -69,15 +69,15 @@ router.get('/newngobased', ensureAuthenticated, async function(req, res) {
 });
 router.get('/newindustrybased', ensureAuthenticated,async function (req, res){
     const [results, metadata] = await sequelize.query(
-        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+        "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id"
       );
       
       console.log(JSON.stringify(results, null, 2));
     console.log(results);
         LevelBasedTraining.findAll({}).then(levelbased =>{
             res.render('newindustrybased',{
-                levelbased:results,
-                industrybased:'',
+                levelbased:'',
+                industrybased:results,
                 ngobased:''
             })
         }).catch(error =>{

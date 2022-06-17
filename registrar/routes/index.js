@@ -3,7 +3,17 @@ const router = express.Router();
 
 const db = require('../models');
 const User = db.users;
+const StaffList = db.stafflists;
+const Batch = db.batches;
+const LevelBasedProgram = db.levelbasedprograms;
+const NGOBasedProgram = db.ngobasedprograms;
+const IndustryBasedProgram = db.industrybasedprogram;
+const LevelBasedTrainee = db.levelbasedtrainees;
+const Department =db.departments;
+const NGOBasedTrainee = db.ngobasedtrainees;
+const IndustryBasedTrainee = db.industrybasedtrainees;
 const AppSelectionCriteria = db.appselectioncriterias;
+const NewApplicant = db.newapplicants;
 const FunderInfo = db.funderinfo;
 const sequelize = db.sequelize ;
 const { Op } = require("sequelize");
@@ -11,12 +21,11 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const { v4: uuidv4 } = require('uuid');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
+const IndustryBasedTraining = require('../models/IndustryBasedTraining');
 
 router.get('/', forwardAuthenticated, (req, res) => res.render('login'));
 router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
 router.get('/dashboard', ensureAuthenticated, (req, res) => res.render('dashboard'));
-router.get('/addnewfunder', ensureAuthenticated, (req, res) => res.render('addnewfunder'));
-router.get('/addselectcriteria', ensureAuthenticated, (req, res) => res.render('addselectcriteria'));
 
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
@@ -32,39 +41,53 @@ router.get('/logout', (req, res) => {
     req.flash('success_msg', 'You are logged out');
     res.redirect('/login');
 });
-router.get('/notifications',async function(req, res)  {
-  res.render('notificationlist')
+router.get('/createdataencoder',async function(req, res)  {
+    const stafflist = await StaffList.findAll({where:{isteacher:"No"}});
+  res.render('createdataencoder',{stafflist:stafflist})
 });
+router.get('/alldataencoderlist',ensureAuthenticated,async function(req,res){
+    const userlist = await User.findAll({where:{userroll:"REGISTRAR_DATA_ENCODER"}});
+    res.render('alldataencoderlist',{userlist:userlist})
+})
+router.post('/addnewregistrardataencoder', ensureAuthenticated,async function (req, res, next) {
 
-router.post('/register', ensureAuthenticated,async function (req, res, next) {
-
-    const {email,password} = req.body;
-
-    const userData = {
-        userid: "1",
-        password: password,
-      userroll:"admin",
-       fullname:"abinet",
-       isactive:"Yes",
-       username:email
-     
-    }
-  let errors =[];
-   
+    const {userroll,staffmember,username,password,repassword} = req.body;
+    const stafflist = await StaffList.findAll({where:{isteacher:"No"}});
+     let errors =[];
+   if(userroll =="0" || staffmember =="0" || !username || !password || !repassword){
+       errors.push({msg:'please enter all required field values'})
+   }
+   if( password != repassword){
+    errors.push({msg:'please retype password'})
+   }
     if (errors.length > 0) {
-        res.render('login', {
-            errors,
-           userData
-        });
+        res.render('createdataencoder', {
+            error_msg:'Please enter all the required fields',
+            stafflist:stafflist,
+                 });
     } else {
   
       User.findAll({
             where: {
-              username: email
+              username: username
             }
         }).then(user => {
-          //console.log(user);
-          console.log(user);
+            const v1options = {
+                node: [0x01, 0x23],
+                clockseq: 0x1234,
+                msecs: new Date('2011-11-01').getTime(),
+                nsecs: 5678,
+              };
+              userid = uuidv4(v1options);
+             const userData = {
+                userid:userid,
+                username: username,
+                password: password,
+                userroll:userroll,
+                isactive: "Yes",
+                fullname: staffmember,
+                department:""
+             }
                 if (user.length ==0 ) {
                     bcrypt.hash(password, 10, (err, hash) => {
                     userData.password = hash;
@@ -72,16 +95,20 @@ router.post('/register', ensureAuthenticated,async function (req, res, next) {
     
                     User.create(userData)
                         .then(data => {
-                          res.render('login',{success_msg:'Successfully Created'})
+                          res.render('createdataencoder',{stafflist:stafflist,success_msg:'Successfully create registrar data enncoder credentials'})
                         }).catch(err => {
                          
                         }) // end of then catch for create method
                     }); // 
                 } else {
-                 
+                    res.render('createdataencoder',{stafflist:stafflist,
+                        error_msg:'please change username user name already registered'})
+                         
                 }
             }).catch(err => {
-                res.send('ERROR: ' + err)
+                res.render('createdataencoder',{stafflist:stafflist,
+                    error_msg:'cant create data encoder credential please try later'})
+                      
             }); // end of then catch for findOne method 
     
   
@@ -90,148 +117,112 @@ router.post('/register', ensureAuthenticated,async function (req, res, next) {
   
    
   });
-
-
-
-router.post('/addnewfunder', ensureAuthenticated, async function(req, res) 
-{
-    let error = [];
-    const{fundername,funderaddress,contactpersonphone,funderphone,email,contactperson,website} = req.body;
+  router.post('/diactivatesystemuser/(:userid)',ensureAuthenticated,async function(req,res){
+    const userlist = await User.findAll({where:{userroll:"REGISTRAR_DATA_ENCODER"}});
+    User.update({isactive:"No"},{where:{userid:req.params.userid}}).then(user =>{
+        res.render('alldataencoderlist',{userlist:userlist,success_msg:'User status updated'})
+        
+    }).catch(error =>{
+         res.render('alldataencoderlist',{userlist:userlist,erroe_msg:'cant update now try later'})
+        
+    })
     
-   if(!fundername || !funderaddress){
-        error.push({msg:'Please add all required fields'})
-   }
-
-   if(error.length >0){
-    res.render('addnewfunder',{
-        error_msg:'Please insert all the required fields'
+    });
+  router.post('/activatesystemuser/(:userid)',ensureAuthenticated,async function(req,res){
+    const userlist = await User.findAll({where:{userroll:"REGISTRAR_DATA_ENCODER"}});
+    User.update({isactive:"Yes"},{where:{userid:req.params.userid}}).then(user =>{
+       
+        res.render('alldataencoderlist',{userlist:userlist,success_msg:'User status updated'})
+        
+    }).catch(error =>{
+      
+        res.render('alldataencoderlist',{userlist:userlist,erroe_msg:'cant update now try later'})
+        
     })
-   }
-   else{
-       FunderInfo.findOne({where:{
-        funder_name:fundername,
-
-       }}).then(funderinfo =>{
-           if(funderinfo)
-           {
-
-            res.render('addnewfunder',{
-                error_msg:'This funder is already registered please try later'
-            })
-           }
-           else
-           {
-            const v1options = {
-                node: [0x01, 0x23],
-                clockseq: 0x1234,
-                msecs: new Date('2011-11-01').getTime(),
-                nsecs: 5678,
-              };
-              funderid = uuidv4(v1options);
-        const funderData ={
-            funder_email:email,
-            funder_website:website,
-            funder_phone:funderphone,
-            funder_contact_name:contactperson,
-            funder_contact_phone:contactpersonphone,
-         
-            funder_address:funderaddress,
-            funder_name:fundername,
-            funder_id:funderid
-            
-        }
-
-        FunderInfo.create(funderData).then(funder =>{
-            res.render('addnewfunder',{
-                success_msg:'Your are successfully registered new  training program funder NGO'
-            })
-        }).catch(error =>{
-            res.render('addnewfunder',{
-                error_msg:'Something is wrong while saving data please try later'
-            })
+      });
+      router.get('/statistics',ensureAuthenticated,async function(req, res)  {
+        const [traineebatch, classevalmeta] = await sequelize.query(
+            "SELECT batches.batch_name,count(levelbasedtrainees.trainee_id) as total FROM levelbasedtrainees inner join batches on batches.batch_id=levelbasedtrainees.batch_id group by batches.batch_name  "
+          );
+        res.render('statistics',{
+            traineebatch:traineebatch
         })
+    });
 
-
-           }
-       }).catch(error =>{
-           console.log(error)
-        res.render('addnewfunder',{
-            error_msg:'Something is wrong please try later'
-        })
-       })
-   }
+router.get('/report',ensureAuthenticated,async function(req,res){
    
-   
-});
-router.post('/addselectcriteria', ensureAuthenticated, async function(req, res) 
-{
+  const batch = await Batch.count();
+  const lbbatch = await LevelBasedProgram.count();
+  const ibbatch = await IndustryBasedProgram.count();
+  const nbbatch = await NGOBasedProgram.count();
+  const dpt = await Department.count();
+  const [deptcat, deptcatmeta] = await sequelize.query(
+ "SELECT departments.department_name,count(levelbasedtrainees.department_id) as total FROM levelbasedtrainees inner join departments" +
+"  on departments.department_id = levelbasedtrainees.department_id group by department_name");
+  const trainee = await LevelBasedTrainee.count({});
+  const graduated = await LevelBasedTrainee.count({where:{is_graduated:"Yes"}});
+  const ontrainee = await LevelBasedTrainee.count({where:{is_graduated:"No"}});
+  const dropout = await LevelBasedTrainee.count({where:{is_graduated:"No",is_dropout:"Yes"}});
+res.render('report',{batch:batch,
+ lbbatch:lbbatch,
+ nbbatch:nbbatch,
+ ibbatch,ibbatch,
+ dpt:dpt,
+ deptcat,deptcat,
+ trainee:trainee,
+ graduated:graduated,
+ dropout:dropout,
+ ontrainee:ontrainee
 
-    const{criterianame} = req.body;
-    let error = [];
- 
-   if(!criterianame  ){
-        error.push({msg:'Please add all required fields'})
-   }
+})
+})
+router.get('/searchsinglestudentdata',ensureAuthenticated,async function(req,res){
   
-   if(error.length >0){
-    res.render('addselectcriteria',{
-        error_msg:'Please insert all the required fields',
-       
+  res.render('searchsingleuserdata')
+})
+router.post('/searchsingleuserdata',ensureAuthenticated,async function(req,res){
+  const{programtype,traineeid} = req.body;
+  let errors = [];
+  if(programtype =="0" || !traineeid){
+    errors.push({msg:'please enter all requires fields'})
+  }
+  if(errors.length >0){
+    res.render('searchsingleuserdata',{
+      error_msg:'please enter all requred fields'
     })
-   }
-   else{
-    AppSelectionCriteria.findOne({where:{
-        criteria_name:criterianame,
-        
-       }}).then(criteria =>{
-           if(criteria)
-           {
+  }
+  else{
+    if(programtype=="level"){
 
-            res.render('addselectcriteria',{
-             
-                error_msg:'This applicant selection criteria is already registered please try later'
-            })
-           }
-           else
-           {
-            const v1options = {
-                node: [0x01, 0x23],
-                clockseq: 0x1234,
-                msecs: new Date('2011-11-01').getTime(),
-                nsecs: 5678,
-              };
-              criteriaid = uuidv4(v1options);
-        const criteriaData ={
-            criteria_id:criteriaid,
-            criteria_name:criterianame,
-            criteria_status:"Enabled"
-       
-        }
-
-        AppSelectionCriteria.create(criteriaData).then(criteriadt =>{
-
-            res.render('addselectcriteria',{  
-
-                success_msg:'Your are successfully registered new applicant selection criteria '
-            })
-        }).catch(error =>{
-            res.render('addnewdepartment',{
-              
-                error_msg:'Something is wrong while saving data please try later'
-            })
+      LevelBasedTrainee.findOne({where:{student_unique_id:traineeid}}).then(student =>{
+        res.render('singlestudentdata')
+      }).catch(error =>{
+        res.render('searchsingleuserdata',{
+          error_msg:'something is wrong please try later'
         })
-
-
-           }
-       }).catch(error =>{
-           console.log(error)
-        res.render('addselectcriteria',{
-        
-            error_msg:'Something is wrong please try later'
+      })
+     
+    }else if(programtype =="ngo"){
+     
+      NGOBasedTrainee.findOne({where:{student_unique_id:traineeid}}).then(student =>{
+        res.render('singlestudentdata')
+      }).catch(error =>{
+        res.render('searchsingleuserdata',{
+          error_msg:'something is wrong please try later'
         })
-       })
-   }
-   
-   
-});
+      })
+    }else if(programtype =="industry"){
+      
+      IndustryBasedTrainee.findOne({where:{student_unique_id:traineeid}}).then(student =>{
+        res.render('singlestudentdata')
+      }).catch(error =>{
+        res.render('searchsingleuserdata',{
+          error_msg:'something is wrong please try later'
+        })
+      })
+    }
+    
+  }
+
+})
 module.exports = router;

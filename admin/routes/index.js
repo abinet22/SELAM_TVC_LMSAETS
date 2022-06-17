@@ -248,6 +248,27 @@ router.get('/addnewsystemuser',ensureAuthenticated, async function(req,res){
      })
 
 })
+router.get('/allsystemuserlist',ensureAuthenticated,async function(req,res){
+    const users = await User.findAll({});
+    res.render('alluserlist',{
+       
+        userlist:users
+    })
+})
+router.get('/allfunderlist',ensureAuthenticated,async function(req,res){
+    const funder = await FunderInfo.findAll({});
+    res.render('allfunderlist',{
+      
+        funder:funder
+    })
+})
+router.get('/allselectioncriterialist',ensureAuthenticated,async function(req,res){
+    const criteria = await AppSelectionCriteria.findAll({});
+    res.render('allselectioncriterialist',{
+      
+        criteria:criteria
+    })
+})
 router.post('/addnewsystemuser',ensureAuthenticated, async function(req, res) 
 {
     const {username,password,repassword,userroll,deptname,staffmember} = req.body;
@@ -367,15 +388,26 @@ router.post('/addnewsystemuser',ensureAuthenticated, async function(req, res)
    
 });
 router.post('/diactivatesystemuser/(:userid)',ensureAuthenticated,async function(req,res){
-    let errors=[];
-    var userlist =[];
-  
+    const userlist = await User.findAll({});
+    User.update({isactive:"No"},{where:{userid:req.params.userid}}).then(user =>{
+        res.render('alluserlist',{userlist:userlist,success_msg:'User status updated'})
+        
+    }).catch(error =>{
+         res.render('alluserlist',{userlist:userlist,erroe_msg:'cant update now try later'})
+        
+    })
     
     });
   router.post('/activatesystemuser/(:userid)',ensureAuthenticated,async function(req,res){
-      let errors=[];
-      var userlist =[];
-      
+    const userlist = await User.findAll({});
+    User.update({isactive:"Yes"},{where:{userid:req.params.userid}}).then(user =>{
        
+        res.render('alluserlist',{userlist:userlist,success_msg:'User status updated'})
+        
+    }).catch(error =>{
+      
+        res.render('alluserlist',{userlist:userlist,erroe_msg:'cant update now try later'})
+        
+    })
       });
 module.exports = router;

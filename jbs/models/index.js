@@ -17,6 +17,8 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 const StaffList = require('./StaffList')(sequelize, Sequelize);
 const Batch = require('./Batch')(sequelize, Sequelize);
+const LevelBasedProgress = require('./LevelBasedProgress')(sequelize,Sequelize);
+const CourseTeacherClass = require('./CourseTeacherClass')(sequelize,Sequelize);
 const LevelBasedProgram = require('./LevelBasedProgram')(sequelize, Sequelize);
 const NGOBasedProgram = require('./NGOBasedProgram')(sequelize, Sequelize);
 const NGOBasedTraining = require('./NGOBasedTraining')(sequelize, Sequelize);
@@ -28,6 +30,9 @@ const NewApplicant =  require("./NewApplicant")(sequelize, Sequelize);
 const ClassInDept = require("./Class.js")(sequelize, Sequelize);
 const LevelBasedTrainee =require("./LevelBasedTrainee")(sequelize, Sequelize);
 const NGOBasedTrainee = require('./NGOBasedTrainee')(sequelize, Sequelize);
+const Attendance = require('./Attendance')(sequelize, Sequelize);
+
+const StudentMarkListLevelBased = require('./StudentMarkListLevelBased')(sequelize, Sequelize);
 LevelBasedTraining.hasMany(Department);
 Department.belongsTo(LevelBasedTraining);
 Batch.hasOne(LevelBasedProgram);
@@ -45,9 +50,12 @@ ClassInDept.belongsTo(Batch);
 FunderInfo.hasMany(NGOBasedTraining);
 NGOBasedTraining.belongsTo(FunderInfo);
 db.users = require("../models/User.js")(sequelize, Sequelize);
+
 db.appselectioncriterias = require("../models/AppSelectionCriteria")(sequelize, Sequelize);
 db.levelbasedtraining = LevelBasedTraining;
 db.ngobasedtraining = NGOBasedTraining;
+db.industrybasedtrainees = require("../models/IndustryBasedTrainee")(sequelize, Sequelize);
+
 db.industrybasedtraining = require("../models/IndustryBasedTraining.js")(sequelize, Sequelize);
 db.funderinfo = FunderInfo;
 db.departments = Department;
@@ -55,10 +63,14 @@ db.courses = Course;
 db.batches = Batch;
 db.classindepts = ClassInDept
 db.levelbasedprograms =LevelBasedProgram
+db.studentmarklistlevelbaseds = StudentMarkListLevelBased;
+db.courseteacherclasses  = CourseTeacherClass;
 db.newapplicants = NewApplicant;
 db.levelbasedtrainees = LevelBasedTrainee;
 db.ngobasedprograms =NGOBasedProgram;
 db.ngobasedtrainees = NGOBasedTrainee;
 db.stafflists = StaffList;
 db.companies = Company;
+db.attendances = Attendance;
+db.levelbasedprogresses = LevelBasedProgress;
 module.exports = db;

@@ -1,0 +1,160 @@
+<style>
+  .animate-charcter
+ {
+    text-transform: uppercase;
+   background-image: linear-gradient(
+     -225deg,
+     #f27030 0%,
+     #f27030 29%,
+     #ff1361 67%,
+     #fff800 100%
+   );
+   background-size: auto auto;
+   background-clip: border-box;
+   background-size: 200% auto;
+   color: #fff;
+   background-clip: text;
+   text-fill-color: transparent;
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+   animation: textclip 2s linear infinite;
+   display: inline-block;
+       font-size: 20px;
+ }
+ 
+ @keyframes textclip {
+   to {
+     background-position: 200% center;
+   }
+ } 
+ </style>
+ <a href="/dashboard" class="brand-link">
+     <img src="../../../dist/img/logoselam.jpg" alt="" class="brand-image img-circle elevation-3" style="opacity: .8">
+     <span class="brand-text font-weight-hard" style="color: #f27030;"><h3 class="animate-charcter">SELAM TVC LMS</h3></span>
+   </a>
+  <!-- Sidebar -->
+  <div class="sidebar sidebar-white-primary">
+    <!-- Sidebar user panel (optional) -->
+   
+
+    <!-- SidebarSearch Form -->
+  
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+             with font-awesome or any other icon font library -->
+        <li class="nav-item ">
+          <a href="/dashboard" class="nav-link active">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+              Dashboard
+            
+            </p>
+          </a>
+        
+        </li>
+   
+       
+       
+      
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-clipboard"></i>
+            <p>
+              Training Data
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+           
+            <li class="nav-item">
+              <a href="/trainee/managelevelbased" class="nav-link">
+              
+                <p> Level Based </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/trainee/managengobased" class="nav-link">
+              
+                <p> NGO Based </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/trainee/manageindustrybased" class="nav-link">
+              
+                <p> Industry Based </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/trainee/alltraineeinjbs" class="nav-link">
+              
+                <p> All JBS List </p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-industry"></i>
+            <p>
+             Company Data
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+           
+            <li class="nav-item">
+              <a href="/company/allcompanylist" class="nav-link">
+              
+                <p>All Company List </p>
+              </a>
+            </li>
+          
+          </ul>
+        </li>
+        
+       
+    
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon 	fas fa-chart-line"></i>
+            <p>
+             Report 
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="/report" class="nav-link">
+             
+                <p>Increase Income</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/statistics" class="nav-link">
+           
+                <p>Outcome Numbers</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/statistics" class="nav-link">
+           
+                <p>Outcome Diagram</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/statistics" class="nav-link">
+           
+                <p>Calculating Cost</p>
+              </a>
+            </li>
+          
+          </ul>
+        </li>
+       
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>

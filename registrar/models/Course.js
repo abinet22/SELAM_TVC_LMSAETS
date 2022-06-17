@@ -21,6 +21,9 @@ module.exports = (sequelize, DataTypes) => {
         },
         training_level:{
             type: DataTypes.STRING,
+        },
+        semister:{
+            type: DataTypes.STRING,
         }
        
        

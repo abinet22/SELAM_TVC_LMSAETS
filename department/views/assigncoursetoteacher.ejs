@@ -128,7 +128,7 @@
                     <div class="col-5 col-sm-3">
                       <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
                         <a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="false">Level Based</a>
-                        <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">NGO Based</a>
+                        <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Short Term/Project Based/ </a>
                         <a class="nav-link" id="vert-tabs-profilei-tab" data-toggle="pill" href="#vert-tabs-profilei" role="tab" aria-controls="vert-tabs-profilei" aria-selected="false">Industry Based</a>
                   
                     </div>
@@ -182,8 +182,8 @@
                         <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
                             <form action="/teacher/coursetoteacherngobased" method="post">
                                 <div class="form-group">
-                                    <label>Select NGO Based Program</label>
-                                    <select class="form-control " name="programidngo" id="programidngo">
+                                    <label>Select Short Term/Project Based/ Program</label>
+                                    <select class="form-control " name="programid" id="programidngo">
                                      <option value="0">Please Select Program/Batch Name</option>
                                      <% if(ngobased.length >0) {%>
                                         <% ngobased.forEach(function (row){ %>
@@ -198,7 +198,8 @@
                                     <option value="0">Please Select Program Type</option>
                                     <option>Regular</option>
                                      <option>Extension</option>
-                                  
+                                     <option value="Short_Term">Short Term</option>
+                                
                                     </select>
         
                                      </div>
@@ -212,7 +213,7 @@
                             <form action="/teacher/coursetoteacherindustrybased" method="post">
                                 <div class="form-group">
                                     <label>Select Industry Based Program</label>
-                                    <select class="form-control " name="programidngo" id="programidngo">
+                                    <select class="form-control " name="programid" id="programidngo">
                                      <option value="0">Please Select Program/Batch Name</option>
                                      <% if(industrybased.length >0) {%>
                                         <% industrybased.forEach(function (row){ %>
@@ -227,7 +228,8 @@
                                     <option value="0">Please Select Program Type</option>
                                     <option>Regular</option>
                                      <option>Extension</option>
-                                  
+                                     <option value="Short_Term">Short Term</option>
+                                
                                     </select>
         
                                      </div>

@@ -1,7 +1,7 @@
 <html lang="en" style="height: auto;"><head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | ChartJS</title>
+    <title>selam</title>
   
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
@@ -107,7 +107,7 @@
             <div class="col-md-6">
                 <div class="card card-success">
                     <div class="card-header">
-                      <h3 class="card-title">Class With Total Evaluation</h3>
+                      <h3 class="card-title">Section With Average Evaluation</h3>
       
                       <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -129,7 +129,7 @@
             <div class="col-md-6">
                 <div class="card card-danger shadow-lg">
                   <div class="card-header">
-                    <h3 class="card-title">Class Attendance</h3>
+                    <h3 class="card-title">Section Attendance</h3>
     
                     <div class="card-tools">
                       <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i>
@@ -182,7 +182,10 @@
     var yValues = [];
         data.forEach(item =>{
          xValues.push(item.class_name);
-         yValues.push(item.total)
+          var tot = item.total;
+          var no = item.totalstudent;
+          var ave = (tot/no).toFixed(2);
+         yValues.push(ave)
         });
    console.log(data)
     var barColors = ["red", "green","blue","orange","brown","red", "green","blue","orange","brown","red", "green","blue","orange","brown"];

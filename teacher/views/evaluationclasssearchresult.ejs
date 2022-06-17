@@ -104,7 +104,7 @@
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
+                <li class="breadcrumb-item active">My Section List</li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -118,7 +118,7 @@
             <div class="col-md-12">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <div class="card-title">Class List </div>
+                        <div class="card-title">Section List </div>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -138,17 +138,85 @@
                                           </div>
                                           <!-- /.card-header -->
                                           <div class="card-body" style="display: none;">
-                                              <li><%= row.training_type %></li>
-                                              <li><%= row.training_level %></li>
+                                            <div class="" style="text-transform: capitalize;">
+                                              <li>Batch:<%= row.batch_name %></li>
+                                              <li>Department:<%= row.department_name %></li>
+                                                <li>Program Type:<%= row.training_type %></li>
+                                                <% var x =  row.training_level;  %>
+                                                <% if(x){  %>
+                                                  <li><%= x %> </li>
+                                                <%}%>
+                                               <% if(programtag == "ngo"){ %>
+                                                   <li>Short Term/Project/ Based</li>
+                                               <% }else if(programtag =="level"){%>
+                                                    <li>Level Based</li>
+                                                <%}else if(programtag=="industry"){%>
+                                                     <li>Industry Based</li>
+                                                <%}%>
+                                             </div>
+                                        <% if(showtype == "progress"){%>
+                                          <% if(programtag =="level"){ %>
+                                            <form action="/evaluation/showclassprogress/<%= row.class_id %>" method="post">
+                                              <input type="hidden" name="level" value="<%= row.training_level %>">
+                                              <input type="hidden" name="programtype" value="<%= row.training_type %>">
+                                              <input type="hidden" name="dpt" value="<%= dpt %>">
+                                              <input type="hidden" name="batchid" value="<%= batchid %>">
                                               
+                                               <button class="btn btn-sm btn-success ">Show Class Progress</button>
+                                           </form>
+                                         <% } else if(programtag == "ngo"){ %>
+                                          <form action="/evaluation/showclassprogressngo/<%= row.class_id %>" method="post">
+                                            <input type="hidden" name="level" value="<%= row.training_level %>">
+                                            <input type="hidden" name="programtype" value="<%= row.training_type %>">
+                                            <input type="hidden" name="dpt" value="<%= dpt %>">
+                                            <input type="hidden" name="batchid" value="<%= batchid %>">
+                                            
+                                             <button class="btn btn-sm btn-success ">Show Class Progress</button>
+                                         </form>
+                                         <% } else if( programtag =="industry"){ %>
+                                          <form action="/evaluation/showclassprogressindustry/<%= row.class_id %>" method="post">
+                                            <input type="hidden" name="level" value="<%= row.training_level %>">
+                                            <input type="hidden" name="programtype" value="<%= row.training_type %>">
+                                            <input type="hidden" name="dpt" value="<%= dpt %>">
+                                            <input type="hidden" name="batchid" value="<%= batchid %>">
+                                            
+                                             <button class="btn btn-sm btn-success ">Show Class Progress</button>
+                                         </form>
+                                          <%} %>
+                                        <%}else if(showtype =="evaluation"){%>
+                                          <% if(programtag =="level"){ %>
                                             <form action="/evaluation/showclassevaluation/<%= row.class_id %>" method="post">
-                                               <input type="hidden" name="level" value="<%= row.training_level %>">
-                                               <input type="hidden" name="programtype" value="<%= row.training_type %>">
-                                               <input type="hidden" name="dpt" value="<%= dpt %>">
-                                               <input type="hidden" name="batchid" value="<%= batchid %>">
-                                               
-                                                <button class="btn btn-sm btn-success ">Show Class Evaluation</button>
-                                            </form>
+                                              <input type="hidden" name="level" value="<%= row.training_level %>">
+                                              <input type="hidden" name="programtype" value="<%= row.training_type %>">
+                                              <input type="hidden" name="dpt" value="<%= dpt %>">
+                                              <input type="hidden" name="batchid" value="<%= batchid %>">
+                                              <button class="btn btn-sm btn-success ">Show Evaluation Report</button>
+                                    
+                                             </form>
+                                         <% } else if(programtag == "ngo"){ %>
+                         
+                                          <form action="/evaluation/showclassevaluationngo/<%= row.class_id %>" method="post">
+                                            <input type="hidden" name="level" value="<%= row.training_level %>">
+                                            <input type="hidden" name="programtype" value="<%= row.training_type %>">
+                                            <input type="hidden" name="dpt" value="<%= dpt %>">
+                                            <input type="hidden" name="batchid" value="<%= batchid %>">
+                                            
+                                            <button class="btn btn-sm btn-success ">Show Evaluation Report</button>
+                                    
+                                          </form>
+                                         <% } else if( programtag =="industry"){ %>
+                                          <form action="/evaluation/showclassevaluationindustry/<%= row.class_id %>" method="post">
+                                            <input type="hidden" name="level" value="<%= row.training_level %>">
+                                            <input type="hidden" name="programtype" value="<%= row.training_type %>">
+                                            <input type="hidden" name="dpt" value="<%= dpt %>">
+                                            <input type="hidden" name="batchid" value="<%= batchid %>">
+                                            
+                                             <button class="btn btn-sm btn-success ">Show Evaluation Report</button>
+                                         </form>
+                                          <%} %>
+                                       <% }%>
+                                         
+                                         
                                           </div>
                                           <!-- /.card-body -->
                                         </div>

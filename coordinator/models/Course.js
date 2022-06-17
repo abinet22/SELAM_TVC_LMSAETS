@@ -21,9 +21,21 @@ module.exports = (sequelize, DataTypes) => {
         },
         training_level:{
             type: DataTypes.STRING,
-        }
+        },
+        semister:{
+            type: DataTypes.STRING,
+        },
+        nooflo:{
+            type: DataTypes.DECIMAL
+        },
+      
+        learning_obj:{
+            type:DataTypes.JSON
+        },
+      
+
        
-       
+    
     });
 
   

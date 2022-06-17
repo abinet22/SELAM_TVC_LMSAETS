@@ -74,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
         is_disable: {
             type: DataTypes.STRING,
         },
-        disable_info: {
+        payment_info: {
             type: DataTypes.STRING,
         },
     });

@@ -23,7 +23,7 @@ router.get('/report',ensureAuthenticated,async function(req,res){
       "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
     );
     const [industrybased, metaindustrybaseddata] = await sequelize.query(
-      "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+      "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id"
     );
     const [classlistl, metalclassl] = await sequelize.query(
       "SELECT * FROM classindepts INNER JOIN courseteacherclasses ON courseteacherclasses.class_id = classindepts.class_id inner join levelbasedprograms on classindepts.batch_id = levelbasedprograms.batch_id "+
@@ -35,7 +35,7 @@ router.get('/report',ensureAuthenticated,async function(req,res){
         " where courseteacherclasses.teacher_id = '"+req.user.userid+"'"
         );
         const [classlisti, metalclassi] = await sequelize.query(
-          "SELECT * FROM classindepts INNER JOIN courseteacherclasses ON courseteacherclasses.class_id = classindepts.class_id inner join ngobasedprograms on classindepts.batch_id = ngobasedprograms.batch_id"+
+          "SELECT * FROM classindepts INNER JOIN courseteacherclasses ON courseteacherclasses.class_id = classindepts.class_id inner join industrybasedprograms on classindepts.batch_id = industrybasedprograms.batch_id"+
           " where courseteacherclasses.teacher_id = '"+req.user.userid+"'"
           );
       res.render('report',{
@@ -49,6 +49,11 @@ router.get('/report',ensureAuthenticated,async function(req,res){
 });
 router.post('/reportlevel', ensureAuthenticated,async function (req, res) 
 { 
+  const [classlistl, metalclassl] = await sequelize.query(
+    "SELECT * FROM classindepts INNER JOIN courseteacherclasses ON courseteacherclasses.class_id = classindepts.class_id inner join levelbasedprograms on classindepts.batch_id = levelbasedprograms.batch_id "+
+    " where courseteacherclasses.teacher_id = '"+req.user.userid+"'"
+   
+    );
   
   res.render('reportlevel')
 
@@ -61,8 +66,17 @@ router.post('/reportngo', ensureAuthenticated,async function (req, res)
 });
 router.post('/reportindustry', ensureAuthenticated,async function (req, res) 
 { 
-  
-  res.render('industry')
+  const{classid,batchid} = req.body;
+  const [industryprogress, metalclassl] = await sequelize.query(
+    "SELECT * FROM levelbasedprogresses INNER JOIN courseteacherclasses ON courseteacherclasses.class_id = levelbasedprogresses.class_id "+
+    " where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.class_id = '"+ classid+"' and courseteacherclasses.batch_id = '"+batchid+"' "+
+    " and courseteacherclasses.course_id= levelbasedprogresses.course_id "
+   
+    );
+    console.log(industryprogress)
+  res.render('reportindustry',{
+     industryevaluation:industryprogress
+  })
 
 });
 router.get('/statistics', ensureAuthenticated,async function (req, res) 
@@ -70,11 +84,23 @@ router.get('/statistics', ensureAuthenticated,async function (req, res)
   const [ngobased, metangobaseddata] = await sequelize.query(
     "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id"
   );
+  // const [courselist, metadata] = await sequelize.query(
+  //   "SELECT courses.course_name,courses.course_id FROM  courseteacherclasses "+
+  //   "INNER JOIN courses ON courses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.course_id='"+courseid+"' and courseteacherclasses.class_id='"+classid+"' "
+  // );
+  // const [courselistngo, metadatango] = await sequelize.query(
+  //   "SELECT ngocourses.course_name,ngocourses.course_id FROM  courseteacherclasses "+
+  //   "INNER JOIN ngocourses ON ngocourses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"'  and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.course_id='"+courseid+"' and courseteacherclasses.class_id='"+classid+"' "
+  // );
+  // const [courselistind, metadataind] = await sequelize.query(
+  //   "SELECT industrycourses.course_name,industrycourses.course_id FROM  courseteacherclasses "+
+  //   "INNER JOIN industrycourses ON industrycourses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"'  and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.course_id='"+courseid+"' and courseteacherclasses.class_id='"+classid+"' "
+  // );
   const [levelbased, metalevelbaseddata] = await sequelize.query(
     "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
   );
   const [industrybased, metaindustrybaseddata] = await sequelize.query(
-    "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+    "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id"
   );
     res.render('statistics',{
     levelbased:levelbased,
@@ -87,12 +113,13 @@ router.post('/showstatistics', ensureAuthenticated,async function (req, res)
 { 
   const{batchid} = req.body;
   const [classwithevluation, classevalmeta] = await sequelize.query(
-    "SELECT classindepts.class_name,sum(practical_evaluation + theroretical_evaluation + field_evaluation) as total FROM studentmarklistlevelbaseds inner join classindepts on classindepts.class_id=studentmarklistlevelbaseds.class_id where studentmarklistlevelbaseds.batch_id ='"+batchid+"' group by classindepts.class_name  "
+    "SELECT classindepts.class_name,sum(total_result) as total,count(student_id) as totalstudent FROM studentmarklistlevelbaseds inner join classindepts on classindepts.class_id=studentmarklistlevelbaseds.class_id where studentmarklistlevelbaseds.batch_id ='"+batchid+"' group by classindepts.class_name  "
   );
   const [classattendance,attendancemeta] = await sequelize.query(
     "SELECT classindepts.class_name,sum(attendance_type='Absent') as absent,sum(attendance_type='Present') as present,sum(attendance_type='Permission')as permission  FROM attendances inner join classindepts on classindepts.class_id = attendances.class_id where attendances.batch_id ='"+batchid+"'  group by classindepts.class_name "
 
   );
+  console.log(classwithevluation)
   res.render('showstatistics',
   {classwithevluation:classwithevluation,classattendance:classattendance})
 

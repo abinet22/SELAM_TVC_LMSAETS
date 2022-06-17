@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | DataTables</title>
+  <title>selam</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -27,95 +27,18 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="../../index3.html" class="nav-link">Home</a>
+        <a href="/dashboard" class="nav-link">Home</a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
+   
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
-      <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
-        <div class="navbar-search-block">
-          <form class="form-inline">
-            <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
-                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </li>
+     
 
       <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="../../dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="../../dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  John Pierce
-                  <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">I got your message bro</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="../../dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Nora Silvester
-                  <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">The subject goes here</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-        </div>
-      </li>
+  
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -149,8 +72,8 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
+        <a class="nav-link"   href="/logout" role="button">
+          Logout
         </a>
       </li>
     </ul>
@@ -177,7 +100,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Student List</li>
+              <li class="breadcrumb-item active">Student Attendance List</li>
             </ol>
           </div>
         </div>
@@ -192,7 +115,7 @@
                 <div class="col-md-12">
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h4 class="card-title">Student List</h4>
+                            <h4 class="card-title">Student Attendance List</h4>
                         </div>
                       <div class="card-body">
                         <%- include ('./partials/messages') %>
@@ -204,25 +127,7 @@
                           </div>
                       <br>
                       <div class="row">
-                        <div class="row mb-2">
-                            <div class="col-sm-6 mb-4 mb-xl-0">
-                              
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="d-flex align-items-center justify-content-md-end">
-                                    <div class=" mb-3 mb-xl-0">
-                                    
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                         Send Data To Department
-                                        </button>
-                                      
-                                          
-                                    </div>
-                                  
-                                    
-                                </div>
-                            </div>
-                        </div>
+                       
                        
                         <div class="row" style="display: none;">
                             <div class="col-sm-12 col-md-6">
@@ -268,6 +173,7 @@
                                                     <th>Present Days</th>
                                                  <th>Absent Days</th>
                                                     <th>Permission Days</th>
+                                                    <th>Action To Do</th>
                                                    </tr>
                                                  </thead>
                                                  <tbody>
@@ -283,7 +189,7 @@
                                                        <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
                                                      <tr>
                                                            <td><%= i %></td>
-                                                           <td><%= row.trainee_id%></td>
+                                                           <td><%= row.student_unique_id %></td>
                                                            <td ><%= fullname %></td>
                                                            <% var trid = row.trainee_id  %>
                                                        
@@ -292,7 +198,13 @@
                                                                <%  lbattendancedata.forEach(function (row){ %>
                                                               <% var stid = row.student_id %>
                                                            <% if(trid==stid){ %>
-                                                              <%= row.present %>
+                                                              <%var perp = (row.present  * 100 / row.total).toFixed(2) %> 
+                                                              <span class=""><%= row.present %>/<%= perp+"%"%></span>
+                                                              <div class="progress progress-xxs">
+                                                                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="<%=perp %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= perp+"%"%>">
+                                                                 
+                                                                </div>
+                                                              </div>
                                                                 <% }})}else{} %>
                                                           
 
@@ -303,7 +215,14 @@
                                                               <%  lbattendancedata.forEach(function (row){ %>
                                                              <% var stid = row.student_id %>
                                                           <% if(trid==stid){ %>
-                                                             <%= row.absent %>
+                                                             <% var pera = (row.absent  * 100 / row.total).toFixed(2) %>
+
+                                                             <span class=""><%= row.absent %>/<%= pera+"%"%></span>
+                                                             <div class="progress progress-xxs">
+                                                               <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="<%=pera %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= pera+"%"%>">
+                                                                
+                                                               </div>
+                                                             </div>
                                                                <% }})}else{} %>
                                                           </td>
                                                             <td>
@@ -312,14 +231,19 @@
                                                                 <%  lbattendancedata.forEach(function (row){ %>
                                                                <% var stid = row.student_id %>
                                                             <% if(trid==stid){ %>
-                                                               <%= row.permission %>
+                                                               <%var perm= (row.permission * 100 / row.total).toFixed(2) %>
+                                                               <span class=""><%= row.permission %>/<%= perm+"%"%></span>
+                                                               <div class="progress progress-xxs">
+                                                                 <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="<%=perm %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= perm+"%"%>">
+                                                                  
+                                                                 </div>
+                                                               </div>
                                                                  <% }})}else{} %>
                                                             </td>
                                                           <td>
                                                             <div class="card card-success collapsed-card">
                                                               <div class="card-header">
-                                                                <h5 class="card-title">Present On</h5>
-                                                
+                                                             
                                                                 <div class="card-tools">
                                                                   <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
                                                                   </button>
@@ -342,8 +266,7 @@
                                                           <td>
                                                             <div class="card card-danger collapsed-card">
                                                               <div class="card-header">
-                                                                <h5 class="card-title">Absent On</h5>
-                                                
+                                                             
                                                                 <div class="card-tools">
                                                                   <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
                                                                   </button>
@@ -366,8 +289,7 @@
                                                           <td>
                                                             <div class="card card-primary collapsed-card">
                                                               <div class="card-header">
-                                                                <h5 class="card-title">Permission On</h5>
-                                                
+                                                             
                                                                 <div class="card-tools">
                                                                   <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
                                                                   </button>
@@ -387,7 +309,13 @@
                                                               <!-- /.card-body -->
                                                             </div>
                                                           </td>
-               
+                                                          <td>
+                                                            <form action="/attendance/showdetailsinglestudent/<%= row.trainee_id %>" method="post">
+                                                            <input type="hidden" value="<%= programtype %>" name="programtype" id="programtype">
+                                                            
+                                                            <button type="submit" class="btn btn-primary btn-sm">Show Detail</button>
+                                                            </form>
+                                                          </td>
                                                        
                                                          </tr>
                                                     <%  })} else{}     %>

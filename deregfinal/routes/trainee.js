@@ -10,15 +10,21 @@ const Department = db.departments;
 const Course = db.courses;
 const User = db.users;
 const ClassInDept = db.classindepts;
+const IndustryBasedTrainee = db.industrybasedtrainees;
+const NGOBasedTrainee = db.ngobasedtrainees;
+const LevelBasedTrainee = db.levelbasedtrainees;
 const sequelize = db.sequelize ;
 const { Op } = require("sequelize");
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const { v4: uuidv4 } = require('uuid');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
+const LevelBasedProgram = db.levelbasedprograms;
+const IndustryBasedProgram = db.industrybasedprograms;
+const NGOBasedProgram = db.ngobasedprograms;
 
 router.get('/managelevelbased',ensureAuthenticated,async function(req,res){
-    const levelbased = await LevelBasedTraining.findAll({});
+    const levelbased = await LevelBasedProgram.findAll({});
     const department = await Department.findAll({});
     const classlist = await ClassInDept.findAll({});
     
@@ -29,7 +35,7 @@ res.render('managelevelbased',{
 })
 })
 router.get('/managengobased',ensureAuthenticated,async function(req,res){
-    const levelbased = await LevelBasedTraining.findAll({});
+    const levelbased = await NGOBasedProgram.findAll({});
     const department = await Department.findAll({});
     const classlist = await ClassInDept.findAll({});
     
@@ -40,7 +46,7 @@ res.render('managengobased',{
 })
 })
 router.get('/manageindustrybased',ensureAuthenticated,async function(req,res){
-    const levelbased = await LevelBasedTraining.findAll({});
+    const levelbased = await IndustryBasedProgram.findAll({});
     const department = await Department.findAll({});
     const classlist = await ClassInDept.findAll({});
     
@@ -59,6 +65,21 @@ router.post('/printstudentid',ensureAuthenticated,async function(req,res){
     res.render('printstudentid');
 })
 router.post('/printgradereport',ensureAuthenticated,async function(req,res){
+
+    res.render('printgradereport');
+})
+
+
+
+router.post('/selecttraineeebyid',ensureAuthenticated,async function(req,res){
+
+    res.render('printgradereport');
+})
+router.post('/allthisselecteddepartment',ensureAuthenticated,async function(req,res){
+
+    res.render('printgradereport');
+})
+router.post('/allthisselactedclass',ensureAuthenticated,async function(req,res){
 
     res.render('printgradereport');
 })

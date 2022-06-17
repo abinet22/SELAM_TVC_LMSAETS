@@ -8,6 +8,8 @@ const IndustryBasedTraining = db.industrybasedtraining;
 const FunderInfo = db.funderinfo;
 const Department = db.departments;
 const Course = db.courses;
+const NGOCourse = db.ngocourses;
+const IndustryCourse = db.industrycourses;
 const User = db.users;
 const CourseTeacherClass = db.courseteacherclasses;
 const sequelize = db.sequelize ;
@@ -16,6 +18,8 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const { v4: uuidv4 } = require('uuid');
 const Batch = db.batches;
+
+const IndustryBasedProgram  = db.industrybasedprogram;
 const ClassInDept = db.classindepts;
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 const StaffList = db.stafflists;
@@ -28,7 +32,7 @@ router.get('/assignclassrepresentative',ensureAuthenticated, async function(req,
         "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
       );
       const [industrybased, metaindustrybaseddata] = await sequelize.query(
-        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+        "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id"
       );
     res.render('assignclassrepresentative',{
  
@@ -46,7 +50,7 @@ router.get('/assigncoursetoteacher',ensureAuthenticated,async function(req,res){
         "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
       );
       const [industrybased, metaindustrybaseddata] = await sequelize.query(
-        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+        "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id"
       );
     res.render('assigncoursetoteacher',{
      
@@ -78,6 +82,49 @@ router.post('/coursetoteacherlevelbased',ensureAuthenticated,async function(req,
   }) 
 })
 
+router.post('/coursetoteacherindustrybased',ensureAuthenticated,async function(req,res){
+  const{programid,traininglevel,programtype} = req.body;
+        const teacherlist = await StaffList.findAll({where:{isteacher:'Yes'}})
+        const classlist = await ClassInDept.findAll({where:{
+                              batch_id:programid,
+                              department_id:req.user.department,
+                              training_type:programtype}})
+        const courselist = await IndustryCourse.findAll({where:{
+                            batch_id:programid,
+                            department_id:req.user.department,
+                             }})
+
+  res.render('courseteacher',{
+   programid:programid,
+   teacherlist:teacherlist,
+   traininglevel:'',
+   programtype:programtype,
+   classlist:classlist,
+   courselist:courselist
+  }) 
+})
+router.post('/coursetoteacherngobased',ensureAuthenticated,async function(req,res){
+  const{programid,programtype} = req.body;
+        const teacherlist = await StaffList.findAll({where:{isteacher:'Yes'}})
+        const classlist = await ClassInDept.findAll({where:{
+                              batch_id:programid,
+                              department_id:req.user.department,
+                           
+                              training_type:programtype}})
+        const courselist = await NGOCourse.findAll({where:{
+                            batch_id:programid,
+                            department_id:req.user.department,
+                            }})
+
+  res.render('courseteacher',{
+   programid:programid,
+   teacherlist:teacherlist,
+   traininglevel:'',
+   programtype:programtype,
+   classlist:classlist,
+   courselist:courselist
+  }) 
+})
 router.post('/assignclassrepresentativelevel',ensureAuthenticated,async function(req,res){
   const{programidlevel,traininglevel,programtype} = req.body;
         const teacherlist = await StaffList.findAll({where:{isteacher:'Yes'}})
@@ -98,6 +145,44 @@ router.post('/assignclassrepresentativelevel',ensureAuthenticated,async function
   }) 
 })
 
+router.post('/assignclassrepresentativengo',ensureAuthenticated,async function(req,res){
+  const{programid,traininglevel,programtype} = req.body;
+        const teacherlist = await StaffList.findAll({where:{isteacher:'Yes'}})
+        const classlist = await ClassInDept.findAll({where:{
+                              batch_id:programid,
+                              department_id: req.user.department,
+                            
+                              training_type:programtype}})
+       
+
+  res.render('classrepresentative',{
+   programid:programid,
+   teacherlist:teacherlist,
+   traininglevel:'',
+   programtype:programtype,
+   classlist:classlist,
+
+  }) 
+})
+router.post('/assignclassrepresentativeindustry',ensureAuthenticated,async function(req,res){
+  const{programid,traininglevel,programtype} = req.body;
+        const teacherlist = await StaffList.findAll({where:{isteacher:'Yes'}})
+        const classlist = await ClassInDept.findAll({where:{
+                              batch_id:programid,
+                              department_id: req.user.department,
+                           
+                              training_type:programtype}})
+       
+
+  res.render('classrepresentative',{
+   programid:programid,
+   teacherlist:teacherlist,
+   traininglevel:'',
+   programtype:programtype,
+   classlist:classlist,
+
+  }) 
+})
 router.post('/saveclassteachercourse',ensureAuthenticated,async function(req,res){
     const {pTableData} =req.body ;
   

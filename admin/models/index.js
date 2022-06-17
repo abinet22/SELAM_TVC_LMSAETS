@@ -35,11 +35,17 @@ db.appselectioncriterias = require("../models/AppSelectionCriteria")(sequelize, 
 db.levelbasedtraining = LevelBasedTraining;
 db.ngobasedtraining = NGOBasedTraining;
 const StaffList = require('./StaffList')(sequelize,Sequelize);
+const Batch = require('./Batch')(sequelize,Sequelize);
+const NGOCourse = require('./NGOCourse')(sequelize,Sequelize);
+const IndustryCourse = require('./IndustryCourse')(sequelize,Sequelize);
 db.industrybasedtraining = require("../models/IndustryBasedTraining.js")(sequelize, Sequelize);
 db.funderinfo = FunderInfo;
 db.departments = Department;
 db.courses = Course;
+db.batches = Batch;
 db.stafflists = StaffList;
+db.ngocourses = NGOCourse;
+db.industrycourses = IndustryCourse;
 
 
 module.exports = db;

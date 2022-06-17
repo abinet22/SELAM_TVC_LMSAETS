@@ -274,8 +274,7 @@
             <th>Training Batch Name </th>
             <th>Training Department Name </th>
                               <th>Training Class Name</th>
-                              <th>Action ToDo</th>
-                            
+                              
                             </tr>
                           </thead>
                           <tbody>
@@ -290,19 +289,6 @@
                                           <td><%= row.department_name %></td>
                                           <td><%= row.class_name %></td>
                                          
-                                          <td>
-                                            <form action="/trainee/showclassstudentlevel/<%= row.class_id %>" method="post">
-                                             <input type="hidden" name="level"  value="<%= row.training_level %>">
-                                             <input type="hidden" name="programtype" value="<%= row.training_type %>">
-                                             <input type="hidden" name="dpt" value="<%= row.department_id %>">
-                                             <input type="hidden" name="batchid" value="<%= row.batch_id %>">
-                                             
-                                              <div class="form-group">
-                                                  <button class="btn btn-block btn-primary btn-sm">Trainee List</button>
-                                              </div>
-                                            </form>
-                                           
-                                          </td>
                                         </tr>
                                    <%  })} else{}     %>
                                

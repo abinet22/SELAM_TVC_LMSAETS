@@ -1,10 +1,39 @@
-<a href="/dashboard" class="brand-link">
-    <img src="../../../dist/img/logoselam.png" alt="" class="brand-image img-circle elevation-3" style="opacity: .8">
-    <span class="brand-text font-weight-hard" style="color: #f27030;"><b>SELAM TVC LMS</b></span>
-  </a>
-
+<style>
+  .animate-charcter
+ {
+    text-transform: uppercase;
+   background-image: linear-gradient(
+     -225deg,
+     #f27030 0%,
+     #f27030 29%,
+     #ff1361 67%,
+     #fff800 100%
+   );
+   background-size: auto auto;
+   background-clip: border-box;
+   background-size: 200% auto;
+   color: #fff;
+   background-clip: text;
+   text-fill-color: transparent;
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+   animation: textclip 2s linear infinite;
+   display: inline-block;
+       font-size: 20px;
+ }
+ 
+ @keyframes textclip {
+   to {
+     background-position: 200% center;
+   }
+ } 
+ </style>
+ <a href="/dashboard" class="brand-link">
+     <img src="../../../dist/img/logoselam.jpg" alt="" class="brand-image img-circle elevation-3" style="opacity: .8">
+     <span class="brand-text font-weight-hard" style="color: #f27030;"><h3 class="animate-charcter">SELAM TVC LMS</h3></span>
+   </a>
   <!-- Sidebar -->
-  <div class="sidebar sidebar-dark-primary">
+  <div class="sidebar sidebar-white-primary">
     <!-- Sidebar user panel (optional) -->
    
 
@@ -92,33 +121,9 @@
        
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="nav-icon fa fa-cubes"></i>
-            <p>
-              Manage Class
-              <i class="fas fa-angle-left right"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="/classmanage/addnewclass" class="nav-link">
-              
-                <p>Add New Class</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/classmanage/allclasslist" class="nav-link">
-              
-                <p>All Class List</p>
-              </a>
-            </li>
-          
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
             <i class="nav-icon fa fa-clipboard"></i>
             <p>
-              Manage New Registration
+              Level Based Registration
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
@@ -130,6 +135,26 @@
                 <p> New Level Based </p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="/registration/semisterregistration" class="nav-link">
+              
+                <p>Semister Registraion</p>
+              </a>
+            </li>
+           
+         
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-clipboard"></i>
+            <p>
+              Short Term Registration
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+           
             <li class="nav-item">
               <a href="/registration/newngobasedregistration" class="nav-link">
               
@@ -154,7 +179,12 @@
             </p>
           </a>
           <ul class="nav nav-treeview">
-           
+            <li class="nav-item">
+              <a href="/trainee/managelevelbased" class="nav-link">
+              
+                <p>Search </p>
+              </a>
+            </li>
             <li class="nav-item">
               <a href="/trainee/managelevelbased" class="nav-link">
               
@@ -190,6 +220,30 @@
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-cubes"></i>
+            <p>
+              Manage Class
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="/classmanage/addnewclass" class="nav-link">
+              
+                <p>Add New Class</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/classmanage/allclasslist" class="nav-link">
+              
+                <p>All Class List</p>
+              </a>
+            </li>
+          
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
             <i class="nav-icon fas fa-building"></i>
             <p>
               Manage Companies
@@ -214,15 +268,7 @@
           </ul>
         </li>
        
-        <li class="nav-item">
-          <a href="/notifications" class="nav-link">
-            <i class="nav-icon fas fa-bell"></i>
-            <p>
-              Notifications
-              <span class="right badge badge-danger">New</span>
-            </p>
-          </a>
-        </li>
+      
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="nav-icon fa	 fa-address-card"></i>

@@ -170,7 +170,9 @@ router.post('/addnewlevelbasedprogram',ensureAuthenticated, async function(req,r
         batch_id:proid,
         batch_name:batchname,
         batch_from:trainingstartdate,
-        batch_to:trainingenddate
+        batch_to:trainingenddate,
+        program_type: "level",
+        is_current: "Yes"
     }
      const levelbasedprogramData = {
          program_id: proid,
@@ -186,7 +188,8 @@ router.post('/addnewlevelbasedprogram',ensureAuthenticated, async function(req,r
          training_end_date: trainingenddate,
          minimum_criteria: requirement,
          selection_criteria: criteria,
-         is_open: "Yes"
+         is_open: "Yes",
+         is_confirm:"No"
          
      }
     
@@ -307,7 +310,9 @@ router.post('/addnewngobasedprogram',ensureAuthenticated, async function(req,res
         batch_id:proid,
         batch_name:batchname,
         batch_from:trainingstartdate,
-        batch_to:trainingenddate
+        batch_to:trainingenddate,
+        program_type: "ngo",
+        is_current: "Yes"
     }
      const ngobasedprogramData = {
          program_id: proid,
@@ -323,7 +328,8 @@ router.post('/addnewngobasedprogram',ensureAuthenticated, async function(req,res
          training_end_date: trainingenddate,
          minimum_criteria: requirement,
          selection_criteria: criteria,
-         is_open: "Yes"
+         is_open: "Yes",
+         is_confirm:"No"
          
      }
     
@@ -443,7 +449,9 @@ const v1options = {
     batch_id:proid,
     batch_name:batchname,
     batch_from:trainingstartdate,
-    batch_to:trainingenddate
+    batch_to:trainingenddate,
+    program_type: "industry",
+    is_current: "Yes"
 }
  const ngobasedprogramData = {
      program_id: proid,
@@ -458,7 +466,8 @@ const v1options = {
      training_start_date:trainingstartdate,
      training_end_date: trainingenddate,
   
-     is_open: "Yes"
+     is_open: "Yes",
+     is_confirm:"No"
      
  }
 

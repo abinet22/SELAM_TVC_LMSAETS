@@ -233,7 +233,7 @@
                                            
                                              </td>
                                               <td> 
-                                                <% if(aed.valueOf() > todayis.valueOf()){ %> 
+                                                <% if(new Date(aed) > new Date(todayis)){ %> 
                                                <form >
                                                
                                            <button class="btn btn-block btn-info">Not Passed</button>     
@@ -247,7 +247,7 @@
                                              </td>
                               
                                              <td> 
-                                              <% if(aed.valueOf() > todayis.valueOf()){ %> 
+                                              <% if(new Date(aed) > new Date(todayis)){ %> 
                                                 <form action="/applicant/addapplicanttolevelbasedprogram" method="post">
                                                   <input type="hidden" name="programidlevel" value="<%= row.program_id %>">
                                                   <button class="btn btn-block btn-info"><i class="fa fa-edit"></i>Register Applicants</button> 

@@ -8,6 +8,7 @@ const IndustryBasedTraining = db.industrybasedtraining;
 const FunderInfo = db.funderinfo;
 const Department = db.departments;
 const LevelBasedProgram = db.levelbasedprograms;
+const IndustryBasedProgram = db.industrybasedprogram;
 const Batch = db.batches;
 const NGOBasedProgram  = db.ngobasedprograms;
 const AppSelectionCriteria = db.appselectioncriterias;
@@ -24,7 +25,7 @@ const { funderinfo } = require('../models');
 router.get('/newlevelbased', ensureAuthenticated,async function (req, res) 
 {
     const [results, metadata] = await sequelize.query(
-        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id where is_open='Yes'"
+        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id where is_confirm='No'"
       );
       
       console.log(JSON.stringify(results, null, 2));
@@ -46,7 +47,7 @@ router.get('/newlevelbased', ensureAuthenticated,async function (req, res)
 router.get('/newngobased', ensureAuthenticated, async function(req, res) {
     
     const [results, metadata] = await sequelize.query(
-        "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id"
+        "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where is_confirm='No'"
       );
       const funderinfo = await FunderInfo.findAll({});
       console.log(JSON.stringify(results, null, 2));
@@ -69,15 +70,15 @@ router.get('/newngobased', ensureAuthenticated, async function(req, res) {
 });
 router.get('/newindustrybased', ensureAuthenticated,async function (req, res){
     const [results, metadata] = await sequelize.query(
-        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+        "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where is_confirm='No'"
       );
       
       console.log(JSON.stringify(results, null, 2));
     console.log(results);
-        LevelBasedTraining.findAll({}).then(levelbased =>{
+        IndustryBasedProgram.findAll({}).then(indbased =>{
             res.render('newindustrybased',{
-                levelbased:results,
-                industrybased:'',
+                levelbased:'',
+                industrybased:results,
                 ngobased:''
             })
         }).catch(error =>{
@@ -89,33 +90,89 @@ router.get('/newindustrybased', ensureAuthenticated,async function (req, res){
             })
         })
 });
-router.get('/allprogramlist', ensureAuthenticated, async function (req, res) {
-
-//    const industrybased  = await IndustryBasedProgram.findAll({});
-//    const ngobased  = await NGOBasedProgram.findAll({});
-
+router.post('/updateconfirmprogram', ensureAuthenticated, async function (req, res) {
+   const{programid,infotag} = req.body;
    const [results, metadata] = await sequelize.query(
-    "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+    "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id where is_confirm='No'"
   );
-  
-  console.log(JSON.stringify(results, null, 2));
-console.log(results);
-    LevelBasedTraining.findAll({}).then(levelbased =>{
-        res.render('programlist',{
+  const [resultsngo, metadatango] = await sequelize.query(
+    "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where is_confirm='No'"
+  );
+  const [resultsind, metadataind] = await sequelize.query(
+    "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where is_confirm='No'"
+  );
+  const funderinfo = await FunderInfo.findAll({});
+  if(infotag =="level"){
+      LevelBasedProgram.update({is_confirm:"Yes"},{where:{program_id:programid}}).then(leveldt =>{
+        res.render('newlevelbased',{
             levelbased:results,
             industrybased:'',
-            ngobased:''
+            ngobased:'',
+            success_msg:'Successfully confirm new program to start registration'
         })
-    }).catch(error =>{
-        res.render('programlist',{
+      }).catch(error =>{
+        res.render('newlevelbased',{
+            levelbased:results,
+            industrybased:'',
+            ngobased:'',
+            error_msg:'cant update now please try again'
+        })
+      })
+  
+  }
+  else if(infotag =="ngo"){
+    NGOBasedProgram.update({is_confirm:"Yes"},{where:{program_id:programid}}).then(leveldt =>{
+        res.render('newngobased',{
             levelbased:'',
             industrybased:'',
-            ngobased:''
+            ngobased:resultsngo,
+            funder:funderinfo,
+            success_msg:'Successfully confirm new program to start registration'
+        })
+    }).catch(error =>{
+        res.render('newngobased',{
+            levelbased:'',
+            industrybased:'',
+            funder:funderinfo,
+            ngobased:resultsngo,
+            error_msg:'cant update now please try again'
         })
     })
-
-
+   
+  }
+  else if(infotag == "industry"){
+    IndustryBasedProgram.update({is_confirm:"Yes"},{where:{program_id:programid}}).then(leveldt =>{
+        res.render('newindustrybased',{
+            levelbased:'',
+            industrybased:resultsind,
+            ngobased:'',
+            success_msg:'Successfully confirm new program to start registration'
+        })
+    }).catch(error =>{
+        res.render('newindustrybased',{
+            levelbased:'',
+            industrybased:resultsind,
+            ngobased:'',
+            error_msg:'cant update now please try again'
+        })
+    })
+   
+  }
+  
 });
+
+router.get('/allbatchlist',ensureAuthenticated,async function(req,res){
+     const [batchl, metadata] = await sequelize.query(
+        "SELECT * FROM batches INNER JOIN levelbasedprograms ON batches.batch_id = levelbasedprograms.batch_id "
+      );
+      const [batchn, metadatan] = await sequelize.query(
+        "SELECT * FROM batches INNER JOIN  ngobasedprograms on ngobasedprograms.batch_id =batches.batch_id "
+      );
+      const [batchi, metadatai] = await sequelize.query(
+        "SELECT * FROM batches INNER JOIN  industrybasedprograms on industrybasedprograms.batch_id = batches.batch_id"
+      );
+    res.render('allbatchlist',{batch:batchl,batchi:batchi,batchn:batchn})
+})
 
 
 

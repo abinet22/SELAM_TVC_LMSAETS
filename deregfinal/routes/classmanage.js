@@ -20,13 +20,13 @@ const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
 router.get('/addnewclass',ensureAuthenticated, async function(req,res){
     const [ngobased, metangobaseddata] = await sequelize.query(
-        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+        "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where is_open='Yes' and is_confirm='Yes'"
       );
       const [levelbased, metalevelbaseddata] = await sequelize.query(
-        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id where is_open='Yes' and is_confirm='Yes'"
       );
       const [industrybased, metaindbaseddata] = await sequelize.query(
-        "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes'"
+        "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes' and is_confirm='Yes'"
       );
     const department = await Department.findAll({});
     res.render('addnewclass',{
@@ -39,7 +39,7 @@ router.get('/addnewclass',ensureAuthenticated, async function(req,res){
 })
 
 router.post('/addnewclasslevelbased',ensureAuthenticated,async function(req,res){
-    const{batchid,programtype,programtypen,deptid,deptidn,level,criteriango, criateriai,} = req.body;
+    const{batchid,programtype,deptid,level,criteriango, criteriango2,criteriai,} = req.body;
     const [ngobased, metangobaseddata] = await sequelize.query(
         "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
       );
@@ -65,9 +65,18 @@ router.post('/addnewclasslevelbased',ensureAuthenticated,async function(req,res)
         })
     }
     else{
-        var classname = JSON.parse(criteriango)
-        if(criteriango.length >0){
-          for(var i = 0; i < classname.length ; i++)
+        var classname ;
+        if(criteriango){
+          classname = JSON.parse(JSON.stringify(criteriango))
+        }else if(criteriango2){
+          classname = JSON.parse(JSON.stringify(criteriango2))
+        }else if(criteriai){
+          classname = JSON.parse(JSON.stringify(criteriai))
+        }
+        var classnamelist = []
+        classnamelist = JSON.parse(classname)
+        if(classnamelist.length >0){
+          for(var i = 0; i < classnamelist.length ; i++)
           {
             const v1options = {
               node: [0x01, 0x23],
@@ -76,7 +85,7 @@ router.post('/addnewclasslevelbased',ensureAuthenticated,async function(req,res)
               nsecs: 5678,
             };
             classid = uuidv4(v1options);
-            var clsnm = classname[i];
+            var clsnm = classnamelist[i];
             var classData = {
                 class_id:classid,
                 batch_id:batchid,
@@ -85,7 +94,7 @@ router.post('/addnewclasslevelbased',ensureAuthenticated,async function(req,res)
                 department_id:deptid,
                 class_name:clsnm,
                 rep_teacher_id:"",
-              teacher_name: ""
+                teacher_name: ""
               };
          
             ClassInDept.create(classData).then(classdt =>{

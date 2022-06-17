@@ -17,6 +17,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 const StaffList = require('./StaffList')(sequelize, Sequelize);
 const Batch = require('./Batch')(sequelize, Sequelize);
+const LevelBasedProgress = require('./LevelBasedProgress')(sequelize,Sequelize);
 const CourseTeacherClass = require('./CourseTeacherClass')(sequelize,Sequelize);
 const LevelBasedProgram = require('./LevelBasedProgram')(sequelize, Sequelize);
 const NGOBasedProgram = require('./NGOBasedProgram')(sequelize, Sequelize);
@@ -29,6 +30,8 @@ const NewApplicant =  require("./NewApplicant")(sequelize, Sequelize);
 const ClassInDept = require("./Class.js")(sequelize, Sequelize);
 const LevelBasedTrainee =require("./LevelBasedTrainee")(sequelize, Sequelize);
 const NGOBasedTrainee = require('./NGOBasedTrainee')(sequelize, Sequelize);
+const IndustryBasedTrainee = require("./IndustryBasedTrainee.js")(sequelize, Sequelize);
+
 const Attendance = require('./Attendance')(sequelize, Sequelize);
 
 const StudentMarkListLevelBased = require('./StudentMarkListLevelBased')(sequelize, Sequelize);
@@ -49,7 +52,8 @@ ClassInDept.belongsTo(Batch);
 FunderInfo.hasMany(NGOBasedTraining);
 NGOBasedTraining.belongsTo(FunderInfo);
 db.users = require("../models/User.js")(sequelize, Sequelize);
-
+db.ngocourses = require('./NGOCourse')(sequelize,Sequelize);
+db.industrycourses = require('./IndustryCourse')(sequelize,Sequelize);
 db.appselectioncriterias = require("../models/AppSelectionCriteria")(sequelize, Sequelize);
 db.levelbasedtraining = LevelBasedTraining;
 db.ngobasedtraining = NGOBasedTraining;
@@ -70,4 +74,6 @@ db.ngobasedtrainees = NGOBasedTrainee;
 db.stafflists = StaffList;
 db.companies = Company;
 db.attendances = Attendance;
+db.levelbasedprogresses = LevelBasedProgress;
+db.industrybasedtrainees = IndustryBasedTrainee
 module.exports = db;

@@ -12,6 +12,8 @@ const User = db.users;
 const ClassInDept = db.classindepts;
 const NGOBasedTrainee = db.ngobasedtrainees;
 const LevelBasedTrainee = db.levelbasedtrainees;
+const IndustryBasedTrainee = db.industrybasedtrainees;
+const LevelBasedProgress = db.levelbasedprogresses;
 const CorseTeacherClass = db.courseteacherclasses;
 const sequelize = db.sequelize ;
 const { Op } = require("sequelize");
@@ -23,25 +25,122 @@ const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
 router.post('/showclassstudentlevel/(:classname)',ensureAuthenticated,async function(req,res){
     
-    const{level,programtype,dpt,batchid} = req.body;
+    const{level,programtype,dpt,batchid,courseid} = req.body;
     const levelbased = await LevelBasedTrainee.findAll({where:{class_id:req.params.classname}});
     const [courselist, metadata] = await sequelize.query(
-        "SELECT courses.course_name,courses.course_id FROM  courseteacherclasses "+
-        "INNER JOIN courses ON courses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+req.params.classname+"' "
+        "SELECT * FROM  courses where course_id='"+courseid +"' "
       );    
-     res.render('alllevelbasedlist',{dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype})
+     res.render('alllevelbasedlist',{courseid:courseid,dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype})
 
     })
+router.post('/showclassstudentngo/(:classname)',ensureAuthenticated,async function(req,res){
+
+  const{level,programtype,dpt,batchid,courseid} = req.body;
+  const levelbased = await NGOBasedTrainee.findAll({where:{class_id:req.params.classname}});
+  const [courselist, metadata] = await sequelize.query(
+      "SELECT * FROM  ngocourses where course_id='"+courseid +"' "
+    );    
+    res.render('allngobasedlist',{courseid:courseid,dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype})
+
+  })
+router.post('/showclassstudentindustry/(:classname)',ensureAuthenticated,async function(req,res){
+
+  const{level,programtype,dpt,batchid,courseid} = req.body;
+  const levelbased = await IndustryBasedTrainee.findAll({where:{class_id:req.params.classname}});
+  const [courselist, metadata] = await sequelize.query(
+      "SELECT * FROM  industrycourses where course_id='"+courseid +"' "
+    );    
+    res.render('allindustrybasedlist',{courseid:courseid,dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype})
+
+  })
+
+  
+router.post('/generatecoursegradelevelbased/(:classname)',ensureAuthenticated,async function(req,res){
+  
+    const{level,programtype,dpt,batchid,courseid} = req.body;
+    const [courselist, metadata] = await sequelize.query(
+        "SELECT * FROM  courses where course_id='"+courseid +"' "
+      );   
+      const [levelbased, metadatalevelbased] = await sequelize.query(
+        "select * from levelbasedtrainees inner join levelbasedprogresses on levelbasedprogresses.class_id = levelbasedtrainees.class_id where levelbasedtrainees.class_id = '"+ req.params.classname +"' and levelbasedtrainees.trainee_id = levelbasedprogresses.student_id and levelbasedprogresses.course_id='"+courseid+"'"
+      );      
+      res.render('genrategradereportlevel',{courseid:courseid,dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype})
+
+})
+router.post('/generatecoursegradengobased/(:classname)',ensureAuthenticated,async function(req,res){
+  
+  const{level,programtype,dpt,batchid,courseid} = req.body;
+  const [courselist, metadata] = await sequelize.query(
+      "SELECT * FROM  ngocourses where course_id='"+courseid +"' "
+    );   
+    const [levelbased, metadatalevelbased] = await sequelize.query(
+      "select * from ngobasedtrainees inner join levelbasedprogresses on levelbasedprogresses.class_id = ngobasedtrainees.class_id where ngobasedtrainees.class_id = '"+ req.params.classname +"' and ngobasedtrainees.trainee_id = levelbasedprogresses.student_id and levelbasedprogresses.course_id='"+courseid+"'"
+    );      
+    res.render('genrategradereportlevel',{courseid:courseid,dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype})
+
+})
+router.post('/generatecoursegradeindustrybased/(:classname)',ensureAuthenticated,async function(req,res){
+  
+  const{level,programtype,dpt,batchid,courseid} = req.body;
+  const [courselist, metadata] = await sequelize.query(
+      "SELECT * FROM  industrycourses where course_id='"+courseid +"' "
+    );   
+    const [levelbased, metadatalevelbased] = await sequelize.query(
+      "select * from industrybasedtrainees inner join levelbasedprogresses on levelbasedprogresses.class_id = industrybasedtrainees.class_id where industrybasedtrainees.class_id = '"+ req.params.classname +"' and industrybasedtrainees.trainee_id = levelbasedprogresses.student_id and levelbasedprogresses.course_id='"+courseid+"'"
+    );      
+    res.render('genrategradereportlevel',{courseid:courseid,dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype})
+
+})
+
+
 router.post('/findmyclasstoevaluatecourselevel',ensureAuthenticated,async function(req,res){
-     const{batchid} = req.body;
+     const{batchid,dpt} = req.body;
     
      const [results, metadata] = await sequelize.query(
-        "SELECT classindepts.class_name,classindepts.department_id,classindepts.batch_id,classindepts.training_level,classindepts.class_id,classindepts.training_type FROM  courseteacherclasses "+
-        "INNER JOIN classindepts ON classindepts.class_id = courseteacherclasses.class_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"'"
-      );    
+        "SELECT distinct classindepts.class_id,classindepts.class_name,classindepts.department_id,classindepts.batch_id,classindepts.training_level,classindepts.class_id,classindepts.training_type FROM  courseteacherclasses "+
+        "INNER JOIN classindepts ON classindepts.class_id = courseteacherclasses.class_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.department_id='"+dpt+"'"
+      );  
+      const [course, metadatacourse] = await sequelize.query(
+        "SELECT * FROM  courseteacherclasses "+
+        "INNER JOIN courses ON courses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.department_id='"+dpt+"'"
+      );     
       console.log(results)
-     res.render('myclasses',{classlist:results})
+     res.render('myclasses',{classlist:results,course:course,programtag:"level"})
 });
+router.post('/findmyclasstoevaluatecoursengo',ensureAuthenticated,async function(req,res){
+  const{batchid,dpt} = req.body;
+ 
+  const [results, metadata] = await sequelize.query(
+     "SELECT distinct classindepts.class_id,classindepts.class_name,classindepts.department_id,classindepts.batch_id,classindepts.training_level,classindepts.class_id,classindepts.training_type FROM  courseteacherclasses "+
+     "INNER JOIN classindepts ON classindepts.class_id = courseteacherclasses.class_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.department_id='"+dpt+"'"
+   );  
+   const [course, metadatacourse] = await sequelize.query(
+     "SELECT * FROM  courseteacherclasses "+
+     "INNER JOIN ngocourses ON ngocourses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.department_id='"+dpt+"'"
+   );     
+   console.log(results)
+  res.render('myclasses',{classlist:results,course:course,programtag:"ngo"})
+});
+router.post('/findmyclasstoevaluatecourseindustry',ensureAuthenticated,async function(req,res){
+  const{batchid,dpt} = req.body;
+ 
+  const [results, metadata] = await sequelize.query(
+    "SELECT distinct classindepts.class_id,classindepts.class_name,classindepts.department_id,classindepts.batch_id,classindepts.training_level,classindepts.class_id,classindepts.training_type FROM  courseteacherclasses "+
+    
+     "INNER JOIN classindepts ON classindepts.class_id = courseteacherclasses.class_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.department_id='"+dpt+"'"
+   );  
+   const [course, metadatacourse] = await sequelize.query(
+     "SELECT * FROM  courseteacherclasses "+
+     "INNER JOIN industrycourses ON industrycourses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.department_id='"+dpt+"' "
+   );     
+   console.log(results)
+  res.render('myclasses',{classlist:results,course:course,programtag:"industry"})
+});
+
+
+
+
+
 
 router.post('/savestudentevaluationtheretical',ensureAuthenticated,async function(req,res){
     const {pTableData} =req.body ;
@@ -65,7 +164,15 @@ router.post('/savestudentevaluationtheretical',ensureAuthenticated,async functio
      var classid = item.classid;
      var dpt = item.department;
      var batchid = item.batchid;
-     const mark = {
+     var loid = item.loid;
+       var theroretical_evaluation = {
+     
+           };
+     var newlo = loid;
+    var newVal = evaluation;
+    theroretical_evaluation[loid] = parseFloat(evaluation);
+    
+    const mark = {
         class_id: classid,
         batch_id: batchid,
         program_type: programtype,
@@ -75,20 +182,22 @@ router.post('/savestudentevaluationtheretical',ensureAuthenticated,async functio
         student_id: studentid,
         course_id:courseid,
         practical_evaluation:0,
-        theroretical_evaluation:evaluation,
-        field_evaluation:0,
+        theroretical_evaluation:theroretical_evaluation,
+        industry_evaluation:0,
         is_confirm_registrar:"No",
         is_confirm_department:"No",
         is_confirm_teacher:"No"
 
      }
      console.log(mark);
-     StudentMarkListLevelBased.findOne({where:{course_id:courseid,student_id:studentid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}}).then(marklist =>{
+     LevelBasedProgress.findOne({where:{course_id:courseid,student_id:studentid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}}).then(marklist =>{
          if(!marklist){
-            StudentMarkListLevelBased.create(mark);
+            LevelBasedProgress.create(mark);
          }
          else{
-            StudentMarkListLevelBased.update({theroretical_evaluation:evaluation},{where:{course_id:courseid,student_id:studentid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}})
+          var data = marklist.theroretical_evaluation;
+          data[loid] = parseFloat(evaluation);
+            LevelBasedProgress.update({theroretical_evaluation:data},{where:{course_id:courseid,student_id:studentid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}})
          }
      })
   
@@ -119,14 +228,21 @@ router.post('/savestudentevaluationpractical',ensureAuthenticated,async function
     {
      // console.log("x");
   copyItems.forEach((item) => {
-     var courseid = item.courseid;
-     var studentid = item.studentid;
-     var evaluation = item.evaluation;
-     var level = item.level;
-     var programtype = item.programtype;
-     var classid = item.classid;
-     var dpt = item.department;
-     var batchid = item.batchid;
+    var courseid = item.courseid;
+    var studentid = item.studentid;
+    var evaluation = item.evaluation;
+    var level = item.level;
+    var programtype = item.programtype;
+    var classid = item.classid;
+    var dpt = item.department;
+    var batchid = item.batchid;
+    var loid = item.loid;
+      var practical_evaluation = {
+    
+          };
+    var newlo = loid;
+   var newVal = evaluation;
+   practical_evaluation[loid] = parseFloat(evaluation);
      const mark = {
         class_id: classid,
         batch_id: batchid,
@@ -136,21 +252,28 @@ router.post('/savestudentevaluationpractical',ensureAuthenticated,async function
         teacher_id: req.user.userid,
         student_id: studentid,
         course_id:courseid,
-        practical_evaluation:evaluation,
+        practical_evaluation:practical_evaluation,
         theroretical_evaluation:0,
-        field_evaluation:0,
+        industry_evaluation:0,
         is_confirm_registrar:"No",
         is_confirm_department:"No",
         is_confirm_teacher:"No"
 
      }
      console.log(mark);
-     StudentMarkListLevelBased.findOne({where:{course_id:courseid,student_id:studentid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}}).then(marklist =>{
+     LevelBasedProgress.findOne({where:{course_id:courseid,student_id:studentid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}}).then(marklist =>{
          if(!marklist){
-            StudentMarkListLevelBased.create(mark);
+            LevelBasedProgress.create(mark);
          }
          else{
-            StudentMarkListLevelBased.update({practical_evaluation:evaluation},{where:{course_id:courseid,student_id:studentid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}})
+          var data = marklist.practical_evaluation;;
+          if(data == 0){
+            data = {};
+          }else{
+            data = marklist.practical_evaluation;
+          }
+          data[loid] = parseFloat(evaluation);
+            LevelBasedProgress.update({practical_evaluation:data},{where:{course_id:courseid,student_id:studentid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}})
          }
      })
   
@@ -181,14 +304,19 @@ router.post('/savestudentevaluationinternship',ensureAuthenticated,async functio
     {
      // console.log("x");
   copyItems.forEach((item) => {
-     var courseid = item.courseid;
-     var studentid = item.studentid;
-     var evaluation = item.evaluation;
-     var level = item.level;
-     var programtype = item.programtype;
-     var classid = item.classid;
-     var dpt = item.department;
-     var batchid = item.batchid;
+    var courseid = item.courseid;
+    var studentid = item.studentid;
+    var evaluation = item.evaluation;
+    var level = item.level;
+    var programtype = item.programtype;
+    var classid = item.classid;
+    var dpt = item.department;
+    var batchid = item.batchid;
+    var loid = item.loid;
+      var industry_evaluation = {
+    
+          };
+   industry_evaluation[loid] = parseFloat(evaluation);
      const mark = {
         class_id: classid,
         batch_id: batchid,
@@ -200,19 +328,29 @@ router.post('/savestudentevaluationinternship',ensureAuthenticated,async functio
         course_id:courseid,
         practical_evaluation:0,
         theroretical_evaluation:0,
-        field_evaluation:evaluation,
+        industry_evaluation:industry_evaluation,
         is_confirm_registrar:"No",
         is_confirm_department:"No",
         is_confirm_teacher:"No"
 
      }
      console.log(mark);
-     StudentMarkListLevelBased.findOne({where:{course_id:courseid,student_id:studentid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}}).then(marklist =>{
+     LevelBasedProgress.findOne({where:{course_id:courseid,student_id:studentid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}}).then(marklist =>{
          if(!marklist){
-            StudentMarkListLevelBased.create(mark);
+            LevelBasedProgress.create(mark);
          }
          else{
-            StudentMarkListLevelBased.update({field_evaluation:evaluation},{where:{course_id:courseid,student_id:studentid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}})
+           var indeva={}
+          var data = marklist.industry_evaluation;;
+          if(data == 0){
+            indeva = {};
+          }else if(data == null){
+            indeva ={};
+          }else{
+            indeva = marklist.industry_evaluation;
+          }
+          indeva[loid] = parseFloat(evaluation);
+            LevelBasedProgress.update({industry_evaluation:indeva},{where:{course_id:courseid,student_id:studentid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}})
          }
      })
   
@@ -229,58 +367,43 @@ router.post('/savestudentevaluationinternship',ensureAuthenticated,async functio
   
   
   })
+
+
+
 router.post('/singlethoreticalevaluation/(:traineeid)',ensureAuthenticated,async function(req,res){
-    const{thoretical,batchid,level,programtype,courseid,dpt,classid}  = req.body;
-    const levelbased = await LevelBasedTrainee.findAll({where:{class_id:classid}});
+    const{mark,batchid,level,tobeudt,evaluationtype,programtype,courseid,dpt,classid}  = req.body;
     const [courselist, metadata] = await sequelize.query(
-        "SELECT courses.course_name,courses.course_id FROM  courseteacherclasses "+
-        "INNER JOIN courses ON courses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+classid+"' "
-      );    
-  
-    if(!thoretical || courseid == "" ){
+      "SELECT * FROM  courses where course_id='"+courseid +"' "
+    );   
+    console.log(req.body);
+    const levelbased = await LevelBasedTrainee.findAll({where:{class_id:classid}});
+       
+     console.log(courseid);
+     console.log(classid);
+    if(!mark || courseid == "" || evaluationtype=="0" ){
         res.render('alllevelbasedlist',{courselist:courselist,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
-            error_msg:'Please Add  Evaluation Mark And Select Course Name First'
+            error_msg:'Please Add  Evaluation Mark And Select Evaluation Type First'
             })
     }
     else
-    {
-        const mark = {
-            class_id: classid,
-            batch_id: batchid,
-            program_type: programtype,
-            training_level: level,
-            department_id: dpt,
-            teacher_id: req.user.userid,
-            student_id: req.params.traineeid,
-            course_id:courseid,
-            practical_evaluation:0,
-            theroretical_evaluation:thoretical,
-            field_evaluation:0,
-            is_confirm_registrar:"No",
-            is_confirm_department:"No",
-            is_confirm_teacher:"No"
+    {  
+      var udtqry ;
+       if(evaluationtype == "Theoretical"){
+          udtqry ="update levelbasedprogresses set theroretical_evaluation = JSON_SET(theroretical_evaluation, '$."+tobeudt+"',"+mark+") where student_id = '"+req.params.traineeid +"' and course_id='"+courseid+"'"
+       } else if(evaluationtype == "Technical"){
+        udtqry ="update levelbasedprogresses set practical_evaluation = JSON_SET(practical_evaluation, '$."+tobeudt+"',"+mark+") where student_id = '"+req.params.traineeid +"' and course_id='"+courseid+"'"
     
-         }
-         StudentMarkListLevelBased.findOne({where:{course_id:courseid,student_id:req.params.traineeid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}}).then(marklist =>{
-            if(!marklist){
-                StudentMarkListLevelBased.create(mark).then(marklist =>{
-                    res.render('alllevelbasedlist',{courselist:courselist,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
-                    success_msg:'Successfully Add  Theoretical Evaluation'
-                    })
-        
-                 }).catch(error =>{
-                     console.log(error)
-                 })
-            }
-            else{
-               StudentMarkListLevelBased.update({theroretical_evaluation:thoretical},{where:{course_id:courseid,student_id:req.params.traineeid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}}).then(uddt =>{
-                res.render('alllevelbasedlist',{courselist:courselist,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
-                    success_msg:'Successfully Update Theoretical Evaluation'
-                    })
-               })
-            }
-        })
-       
+       } else if(evaluationtype == "Industrial"){
+        udtqry ="update levelbasedprogresses set industry_evaluation = JSON_SET(industry_evaluation, '$."+tobeudt+"',"+mark+") where student_id = '"+req.params.traineeid +"' and course_id='"+courseid+"'"
+    
+       } else{
+
+       }    
+       const [updateddt, updateddtmeta] = await sequelize.query(udtqry);  
+
+        res.render('alllevelbasedlist',{updateddt:updateddt,courselist:courselist,courseid:courseid,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
+            success_msg:'Successfully update evaluation marks'
+            })
     }
 })
 router.post('/singlepracticalevaluation/(:traineeid)',ensureAuthenticated,async function(req,res){
@@ -390,5 +513,54 @@ router.post('/singleinternshipevaluation/(:traineeid)',ensureAuthenticated,async
         })
        
     }
+})
+
+
+router.post('/updatetraineestatusdropout/(:studentid)',ensureAuthenticated,async function(req,res){
+  const {programtype } = req.body;
+  const dpt = await Department.findAll({});
+  const [absent, absentmeta] = await sequelize.query(
+    "SELECT student_id,attendance_date FROM attendances  where student_id='"+req.params.studentid +"' and attendance_type='Absent'"
+  );  
+  const [present, persentmeta] = await sequelize.query(
+    "SELECT student_id,attendance_date FROM attendances  where student_id='"+req.params.studentid +"' and attendance_type='Present'"
+  );       
+  const [permission, permissionmeta] = await sequelize.query(
+    "SELECT student_id,attendance_date FROM attendances  where student_id='"+req.params.studentid +"' and attendance_type='Permission'"
+  ); 
+  const [lbattendancedata, metaattendace] = await sequelize.query(
+    "SELECT student_id,count(student_id) as total,sum(attendance_type='Absent') as absent,sum(attendance_type='Present') as present,sum(attendance_type='Permission')as permission  FROM attendances  where student_id='"+req.params.studentid +"' group by student_id "
+
+  ); 
+  if(programtype == "level"){
+      
+    const [levelbased, metadatalevelbased] = await sequelize.query(
+      "update levelbasedtrainees set is_dropout ='Yes' where trainee_id = '"+req.params.studentid+"'"
+    );   
+      
+    res.render('showsinglestudentattendancedetail',{dpt:dpt,studentid:req.params.studentid,present:present,permission:permission,absent:absent,levelbased:levelbased,programtype:programtype , lbattendancedata:lbattendancedata,
+      success_msg:'You are Successfully update student status to DROPOUT'})
+
+  }else if(programtype == "ngo"){
+  
+    const [ngobased, metadatangobased] = await sequelize.query(
+      "update ngobasedtrainees set is_dropout ='Yes' where trainee_id = '"+req.params.studentid+"'"
+    );   
+      
+    res.render('showsinglestudentattendancedetail',{dpt:dpt,studentid:req.params.studentid,present:present,permission:permission,absent:absent,levelbased:ngobased,programtype:programtype , lbattendancedata:lbattendancedata,
+      success_msg:'You are Successfully update student status to DROPOUT'})
+
+  }else if(programtype == "industry"){
+  
+    const [industrybased, metadataindustrybased] = await sequelize.query(
+      "update industrybasedtrainees set is_dropout ='Yes' where trainee_id = '"+req.params.studentid+"'"
+
+      );   
+      
+ res.render('showsinglestudentattendancedetail',{dpt:dpt,studentid:req.params.studentid,present:present,permission:permission,absent:absent,levelbased:industrybased,programtype:programtype , lbattendancedata:lbattendancedata,
+  success_msg:'You are Successfully update student status to DROPOUT'
+})
+
+  } 
 })
 module.exports = router;

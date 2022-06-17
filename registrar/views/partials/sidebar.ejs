@@ -1,10 +1,40 @@
+<style>
+ .animate-charcter
+{
+   text-transform: uppercase;
+  background-image: linear-gradient(
+    -225deg,
+    #f27030 0%,
+    #f27030 29%,
+    #ff1361 67%,
+    #fff800 100%
+  );
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  color: #fff;
+  background-clip: text;
+  text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 2s linear infinite;
+  display: inline-block;
+      font-size: 20px;
+}
+
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+} 
+</style>
 <a href="/dashboard" class="brand-link">
-    <img src="../../../dist/img/logoselam.png" alt="" class="brand-image img-circle elevation-3" style="opacity: .8">
-    <span class="brand-text font-weight-hard" style="color: #f27030;"><b>SELAM TVC LMS</b></span>
+    <img src="../../../dist/img/logoselam.jpg" alt="" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <span class="brand-text font-weight-hard" style="color: #f27030;"><h3 class="animate-charcter">SELAM TVC LMS</h3></span>
   </a>
 
   <!-- Sidebar -->
-  <div class="sidebar sidebar-dark-primary">
+  <div class="sidebar sidebar-white-primary">
     <!-- Sidebar user panel (optional) -->
    
 
@@ -54,29 +84,16 @@
                 <p>New Industry Driven</p>
               </a>
             </li>
-          
-          
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fa fa-user"></i>
-            <p>
-              Manage Applicants
-              <i class="fas fa-angle-left right"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-          
             <li class="nav-item">
-              <a href="/applicant/allapplicantlist" class="nav-link">
-              
-                <p>All Applicants List</p>
+              <a href="/programs/allbatchlist" class="nav-link">
+       
+                <p>All Batch List</p>
               </a>
             </li>
           
           </ul>
         </li>
+      
        
         <li class="nav-item">
           <a href="#" class="nav-link">
@@ -98,38 +115,7 @@
           </ul>
         </li>
      
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fa fa-users"></i>
-            <p>
-              Manage  Trainee
-              <i class="fas fa-angle-left right"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-           
-            <li class="nav-item">
-              <a href="/trainee/managelevelbased" class="nav-link">
-              
-                <p>Level Based </p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/trainee/managengobased" class="nav-link">
-              
-                <p>NGO Based </p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/trainee/manageindustrybased" class="nav-link">
-              
-                <p>Industry Based </p>
-              </a>
-            </li>
-          
-            
-          </ul>
-        </li>
+       
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-building"></i>
@@ -152,15 +138,6 @@
         </li>
        
         <li class="nav-item">
-          <a href="/notifications" class="nav-link">
-            <i class="nav-icon fas fa-bell"></i>
-            <p>
-              Notifications
-              <span class="right badge badge-danger">New</span>
-            </p>
-          </a>
-        </li>
-        <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="nav-icon fa	 fa-address-card"></i>
             <p>
@@ -180,7 +157,7 @@
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="nav-icon fa	 fa-address-card"></i>
+            <i class="nav-icon fa	 fa-user"></i>
             <p>
              Manage Data Encoders
               <i class="fas fa-angle-left right"></i>
@@ -189,18 +166,28 @@
           <ul class="nav nav-treeview">
          
             <li class="nav-item">
-              <a href="/user/createdataencoder" class="nav-link">
+              <a href="/createdataencoder" class="nav-link">
            
                 <p>Create Data Encoder</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/user/alldataencoderlist" class="nav-link">
+              <a href="/alldataencoderlist" class="nav-link">
            
                 <p>All Data Encoder List</p>
               </a>
             </li>
             </ul>
+        </li>
+        <li class="nav-item ">
+          <a href="/searchsinglestudentdata" class="nav-link">
+            <i class="nav-icon fas fa-search"></i>
+            <p>
+              Search
+            
+            </p>
+          </a>
+        
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link">
@@ -218,7 +205,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/stastics" class="nav-link">
+              <a href="/statistics" class="nav-link">
            
                 <p>Statistics</p>
               </a>

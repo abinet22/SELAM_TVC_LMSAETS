@@ -56,13 +56,13 @@
           <div class="col-sm-4 invoice-col">
             <b>Nationality:</b>Ethiopian<br>
             <br>
-            <b>Acadamic Year:</b> 4F3S8J<br>
-            <b>Semister:</b> 1<br>
+            <b>Acadamic Year:</b><%= new Date().getyear() %><br>
             <b>Class Name:</b> <%= classlist.class_name %><br>
+            <% if (applicant.current_level ) {%>
             <b>Level:</b> <%= applicant.current_level %><br>
-
+                        <%}%>
             <b>Sex:</b> <%= perinfo.gender %><br>
-            <b>ID:</b> <%= applicant.trainee_id%>
+            <b>ID:</b> <%= applicant.student_unique_id %>
           </div>
           <!-- /.col -->
         </div>
@@ -128,8 +128,17 @@
           <div class="col-12">
             
             <a type="button " class="btn-block btn-sm btn no-print" style="background-color: aqua;" onclick="window.location.reload();"><i class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print Registration Slip</a>
-            <a type="button " class="btn-block btn-sm btn no-print" style="background-color: aqua;" href="/registration/newlevelbasedregistration"> Go Back</a>
+           <% if( programtag == "ngo"){ %>
+            <a type="button " class="btn-block btn-sm btn no-print" style="background-color: aqua;" href="/registration/newngobasedregistration"> Go Back</a>
          
+            <% }else if(programtag == "level"){ %>
+              <a type="button " class="btn-block btn-sm btn no-print" style="background-color: aqua;" href="/registration/newlevelbasedregistration"> Go Back</a>
+         
+              <% }else if(programtag == "industry"){ %>
+                <a type="button " class="btn-block btn-sm btn no-print" style="background-color: aqua;" href="/registration/newindustrybasedregistration"> Go Back</a>
+         
+                <% } %>
+          
           </div>
         </div>
       </div>

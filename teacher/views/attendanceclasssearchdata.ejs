@@ -104,7 +104,7 @@
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
+                <li class="breadcrumb-item active">Attendance Data Section List</li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -118,7 +118,7 @@
             <div class="col-md-12">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <div class="card-title">Class List </div>
+                        <div class="card-title">Section List </div>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -138,13 +138,28 @@
                                           </div>
                                           <!-- /.card-header -->
                                           <div class="card-body" style="display: none;">
-                                              <li><%= row.training_type %></li>
-                                              <li><%= row.training_level %></li>
-                                              
+                                            <div class="" style="text-transform: capitalize;">
+                                              <li>Batch:<%= row.batch_name %></li>
+                                              <li>Department:<%= row.department_name %></li>
+                                                <li>Program Type:<%= row.training_type %></li>
+                                                <% var x =  row.training_level;  %>
+                                                <% if(x){  %>
+                                                  <li><%= x %> </li>
+                                                <%}%>
+                                                <% var programtype = row.program_type %>
+                                                <% if(programtype == "ngo"){ %>
+                                                   <li>Short Term/Project/ Based</li>
+                                               <% }else if(programtype =="level"){%>
+                                                    <li>Level Based</li>
+                                                <%}else if(programtype=="industry"){%>
+                                                     <li>Industry Based</li>
+                                                <%}%>
+                                             </div>
                                             <form action="/attendance/attendancedatafromclass/<%= row.class_id %>" method="post">
                                                <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                                <input type="hidden" name="dept" value="<%= row.department_id %>">
                                                <input type="hidden" name="level" value="<%= row.training_level %>">
+                                               <input type="hidden" name="programtypeb" value="<%= row.program_type %>">
 
                                                <input type="hidden" name="programtype" value="<%= row.training_type %>">
 

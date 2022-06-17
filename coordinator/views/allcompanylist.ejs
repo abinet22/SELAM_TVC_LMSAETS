@@ -1,23 +1,22 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" style="height: auto;"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | DataTables</title>
+  <title>SELAM_TVC</title>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+
+
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+<!-- DataTables -->
+<link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini ">
 <div class="wrapper">
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -27,95 +26,18 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="../../index3.html" class="nav-link">Home</a>
+        <a href="/dashboard" class="nav-link">Home</a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
+   
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
-      <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
-        <div class="navbar-search-block">
-          <form class="form-inline">
-            <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
-                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </li>
+     
 
       <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="../../dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="../../dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  John Pierce
-                  <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">I got your message bro</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="../../dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Nora Silvester
-                  <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">The subject goes here</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-        </div>
-      </li>
+  
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -149,8 +71,8 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
+        <a class="nav-link" href="/logout" role="button">
+          Logout
         </a>
       </li>
     </ul>
@@ -160,149 +82,158 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar  elevation-4">
     <!-- Brand Logo -->
-         <!-- Brand Logo -->
-         <%- include('./partials/sidebar') %>
+    <%- include('./partials/sidebar') %>
     <!-- /.sidebar -->
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="min-height: 2128.12px;">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Dashboard</h1>
-          </div>
+            <h1 class="m-0">Dashboard</h1>
+          </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Company List</li>
+              <li class="breadcrumb-item active">Dashboard</li>
             </ol>
-          </div>
-        </div>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
       </div><!-- /.container-fluid -->
-    </section>
+    </div>
+    <!-- /.content-header -->
 
     <!-- Main content -->
-    <section class="content">
+    <div class="content">
       <div class="container-fluid">
-        <div class="col-md-12  grid-margin stretch-card">    
-          <div class="card">
-         <div class="card-body">
-           <h4 class="card-title"> All Company List</h4>
-           <div class="row" style="display: none;">
-               <div class="col-sm-12 col-md-6">
-                   <div class="dt-buttons btn-group flex-wrap">               
-               <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Copy</span></button> 
-               <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>CSV</span></button> 
-               <button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Excel</span></button> 
-               <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>PDF</span></button>
-                <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="example1" type="button"><span>Print</span></button> <div class="btn-group">
-                    <button class="btn btn-secondary buttons-collection dropdown-toggle buttons-colvis" tabindex="0" aria-controls="example1" type="button" aria-haspopup="true" aria-expanded="false"><span>Column visibility</span></button></div> </div></div>
-                    
-                    <div class="col-sm-12 col-md-6"><div id="example1_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1"></label></div></div>
-                   </div>
-           <div class="table-responsive" id="trainingdata">
-               <table aria-describedby="example1_info" role="grid" class="table table-bordered table-striped dataTable dtr-inline" id="example1">
-                       
-               <thead>
-                 <tr>
- <th>#</th>
- <th>Company Name </th>
- <th>Business Category</th>
-                   <th>Contact Name </th>
-                 
-                   <th>Contact Phone </th>
-                   <th>Comapny Address </th>
-                 </tr>
-               </thead>
-               <tbody>
-                   
-                   <% if(companylist.length >0 ) { %>
-                       <% var i = 0 ;%>
-                          <% companylist.forEach(function (row){ %>
-                           <% i++ %>
-                           <tr>
-                               <td><%= i %></td>
-                               <td><%= row.company_name %></td>
-                               <td><%= row.business_category %></td>
-                               <td><%= row.contact_person_jbs %></td>
-                               <td><%= row.contact_person_phone %></td>
-                               <td><%= row.region +" " +row.zone +" "+row.woreda +" "+row.hno %></td>
+          <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fas fa-edit"></i>
+               Search Level Based Student Reports
+                </h3>
+              </div>
+              <div class="card-body">
+                <h4>Action To Do</h4>
+                <div class="row">
+                  <div class="col-5 col-sm-3">
+                    <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                      <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Progress Report</a>
+                      <a class="nav-link" id="vert-tabs-printid-tab" data-toggle="pill" href="#vert-tabs-printid" role="tab" aria-controls="vert-tabs-printid" aria-selected="false">Attendance Report</a>
+                  
+                  </div>
+                  </div>
+                  <div class="col-7 col-sm-9">
+                    <%- include ('./partials/messages') %>
+                    <div class="tab-content" id="vert-tabs-tabContent">
+              
+                      <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
+                          <form action="/registration/selectallbybatchidtoregister" method="post">
+                              <div class="form-group">
+                                  <label>Select Lable Based Program</label>
+                                  <select class="form-control " name="programidbatch" id="programidbatch">
+                                   <option value="0">Please Select Program/Batch Name</option>
+                                   <% if(levelbased.length >0) {%>
+                                      <% levelbased.forEach(function (row){ %>
+                                        <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
+                                     <% })}else {}%>
+                                  </select>
+                                
+                              </div>
+                              <div class="form-group">
+                                <label>Select Department Name</label>
+                                <select class="form-control " name="dept" id="dept">
+                                 <option value="0">Please Select Department Name</option>
+                                 <% if(department.length >0) {%>
+                                    <% department.forEach(function (row){ %>
+                                      <option value="<%= row.department_id %>"><%= row.department_name %></option>
+                                   <% })}else {}%>
+                                </select>
                               
-                           
-                            
-                             </tr>
-                        <%  })} else{}     %>
-                    
-               </tbody>
-             </table>
-           </div>
-         
-         </div>
-       </div>
-     </div>
-          </div>
-    
+                            </div>
+                             
+                              <div class="col-md-6 offset-md-3">
+                                  <button type="submit" class="btn btn-block btn-sm btn-primary">Show Progress</button>
+                       
+                              </div>
+                              </form>
+                        </div>
+                        <div class="tab-pane fade" id="vert-tabs-printid" role="tabpanel" aria-labelledby="vert-tabs-printid-tab">
+                          <form action="/trainee/printstudentid" method="post">
+                              <div class="form-group">
+                                  <label>Select Lable Based Program</label>
+                                  <select class="form-control " name="programidbatch" id="programidbatch">
+                                   <option value="0">Please Select Program/Batch Name</option>
+                                   <% if(levelbased.length >0) {%>
+                                      <% levelbased.forEach(function (row){ %>
+                                        <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
+                                     <% })}else {}%>
+                                  </select>
+                                
+                              </div>
+                              <div class="form-group">
+                                <label>Select Department Name</label>
+                                <select class="form-control " name="dept" id="dept">
+                                 <option value="0">Please Select Department Name</option>
+                                 <% if(department.length >0) {%>
+                                    <% department.forEach(function (row){ %>
+                                      <option value="<%= row.department_id %>"><%= row.department_name %></option>
+                                   <% })}else {}%>
+                                </select>
+                              
+                            </div>
+                             
+                              <div class="col-md-6 offset-md-3">
+                                  <button type="submit" class="btn btn-block btn-sm btn-primary">Show Attendance</button>
+                       
+                              </div>
+                              </form>
+                        </div>
+                     
+                    </div>
+                  </div>
+                </div>
+               
+              </div>
+              <!-- /.card -->
+            </div>
         <!-- /.row -->
       </div>
       <!-- /.container-fluid -->
-    </section>
+    </div>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
-      <!-- Brand Logo -->
-      <%- include('./partials/footer') %> 
-</footer>
 
   <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
-</div>
+<!-- /.control-sidebar -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+      <%- include ('./partials/footer') %>
+  </footer>
+
 <!-- ./wrapper -->
 
+<!-- REQUIRED SCRIPTS -->
+
 <!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables  & Plugins -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../../plugins/jszip/jszip.min.js"></script>
-<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
+<script src="../../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE -->
+<script src="../../../dist/js/adminlte.js"></script>
+<script src="../../plugins/select2/js/select2.full.min.js"></script>
+<!-- OPTIONAL SCRIPTS -->
+<script src="../../../plugins/chart.js/Chart.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
-<!-- Page specific script -->
-<script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
-</script>
-</body>
-</html>
+<script src="../../../dist/js/demo.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="../../../dist/js/pages/dashboard3.js"></script>
+<script src="../../plugins/toastr/toastr.min.js"></script>
+
+
+</body></html>

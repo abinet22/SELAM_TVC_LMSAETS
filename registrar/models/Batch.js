@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
         },
         batch_to: {
             type: DataTypes.DATE,
+        },
+        is_current:{
+            type: DataTypes.STRING,
         }
        
     });

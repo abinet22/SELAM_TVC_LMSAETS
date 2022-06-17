@@ -135,7 +135,7 @@
                           </div>
                         </div>
                         <div class="col-7 col-sm-9">
-                          
+                          <%- include ('./partials/messages') %>
                           <div class="tab-content" id="vert-tabs-tabContent">
                             <div class="tab-pane text-left fade" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
                                 <form class="forms-sample" action="/classmanage/addnewclasslevelbased" method="post">
@@ -269,10 +269,10 @@
                                         <div class="col-md-6">
                                           <div class="form-group">
                                             <label for="exampleInputConfirmPassword1">Program Name</label>
-                                            <select class="form-control" id="batchidn" name="batchidn">
+                                            <select class="form-control" id="batchid" name="batchid">
                                              <option value="0">please select training program name</option>
-                                             <% if(levelbased.length >0) {%>
-                                              <% levelbased.forEach(function (row){ %>
+                                             <% if(ngobased.length >0) {%>
+                                              <% ngobased.forEach(function (row){ %>
                                                 <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
                                              <% })}else {}%>
                                               
@@ -282,7 +282,7 @@
                                         <div class="col-md-6">
                                           <div class="form-group">
                                             <label for="exampleInputConfirmPassword1">Department Name</label>
-                                            <select class="form-control" id="deptidn" name="deptidn">
+                                            <select class="form-control" id="deptidn" name="deptid">
                                              <option value="0">please select department name</option>
                                             
                                              <% if(department.length >0) {%>
@@ -299,7 +299,7 @@
                                   
                                     <div class="form-group">
                                       <label for="exampleInputConfirmPassword1">Training Type </label>
-                                      <select class="form-control" id="programtypen" name="programtypen">
+                                      <select class="form-control" id="programtypen" name="programtype">
                                        <option value="0">please select training program type</option>
                                        <option value="Regular">Regular</option>
                                        <option value="Extension">Extension</option>
@@ -324,7 +324,7 @@
                                          
                                         </div>
                                       </div>
-                                      <input type="hidden" id="criteriango" name="criteriango">
+                                      <input type="hidden" id="criteriango2" name="criteriango2">
                                    
                                           <div class="row">
                                             <div class="col-md-6 offset-md-4 form-check form-check-primary">
@@ -352,7 +352,7 @@
                                         var checkboxvalue = criname +"_"+ criid ;
                                         criteria.push(classnamen);
                                        // $('#criteria').val([criteria]);
-                                       $('#criteriango').val( JSON.stringify(criteria) );
+                                       $('#criteriango2').val( JSON.stringify(criteria) );
                                      console.log( JSON.stringify(criteria) );
                           
                     $("#listngo").append("<li><input type='checkbox' id="+ checkboxvalue +" class='form-check-input' checked >" + classnamen + "</li>");
@@ -376,10 +376,10 @@
                                         <div class="col-md-6">
                                           <div class="form-group">
                                             <label for="exampleInputConfirmPassword1">Program Name</label>
-                                            <select class="form-control" id="batchidi" name="batchidi">
+                                            <select class="form-control" id="batchidi" name="batchid">
                                              <option value="0">please select training program name</option>
-                                             <% if(levelbased.length >0) {%>
-                                              <% levelbased.forEach(function (row){ %>
+                                             <% if(industrybased.length >0) {%>
+                                              <% industrybased.forEach(function (row){ %>
                                                 <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
                                              <% })}else {}%>
                                               
@@ -389,7 +389,7 @@
                                         <div class="col-md-6">
                                           <div class="form-group">
                                             <label for="exampleInputConfirmPassword1">Department Name</label>
-                                            <select class="form-control" id="deptidi" name="deptidi">
+                                            <select class="form-control" id="deptidi" name="deptid">
                                              <option value="0">please select department name</option>
                                             
                                              <% if(department.length >0) {%>
@@ -406,7 +406,7 @@
                                   
                                     <div class="form-group">
                                       <label for="exampleInputConfirmPassword1">Training Type </label>
-                                      <select class="form-control" id="programtypei" name="programtypei">
+                                      <select class="form-control" id="programtypei" name="programtype">
                                        <option value="0">please select training program type</option>
                                        <option value="Regular">Regular</option>
                                        <option value="Extension">Extension</option>

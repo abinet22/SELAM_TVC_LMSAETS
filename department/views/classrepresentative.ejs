@@ -104,7 +104,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Assign Class Representative</li>
+              <li class="breadcrumb-item active">Assign Section Representative</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -118,102 +118,97 @@
           <div class="col-md-12">
               <div class="card card-primary">
                   <div class="card-header">
-                      <h4 class="card-title">Class List</h4>
+                      <h4 class="card-title">Section List</h4>
                     </div>
                 <div class="card-body">
-                 
-                    <ul class="nav nav-tabs " id="myTab" role="tablist">
-                      <li class="nav-item" role="presentation">
-                        <button class="nav-link active" style="background-color: #f48d5b;" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="false"><%= traininglevel %></button>
-                      </li>
-                    
-                    </ul>
-                    <div class="tab-content " id="myTabContent">
-                      <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">    <div class="row">
-                        <div class="col-md-12  grid-margin stretch-card">     <div class="card">
-                            <div class="card-body">
-                              <h4 class="card-title"> Class List</h4><br>
-                              <div class="alert  alert-dismissible fade show" role="alert" id="server" style="display: none;">
-                                <p id="servermsg"></p>
-                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                   <span aria-hidden="true">×</span>
-                                 </button>
-                               </div>
-                             
-                             <div class="row">
-                               <input type="hidden" name="programid" id="programid" value="<%= programid %>">
-                               <input type="hidden" name="level" id="level" value="<%= traininglevel %>">
-                               <input type="hidden" name="programtype" id="programtype" value="<%= programtype %>">
-                            
+                  <div class="row">
+                    <div class="col-md-12  grid-margin stretch-card">     <div class="card">
+                        <div class="card-body">
+                          <h4 class="card-title"> Section List</h4><br>
+                          <div class="alert  alert-dismissible fade show" role="alert" id="server" style="display: none;">
+                            <p id="servermsg"></p>
+                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                               <span aria-hidden="true">×</span>
+                             </button>
+                           </div>
+                         
+                         <div class="row">
+                           <input type="hidden" name="programid" id="programid" value="<%= programid %>">
+                           <input type="hidden" name="level" id="level" value="<%= traininglevel %>">
+                           <input type="hidden" name="programtype" id="programtype" value="<%= programtype %>">
+                        
 
-                             </div>
-                              <fieldset id="level1">
-                              <div class="table-responsive" id="trainingdata">
-                                <table class="table table-hover">
-                                  <thead>
+                         </div>
+                          <fieldset id="level1">
+                          <div class="table-responsive" id="trainingdata">
+                            <table class="table table-hover">
+                              <thead>
+                             
+                                <tr>
+                <th>#</th>
+                                
+                                  <th>Section Name </th>
+                                  <th>Current Section Representative </th>
+                                  <th>Assign Section Rep. Teacher</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+              
                                  
-                                    <tr>
-                    <th>#</th>
-                                    
-                                      <th>Training Class Name </th>
-                                      <th>Current Representative </th>
-                                      <th>Assign Class Rep. Teacher</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                  
-                                     
-                                    <% if(classlist.length >0) {%>
-                                      <% var i = 0; %>
-                                      <% classlist.forEach(function (row){ %>
-                                            <% i++; %>          
-                                            <tr>
-                                              <td><%= i %></td>
-                                              <td><%= row.class_name %></td>
-                                              <td><%var assrep = row.rep_teacher_id %>
-                                                <% if(teacherlist.length >0) {%>
-                                                  <% teacherlist.forEach(function (aaa){ %>
-                                                 <% var stid = aaa.staff_id %>
-                                                 <% if(stid===assrep) {%>
-                                                  <%= aaa.staff_f_name %> &nbsp; <%= aaa.staff_m_name %>
+                                <% if(classlist.length >0) {%>
+                                  <% var i = 0; %>
+                                  <% classlist.forEach(function (row){ %>
+                                        <% i++; %>          
+                                        <tr>
+                                          <td><%= i %></td>
+                                          <td><%= row.class_name %></td>
+                                          <td><%var assrep = row.rep_teacher_id %>
+                                            <% if(teacherlist.length >0) {%>
+                                              <% teacherlist.forEach(function (aaa){ %>
+                                             <% var stid = aaa.staff_id %>
+                                             <% if(stid===assrep) {%>
+                                              <%= aaa.staff_f_name %> &nbsp; <%= aaa.staff_m_name %>
 
-                                                    <%} })}else {}%>
-                                              </td>
-                                             
-                                              <td>
-                                              
-                                                <div class="form-group">
-                                                  <select class="form-control" id="<%= row.class_id %>" name="<%= row.class_id %>">
-                                                    <option value="0">Please select teacher name</option>
-                                                    <% if(teacherlist.length >0) {%>
-                                                     <% teacherlist.forEach(function (aaa){ %>
-                                                       <option value="<%= aaa.staff_id %>"><%= aaa.staff_f_name %> <%= aaa.staff_m_name %> </option>
-                                                    <% })}else {}%>
-                                                    </select>
-                                              </div>
-                                             </td>
-                                            </tr>
-                                    
-                                        <% })}else {}%>   
-                                    
-                                    
-                                  </tbody>
-                                </table>
-                              </div>
-                              <div class="col-md-6 offset-md-3">
-                             
-                                <button class="form-control btn btn-block mb-2" id="addlevel1" style="background-color: #f48d5b;" type="submit">Submit</button>
-                             
-                            </div>
-                            </fieldset>
-                          
-                            </div>
-                          
+                                                <%} })}else {}%>
+                                          </td>
+                                         
+                                          <td>
+                                          
+                                            <div class="form-group">
+                                              <select class="form-control" id="<%= row.class_id %>" name="<%= row.class_id %>">
+                                                <option value="0">Please select teacher name</option>
+                                                <% if(teacherlist.length >0) {%>
+                                                 <% teacherlist.forEach(function (aaa){ %>
+                                                   <option value="<%= aaa.staff_id %>"><%= aaa.staff_f_name %> <%= aaa.staff_m_name %> </option>
+                                                <% })}else {}%>
+                                                </select>
+                                          </div>
+                                         </td>
+                                        </tr>
+                                
+                                    <% })}else {}%>   
+                                
+                                
+                              </tbody>
+                            </table>
                           </div>
+                          <div class="col-md-6 offset-md-3">
+                         
+                            <button class=" btn btn-block mb-2 btn-sm btn-primary" id="addlevel1"  type="submit">Submit</button>
+                         
                         </div>
-                     
-                    
+                        </fieldset>
+                      
+                        </div>
+                      
                       </div>
+                    </div>
+                 
+                
+                  </div>
+                    <div class="tab-content " id="myTabContent">
+                      <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">   
+                         
                     </div>
                     <script>
                       $(function(){

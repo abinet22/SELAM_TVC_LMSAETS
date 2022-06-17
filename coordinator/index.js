@@ -71,9 +71,10 @@ app.use('/programs', require('./routes/programs.js'));
 app.use('/company', require('./routes/company.js'));
 app.use('/trainee', require('./routes/trainee.js'));
 app.use('/applicant',require('./routes/applicant.js'));
-app.use('/registration',require('./routes/registration.js'));
+app.use('/reports',require('./routes/reports.js'));
 app.use('/staff',require('./routes/staff.js'));
-
+app.use('/evaluation',require('./routes/evaluation.js'));
+app.use('/attendance',require('./routes/attendance.js'));
 app.use('/classmanage',require('./routes/classmanage.js'));
 
 

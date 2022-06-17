@@ -1,10 +1,39 @@
-<a href="/dashboard" class="brand-link">
-    <img src="../../../dist/img/logoselam.png" alt="" class="brand-image img-circle elevation-3" style="opacity: .8">
-    <span class="brand-text font-weight-hard" style="color: #f27030;"><b>SELAM TVC LMS</b></span>
-  </a>
-
+<style>
+  .animate-charcter
+ {
+    text-transform: uppercase;
+   background-image: linear-gradient(
+     -225deg,
+     #f27030 0%,
+     #f27030 29%,
+     #ff1361 67%,
+     #fff800 100%
+   );
+   background-size: auto auto;
+   background-clip: border-box;
+   background-size: 200% auto;
+   color: #fff;
+   background-clip: text;
+   text-fill-color: transparent;
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+   animation: textclip 2s linear infinite;
+   display: inline-block;
+       font-size: 20px;
+ }
+ 
+ @keyframes textclip {
+   to {
+     background-position: 200% center;
+   }
+ } 
+ </style>
+ <a href="/dashboard" class="brand-link">
+     <img src="../../../dist/img/logoselam.jpg" alt="" class="brand-image img-circle elevation-3" style="opacity: .8">
+     <span class="brand-text font-weight-hard" style="color: #f27030;"><h3 class="animate-charcter">SELAM TVC LMS</h3></span>
+   </a>
   <!-- Sidebar -->
-  <div class="sidebar">
+  <div class="sidebar sidebar-white-primary">
     <!-- Sidebar user panel (optional) -->
    
 
@@ -115,31 +144,27 @@
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="nav-icon  fa fa-database"></i>
+            <i class="nav-icon fas fa-hand-holding-usd"></i>
             <p>
-              Manage Data
+              Manage Funder
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
           <ul class="nav nav-treeview">
-          
             <li class="nav-item">
-              <a href="/datalist/alldatahistory" class="nav-link">
+              <a href="/addnewfunder" class="nav-link">
               
-                <p>Data Log</p>
+                <p>Add New Funder</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/allfunderlist" class="nav-link">
+              
+                <p>All Funder List</p>
               </a>
             </li>
           
           </ul>
-        </li>
-        <li class="nav-item">
-          <a href="/notifications" class="nav-link">
-            <i class="nav-icon fas fa-bell"></i>
-            <p>
-              Notifications
-              <span class="right badge badge-danger">New</span>
-            </p>
-          </a>
         </li>
       
         <li class="nav-item">
@@ -158,15 +183,39 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/addnewfunder" class="nav-link">
-           
-                <p>Add Program Funder</p>
+              <a href="/allselectioncriterialist" class="nav-link">
+             
+                <p>Selection Criteria List</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="/addnewsystemuser" class="nav-link">
              
                 <p>Create System User</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/allsystemuserlist" class="nav-link">
+             
+                <p>System User List</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon  fa fa-database"></i>
+            <p>
+              Manage Data
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+          
+            <li class="nav-item">
+              <a href="/datalist/alldatahistory" class="nav-link">
+              
+                <p>Data Log</p>
               </a>
             </li>
           
