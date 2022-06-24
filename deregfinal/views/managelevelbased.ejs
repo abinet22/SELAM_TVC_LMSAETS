@@ -119,7 +119,7 @@
                 <div class="card-header">
                   <h3 class="card-title">
                     <i class="fas fa-edit"></i>
-                 Search Registered Students 
+                    Search Level Based Trainee Students 
                   </h3>
                 </div>
                 <div class="card-body">
@@ -127,10 +127,11 @@
                   <div class="row">
                     <div class="col-5 col-sm-3">
                       <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
-                        <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Search Single Student</a>
-                        <a class="nav-link" id="vert-tabs-printid-tab" data-toggle="pill" href="#vert-tabs-printid" role="tab" aria-controls="vert-tabs-printid" aria-selected="false">Search By Department </a>
-                        <a class="nav-link" id="vert-tabs-printgraderpt-tab" data-toggle="pill" href="#vert-tabs-printgraderpt" role="tab" aria-controls="vert-tabs-printgraderpt" aria-selected="false">Search By Class</a>
-                     
+                       <a class="nav-link" id="vert-tabs-printid-tab" data-toggle="pill" href="#vert-tabs-printid" role="tab" aria-controls="vert-tabs-printid" aria-selected="false">Show Mark List Report </a>
+                       <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Search Single Student Data</a>
+                      
+                       <!-- <a class="nav-link" id="vert-tabs-printgraderpt-tab" data-toggle="pill" href="#vert-tabs-printgraderpt" role="tab" aria-controls="vert-tabs-printgraderpt" aria-selected="false">Search By Class</a>
+                      -->
                     </div>
                     </div>
                     <div class="col-7 col-sm-9">
@@ -138,7 +139,8 @@
                       <div class="tab-content" id="vert-tabs-tabContent">
                 
                         <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
-                            <form action="/trainee/selecttraineeebyid" method="post">
+                            <form action="/trainee/selecttraineeebyidtogradereport" method="post">
+                              <input type="hidden" name="programtag" value="level">
                                 <div class="form-group">
                                     <label>Select Level Based Program</label>
                                     <select class="form-control " name="programidbatch" id="programidbatch">
@@ -149,7 +151,18 @@
                                        <% })}else {}%>
                                     </select>
                                   
-                                </div>
+                                </div> <div class="form-group">
+                                  <label>Select Training Level</label>
+                                  <select name="level" class="form-control">
+                                      <option value="0">Please Select Training Level</option>
+                                      <option value="Level_1">Level_1</option>
+                                      <option value="Level_2">Level_2</option>
+                                      <option value="Level_3">Level_3</option>
+                                      <option value="Level_4">Level_4</option>
+                                      <option value="Level_5">Level_5</option>
+                                  </select>
+                              </div> 
+
                                 <div class="form-group">
                                   <label>Enter ID</label>
                                   <input name="traineeid" class="form-control" placeholder="Please enter trainee ID">
@@ -163,7 +176,8 @@
                                 </form>
                           </div>
                           <div class="tab-pane fade" id="vert-tabs-printid" role="tabpanel" aria-labelledby="vert-tabs-printid-tab">
-                            <form action="/trainee/allthisselecteddepartment" method="post">
+                            <form action="/trainee/searchtraineebydepartmentgradereport" method="post">
+                              <input type="hidden" name="programtag" value="level">
                                 <div class="form-group">
                                     <label>Select Level Based Program</label>
                                     <select class="form-control " name="programidbatch" id="programidbatch">
@@ -186,6 +200,17 @@
                                   </select>
                                 
                               </div>
+                              <div class="form-group">
+                                <label>Select Training Level</label>
+                                <select name="level" class="form-control" >
+                                    <option value="0">Please Select Training Level</option>
+                                    <option value="Level_1">Level_1</option>
+                                    <option value="Level_2">Level_2</option>
+                                    <option value="Level_3">Level_3</option>
+                                    <option value="Level_4">Level_4</option>
+                                    <option value="Level_5">Level_5</option>
+                                </select>
+                            </div> 
                                
                                 <div class="col-md-6 offset-md-3">
                                     <button type="submit" class="btn btn-block btn-sm btn-primary">Submit</button>
@@ -217,6 +242,17 @@
                                   </select>
                                 
                               </div>
+                              <div class="form-group">
+                                <label>Select Training Level</label>
+                                <select name="level" class="form-control">
+                                    <option value="0">Please Select Training Level</option>
+                                    <option value="Level_1">Level_1</option>
+                                    <option value="Level_2">Level_2</option>
+                                    <option value="Level_3">Level_3</option>
+                                    <option value="Level_4">Level_4</option>
+                                    <option value="Level_5">Level_5</option>
+                                </select>
+                            </div> 
                               <div class="form-group">
                                 <label>Select Class Name</label>
                                 <select class="form-control " name="dept" id="dept">

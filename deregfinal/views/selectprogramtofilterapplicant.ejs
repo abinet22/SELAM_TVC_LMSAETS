@@ -128,7 +128,7 @@
                     <div class="col-5 col-sm-3">
                       <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
                         <a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="false">Level Based</a>
-                        <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">NGO Based</a>
+                        <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Short Term/Project/ Based</a>
                     </div>
                     </div>
                     <div class="col-7 col-sm-9">
@@ -176,7 +176,7 @@
                         <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
                             <form action="/applicant/filterapplicantngobased" method="post">
                                 <div class="form-group">
-                                    <label>Select NGO Based Program</label>
+                                    <label>Select Short Term/Project/ Based Program</label>
                                     <select class="form-control " name="programidngo" id="programidngo">
                                      <option value="0">Please Select Program/Batch Name</option>
                                      <% if(ngobased.length >0) {%>
@@ -192,7 +192,8 @@
                                         <option value="0">Please Select Program Type</option>
                                         <option value="Regular">Regular</option>
                                         <option value="Extension">Extension</option>
-                                      
+                                        <option value="Short_Term">Short Term</option>
+                                  
                                      
                                     </select>
                                 </div>

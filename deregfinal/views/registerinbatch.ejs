@@ -184,6 +184,7 @@
                                             <td><form action="/registration/searchapplicantbyidtoregister" method="post">
                                           <input type="hidden" name="programidlevel" value="<%= row.application_id %>" >
                                           <input type="hidden" name="applicantid" value="<%= row.applicant_id %>" >
+                                          <input type="hidden" name="programtag" value="<%=  programtag%>">
                                            <button class="btn btn-sm btn-success btn-block" type="submit">Register Applicant</button>
                                             </form></td>
                                          

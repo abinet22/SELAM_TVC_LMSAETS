@@ -68,14 +68,15 @@ router.post('/searchapplicantbyidtoregister',ensureAuthenticated,async function(
   const applicant = await NewApplicant.findOne({where:{application_id:programidlevel,applicant_id:applicantid,is_selected:"Yes"}});
   if(applicant){
     const department = await Department.findOne({where:{department_id:applicant.selected_department}})
-    const courselist = await Course.findAll({where:{department_id:applicant.selected_department,training_level:applicant.choice_level,semister:"1"}})
+    const courselist = await Course.findAll({where:{department_id:applicant.selected_department,training_level:applicant.choice_level}})
     const classlist = await ClassInDept.findAll({where:{batch_id:programidlevel,department_id:applicant.selected_department,training_level:applicant.choice_level,training_type:applicant.choice_program_type}})
     res.render('registersingleapplicant',{
         applicant:applicant,
         classlist:classlist,
         department:department,
         courselist:courselist,
-        programidlevel:programidlevel
+        programidlevel:programidlevel,
+        programtag:"level"
     });
   }
   else{
@@ -97,14 +98,15 @@ router.post('/searchapplicantbyidtoregisterngo',ensureAuthenticated,async functi
   const applicant = await NewApplicant.findOne({where:{application_id:programidlevel,applicant_id:applicantid,is_selected:"Yes"}});
   if(applicant){
     const department = await Department.findOne({where:{department_id:applicant.selected_department}})
-    const courselist = await NGOCourse.findAll({where:{department_id:applicant.selected_department}})
+    const courselist = await NGOCourse.findAll({where:{department_id:applicant.selected_department,batch_id:programidlevel}})
     const classlist = await ClassInDept.findAll({where:{batch_id:programidlevel,department_id:applicant.selected_department}})
     res.render('registersingleapplicantngo',{
         applicant:applicant,
         classlist:classlist,
         department:department,
         courselist:courselist,
-        programidlevel:programidlevel
+        programidlevel:programidlevel,
+        programtag:"ngo"
     });
   }
   else{
@@ -126,14 +128,15 @@ router.post('/searchapplicantbyidtoregisterindustry',ensureAuthenticated,async f
   const applicant = await NewApplicant.findOne({where:{application_id:programidlevel,applicant_id:applicantid,is_selected:"Yes"}});
   if(applicant){
     const department = await Department.findOne({where:{department_id:applicant.selected_department}})
-    const courselist = await IndustryCourse.findAll({where:{department_id:applicant.selected_department,program_type:"NGO_Based"}})
+    const courselist = await IndustryCourse.findAll({where:{department_id:applicant.selected_department,batch_id:programidlevel}})
     const classlist = await ClassInDept.findAll({where:{batch_id:programidlevel,department_id:applicant.selected_department}})
     res.render('registersingleapplicantindustry',{
         applicant:applicant,
         classlist:classlist,
         department:department,
         courselist:courselist,
-        programidlevel:programidlevel
+        programidlevel:programidlevel,
+        programtag:"industry"
     });
   }
   else{
@@ -344,7 +347,108 @@ console.log("No File!")
          }
   
   });
-  router.get('/printslipngobased/(:batchid)/(:applicantid)',ensureAuthenticated,async function(req,res){
+router.post('/registernewtraineeindustry/(:programidlevel)/(:applicantid)',uploadFile.single("traineephoto"),ensureAuthenticated,async function(req,res){
+    
+    const{classname,traineeid} = req.body;
+
+    if(!req.file){
+console.log("No File!")
+    }
+
+
+    const applicant = await NewApplicant.findOne({where:{application_id:req.params.programidlevel,applicant_id:req.params.applicantid,is_selected:"Yes"}});
+    if(!applicant){
+     
+      res.render('searchapplicanttoregisterngo',{
+        levelbased:levelbased,
+        ngobased:ngobased,
+        error_msg:'Cant find register applicant with this application ID please try again'
+    })
+    }else{
+        const department = await Department.findAll({});
+          const [levelbased, metalevelbaseddata] = await sequelize.query(
+            "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open='Yes'"
+          );
+        // const department = await Department.findOne({where:{department_id:applicant.selected_department}})
+        // const courselist = await Course.findAll({where:{department_id:applicant.selected_department,training_level:applicant.choice_level}})
+        // const classlist = await ClassInDept.findAll({where:{batch_id:req.params.programidlevel,department_id:applicant.selected_department,training_level:applicant.choice_level,training_type:applicant.choice_program_type}})
+        const v1options = {
+          node: [0x01, 0x23],
+          clockseq: 0x1234,
+          msecs: new Date('2011-11-01').getTime(),
+          nsecs: 5678,
+        };
+        studentid = uuidv4(v1options);
+        const newngobasedtraineeData = {
+            batch_id: applicant.application_id,
+            applicant_id: applicant.applicant_id,
+            applicant_photo: fs.readFileSync(
+                path.join(__dirname,'../public/uploads/') + req.file.filename
+              ),
+            photo_type: req.file.mimetype,
+            photo_name: req.file.filename,
+            trainee_id: studentid,
+            student_unique_id:traineeid,
+            personal_info: applicant.personal_info,
+            contact_info: applicant.contact_info,
+            grade9_trans: applicant.grade9_trans,
+            grade10_trans:applicant.grade10_trans,
+            grade11_trans: applicant.grade11_trans,
+            grade12_trans:applicant.grade12_trans,
+            grade9_ave:applicant.grade9_ave,
+            grade10_ave: applicant.grade10_ave,
+            grade11_ave: applicant.grade11_ave,
+            grade12_ave: applicant.grade12_ave,
+            grade10_leaving: applicant.grade10_leaving,
+            grade12_leaving: applicant.grade12_leaving,
+            apptitude_result: applicant.apptitude_result,
+            department_id: applicant.selected_department,
+            admission_type:applicant.choice_program_type,
+            class_id: classname,
+            entry_level: applicant.choice_level,
+            current_level: applicant.choice_level,
+            entry_semister: "1",
+            current_semister: "1",
+            is_disable: "No",
+            is_graduated:"No",
+            is_dropout:"No",
+            countinue_study:"No",
+            payment_info:applicant.payment_info
+            
+        }
+        NGOBasedTrainee.findOne({where:{batch_id:req.params.programidlevel,applicant_id:req.params.applicantid}}).then(regtrainee =>{
+            if(regtrainee)
+            {
+                res.render('searchapplicanttoregisterngo',{
+                    levelbased:levelbased,
+                    ngobased:department,
+                    error_msg:'Applicant with this application ID already registered'
+                })
+            }
+            else{
+                NGOBasedTrainee.create(newngobasedtraineeData).then((trainee)=>{
+                    fs.writeFileSync(path.join(__dirname,'../public/uploads/')+ trainee.photo_name,
+                   
+                    trainee.applicant_photo
+                  );
+                  res.redirect("/registration/printslipngobased/"+req.params.programidlevel+"/"+req.params.applicantid +"");
+        
+                }).catch(error =>{
+                    console.log(error)
+                })
+            }
+        }).catch(error=>{
+            console.log(error)
+        })
+        
+         }
+  
+  });
+
+
+
+
+router.get('/printslipngobased/(:batchid)/(:applicantid)',ensureAuthenticated,async function(req,res){
    
     //const{programidlevel,applicantid} = req.body;
   const applicant = await NGOBasedTrainee.findOne({where:{batch_id:req.params.batchid,applicant_id:req.params.applicantid}});
@@ -398,6 +502,24 @@ router.get('/printslip/(:batchid)/(:applicantid)',ensureAuthenticated,async func
     });
   }
 });
+router.get('/printslipcontinuestudy/(:batchid)/(:applicantid)',ensureAuthenticated,async function(req,res){
+   
+  //const{programidlevel,applicantid} = req.body;
+const applicant = await LevelBasedTrainee.findOne({where:{batch_id:req.params.batchid,student_unique_id:req.params.applicantid}});
+if(applicant){
+  const department = await Department.findOne({where:{department_id:applicant.department_id}})
+  const courselist = await Course.findAll({where:{department_id:applicant.department_id,training_level:applicant.current_level}})
+  const classlist = await ClassInDept.findOne({where:{batch_id:req.params.batchid,department_id:applicant.department_id,training_level:applicant.current_level,training_type:applicant.admission_type}})
+  res.render('printregisterationslip',{
+      applicant:applicant,
+      classlist:classlist,
+      department:department,
+      courselist:courselist,
+      programidlevel:req.params.batchid,
+      programtag:"level"
+  });
+}
+});
 router.post('/selectallbybatchidtoregister',ensureAuthenticated,async function(req,res){
 
   const{programidbatch,dept} = req.body;
@@ -410,7 +532,7 @@ router.post('/selectallbybatchidtoregister',ensureAuthenticated,async function(r
   );
   NewApplicant.findAll({where:{application_id:programidbatch,selected_department:dept,is_selected:"Yes"}}).then(applicant =>{
 
-    res.render('registerinbatch',{applicantlist:allapplicants})
+    res.render('registerinbatch',{applicantlist:allapplicants,  programtag:"level"})
   }).catch(error =>{
    
     
@@ -434,7 +556,7 @@ router.post('/selectallbybatchidtoregisterngo',ensureAuthenticated,async functio
 
   NewApplicant.findAll({where:{application_id:programidbatch,selected_department:dept,is_selected:"Yes"}}).then(applicant =>{
 
-    res.render('registerinbatchngo',{applicantlist:allapplicants})
+    res.render('registerinbatchngo',{applicantlist:allapplicants,  programtag:"ngo"})
   }).catch(error =>{
    
     
@@ -458,7 +580,7 @@ router.post('/selectallbybatchidtoregisterindustry',ensureAuthenticated,async fu
 
   NewApplicant.findAll({where:{application_id:programidbatch,selected_department:dept,is_selected:"Yes"}}).then(applicant =>{
 
-    res.render('registerinbatchindustry',{applicantlist:allapplicants})
+    res.render('registerinbatchindustry',{applicantlist:allapplicants,  programtag:"industry"})
   }).catch(error =>{
    
     
@@ -470,7 +592,7 @@ router.post('/selectallbybatchidtoregisterindustry',ensureAuthenticated,async fu
 
 });
 
-router.get('/updateexistedtraineestatus',async function(req,res){
+router.get('/graduatedtraineetojbsdb',async function(req,res){
       const department = await Department.findAll({});
       const [levelbased, metalevelbaseddata] = await sequelize.query(
         "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id "
@@ -478,13 +600,13 @@ router.get('/updateexistedtraineestatus',async function(req,res){
       const [ngobased, metangobaseddata] = await sequelize.query(
         "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id "
       );
-      // const [industry, metaindustrybaseddata] = await sequelize.query(
-      //   "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id "
-      // );
-      res.render('updateexistedtraineestatus',{
+      const [industrybased, metaindustrybaseddata] = await sequelize.query(
+        "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id "
+      );
+      res.render('graduatedtraineetojbsdb',{
         levelbased:levelbased,
         ngobased:ngobased,
-        industrybased:ngobased,
+        industrybased:industrybased,
         department:department
     })
 })
@@ -694,4 +816,147 @@ console.log("No File!")
 
  
 });
+
+router.get('/existedlevelbasedtraineecontinuestudy',ensureAuthenticated,async function(req,res){
+  const department = await Department.findAll({});
+  const [levelbased, metalevelbaseddata] = await sequelize.query(
+    "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id where levelbasedprograms.is_open='Yes'  and levelbasedprograms.is_confirm ='Yes'"
+  );
+
+res.render('searchselectedapplicantcontinuestudy',{
+    levelbased:levelbased,
+    department:department
+})
+
+})
+router.post('/searchexistedtraineedata',ensureAuthenticated,async function(req,res){
+  const {batchid,traineeid,deptid,level,newlevel,addmissiontype,batchidnew} = req.body;
+  const departmentone = await Department.findAll({where:{department_id:deptid}});
+  const department = await Department.findAll({});
+  const [classlist, metaclasslist] = await sequelize.query(
+    "SELECT * FROM classindepts where department_id='"+deptid+"' and batch_id='"+batchid+"' and training_level='"+level+"'"
+  );
+  const [courselist, metacourselist] = await sequelize.query(
+    "SELECT * FROM course where department_id='"+deptid+"'  and training_level='"+newlevel+"'"
+  );
+  
+  const [levelbased, metalevelbaseddata] = await sequelize.query(
+    "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id where levelbasedprograms.is_open='Yes'  and levelbasedprograms.is_confirm ='Yes'"
+  );
+    const applicant = await LevelBasedTrainee.findOne({where:{batch_id:batchid,student_unique_id:traineeid,department_id:deptid,current_level:level}});
+    if(!applicant){
+     
+      res.render('searchselectedapplicantcontinuestudy',{
+        levelbased:levelbased,
+        department:department,
+        error_msg:'Cant find registerd trainee with this ID please try again'
+    })
+    }else{
+      res.render('registerexistedtraineecountinestudy',{
+        applicant:applicant,
+        classlist:classlist,
+        department:departmentone,
+        newlevel:newlevel,
+        level:level,
+        admissiontype:addmissiontype,
+        batchid:batchid,
+        batchidnew:batchidnew,
+        programtag:"level",
+        traineeid:traineeid,
+        courselist:courselist
+      
+    })
+        
+         }
+
+
+})
+router.post('/registercontinuestudy',ensureAuthenticated,async function(req,res){
+  const {batchid,batchidnew,traineeid,deptid,level,newlevel,admissiontype,classname} = req.body;
+
+  const department = await Department.findAll({});
+  const [levelbased, metalevelbaseddata] = await sequelize.query(
+    "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id where levelbasedprograms.is_open='Yes'  and levelbasedprograms.is_confirm ='Yes'"
+  );
+    const applicant = await LevelBasedTrainee.findOne({where:{batch_id:batchid,student_unique_id:traineeid,department_id:deptid,current_level:level}});
+    if(!applicant){
+     
+      res.render('searchselectedapplicantcontinuestudy',{
+        levelbased:levelbased,
+      department:department,
+        error_msg:'Cant find registerd trainee with this ID please try again'
+    })
+    }else{
+        const department = await Department.findAll({});
+          const [levelbased, metalevelbaseddata] = await sequelize.query(
+            "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id where levelbasedprograms.is_open='Yes'"
+          );
+             const v1options = {
+          node: [0x01, 0x23],
+          clockseq: 0x1234,
+          msecs: new Date('2011-11-01').getTime(),
+          nsecs: 5678,
+        };
+        studentid = uuidv4(v1options);
+        const newlevelbasedtraineeData = {
+            batch_id: batchidnew,
+            applicant_id: applicant.applicant_id,
+            applicant_photo: applicant.applicant_photo,
+            photo_type: applicant.photo_type,
+            photo_name: applicant.photo_name,
+            trainee_id: studentid,
+            student_unique_id:traineeid,
+            personal_info: applicant.personal_info,
+            contact_info: applicant.contact_info,
+            grade9_trans: applicant.grade9_trans,
+            grade10_trans:applicant.grade10_trans,
+            grade11_trans: applicant.grade11_trans,
+            grade12_trans:applicant.grade12_trans,
+            grade9_ave:applicant.grade9_ave,
+            grade10_ave: applicant.grade10_ave,
+            grade11_ave: applicant.grade11_ave,
+            grade12_ave: applicant.grade12_ave,
+            grade10_leaving: applicant.grade10_leaving,
+            grade12_leaving: applicant.grade12_leaving,
+            apptitude_result: applicant.apptitude_result,
+            department_id: applicant.department_id,
+            admission_type:admissiontype,
+            class_id: classname,
+            entry_level: applicant.entry_level,
+            current_level: newlevel,
+            entry_semister: "1",
+            current_semister: "1",
+            is_disable: "No",
+            is_graduated:"No",
+            is_dropout:"No",
+            countinue_study:"Yes",
+            payment_info:applicant.payment_info
+            
+        }
+        LevelBasedTrainee.findOne({where:{batch_id:batchid,student_unique_id:traineeid,current_level:newlevel}}).then(regtrainee =>{
+            if(regtrainee)
+            {
+                res.render('searchselectedapplicantcontinuestudy',{
+                    levelbased:levelbased,
+                    ngobased:department,
+                    error_msg:'Trainee with this application ID already registered'
+                })
+            }
+            else{
+                LevelBasedTrainee.create(newlevelbasedtraineeData).then((trainee)=>{
+                  
+                  res.redirect("/registration/printslipcontinuestudy/"+batchidnew+"/"+traineeid +"");
+        
+                }).catch(error =>{
+                    console.log(error)
+                })
+            }
+        }).catch(error=>{
+            console.log(error)
+        })
+        
+         }
+
+
+})
 module.exports = router;

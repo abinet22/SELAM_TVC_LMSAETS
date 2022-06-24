@@ -8,6 +8,9 @@ module.exports = (sequelize, DataTypes) => {
         applicant_id: {
             type: DataTypes.STRING,
         },
+        age:{
+            type: DataTypes.DECIMAL,
+        },
         personal_info: {
             type: DataTypes.JSON,
         },
@@ -44,6 +47,15 @@ module.exports = (sequelize, DataTypes) => {
         grade12_leaving: {
             type: DataTypes.DECIMAL,
         },
+        total_transcript_ave912:{
+            type: DataTypes.DECIMAL,
+        },
+        entrance_exam:{
+            type: DataTypes.DECIMAL,
+        },
+        affarmative_action:{
+            type: DataTypes.DECIMAL,
+        },
         apptitude_result: {
             type: DataTypes.DECIMAL,
         },
@@ -76,6 +88,12 @@ module.exports = (sequelize, DataTypes) => {
         },
         payment_info: {
             type: DataTypes.STRING,
+        },
+        disable_description: {
+            type: DataTypes.STRING,
+        },
+        scholarship_type:{
+            type: DataTypes.JSON,
         },
     });
   

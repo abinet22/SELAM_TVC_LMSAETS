@@ -61,6 +61,7 @@ app.use(function(req, res, next) {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
   res.locals.error = req.flash('error');
+  res.locals.success_msg_extra = req.flash('success_msg_extra');
   next();
 });
 
@@ -73,7 +74,7 @@ app.use('/trainee', require('./routes/trainee.js'));
 app.use('/applicant',require('./routes/applicant.js'));
 app.use('/registration',require('./routes/registration.js'));
 app.use('/staff',require('./routes/staff.js'));
-
+app.use('/sendtojbs',require('./routes/sendtojbs.js'));
 app.use('/classmanage',require('./routes/classmanage.js'));
 
 

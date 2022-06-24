@@ -100,7 +100,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Update Applicant Entrance Result</li>
+              <li class="breadcrumb-item active">Update Applicant Entranc e Exam Result</li>
             </ol>
           </div>
         </div>
@@ -115,7 +115,7 @@
                 <div class="col-md-12">
                     <div class="card card-primary">
                       <div class="card-header">
-                        <h4 class="card-title">Update Applicant Entrance Exam Result</h4>
+                        <h4 class="card-title">Update Applicant Entrance  Exam Result</h4>
                       </div>
                       <div class="card-body">
                        
@@ -143,20 +143,15 @@
                   <th>#</th>
                                     <th>Applicant Full Name</th>
                                     <th>Gender</th>
-                                    <th>Contact Info</th>
-                                    <th>Emergency Info</th>
-                                    <th>Extra Info</th>
-                                    <th>Department Choice</th>  
-                                    <th>Entry Exam Result</th>                                        
-                                     <th>Grade 9 Transcript Ave</th>
-                                    <th>Grade 10 Transcript Ave</th>
-                                    <th>Grade 11 Transcript Ave</th>
-                                    <th>Grade 12 Transcript Ave</th>
-                                    <th>Grade 10 Leaving Exam</th>
-                                    <th>Grade 12 Leaving Exam</th>
+                                    <th>Age</th>
                                   
                                   
-                                    <th>Action To Do</th>
+                                    <th>Grade 10/12 Leaving</th>  
+                                  
+                                     <th>Transcript Average (9-12)</th>
+                                     <th>Entrance/Apptitude Exam</th>
+                                    <th>Update Entrance Exam</th>
+                                    <th>Update Apptitude Test</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -177,52 +172,31 @@
                                           <td><%= i %></td>
                                           <td><%= fullname %></td>
                                           <td><%= name.gender %></td>
-                                          
-                                          <td>Self:&nbsp;<%= contactself %></td>
-                                          <td>Emergency:&nbsp;<%= contactemergency %></td>
+                                          <td><%= row.age %></td>
                                         
-                                          <td><%= row.is_disable %><br><%= row.disable_info %></td>
-                                         
-                                          <td><%var choice1 = row.choice_one %>
-                                               <%var choice2 =  row.choice_two %>
-                                               <% var choice3 = row.choice_three %>
-                                               <% if(department.length > 0){ %>
-                                                  <% department.forEach(function (row){ %>
-                                                     <% var dptid = row.department_id %>
-                                                     <%  if(dptid == choice1)  {%>
-                                                      <%   one = row.department_name %>
-                                                      <%   }  else if(dptid == choice2){%>
-                                                          <%   two = row.department_name %>
-                                                        
-                                                          <%   } else if(dptid == choice3){ %>
-                                                     
-                                                      <%    three = row.department_name %>
-                                                       
-                                                      <%  }%>
-                                                 <% })} %>
-                                              1:&nbsp; <%= one %><br>
-                                              2:&nbsp; <%= two %><br>
-                                              3:&nbsp; <%= three %><br>
+                                          <td>
+                                            <%=row.grade10_leaving %>/<%=row.grade12_leaving %>
                                           </td>
-                                          <td><%= row.apptitude_result %></td>
-                                          <td><%= row.grade9_ave %></td>
-                                          <td><%= row.grade10_ave %></td>
-                                          <td><%= row.grade11_ave %></td>
-                                          <td><%= row.grade12_ave %></td>
                                         
-                                          <td><%= row.grade10_leaving %></td>
-                                          <td><%= row.grade12_leaving %></td>
-                                         
+                                          <td><%= row.total_transcript_ave912 %></td>
+                                          <td><%= row.entrance_exam %>/<%= row.apptitude_result %></5></td>
                                           <td><form action="/applicant/updateentraceexamresult/<%= row.applicant_id %>" method="post">
                                          <div class="form-group">
                                              <label>Please Add Result Here</label>
                                              <input name="programidlevel" id="programidlevel" value="<%=programidlevel %>" type="hidden">
-                                             <input class="form-control" name="entranceresult" id="entranceresult" placeholder="Exam Result" type="number">
+                                             <input class="form-control" name="entranceresult" id="entranceresult" placeholder="Entrance Exam Result" type="number">
                                          </div>
-                                         <button class="btn btn-sm btn-success btn-block" type="submit">Update Result</button>
+                                         <button class="btn btn-sm btn-success btn-block" type="submit">Update Entrance</button>
                                           </form></td>
                                        
-
+                                          <td><form action="/applicant/updateapptitudeexamresult/<%= row.applicant_id %>" method="post">
+                                            <div class="form-group">
+                                                <label>Please Add Result Here</label>
+                                                <input name="programidlevel" id="programidlevel" value="<%=programidlevel %>" type="hidden">
+                                                <input class="form-control" name="apptitudeexam" id="apptitudeexam" placeholder="Apptitude Exam Result" type="number">
+                                            </div>
+                                            <button class="btn btn-sm btn-success btn-block" type="submit">Update Apptitude</button>
+                                             </form></td>
                                       
                                         </tr>
                                    <%  })} else{}     %>

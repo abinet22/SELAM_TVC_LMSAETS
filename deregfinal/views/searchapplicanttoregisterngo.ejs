@@ -104,7 +104,7 @@
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">NGO Based Program Trainee Registration</li>
+                <li class="breadcrumb-item active">Short Term /Project/ Based Program Trainee Registration</li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -129,7 +129,9 @@
                       <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
                         <a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="false">Single Based</a>
                         <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Batch Based</a>
-                    </div>
+                        <a class="nav-link" id="vert-tabs-profile1-tab" data-toggle="pill" href="#vert-tabs-profile1" role="tab" aria-controls="vert-tabs-profile1" aria-selected="false">Trainee WithOut Application</a>
+                  
+                      </div>
                     </div>
                     <div class="col-7 col-sm-9">
                       <%- include ('./partials/messages') %>
@@ -137,7 +139,7 @@
                         <div class="tab-pane text-left fade" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
                           <form action="/registration/searchapplicantbyidtoregisterngo" method="post">
                             <div class="form-group">
-                                <label>Select NGO Based Program</label>
+                                <label>Select Short Term /Project/ Based Program</label>
                                 <select class="form-control " name="programidlevel"  id="programidlevel">
                                  <option value="0">Please Select Program/Batch Name</option>
                                  <% if(ngobased.length >0) {%>
@@ -161,7 +163,7 @@
                         <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
                             <form action="/registration/selectallbybatchidtoregisterngo" method="post">
                                 <div class="form-group">
-                                    <label>Select NGO Based Program</label>
+                                    <label>Select Short Term /Project/ Based Program</label>
                                     <select class="form-control " name="programidbatch" id="programidbatch">
                                      <option value="0">Please Select Program/Batch Name</option>
                                      <% if(ngobased.length >0) {%>
@@ -189,7 +191,37 @@
                                 </div>
                                 </form>
                           </div>
-                      
+                          <div class="tab-pane fade" id="vert-tabs-profile1" role="tabpanel" aria-labelledby="vert-tabs-profile1-tab">
+                            <form action="/registration/registerngobasedtraineewithoutapplication" method="post">
+                                <div class="form-group">
+                                    <label>Select Short Term /Project/ Based Program</label>
+                                    <select class="form-control " name="programid" id="programid">
+                                     <option value="0">Please Select Program/Batch Name</option>
+                                     <% if(ngobased.length >0) {%>
+                                        <% ngobased.forEach(function (row){ %>
+                                          <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
+                                       <% })}else {}%>
+                                    </select>
+                                  
+                                </div>
+                                <div class="form-group">
+                                  <label>Select Department </label>
+                                  <select class="form-control " name="dept" id="dept">
+                                   <option value="0">Please Select Department Name</option>
+                                   <% if(department.length >0) {%>
+                                      <% department.forEach(function (row){ %>
+                                        <option value="<%= row.department_id %>"><%= row.department_name %></option>
+                                     <% })}else {}%>
+                                  </select>
+                                
+                              </div>
+                               
+                                <div class="col-md-6 offset-md-3">
+                                    <button type="submit" class="btn btn-block btn-sm btn-primary">Submit</button>
+                         
+                                </div>
+                                </form>
+                          </div>
                       </div>
                     </div>
                   </div>

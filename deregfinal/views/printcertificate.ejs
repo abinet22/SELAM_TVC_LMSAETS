@@ -15,7 +15,8 @@
             }
             .container {
                 border: 20px solid tan;
-              
+                width: 310mm;
+                height: 178mm;
             }
             .logo {
                 color: tan;
@@ -23,7 +24,7 @@
 
             .marquee {
                 color: tan;
-                font-size: 48px;
+                font-size: 24px;
                 margin: 20px;
             }
             .assignment {
@@ -31,60 +32,151 @@
             }
             .person {
                 border-bottom: 2px solid black;
-                font-size: 32px;
+                font-size: 14px;
                 font-style: italic;
                 margin: 20px auto;
-                width: 400px;
+               
             }
             .reason {
                 margin: 20px;
             }
         </style>
+
+<style type="text/css" media="print">
+ 
+
+    /* @page {size:landscape}  */ 
+    @media print {
+    
+        @page {size: A4 landscape;max-height:100%; max-width:100%}
+    
+        /* use width if in portrait (use the smaller size to try 
+           and prevent image from overflowing page... */
+        img { height: 100%; margin: 0; padding: 0; }
+    
+    body{width:100%;
+        height:100%;
+        -webkit-transform: rotate(0deg) scale(1,1); 
+        -moz-transform:rotate(0deg) scale(1,1) }    }
+    
+    </style>
     </head>
     <body>
-        <div class="container">
+        <div class="container" id="certificate">
            <div class="row col-md-12">
             <div class="logo">
-              Selam Technical And Vocational Collage
+                <div class="col-12">
+                    <table style="
+                 
+                    border-collapse: collapse;
+                    width: 100%;
+                  ">
+                    <tr style="
+                  
+                    border-collapse: collapse;
+                  ">
+                      <td><img src="../../../dist/img/logoselam.jpg" style="width: 100PX; height: 100px;"></td>
+                      <td colspan="2" style="
+                 
+                      border-collapse: collapse;
+                    ">
+                        <h4>
+                         
+                          Selam Technical And Vocational Collage
+                         
+                        </h4>
+                      </td>
+                     
+                      <td  colspan="2"  style="
+                
+                      border-collapse: collapse;
+                    ">
+        
+                        <h5> <small class="float-">Doc No._____</small><br>
+                          <small class="float-">SDR-TVC/QF/____</small></h5>
+                          <small class="float-">Issued Date:<% var today = new Date().toLocaleDateString() %> <%= today %></small>
+                        <br>  <small>  Issue No. __</small>
+                        </td>
+                    </tr>
+                   
+                  </table>
+                 
+                  </div>
             </div>
-
-            <div class="marquee">
-                Certificate of Completion
-            </div>
-
-            <div class="assignment">
-                This certificate is presented to
-            </div>
-
-            <div class="person">
-                Joe Nathan
-            </div>
-
-            <div class="reason">
-                From Department Of Furniture In Level 2<br/>
-                ON July 12, 2022
-            </div>
+          
+                    <div class="foat-right" >
+                        <img src="../../../dist/img/logoselam.jpg" style="width: 150PX; height: 150px;">
+                    </div>
+               
+             <table style="width: 100%;" >
+                 <tr>
+                     <td>
+                        <div class="marquee">
+                            Middle  Level Technical & Vocational  Certificate of Completion
+                        </div>
+            
+                        <div class="assignment">
+                        
+                         Level Two
+                        </div>
+            
+                        <div class="person">
+                            This certificate is awarded to <span style="text-decoration: underline;text-transform: uppercase;font-size: 14;font-style: italic;"><b>Ashenafi Tadesse Mengistu</b></span> <br>
+                            who admitted Selam Technical And Vocational Collage And Successfully completed level Two training program,specialize <br>
+                            in  <span style="text-decoration: underline;text-transform: uppercase;font-size: 14;font-style: italic;"><b>Machining</b></span>
+                        </div>
+                        <div class="assignment">
+                        Date Augest 28,2018
+                           </div>
+                        <div class="">
+                           Note:<br>
+                           <p style="font-size: 10px;">This Certificate is granted up on successful compelation of the training  
+                           doesnt substitute the national certification of competency. To validate this certificate it is mandatory to produce the equivalent level
+                        certificate of competency from Education & Training Quality Occupational Competency Assurance Authority.</p>
+                        </div>
+                     </td>
+                     <td>
+                        <div class="marquee">
+                            Middle  Level Technical & Vocational  Certificate of Completion
+                        </div>
+            
+                        <div class="assignment">
+                        Level Two
+                        </div>
+            
+                        <div class="person">
+                            This certificate is awarded to <span style="text-decoration: underline;text-transform: uppercase;font-size: 14;font-style: italic;"><b>Ashenafi Tadesse Mengistu</b></span> <br>
+                            who admitted Selam Technical And Vocational Collage And Successfully completed level Two training program,specialize <br>
+                            in  <span style="text-decoration: underline;text-transform: uppercase;font-size: 14;font-style: italic;"><b>Machining</b></span>
+                        </div>
+                        <div class="assignment">
+                            Date Augest 28,2018
+                               </div>
+                        <div class="">
+                            Note:<br>
+                            <p style="font-size: 10px;">This Certificate is granted up on successful compelation of the training  
+                            doesnt substitute the national certification of competency. To validate this certificate it is mandatory to produce the equivalent level
+                         certificate of competency from Education & Training Quality Occupational Competency Assurance Authority.</p>
+                         </div>
+                     </td>
+                 </tr>
+             </table>
+          
            </div>
         </div>
     </body>
     <script>
         window.addEventListener("load", function(){
-            var css = '@page { size: landscape; }',
-    head = document.head || document.getElementsByTagName('head')[0],
-    style = document.createElement('style');
+   
+var printContents = document.getElementById('certificate').innerHTML;
+        var originalContents = document.body.innerHTML;
+   
+        document.body.innerHTML = printContents;
+        window.print();
+   
+        document.body.innerHTML = originalContents;
 
-style.type = 'text/css';
-style.media = 'print';
-
-if (style.styleSheet){
-  style.styleSheet.cssText = css;
-} else {
-  style.appendChild(document.createTextNode(css));
-}
-
-head.appendChild(style);
-
-window.print();});
+});
        
       </script>
 </html>

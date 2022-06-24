@@ -389,7 +389,7 @@
             <div class="col-md-10 offset-md-1">
               <div class="card card-primary">
                 <div class="card-header">
-                  <h3 class="card-title">Add New NGO Based Training Program Applicant</h3>
+                  <h3 class="card-title">Add New Short Term/Project/ Based Training Program Applicant</h3>
                 </div>
                 <div class="card-body">
                      
@@ -411,7 +411,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                       <div class="input-group-prepend">
-                                        <button class="btn btn-sm " style="background-color: #f48d5b;" type="button" onclick="GenerateUniqueID();">Generate Applicant ID</button>
+                                        <button class="btn btn-sm btn-primary "  type="button" onclick="GenerateUniqueID();">Generate Applicant ID</button>
                                      
                                       </div>
                                       <input type="text" class="form-control " placeholder="Applicant ID" id="appid" name="appid">
@@ -454,7 +454,8 @@
                                     <div class="form-group">
                                         <label>Select Trainee Gender<code>***</code></label>
                                         <select name="gender" id="gender" class="form-control">
-                                            <option value="m">Male</option>
+                                          <option value="0"> Please select trainee gender</option> 
+                                          <option value="m">Male</option>
                                             <option value="f">Female</option>
                                         </select>
                                     </div>
@@ -980,6 +981,8 @@
                                   <div class="col-sm-8">
                                       <select name="trainingtype" class="form-control">
                                           <option value="0">Please Select Program Type</option>
+                                          <option value="Short_Term">Short Term</option>
+                                        
                                           <option value="Regular">Regular</option>
                                           <option value="Extension">Extension</option>
                                         
@@ -998,22 +1001,50 @@
                 
                       <fieldset id="criteria">
                         <div class="form-card">
-                            <div class="form-group">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
                                 <label>Is Applicant With Special Need?<code>***</code></label>
                                 <select name="isdisable" id="isdisable" class="form-control">
                                     <option value="Normal">No</option>
                                     <option value="Disable">Yes</option>
                                 </select>
                             </div>
-                            <div class="form-group">
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label>if any? Describe Special Need Here</label>
+                                <textarea rows="2" name="specialneedes" class="form-control"></textarea>
+                             
+                              </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
                                 <label>Payment Info <code>***</code></label>
-                                <select name="paymentinfo" id="paymentinfo" rows="2" class="form-control">
+                                <select name="paymentinfo" id="paymentinfo"  class="form-control">
                                 <option value="0">Please select payment type</option>
-                                <option>Paid</option>
-                                <option>Free</option>
+                                <option>Cost_Sharing</option>
                                 <option>Scholarship</option>
                                 </select>
                             </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label>If Scholarship? Scholarship Type</label>
+                                <select name="scholarshiptype" id="scholarshiptype"  multiple class="form-control">
+                                <option value="Tution_Fee">Tution Fee</option>
+                                <option value="Application_Fee">Application Fee</option>
+                                <option value="Free_All">Free(Full)</option>
+                                <option value="50_Percent_Off">50% Off</option>
+                                <option value="Staff">Staff</option>
+                                <option value="Free_Meal">Meal</option>
+                                </select>
+                            </div>
+                            </div>
+                          </div>
+                           
                           
                         </div>
                     
@@ -1031,13 +1062,17 @@
                             </div> <br><br>
                             <div class="row justify-content-center">
                                 <div class="col-7 text-center">
-                                    <h5>You Have Successfully Added All Applicant Data!</h5>
-                                    <h5>Click On Save Otherwise Click Update If You Want To Make  Changes!</h5>
+                                  <h6>You Have Successfully Fill Applicant Data!</h6>
+                                  <h6>Click On Save Otherwise Click Update If You Want To Make  Changes!</h6>
+                             
                                 </div>
                             </div>
                         </div>
                         <input type="hidden" id="perinfos" name="perinfos">
                         <input type="hidden" id="addinfo" name="addinfo">
+                        <input type="hidden" id="age" name="age">
+                        <input type="hidden" id="totaltranscript" name="totaltranscript">
+                    
                         <input type="hidden" id="grade9trans" name="grade9trans">
                         <input type="hidden" id="grade10trans" name="grade10trans">
                         <input type="hidden" id="grade11trans" name="grade11trans">
@@ -1126,6 +1161,11 @@ var formData = $('#perinfo').serializeArray(),
   console.log(JSON.stringify(rs, undefined, 2));
   personalinfo.push(rs);
   console.log(personalinfo);
+  var birthday = document.getElementById('birthday').value;
+  var ageval = new Date(new Date() - new Date(birthday)).getFullYear() - 1970;
+ // document.getElementById('addinfo').value = rs;
+ console.log(ageval);
+ $('#age').val( ageval );
   //document.getElementById('perinfos').value = rs;
   $('#perinfos').val( JSON.stringify(rs) );
 //   $('#rs').html(JSON.stringify(rs, undefined, 2));
@@ -1230,6 +1270,8 @@ var object12 = [];
  console.log(ave10);
  console.log(ave11);
  console.log(ave12);
+
+ var totave = ((ave9 + ave10 +ave11 +ave12)/4).toFixed(2);
  // document.getElementById('eductinfo').value = rs;
   $('#grade9trans').val( JSON.stringify(rs));
   $('#grade10trans').val( JSON.stringify(rs10));
@@ -1239,6 +1281,7 @@ var object12 = [];
   $('#ave10trans').val( ave10);
   $('#ave11trans').val( ave11);
   $('#ave12trans').val( ave12);
+  $('#totaltranscript').val( totave);
   
 //   $('#rs').html(JSON.stringify(rs, undefined, 2));
 });

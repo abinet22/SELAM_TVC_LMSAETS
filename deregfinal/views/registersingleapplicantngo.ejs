@@ -104,7 +104,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard</li>
+              <li class="breadcrumb-item active">Register Short Term/Project/ Based Student</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -189,7 +189,7 @@
                           <!-- /.tab-pane -->
         
                           <div class="tab-pane active" id="settings">
-                            <form method="post" action="/registration/registernewtrainee/<%= applicant.application_id %>/<%= applicant.applicant_id %>" enctype="multipart/form-data" >
+                            <form method="post" action="/registration/registernewtraineengo/<%= applicant.application_id %>/<%= applicant.applicant_id %>" enctype="multipart/form-data" >
                               <div class="form-group row">
                                 <label for="inputName" class="col-sm-2 col-form-label">Assign Class</label>
                                 <div class="col-sm-10">
@@ -202,12 +202,14 @@
                               </select>   
                               </div>
                               </div>
+                              <input type="hidden" name="programtag" value="<%=  programtag%>">
+                             <input type="hidden" id="deptname" value="<%= department.department_name %>">
                               <div class="form-group row">
                                   <label>Please add Student ID</label>
                                   <div class="input-group input-group-sm">
                                       <input type="text" class="form-control"   id="traineeid" name="traineeid"> 
                                       <span class="input-group-append">
-                                        <button type="button" class="btn btn-info btn-flat" style="background-color: #f48d5b;" type="button" onclick="generatebatchname();">Generate Trainee ID</button>
+                                        <button type="button" class="btn btn-primary btn-sm "  type="button" onclick="generatebatchname();">Generate Trainee ID</button>
                                       </span>
                                     </div>
                                     <script>
@@ -216,10 +218,15 @@
                                         
                                         var batchnew = new Date();
                                         var thisyear = batchnew.getFullYear();
-                                        var thismonth = batchnew.getMonth();
-                                        var batchname = "Fur"+"_"+thismonth+"_"+thisyear;
+                                        var thismonth = batchnew.getMonth();   
+                                        
+                                      var dpt = document.getElementById('deptname').value;
+                                     var dptname = dpt.substring(0,3);
+
+                                        var batchname = dptname+"_"+thisyear+"_";
                                         document.getElementById('traineeid').value = batchname ;
-                  
+                                        document.getElementById('studentid').innerHTML = batchname;
+                                   
                                       }
                                     </script>
                                 </div>
@@ -231,7 +238,7 @@
                                     document.getElementById('appphoto').src = window.URL.createObjectURL(this.files[0]);
                                     document.getElementById('slipphoto').src = window.URL.createObjectURL(this.files[0]);
                                       document.getElementById('preimage').style.display='block'">
-                                    <label class="custom-file-label" for="customFile">default.jpg</label>
+                                   <label class="custom-file-label" for="customFile"></label>
                                   </div>
                                 </div>
                              
@@ -260,15 +267,55 @@
                                           <!-- title row -->
                                           <div class="row">
                                             <div class="col-12">
-                                              <h4>
-                                                <i class="fas fa-globe"></i> Selam Technical And Vocational Collage
-                                               
-                                              </h4><br>
-                                              <h5> <small class="float-right">Office Of Registrar</small><br>
-                                                  <small class="float-right">Registration Slip</small></h5>
+                                              <table style="
+                                                border: 1px solid black;
+                                                border-collapse: collapse;
+                                                width: 100%;
+                                              ">
+                                                <tr style="
+                                                border: 1px solid black;
+                                                border-collapse: collapse;
+                                              ">
+                                                  <td><img src="../../../dist/img/logoselam.jpg" width="150px" height="150px"></td>
+                                                  <td colspan="2" style="
+                                                  border: 1px solid black;
+                                                  border-collapse: collapse;
+                                                ">
+                                                    <h4>
+                                                      Organization Name <br>
+                                                      Selam Technical And Vocational Collage
+                                                     
+                                                    </h4>
+                                                  </td>
+                                                 
+                                                  <td  colspan="2"  style="
+                                                  border: 1px solid black;
+                                                  border-collapse: collapse;
+                                                ">
+
+                                                    <h5> <small class="float-">Doc No._____</small><br>
+                                                      <small class="float-">SDR-TVC/QF/____</small></h5>
+                                                      <small class="float-">Issued Date:<% var today = new Date().toLocaleDateString() %> <%= today %></small>
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <td></td>
+                                                  <td colspan="3">
+                                                    <h5> <small class="">Office Of Registrar</small>
+                                                      <small class="">Registration Slip</small></h5>
+                                                  </td>
+                                                
+                                                  <td>
+                                                    Issue No. __
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                             
+                                         
                                             </div>
                                             <!-- /.col -->
                                           </div>
+                                          <br>
                                           <!-- info row -->
                                           <div class="row invoice-info">
                                             <div class="col-sm-4 invoice-col">
@@ -281,24 +328,29 @@
                                             <div class="col-sm-4 invoice-col">
                                           
                                               <address>
-                                                <strong>Full Name:</strong><br>
-                                                <strong>Department:</strong>Suite 600<br>
-                                                <strong>Program Batch:</strong>4107<br>
-                                                <strong>Addmission Type:</strong>1037<br>
-                                                <strong>Telephone:</strong>
+                                                <strong>FullName:<% var perinfo = JSON.parse(JSON.stringify(applicant.personal_info)) %> <%= perinfo.firstname %> &nbsp; <%= perinfo.middlename %> &nbsp; <%= perinfo.lastname %></strong><br>
+            
+                                                <strong>Department:</strong><%= department.department_name %><br>
+                                            
+                                                <strong>Addmission Type:</strong><%= applicant.admission_type %><br>
+                                                <strong>Telephone:<% var contact = JSON.parse(JSON.stringify(applicant.contact_info)) %> <%= contact.phoneNumber_1 %></strong>
+                                             
                                               </address>
                                             </div>
                                             <!-- /.col -->
                                             <div class="col-sm-4 invoice-col">
                                               <b>Nationality:</b>Ethiopian<br>
                                               <br>
-                                              <b>Acadamic Year:</b> 4F3S8J<br>
-                                              <b>Semister:</b> 1<br>
-                                              <b>Class Name:</b> 4F3S8J<br>
-                                              <b>Level:</b> Level_2<br>
-      
-                                              <b>Sex:</b> 4F3S8J<br>
-                                              <b>ID:</b> 968-34567
+                                              <b>Acadamic Year:</b><% var today = new Date().getYear()
+                                              %> <%= today
+                                              %><br>
+                                              <b>Class Name:</b> <%= classlist.class_name %><br>
+                                              <% if (applicant.current_level ) {%>
+                                              <b>Level:</b> <%= applicant.current_level %><br>
+                                                          <%}%>
+                                              <b>Sex:</b> <%= perinfo.gender %><br>
+                                            
+                                              <b>ID:</b> <p id="studentid"></p>
                                             </div>
                                             <!-- /.col -->
                                           </div>

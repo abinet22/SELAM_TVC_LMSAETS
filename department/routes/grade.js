@@ -95,7 +95,7 @@ const [classinfo,metaclassinfo] = await sequelize.query(
  
 if(programtag =="level"){
     const [marklist, metaclasslist] = await sequelize.query(
-        "SELECT * FROM studentmarklistlevelbaseds INNER JOIN levelbasedtrianees ON levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
+        "SELECT * FROM studentmarklistlevelbaseds INNER JOIN levelbasedtrainees ON levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
     " where studentmarklistlevelbaseds.course_id ='"+courseid+"'"+
     " and studentmarklistlevelbaseds.class_id ='"+req.params.classid+"' " +
     " and studentmarklistlevelbaseds.department_id ='"+deptid+"' "+
@@ -112,7 +112,7 @@ if(programtag =="level"){
     })
 }else if(programtag =="ngo"){
     const [marklist, metaclasslist] = await sequelize.query(
-        "SELECT * FROM studentmarklistlevelbaseds INNER JOIN ngobasedtrianees ON ngobasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
+        "SELECT * FROM studentmarklistlevelbaseds INNER JOIN ngobasedtrainees ON ngobasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
       " where studentmarklistlevelbaseds.course_id ='"+courseid+"'"+
       " and studentmarklistlevelbaseds.class_id ='"+req.params.classid+"' " +
       " and studentmarklistlevelbaseds.department_id ='"+deptid+"' "+

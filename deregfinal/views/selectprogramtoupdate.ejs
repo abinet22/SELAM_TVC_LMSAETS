@@ -128,9 +128,9 @@
                     <div class="col-5 col-sm-3">
                       <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
                         <a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="false">Level Based</a>
-                        <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">NGO Based</a>
-                        <a class="nav-link" id="vert-tabs-profile1-tab" data-toggle="pill" href="#vert-tabs-profile1" role="tab" aria-controls="vert-tabs-profile1" aria-selected="false">Industry Based</a>
-                   
+                        <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Short Term/Project/ Based</a>
+                        <!-- <a class="nav-link" id="vert-tabs-profile1-tab" data-toggle="pill" href="#vert-tabs-profile1" role="tab" aria-controls="vert-tabs-profile1" aria-selected="false">Industry Based</a>
+                    -->
                       </div>
                     </div>
                     <div class="col-7 col-sm-9">
@@ -144,7 +144,11 @@
                                  <option value="0">Please Select Program/Batch Name</option>
                                  <% if(levelbased.length >0) {%>
                                     <% levelbased.forEach(function (row){ %>
-                                      <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
+                                      <option value="<%= row.batch_id %>"><%= row.batch_name %>
+                                        <% if(row.is_current == "Yes"){ %>
+                                          /Current/
+                                        <% }  %>
+                                      </option>
                                    <% })}else {}%>
                                 </select>
                               
@@ -159,12 +163,16 @@
                         <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
                             <form action="/applicant/updateapplicanttolevelbasedprogram" method="post">
                                 <div class="form-group">
-                                    <label>Select NGO Based Program</label>
+                                    <label>Select Short Term/Project/ Based Program</label>
                                     <select class="form-control " name="programidlevel" id="programidlevel">
                                      <option value="0">Please Select Program/Batch Name</option>
                                      <% if(ngobased.length >0) {%>
                                         <% ngobased.forEach(function (row){ %>
-                                          <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
+                                          <option value="<%= row.batch_id %>"><%= row.batch_name %>
+                                            <% if(row.is_current == "Yes"){ %>
+                                              /Current/
+                                            <% }  %>
+                                          </option>
                                        <% })}else {}%>
                                     </select>
                                   
@@ -183,7 +191,11 @@
                                      <option value="0">Please Select Program/Batch Name</option>
                                      <% if(industrybased.length >0) {%>
                                         <% industrybased.forEach(function (row){ %>
-                                          <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
+                                          <option value="<%= row.batch_id %>" ><%= row.batch_name %>
+                                            <% if(row.is_current == "Yes"){ %>
+                                              /Current/
+                                            <% }  %>
+                                          </option>
                                        <% })}else {}%>
                                     </select>
                                   
