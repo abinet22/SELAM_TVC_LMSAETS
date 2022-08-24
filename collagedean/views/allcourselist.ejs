@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
+  <title>selam</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -119,22 +119,58 @@
                
                 <div class="row">
         
-                  <div class="col-sm-6 offset-md-2">
-                   
-                <form action="/course/filterbydepartment" method="post">
-                  <div class="form-group">
-                    <label class="">Filter Course By Department</label>
-                    <select class="form-control" id="dept" name="dept">
-                      <option value="0">Please select department to filter</option>
-                      <% if(department.length >0){ %>
-                        <% department.forEach(function (row){ %>
-                         <option value="<%= row.department_id %>"><%= row.department_name %></option>
-                         <%   })} else{} %>
-                            
-                    </select>
-                  </div>
-                  <button class="form-control btn btn-block btn-primary"  type="submit">Search</button>
-                </form>
+                  <div class="col-md-12">
+                    <div class="col-md-6 offset-md-3">
+                      <div class="card card-widget">
+                          <div class="card-header">
+                              <div class="user-block">
+                                 <span class="username">Search Filter Course List</span>
+                                </div>
+                            <!-- /.user-block -->
+                            <div class="card-tools">
+                             
+                              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                              </button>
+                              <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                              </button>
+                            </div>
+                            <!-- /.card-tools -->
+                          </div>
+                          <!-- /.card-header -->
+                          <div class="card-body" style="display: block;">
+                              
+                            <form action="/course/filterbydepartment" method="post">
+                  
+                              <div class="form-group">
+                                <label class="">Filter UOCs By Occupation</label>
+                                <select class="form-control" id="dept" name="dept">
+                                  <option value="0">Please select Occupation to filter</option>
+                                  <% if(department.length >0){ %>
+                                    <% department.forEach(function (row){ %>
+                                     <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                     <%   })} else{} %>
+                                        
+                                </select>
+                              </div>
+                              <!-- <div class="form-group">
+                                <label>Please Select Semister</label>
+                                <select class="form-control" name="semister">
+                                  <option value="1">Semister I</option>
+                                  <option value="2">Semister II</option>
+            
+                                </select>
+                              </div> -->
+                              <button class="form-control btn btn-block btn-primary"  type="submit">Search</button>
+                            </form>
+                          </div>
+                       
+                          <!-- /.card-footer -->
+                        </div>
+               
+                    </div>
+              
             
                   </div>
                 
@@ -155,12 +191,14 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link "  id="level5-tab" data-bs-toggle="tab" data-bs-target="#level5" type="button" role="tab" aria-controls="level5" aria-selected="false">Level_5</button>
                       </li>
+                   
+                     
                   </ul>
                   <div class="tab-content " id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">    <div class="row">
                       <div class="col-md-12  grid-margin stretch-card">     <div class="card">
                           <div class="card-body">
-                            <h4 class="card-title"> Level One Course List</h4>
+                            <h4 class="card-title"> Level One UOCs List</h4>
                             <div class="row" style="display: none;">
                                 <div class="col-sm-12 col-md-6">
                                     <div class="dt-buttons btn-group flex-wrap">               
@@ -179,10 +217,12 @@
                                 <thead>
                                   <tr>
                   <th>#</th>
-                                    <th>Training Department Name</th>
-                                    <th>Training Course Name </th>
-                                    <th>Training Course Code </th>
-                                    <th>Training Course Hours </th>
+                                    <th>Training Occupation Name</th>
+                                    <th>Training Module Code </th>
+                                    <th>Training UOC Name </th>
+                                   
+                                    <th>Training  Hours </th>
+                                    
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -193,9 +233,9 @@
                                             <% i++ %>
                                             <tr>
                                                 <td><%= i %></td>
-                                                <td><%= row.department_name %></td>
-                                                <td><%= row.course_name %></td>
+                                                <td><%= row.occupation_name %></td>
                                                 <td><%= row.course_code %></td>
+                                                <td><%= row.course_name %></td>
                                                 <td><%= row.training_hours %></td>
                                              
                                               </tr>
@@ -215,17 +255,18 @@
                   <div class="tab-pane " id="profile" role="tabpanel" aria-labelledby="profile-tab">    <div class="row">
                     <div class="col-md-12  grid-margin stretch-card">     <div class="card">
                         <div class="card-body">
-                          <h4 class="card-title"> Level Two Course List</h4>
+                          <h4 class="card-title"> Level Two UOCs List</h4>
                            
                           <div class="table-responsive" id="trainingdata">
                             <table class="table table-hover">
                               <thead>
                                 <tr>
                 <th>#</th>
-                                  <th>Training Department Name</th>
-                                  <th>Training Course Name </th>
-                                  <th>Training Course Code </th>
-                                  <th>Training Course Hours </th>
+                <th>Training Occupation Name</th>
+                                    <th>Training Module Code </th>
+                                    <th>Training UOC Name </th>
+                                   
+                                    <th>Training  Hours </th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -236,9 +277,9 @@
                                         <% i++ %>
                                         <tr>
                                             <td><%= i %></td>
-                                            <td><%= row.department_name %></td>
-                                            <td><%= row.course_name %></td>
+                                            <td><%= row.occupation_name %></td>
                                             <td><%= row.course_code %></td>
+                                            <td><%= row.course_name %></td>
                                             <td><%= row.training_hours %></td>
                                          
                                           </tr>
@@ -257,17 +298,18 @@
                 <div class="tab-pane " id="industry" role="tabpanel" aria-labelledby="industry-tab">    <div class="row">
                   <div class="col-md-12  grid-margin stretch-card">     <div class="card">
                       <div class="card-body">
-                        <h4 class="card-title"> Level Three Course List</h4>
+                        <h4 class="card-title"> Level Three UOCs List</h4>
                            
                         <div class="table-responsive" id="trainingdata">
                           <table class="table table-hover">
                             <thead>
                               <tr>
               <th>#</th>
-                                <th>Training Department Name</th>
-                                <th>Training Course Name </th>
-                                <th>Training Course Code </th>
-                                <th>Training Course Hours </th>
+              <th>Training Occupation Name</th>
+              <th>Training Module Code </th>
+              <th>Training UOC Name </th>
+             
+              <th>Training  Hours </th>
                               </tr>
                             </thead>
                             <tbody>
@@ -277,9 +319,9 @@
                                         <% i++ %>
                                         <tr>
                                             <td><%= i %></td>
-                                            <td><%= row.department_name %></td>
-                                            <td><%= row.course_name %></td>
+                                            <td><%= row.occupation_name %></td>
                                             <td><%= row.course_code %></td>
+                                            <td><%= row.course_name %></td>
                                             <td><%= row.training_hours %></td>
                                          
                                           </tr>
@@ -299,17 +341,18 @@
                 <div class="tab-pane " id="level4" role="tabpanel" aria-labelledby="level4-tab">    <div class="row">
                   <div class="col-md-12  grid-margin stretch-card">     <div class="card">
                       <div class="card-body">
-                        <h4 class="card-title"> Level Four Course List</h4>
+                        <h4 class="card-title"> Level Four UOCs List</h4>
                            
                         <div class="table-responsive" id="trainingdata">
                           <table class="table table-hover">
                             <thead>
                               <tr>
               <th>#</th>
-                                <th>Training Department Name</th>
-                                <th>Training Course Name </th>
-                                <th>Training Course Code </th>
-                                <th>Training Course Hours </th>
+              <th>Training Occupation Name</th>
+              <th>Training Module Code </th>
+              <th>Training UOC Name </th>
+             
+              <th>Training  Hours </th>
                               </tr>
                             </thead>
                             <tbody>
@@ -319,8 +362,8 @@
                                         <% i++ %>
                                         <tr>
                                             <td><%= i %></td>
-                                            <td><%= row.department_name %></td>
-                                            <td><%= row.course_name %></td>
+                                            <td><%= row.occupation_name %></td>
+                                            <td><%= row.course_code %></td>
                                             <td><%= row.course_name %></td>
                                             <td><%= row.training_hours %></td>
                                          
@@ -341,17 +384,18 @@
               <div class="tab-pane " id="level5" role="tabpanel" aria-labelledby="level5-tab">    <div class="row">
                 <div class="col-md-12  grid-margin stretch-card">     <div class="card">
                     <div class="card-body">
-                      <h4 class="card-title"> Level Five Course List</h4>
+                      <h4 class="card-title"> Level Five UOCs List</h4>
                          
                       <div class="table-responsive" id="trainingdata">
                         <table class="table table-hover">
                           <thead>
                             <tr>
             <th>#</th>
-                              <th>Training Department Name</th>
-                              <th>Training Course Name </th>
-                              <th>Training Course Code </th>
-                              <th>Training Course Hours </th>
+            <th>Training Occupation Name</th>
+            <th>Training Module Code </th>
+            <th>Training UOC Name </th>
+           
+            <th>Training  Hours </th>
                             </tr>
                           </thead>
                           <tbody>
@@ -362,8 +406,8 @@
                                     <% i++ %>
                                     <tr>
                                         <td><%= i %></td>
-                                        <td><%= row.department_name %></td>
-                                        <td><%= row.course_name %></td>
+                                        <td><%= row.occupation_name %></td>
+                                        <td><%= row.course_code %></td>
                                         <td><%= row.course_name %></td>
                                         <td><%= row.training_hours %></td>
                                      
@@ -381,6 +425,7 @@
             
               </div>
             </div>
+           
             
         
                 </div>

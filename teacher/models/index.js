@@ -57,7 +57,10 @@ db.industrycourses = require('./IndustryCourse')(sequelize,Sequelize);
 db.appselectioncriterias = require("../models/AppSelectionCriteria")(sequelize, Sequelize);
 db.levelbasedtraining = LevelBasedTraining;
 db.ngobasedtraining = NGOBasedTraining;
-
+const Occupation = require("./Occupation.js")(sequelize, Sequelize);;
+const SectorList = require("./SectorList.js")(sequelize, Sequelize);;
+db.sectorlists = SectorList;
+db.occupations = Occupation;
 db.industrybasedtraining = require("../models/IndustryBasedTraining.js")(sequelize, Sequelize);
 db.funderinfo = FunderInfo;
 db.departments = Department;

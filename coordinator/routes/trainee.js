@@ -22,6 +22,7 @@ const passport = require('passport');
 const { v4: uuidv4 } = require('uuid');
 const StudentMarkListLevelBased = db.studentmarklistlevelbaseds;
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
+const Occupation = db.occupations;
 
 router.get('/managelevelbased',ensureAuthenticated,async function(req,res){
   const [ngobased, metangobaseddata] = await sequelize.query(
@@ -30,7 +31,7 @@ router.get('/managelevelbased',ensureAuthenticated,async function(req,res){
   const [levelbased, metalevelbaseddata] = await sequelize.query(
     "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
   );
-  const department = await Department.findAll({});
+  const department = await Occupation.findAll({});
   res.render('managelevelbased',{levelbased:levelbased,department:department})
 })
 router.get('/managengobased',ensureAuthenticated,async function(req,res){
@@ -121,13 +122,13 @@ router.post('/generatecoursegradeindustrybased/(:classname)',ensureAuthenticated
 
 
 router.post('/findmyclasstoevaluatecourselevel',ensureAuthenticated,async function(req,res){
-     const{batchid,dept} = req.body;
+     const{batchid,dept,level} = req.body;
     
      const [results, metadata] = await sequelize.query(
-      "SELECT * from classindepts where department_id='"+dept+"'");  
+      "SELECT * from classindepts where department_id='"+dept+"' and training_level='"+level+"'");  
  
       const [course, metadatacourse] = await sequelize.query(
-        "SELECT * from courses where department_id='"+dept+"'  " );     
+        "SELECT * from courses where department_id='"+dept+"' and training_level='"+level+"' " );     
       console.log(results)
      res.render('myclasses',{classlist:results,course:course,programtag:"level"})
 });

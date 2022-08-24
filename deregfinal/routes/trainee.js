@@ -21,6 +21,7 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const { v4: uuidv4 } = require('uuid');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
+const Occupation = db.occupations;
 const Batch = db.batches;
 const LevelBasedProgram = db.levelbasedprograms;
 const IndustryBasedProgram = db.industrybasedprograms;
@@ -32,7 +33,7 @@ router.get('/managelevelbased',ensureAuthenticated,async function(req,res){
         "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id  where levelbasedprograms.is_open ='Yes'"
       );
     
-    const department = await Department.findAll({});
+    const department = await Occupation.findAll({});
     const classlist = await ClassInDept.findAll({});
     
 res.render('managelevelbased',{
@@ -45,7 +46,7 @@ router.get('/managengobased',ensureAuthenticated,async function(req,res){
     const [ngobased, metangobaseddata] = await sequelize.query(
         "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes'"
       );
-    const department = await Department.findAll({});
+      const department = await Occupation.findAll({});
     const classlist = await ClassInDept.findAll({});
     
 res.render('managengobased',{
@@ -58,7 +59,7 @@ router.get('/manageindustrybased',ensureAuthenticated,async function(req,res){
     const [industrybased, metaindbaseddata] = await sequelize.query(
         "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes'"
       );
-    const department = await Department.findAll({});
+      const department = await Occupation.findAll({});
     const classlist = await ClassInDept.findAll({});
     
 res.render('manageindustrybased',{
@@ -74,18 +75,29 @@ router.post('/printgraduatescertificate',ensureAuthenticated,async function(req,
 
 router.post('/printgraduatesgradereport',ensureAuthenticated,async function(req,res){
     const{level,traineeid,programidbatch,dept,programtag} = req.body;
-
-     const department = await Department.findOne({where:{department_id:dept}});
+    const [courselist,metacourselist] = await sequelize.query(
+      "select * from industrycourses where batch_id='"+programidbatch+"'");
+      const [sectordept, metaclasslist] = await sequelize.query(
+    "    SELECT * FROM sectorlists INNER JOIN  departments on sectorlists.sector_id = departments.training_id "+
+   "    inner join occupations on occupations.department_id = departments.department_id "+
+      " where occupations.occupation_id ='"+dept+"'"
+       
+      );
+      console.log("cccccccccccccccccccccc");
+      console.log(sectordept);
+     const department = await Occupation.findOne({where:{occupation_id:dept}});
        const batch = await Batch.findOne({where:{batch_id:programidbatch}});
       if(programtag =="level"){
-          const [marklist, metaclasslist] = await sequelize.query(
-              "SELECT * FROM studentmarklistlevelbaseds INNER JOIN levelbasedtrainees ON levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
-              "inner join courses on courses.department_id = levelbasedtrainees.department_id "+
-          " where levelbasedtrainees.student_unique_id ='"+traineeid+"'" +
-          " and levelbasedtrainees.current_level ='"+traineeid+"'"+
-          " and studentmarklistlevelbaseds.department_id ='"+dept+"' "+
-          " and studentmarklistlevelbaseds.batch_id ='"+programidbatch+"' "
-            );
+        const [marklist, metaclasslist] = await sequelize.query(
+          "SELECT * FROM levelbasedtrainees  INNER JOIN studentmarklistlevelbaseds ON levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
+          "inner join courses on courses.course_id = studentmarklistlevelbaseds.course_id "+
+      " where levelbasedtrainees.student_unique_id ='"+traineeid+"'" +
+      " and levelbasedtrainees.current_level ='"+level+"'"+
+      " and studentmarklistlevelbaseds.department_id ='"+dept+"' "+
+     " and studentmarklistlevelbaseds.batch_id ='"+programidbatch+"' "+
+      "  and courses.training_level='"+level+"'" +
+      "  and courses.department_id='"+dept+"'" 
+        );
             res.render('printgradereport',{
               marklist:marklist,
               programtag:programtag,
@@ -97,7 +109,9 @@ router.post('/printgraduatesgradereport',ensureAuthenticated,async function(req,
               batch:batch,
               classinfo:'',
               level:level,
-              traineeid:traineeid
+              traineeid:traineeid,
+              courselist:marklist,
+              sectorlist:sectordept
           })
       }else if(programtag =="ngo"){
           const [marklist, metaclasslist] = await sequelize.query(
@@ -153,21 +167,24 @@ const{level,traineeid,programidbatch,dept,programtag} = req.body;
 
 const [classinfo,metaclassinfo] = await sequelize.query(
     "select * from classindepts inner join batches on batches.batch_id = classindepts.batch_id "+
-    " inner join departments on departments.department_id= classindepts.department_id "+
-    " where departments.department_id = '"+dept+"' and batches.batch_id='"+programidbatch+"'");
-   const department = await Department.findOne({where:{department_id:dept}});
+    " inner join occupations on occupations.occupation_id= classindepts.department_id "+
+    " where occupations.occupation_id = '"+ dept +"' and batches.batch_id='"+programidbatch+"'");
+  
+    const department = await Occupation.findOne({where:{occupation_id:dept}});
    const batch = await Batch.findOne({where:{batch_id:programidbatch}});
   if(programtag =="level"){
     const [courselist,metacourselist] = await sequelize.query(
       "select * from courses where department_id='"+dept+"' and training_level='"+level+"'");
      
       const [marklist, metaclasslist] = await sequelize.query(
-          "SELECT * FROM studentmarklistlevelbaseds INNER JOIN levelbasedtrainees ON levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
-          "inner join courses on courses.department_id = levelbasedtrainees.department_id "+
+          "SELECT * FROM levelbasedtrainees  INNER JOIN studentmarklistlevelbaseds ON levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
+          "inner join courses on courses.course_id = studentmarklistlevelbaseds.course_id "+
       " where levelbasedtrainees.student_unique_id ='"+traineeid+"'" +
-      " and levelbasedtrainees.current_level ='"+traineeid+"'"+
+      " and levelbasedtrainees.current_level ='"+level+"'"+
       " and studentmarklistlevelbaseds.department_id ='"+dept+"' "+
-      " and studentmarklistlevelbaseds.batch_id ='"+programidbatch+"' "
+     " and studentmarklistlevelbaseds.batch_id ='"+programidbatch+"' "+
+      "  and courses.training_level='"+level+"'" +
+      "  and courses.department_id='"+dept+"'" 
         );
         res.render('singlestudentdata',{
           marklist:marklist,
@@ -545,7 +562,7 @@ copyItems.forEach((item) => {
 
 router.post('/updatestudentdatagraduated',ensureAuthenticated,async function(req,res){
   const {programtag,batchid,traineeid,deptid,level} = req.body;
-  const department = await Department.findOne({where:{department_id:deptid}});
+  const department = await Occupation.findOne({where:{occupation_id:deptid}});
   const batch = await Batch.findOne({where:{batch_id:batchid}});
   if(programtag =="level"){
     const [courselist,metacourselist] = await sequelize.query(
@@ -560,8 +577,24 @@ router.post('/updatestudentdatagraduated',ensureAuthenticated,async function(req
   " and studentmarklistlevelbaseds.batch_id ='"+batchid+"' "
     );
     LevelBasedTrainee.findOne({where:{batch_id:batchid,trainee_id:traineeid,department_id:deptid,current_level:level}}).then(trainee =>{
+      console.log(trainee);
+      console.log("sfffffffffffffffff")
       if(!trainee){
-
+        res.render('singlestudentdata',{
+          marklist:marklist,
+          programtag:programtag,
+          deptid:deptid,
+          batchid:batchid,
+          classid:'',
+          department:department,
+          batch:batch,
+          traineeid:traineeid,
+          courselist:courselist,
+          classinfo:'',
+          level:'',
+          error_msg:"trainee not found"
+      })
+      console.log(trainee)
       }
       else{
        
@@ -569,7 +602,7 @@ router.post('/updatestudentdatagraduated',ensureAuthenticated,async function(req
           res.render('singlestudentdata',{
             marklist:marklist,
             programtag:programtag,
-            deptid:dept,
+            deptid:deptid,
             batchid:batchid,
             classid:'',
             department:department,

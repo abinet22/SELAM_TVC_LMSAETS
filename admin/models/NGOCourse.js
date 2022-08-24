@@ -31,7 +31,9 @@ module.exports = (sequelize, DataTypes) => {
         nooflo:{
             type: DataTypes.DECIMAL
         },
-      
+        training_cost:{
+            type: DataTypes.DECIMAL,
+        },
         learning_obj:{
             type:DataTypes.JSON
         },

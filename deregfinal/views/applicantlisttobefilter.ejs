@@ -129,7 +129,7 @@
                               <div class="form-group">
                                   <label>Filter By Choice</label>
                                   <select class="form-control " name="choiceorder"  id="choiceorder" onchange="changetablecolumn(this);">
-                                   <option value="0">Filter By Department Choice </option>
+                                   <option value="0">Filter By Choice </option>
                                    <option value="choice_one">Choice One</option>
                                    <option value="choice_two">Choice Two</option>
                                    <option value="choice_three">Choice Three</option>
@@ -145,12 +145,12 @@
                            </script>
                            <div class="col-md-6">
                               <div class="form-group">
-                                  <label>Select Department Name</label>
+                                  <label>Select Occupation </label>
                                   <select class="form-control " name="departmentchoice"  id="departmentchoice">
-                                   <option value="0">Choice Department Name</option>
+                                   <option value="0">Choice Occupation Name</option>
                                    <% if(department.length >0) {%>
                                       <% department.forEach(function (row){ %>
-                                        <option value="<%= row.department_id %>"><%= row.department_name %></option>
+                                        <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
                                      <% })}else {}%>
                                   </select>
                                 
@@ -280,9 +280,9 @@
                                         <th>Applicant Full Name</th>
                                         <th>Gender</th>
                                        
-                                        <th>Department Choice One</th>  
-                                        <th>Department Choice Two</th>  
-                                        <th>Department Choice Three</th>  
+                                        <th>Occupation Choice One</th>  
+                                        <th>Occupation Choice Two</th>  
+                                        <th>Occupation Choice Three</th>  
                                                                          
                                       
                                         <th>Entrance/Apptitude Exam</th>
@@ -326,15 +326,15 @@
                                                        <% var choice3 = row.choice_three %>
                                                        <% if(department.length > 0){ %>
                                                           <% department.forEach(function (row){ %>
-                                                             <% var dptid = row.department_id %>
+                                                             <% var dptid = row.occupation_id %>
                                                              <%  if(dptid == choice1)  {%>
-                                                              <%   one = row.department_name %>
+                                                              <%   one = row.occupation_name %>
                                                               <%   }  else if(dptid == choice2){%>
-                                                                  <%   two = row.department_name %>
+                                                                  <%   two = row.occupation_name %>
                                                                 
                                                                   <%   } else if(dptid == choice3){ %>
                                                              
-                                                              <%    three = row.department_name %>
+                                                              <%    three = row.occupation_name %>
                                                                
                                                               <%  }%>
                                                          <% })} %>
@@ -364,7 +364,7 @@
                                                        <option value="0">Choice Department Name</option>
                                                        <% if(department.length >0) {%>
                                                           <% department.forEach(function (row){ %>
-                                                            <option value="<%= row.department_id %>"><%= row.department_name %></option>
+                                                            <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
                                                          <% })}else {}%>
                                                       </select>
                                                     
@@ -489,9 +489,9 @@
                                               <th>Applicant Full Name</th>
                                               <th>Gender</th>
                                              
-                                              <th>Department Choice One</th>  
-                                              <th>Department Choice Two</th>  
-                                              <th>Department Choice Three</th>  
+                                              <th>Occupation Choice One</th>  
+                                              <th>Occupation Choice Two</th>  
+                                              <th>Occupation Choice Three</th>  
                                                
                                               <th>Filter Criteria Point  </th>
                                             </tr>

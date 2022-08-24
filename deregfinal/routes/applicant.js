@@ -7,6 +7,8 @@ const NGOBasedTraining = db.ngobasedtraining;
 const IndustryBasedTraining = db.industrybasedtraining;
 const FunderInfo = db.funderinfo;
 const Department = db.departments;
+const Occupation = db.occupations;
+const LevelBasedTrainee =db.levelbasedtrainees;
 const Course = db.courses;
 const User = db.users;
 const NewApplicant =db.newapplicants;
@@ -47,7 +49,7 @@ router.post('/addapplicanttolevelbasedprogram',ensureAuthenticated, async functi
   const [industrybased, metaindbaseddata] = await sequelize.query(
     "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes'"
   );
- 
+ const occupation = await Occupation.findAll({});
 let errors = [];
 if(programidlevel == "0" || !programidlevel){
 errors.push({msg:'please select batch name first'})
@@ -64,7 +66,7 @@ if(errors.length >0)
 else
 {
     const department = await Department.findAll({})
-    res.render('addnewapplicant',{programidlevel:programidlevel,department:department});}
+    res.render('addnewapplicant',{programidlevel:programidlevel,department:occupation});}
 });
 router.post('/addapplicanttongobasedprogram',ensureAuthenticated, async function(req,res){
     const {programidngo} = req.body;
@@ -156,7 +158,7 @@ router.post('/updateapplicanttolevelbasedprogram',ensureAuthenticated, async fun
   }
   else
   {
-    const department = await Department.findAll({});
+    const department = await Occupation.findAll({});
     const applicantlist = await NewApplicant.findAll({where:{is_selected:"No",application_id:programidlevel}})
      res.render('updatenewapplicantresult',{applicantlist:applicantlist,department:department,programidlevel:programidlevel});
  
@@ -284,7 +286,7 @@ router.get('/updateapplicantinfo',ensureAuthenticated, async function(req,res){
 })
 router.post('/addnewapplicant',ensureAuthenticated,async function(req,res){
   let errors =[];
-  const department = await Department.findAll({});
+  const department = await Occupation.findAll({});
   
   const {totaltranscript,age,gender,scholarshiptype,specialneedes, perinfos,addinfo,grade9trans,grade10trans,grade11trans,grade12trans,ave12trans,appid,
     programid, ave11trans,paymentinfo,ave10trans,ave9trans,isdisable,choice1,choice2,choice3,level,trainingtype,egsec,ssle
@@ -351,7 +353,7 @@ router.post('/addnewapplicant',ensureAuthenticated,async function(req,res){
         {
           res.render('addnewapplicant',{programidlevel:programid,department:department,
             success_msg_extra:"Successfully register applicant data.",
-            success_extra:'/applicant/printapplicantion/'+appid})
+            success_extra:'/applicant/printapplication/'+appid})
 
         }
         else
@@ -503,7 +505,7 @@ router.post('/filterapplicantlevelbased',ensureAuthenticated,async function(req,
   }
   else
   {
-    const department = await Department.findAll({});
+    const department = await Occupation.findAll({});
     const applicantlist = await NewApplicant.findAll({where:{is_selected:"No",application_id:programidlevel,choice_level:level,choice_program_type:trainingtype}})
     res.render('applicantlisttobefilter',{
         department:department,
@@ -548,7 +550,7 @@ router.post('/filterapplicantngobased',ensureAuthenticated,async function(req,re
   }
   else
   {
-    const department = await Department.findAll({});
+    const department = await Occupation.findAll({});
     const applicantlist = await NewApplicant.findAll({where:{is_selected:"No",application_id:programidngo,choice_program_type:trainingtype}})
     res.render('applicantlisttobefilter',{
         department:department,
@@ -564,7 +566,7 @@ router.post('/filterapplicantngobased',ensureAuthenticated,async function(req,re
 router.post('/filterapplicantbycriteriassetted',ensureAuthenticated,async function(req,res){
 const{choiceorder,departmentchoice,limitsize,orderby,programtype,applevel,programidlevel,criteria} = req.body;
 let dptchoice = departmentchoice;
-const department = await Department.findAll({});
+const department = await Occupation.findAll({});
 
 var querytop = "select *  from newapplicants where is_selected = 'No' and application_id = '"+programidlevel+"' and choice_level ='"+applevel+"'";
 var query = "select applicant_id, sum(";
@@ -638,7 +640,7 @@ res.render('applicantlisttobefilter',{
 router.post('/updateselecteddepartment',ensureAuthenticated,async function(req,res){
     const{departmentselected,programidlevel,applicantid} =req.body;
     let errors = [];
-    const department = await Department.findAll({});
+    const department = await Occupation.findAll({});
     const applicantlist = await NewApplicant.findAll({where:{is_selected:"No",application_id:programidlevel}})
    
     console.log(req.body);
@@ -750,5 +752,21 @@ console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
     console.log(errors)
   }
 
-})
+});
+router.get('/printapplication/(:applicantid)',ensureAuthenticated,async function(req,res){
+   
+  //const{programidlevel,applicantid} = req.body;
+const applicant = await NewApplicant.findOne({where:{applicant_id:req.params.applicantid}});
+if(applicant){
+  const department = await Occupation.findAll({})
+   res.render('printapplicationform',{
+      applicant:applicant,
+      classlist:"",
+      department:department,
+      courselist:"",
+      programidlevel:"",
+      programtag:"level"
+  });
+}
+});
 module.exports = router;

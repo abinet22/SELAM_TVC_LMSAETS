@@ -22,6 +22,9 @@ module.exports = (sequelize, DataTypes) => {
         training_hours:{
             type: DataTypes.STRING,
         },
+        training_cost:{
+            type: DataTypes.DECIMAL,
+        },
         training_level:{
             type: DataTypes.STRING,
         },

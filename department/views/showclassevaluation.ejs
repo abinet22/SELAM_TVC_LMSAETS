@@ -245,7 +245,7 @@
                                    <th>Student ID</th>
                                                      <th>Full Name</th>
                                                  
-                                                     <th>Course Name</th>
+                                                     <th>UOCs Name</th>
                
                                                      <th> Theoretical Evaluation</th>
                                                      <th> Practical Evaluation</th>
@@ -280,9 +280,9 @@
                                                                <% if(courselist.length >0) {%>
                                                                    <% courselist.forEach(function (row){ %>
                                                                        <% var coursename = row.course_id %>
-                                                                  <% if( coursename == course) { %>
+                                                                  
                                                                    <%= row.course_name %>
-                                                                  <% }})}else {}%>
+                                                                  <% })}else {}%>
                                                            
                                                            
                                                            </td>

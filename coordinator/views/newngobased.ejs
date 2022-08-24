@@ -100,7 +100,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Open NGO Based Programs</li>
+              <li class="breadcrumb-item active">Open Short Term/Project/ Based Programs</li>
             </ol>
           </div>
         </div>
@@ -115,7 +115,7 @@
                 <div class="col-md-12">
                     <div class="card card-primary">
                       <div class="card-header">
-                        <h4 class="card-title">Open NGO Based Training Programs</h4>
+                        <h4 class="card-title">Open Short Term/Project/ Based Training Programs</h4>
                       </div>
                       <div class="card-body">
                        
@@ -204,7 +204,7 @@
                                               <td><%= row.minimum_criteria %> </td>
                                               <td><% var selectioncriteria= [];
                                                var x =[];
-                                               var objs = JSON.parse(row.selection_criteria);
+                                               var objs = JSON.parse(JSON.stringify(row.selection_criteria));
                                                selectioncriteria.push(objs);
                                                selectioncriteria.forEach(obj => {
                                                  Object.entries(obj).forEach(([key, value]) => {

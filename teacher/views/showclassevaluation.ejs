@@ -231,7 +231,7 @@
                                                       <% levelbased.forEach(function (row){ %>
                                                        <% y++ %>
                                                        <% var one, two,three; %>
-                                                       <% var name = JSON.parse(row.personal_info); %>
+                                                       <% var name = JSON.parse(JSON.stringify(row.personal_info)); %>
                                                        <% var contact = JSON.parse(JSON.stringify(row.contact_info)); %>
                                                        <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
                                                        <% var contactself = name.firstname +"/ "+contact.phoneNumber_1  %>
@@ -242,13 +242,14 @@
                                                            <td ><%= fullname %></td>
                                                          
                                                            
-                                                           <td><% var course = row.course_id %>
+                                                           <td><% var courseid = row.course_id %>
                                                            
                                                                <% if(courselist.length >0) {%>
-                                                                   <% courselist.forEach(function (row){ %>
-                                                                       <% var coursename = row.course_id %>
-                                                                  <% if( coursename == course) { %>
-                                                                   <%= row.course_name %>
+                                                                   <% courselist.forEach(function (rowc){ %>
+                                                                   
+                                                                       <% var coursename = rowc.course_id %>
+                                                                  <% if( coursename === courseid) { %>
+                                                                   <%= rowc.course_name %>
                                                                   <% }})}else {}%>
                                                            
                                                          

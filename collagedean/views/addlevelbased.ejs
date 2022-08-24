@@ -184,7 +184,7 @@ input.invalid {
                       </div>
                     
                       <div class="input-group input-group-sm">
-                        <input type="text" class="form-control" oninput="this.className = ''"  id="batchname" name="batchname"> 
+                        <input type="text" class="form-control"   id="batchname" name="batchname"> 
                         <span class="input-group-append">
                           <button type="button" class="btn btn-info btn-flat" style="background-color: #f48d5b;" type="button" onclick="generatebatchname();">Generate Batch Name</button>
                         </span>
@@ -196,17 +196,17 @@ input.invalid {
                           var batchnew = new Date();
                           var thisyear = batchnew.getFullYear();
                           var thismonth = batchnew.getMonth();
-                          var batchname = "Selam"+"_"+"Batch"+"_"+thismonth+"_"+thisyear;
+                          var batchname = "SelamLB"+"_"+"Batch"+"_"+thismonth+"_"+thisyear;
                           document.getElementById('batchname').value = batchname ;
     
                         }
                       </script>
                       <div class="form-group">
-                        <label for="exampleInputUsername1">Select Training Category Include</label>
+                        <label for="exampleInputUsername1">Select Occupation Include</label>
                         <select class="form-control" multiple="" id="trainingname" name="trainingname">
-                  <% if(training.length >0) {%>
+                          <% if(training.length >0) {%>
                             <% training.forEach(function (row){ %>
-                              <option value="<%= row.training_name %>"><%= row.training_name %></option>
+                              <option value="<%= row.occupation_name %>"><%= row.occupation_name %></option>
                            <% })}else {}%>
                 </select>
                       </div>

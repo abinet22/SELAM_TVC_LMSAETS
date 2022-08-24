@@ -11,15 +11,24 @@ const User = db.users;
 const sequelize = db.sequelize ;
 const { Op } = require("sequelize");
 const bcrypt = require('bcryptjs');
+const SectorList = db.sectorlists;
 const passport = require('passport');
 const { v4: uuidv4 } = require('uuid');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
 router.get('/addnewdepartment', ensureAuthenticated,async function (req, res) 
 {
-const training = await LevelBasedTraining.findAll({ where:{training_type:"Regular"}});
+const training = await SectorList.findAll({ });
     res.render('addnewdepartment',{
         training:training
+    });
+
+});
+router.get('/addnewoccupation', ensureAuthenticated,async function (req, res) 
+{
+const dept = await Department.findAll({ });
+    res.render('addnewoccupation',{
+        dept:dept
     });
 
 });
@@ -37,19 +46,36 @@ router.get('/alldepartmentlist', ensureAuthenticated, async function (req, res) 
  
  
  });
+ router.get('/alloccupationlist', ensureAuthenticated, async function (req, res) {
+
+  
+    const [results, metadata] = await sequelize.query(
+      "  select courses.department_id,occupation_name,departments.department_name,training_level,sum(courses.training_hours) as trhour,sum(courses.training_cost) as trcost from courses "+
+       " inner join occupations on  courses.department_id = occupations.occupation_id  "+
+     "   inner join departments on  departments.department_id = occupations.department_id  "+
+      "  group by courses.department_id,training_level,occupation_name,department_name"
+   );
+   
+   res.render('alloccupationlist',{
+           
+    department:results
+ })
+ 
+ 
+ });
 router.post('/addnewdepartment', ensureAuthenticated, async function(req, res) 
 {
 
     const{trainingname,deptname} = req.body;
     let error = [];
-    const training = await LevelBasedTraining.findAll({where:{training_type:"Regular"}});
+    const training = await SectorList.findAll({});
 
 
    if(!trainingname || !deptname ){
         error.push({msg:'Please add all required fields'})
    }
    else if(trainingname == "0" ){
-    error.push({msg:'Please select name of training program'})
+    error.push({msg:'Please select name of sector name'})
    }
    if(error.length >0){
     res.render('addnewdepartment',{
@@ -68,7 +94,7 @@ router.post('/addnewdepartment', ensureAuthenticated, async function(req, res)
 
             res.render('addnewdepartment',{
                 training:training,
-                error_msg:'This training program  is already registered please try later'
+                error_msg:'This department is already registered please try later'
             })
            }
            else
@@ -93,7 +119,7 @@ router.post('/addnewdepartment', ensureAuthenticated, async function(req, res)
 
             res.render('addnewdepartment',{  training:training,
 
-                success_msg:'Your are successfully registered new department for training program'
+                success_msg:'Your are successfully registered new department '
             })
         }).catch(error =>{
             res.render('addnewdepartment',{

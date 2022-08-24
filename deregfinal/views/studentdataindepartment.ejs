@@ -228,7 +228,7 @@
                                     <% var i = 0 ;%>
                                        <% marklist.forEach(function (row){ %>
                                         <% i++ %>
-                                        <% var name = JSON.parse(row.personal_info) %>
+                                        <% var name = JSON.parse(JSON.stringify(row.personal_info)) %>
                                         <% var courseids = row.course_id %>
                                         <tr>
                                             <td><%= i %></td>
@@ -364,7 +364,7 @@
                                   <% var i = 0 ;%>
                                      <% marklist.forEach(function (row){ %>
                                       <% i++ %>
-                                      <% var name = JSON.parse(row.personal_info) %>
+                                      <% var name = JSON.parse(JSON.stringify(row.personal_info)) %>
                                       <% console.log(name) %>
                                       <tr>
                                         <td><div style="display: none;">

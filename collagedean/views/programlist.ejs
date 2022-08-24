@@ -202,7 +202,7 @@
                               <button class="nav-link  active"  id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Level Based Batch </button>
                             </li>
                             <li class="nav-item" role="presentation">
-                              <button class="nav-link "  id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">NGO Based Batch </button>
+                              <button class="nav-link "  id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Short Term /Project/ Based Batch </button>
                             </li>
                             <li class="nav-item" role="presentation">
                               <button class="nav-link "  id="industry-tab" data-bs-toggle="tab" data-bs-target="#industry" type="button" role="tab" aria-controls="industry" aria-selected="false">Industry Driven Batch </button>
@@ -327,7 +327,9 @@
                                                
                                                  </td>
                                                   <td> 
-                                                    <% if(aed.valueOf() > todayis.valueOf()){ %> 
+                                                    <% var ed = new Date(row.app_end_date)  %> 
+                                                    <% var td = new Date()  %> 
+                                                    <% if(ed >td){ %> 
                                                    <form >
                                                    
                                                <button class="btn btn-block btn-info">Not Passed</button>     
@@ -340,7 +342,7 @@
                                                    <% }%>
                                                  </td>
                                                  <td> 
-                                                  <% if(aed < todayis){ %> 
+                                                  <% if(ed > td){ %> 
                                                     <button class="btn btn-block btn-info">Application Date Not Passed </button> 
                                                     
                                                        <% }else{%>
@@ -355,8 +357,14 @@
                                                             <% }%>
                                                      </td>
                                                  <td> 
-                                                   <form action="/programs/updateopenprograms/<%= row.program_id %>" method="get">
-                                                     <button class="btn btn-block btn-info"><i class="fa fa-edit"></i>Update</button> 
+                                                   <form action="/programs/updateopenprograms/<%= row.program_id %>" method="post">
+                                                    <div class="form-group">
+                                                   
+                                                      <input type="date" class="form-control" id="appenddate" name="appenddate" placeholder="Enter Training End Date">
+                                                    </div>
+                                                    <input class="form-control" id="programtag" name="programtag" type="hidden" value="levelbased">
+                                                  
+                                                     <button class="btn btn-block btn-info" type="submit"><i class="fa fa-edit"></i>Update Application Date</button> 
                                                  
                                                    </form>
                                                
@@ -383,7 +391,7 @@
                           <div class="tab-pane " id="profile" role="tabpanel" aria-labelledby="profile-tab">    <div class="row">
                             <div class="col-md-12  grid-margin stretch-card">     <div class="card">
                                 <div class="card-body">
-                                  <h4 class="card-title">NGO Based Batch List </h4>
+                                  <h4 class="card-title">Short Term /Project/ Based Batch List </h4>
                                  
                                   <div class="table-responsive" id="trainingdata">
                                     <table aria-describedby="ngobased_info" role="grid" class="table responsive table-bordered table-striped dataTable dtr-inline" id="ngobased">
@@ -468,7 +476,7 @@
                                                 <td><%= row.minimum_criteria %> </td>
                                                 <td><% var selectioncriteria= [];
                                                  var x =[];
-                                                 var objs = JSON.parse(row.selection_criteria);
+                                                 var objs = JSON.parse(JSON.stringify(row.selection_criteria));
                                                  selectioncriteria.push(objs);
                                                  selectioncriteria.forEach(obj => {
                                                    Object.entries(obj).forEach(([key, value]) => {
@@ -489,7 +497,9 @@
                                              
                                                </td>
                                                 <td> 
-                                                  <% if(aed.valueOf() > todayis.valueOf()){ %> 
+                                                  <% var ed = new Date(row.app_end_date)  %> 
+                                                  <% var td = new Date()  %> 
+                                                  <% if(ed>td){ %> 
                                                  <form >
                                                  
                                              <button class="btn btn-block btn-info">Not Passed</button>     
@@ -502,7 +512,7 @@
                                                  <% }%>
                                                </td>
                                                <td> 
-                                                <% if(aed < todayis){ %> 
+                                                <% if(ed>td){ %> 
                                                   <button class="btn btn-block btn-info">Application Date Not Passed </button> 
                                                   
                                                      <% }else{%>
@@ -517,8 +527,14 @@
                                                           <% }%>
                                                    </td>
                                                <td> 
-                                                 <form action="/programs/updateopenprograms/<%= row.program_id %>" method="get">
-                                                   <button class="btn btn-block btn-info"><i class="fa fa-edit"></i>Update</button> 
+                                                 <form action="/programs/updateopenprograms/<%= row.program_id %>" method="post">
+                                                  <div class="form-group">
+                                                   
+                                                    <input type="date" class="form-control" id="appenddate" name="appenddate" placeholder="Enter Training End Date">
+                                                  </div>
+                                                  <input class="form-control" id="programtag" name="programtag" type="hidden" value="ngobased">
+                                                
+                                                   <button class="btn btn-block btn-info" type="submit"><i class="fa fa-edit"></i>Update Application Date</button> 
                                                
                                                  </form>
                                              
@@ -611,7 +627,9 @@
                                               <td><%= asd +"-"+ aed %></td>
                                           
                                               <td> 
-                                                <% if(aed.valueOf() > todayis.valueOf()){ %> 
+                                                <% var ed = new Date(row.app_end_date)  %> 
+                                                <% var td = new Date()  %> 
+                                                <% if(ed>td){ %> 
                                                <form >
                                                
                                            <button class="btn btn-block btn-info">Not Passed</button>     
@@ -624,7 +642,7 @@
                                                <% }%>
                                              </td>
                                              <td> 
-                                              <% if(aed < todayis){ %> 
+                                              <% if(ed>td){ %> 
                                                 <button class="btn btn-block btn-info">Application Date Not Passed </button> 
                                                 
                                                    <% }else{%>
@@ -639,8 +657,14 @@
                                                         <% }%>
                                                  </td>
                                              <td> 
-                                               <form action="/programs/updateopenprograms/<%= row.program_id %>" method="get">
-                                                 <button class="btn btn-block btn-info"><i class="fa fa-edit"></i>Update</button> 
+                                               <form action="/programs/updateopenprograms/<%= row.program_id %>" method="post">
+                                                <div class="form-group">
+                                                   
+                                                  <input type="date" class="form-control" id="appenddate" name="appenddate" placeholder="Enter Training End Date">
+                                                </div>
+                                                <input class="form-control" id="programtag" name="programtag" type="hidden" value="industrybased">
+                                              
+                                                 <button class="btn btn-block btn-info" type="submit"><i class="fa fa-edit"></i>Update Application Date</button> 
                                              
                                                </form>
                                            

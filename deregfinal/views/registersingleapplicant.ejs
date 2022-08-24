@@ -129,7 +129,7 @@
                           </div>
           
                           <h3 class="profile-username text-center"><%var perinfo = JSON.parse(JSON.stringify(applicant.personal_info)) %> <%= perinfo.firstname %></h3>
-                          <p class="text-muted text-center"><%= department.department_name %></p>
+                          <p class="text-muted text-center"><%= department.occupation_name %></p>
           
                          
           
@@ -329,9 +329,9 @@
                                                 <address>
                                                   <strong>FullName:<% var perinfo = JSON.parse(JSON.stringify(applicant.personal_info)) %> <%= perinfo.firstname %> &nbsp; <%= perinfo.middlename %> &nbsp; <%= perinfo.lastname %></strong><br>
             
-                                                  <strong>Department:</strong><%= department.department_name %><br>
+                                                  <strong>Department:</strong><%= department.occupation_name %><br>
                                               
-                                                  <strong>Addmission Type:</strong><%= applicant.admission_type %><br>
+                                                  <strong>Addmission Type:</strong><%= applicant.choice_program_type %><br>
                                                   <strong>Telephone:<% var contact = JSON.parse(JSON.stringify(applicant.contact_info)) %> <%= contact.phoneNumber_1 %></strong>
                                                
                                                 </address>

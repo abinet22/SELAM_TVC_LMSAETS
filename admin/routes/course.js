@@ -12,6 +12,7 @@ const Batch = db.batches;
 const IndustryCourse = db.industrycourses;
 const NGOCourse = db.ngocourses;
 const User = db.users;
+const Occupation = db.occupations;
 const sequelize = db.sequelize ;
 const { Op } = require("sequelize");
 const bcrypt = require('bcryptjs');
@@ -22,23 +23,23 @@ const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
 router.get('/addnewcourse', ensureAuthenticated,async function (req, res) 
 {
-const department = await Department.findAll({});
+const occupation = await Occupation.findAll({});
 const batchngo = await Batch.findAll({where:{program_type:"ngo"}});
 const batchindustry = await Batch.findAll({where:{program_type:"industry"}});
 const [course1, metadata] = await sequelize.query(
-  "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_1'"
+  "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id"
 );
 const [course2, metadata2] = await sequelize.query(
-  "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_2'"
+  "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2'"
 );
 const [course3, metadata3] = await sequelize.query(
-  "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_3'"
+  "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3'"
 );
 const [course4, metadata4] = await sequelize.query(
-  "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_4'"
+  "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4'"
 );
     res.render('addnewcourse',{
-        department:department,
+      department:occupation,
         batchngo:batchngo,
         batchindustry:batchindustry,
         course1:course1,
@@ -52,25 +53,25 @@ router.get('/allcourselist', ensureAuthenticated, async function (req, res) {
 
   
   const [course1, metadata] = await sequelize.query(
-    "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_1'"
+    "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_1'"
   );
   const [course2, metadata2] = await sequelize.query(
-    "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_2'"
+    "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2'"
   );
   const [course3, metadata3] = await sequelize.query(
-    "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_3'"
+    "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3'"
   );
   const [course4, metadata4] = await sequelize.query(
-    "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_4'"
+    "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4'"
   );
   const [course5, metadata5] = await sequelize.query(
-    "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_5'"
+    "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_5'"
   );
 
-  const department = await Department.findAll({});
+  const occupation = await Occupation.findAll({});
    
    res.render('allcourselist',{
-    department:department,     
+    department:occupation,     
     course1:course1,
     course2:course2,
     course3:course3,
@@ -86,30 +87,30 @@ router.get('/allcourselist', ensureAuthenticated, async function (req, res) {
     const {dept,semister} = req.body;
   
     const [course1, metadata] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_1' and courses.department_id ='"+dept+"' and courses.semister='"+semister+"'"
+      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_1' and courses.department_id ='"+dept+"' "
     );
     const [course2, metadata2] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_2' and courses.department_id ='"+dept+"' and courses.semister='"+semister+"'"
+      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2' and courses.department_id ='"+dept+"' "
     );
     const [course3, metadata3] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_3' and courses.department_id ='"+dept+"' and courses.semister='"+semister+"'"
+      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3' and courses.department_id ='"+dept+"' "
     );
     const [course4, metadata4] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_4' and courses.department_id ='"+dept+"' and courses.semister='"+semister+"'"
+      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4' and courses.department_id ='"+dept+"' "
     );
     const [course5, metadata5] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_5' and courses.department_id ='"+dept+"' and courses.semister='"+semister+"'"
+      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_5' and courses.department_id ='"+dept+"' "
     );
     const [ngo, metadatango] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where  courses.department_id ='"+dept+"' and courses.semister='"+semister+"' and courses.program_type ='NGO_Based'"
+      "SELECT * FROM ngocourses INNER JOIN occupations ON occupations.occupation_id = ngocourses.department_id where  ngocourses.department_id ='"+dept+"' "
     );
     const [industry, metadataindu] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where courses.department_id ='"+dept+"' and courses.semister='"+semister+"' and courses.program_type ='Industry_Based'"
+      "SELECT * FROM industrycourses INNER JOIN occupations ON occupations.occupation_id = industrycourses.department_id where industrycourses.department_id ='"+dept+"'"
     );
-    const department = await Department.findAll({});
+    const occupation = await Occupation.findAll({});
      
      res.render('allcourselist',{
-      department:department,     
+      department:occupation,     
       course1:course1,
       course2:course2,
       course3:course3,
@@ -123,34 +124,39 @@ router.get('/allcourselist', ensureAuthenticated, async function (req, res) {
    });
 router.post('/addnewcourse', ensureAuthenticated, async function(req, res) 
 {
-    const{deptname,coursecode,traininghours,coursename,nolos,traininglevel,lodata,semister,programtype} = req.body;
+    const{occupationname,coursecode,traininghours,coursename,nolos,traininglevel,lodata,trainingcost} = req.body;
     let error = [];
-    const department = await Department.findAll({});
+    const occupation = await Occupation.findAll({});
     const batchngo = await Batch.findAll({where:{program_type:"ngo"}});
     const batchindustry = await Batch.findAll({where:{program_type:"industry"}});
     const [course1, metadata] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_1'"
+      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id "
     );
     const [course2, metadata2] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_2'"
+      "SELECT * FROM courses INNER JOIN  occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2'"
     );
     const [course3, metadata3] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_3'"
+      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3'"
     );
     const [course4, metadata4] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_4'"
+      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4'"
     );
-
-   if(!coursecode || !deptname ||!traininghours || !coursename  ){
+    console.log("bflsdhjdabfjsdfbhjxxxxxxxxxxxxxxxxxx")
+    console.log(occupationname)
+   if(!coursecode || !occupationname ||!traininghours || !coursename  ){
         error.push({msg:'Please add all required fields'})
    }
-   else if(deptname == "0" ){
-    error.push({msg:'Please select name of department name'})
+   else if(occupationname == "0" ){
+    error.push({msg:'Please select name of occupation name'})
+   }
+   if(Math.floor(trainingcost) != trainingcost){
+    error.push({msg:'Please enter the correct cost of UOCs '})
    }
    if(error.length >0){
-
+  
+   
     res.render('addnewcourse',{
-      department:department,
+      department:occupation,
       batchngo:batchngo,
       batchindustry:batchindustry,
       course1:course1,
@@ -163,20 +169,20 @@ router.post('/addnewcourse', ensureAuthenticated, async function(req, res)
    else{
        Course.findOne({where:{
         course_name:coursename,
-        department_name:deptname,
+        department_name:occupationname,
         training_level:traininglevel
        }}).then(courses =>{
            if(courses)
            {
             res.render('addnewcourse',{
-              department:department,
+              department:occupation,
               batchngo:batchngo,
               batchindustry:batchindustry,
               course1:course1,
               course2:course2,
               course3:course3,
               course4:course4,
-              error_msg:'This course name  is already registered please try later'
+              error_msg:'This UOC name  is already registered please try later'
           });
          
            }
@@ -192,35 +198,36 @@ router.post('/addnewcourse', ensureAuthenticated, async function(req, res)
         const courseData ={
            
             course_id:courseid,
-            department_name:deptname,
+            department_name:occupationname,
             course_code:coursecode,
             course_name:coursename,
-            department_id:deptname,
+            department_id:occupationname,
             training_hours:traininghours,
             training_level:traininglevel,
-            semister:semister,
-            program_type:programtype,
+            semister:"",
+            training_cost:trainingcost,
+            program_type:"Level_Based",
             learning_obj:JSON.parse(lodata),
             nooflo:nolos
         }
 
         Course.create(courseData).then(coursesdt =>{
           res.render('addnewcourse',{
-            department:department,
+            department:occupation,
             batchngo:batchngo,
             batchindustry:batchindustry,
             course1:course1,
             course2:course2,
             course3:course3,
             course4:course4,
-            success_msg:'Your are successfully registered new course for this department and level'
+            success_msg:'Your are successfully registered new UOC for this occupation and level'
           
         });
          
         }).catch(error =>{
           console.log(error)
           res.render('addnewcourse',{
-            department:department,
+            department:occupation,
             batchngo:batchngo,
             batchindustry:batchindustry,
             course1:course1,
@@ -238,7 +245,7 @@ router.post('/addnewcourse', ensureAuthenticated, async function(req, res)
        }).catch(error =>{
            console.log(error)
            res.render('addnewcourse',{
-            department:department,
+            department:occupation,
             batchngo:batchngo,
             batchindustry:batchindustry,
             course1:course1,
@@ -256,30 +263,32 @@ router.post('/addnewcourse', ensureAuthenticated, async function(req, res)
 
 router.post('/addnewcoursengo', ensureAuthenticated, async function(req, res) 
 {
-    const{batch,level1,level2,level3,level4} = req.body;
+    const{batch,level1,traininghours,nolosngo,lodatango,trainingcost} = req.body;
     let error = [];
-    const department = await Department.findAll({});
+    const occupation = await Occupation.findAll({});
     const batchngo = await Batch.findAll({where:{program_type:"ngo"}});
     const batchindustry = await Batch.findAll({where:{program_type:"industry"}});
     const [course1, metadata] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_1'"
+      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id "
     );
     const [course2, metadata2] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_2'"
+      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2'"
     );
     const [course3, metadata3] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_3'"
+      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3'"
     );
     const [course4, metadata4] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_4'"
+      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4'"
     );
    if(batch == "0" ){
     error.push({msg:'Please select name of batch name'})
    }
- 
+   if(Math.floor(trainingcost) != trainingcost){
+    error.push({msg:'Please enter the correct cost of UOCs '})
+   }
    if(error.length >0){
     res.render('addnewcourse',{
-      department:department,
+      department:occupation,
       batchngo:batchngo,
       batchindustry:batchindustry,
       course1:course1,
@@ -326,11 +335,12 @@ router.post('/addnewcoursengo', ensureAuthenticated, async function(req, res)
       course_code: course.course_code,
       department_id: course.department_id,
       department_name:course.department_name,
-      training_hours:course.training_hours,
+      training_hours:traininghours,
       training_level:course.training_level,
       semister:course.semister,
-      nooflo:course.nooflo,
-      learning_obj:course.learning_obj,
+      nooflo:nolosngo,
+      learning_obj:JSON.parse(lodatango),
+      training_cost:trainingcost
       }
        console.log(courseData)
        NGOCourse.create(courseData)
@@ -341,14 +351,14 @@ router.post('/addnewcoursengo', ensureAuthenticated, async function(req, res)
     } 
    
        res.render('addnewcourse',{
-      department:department,
+      department:occupation,
       batchngo:batchngo,
       batchindustry:batchindustry,
       course1:course1,
       course2:course2,
       course3:course3,
       course4:course4,
-      success_msg:'Successfully create courses for this batch ngo based program trainees'})
+      success_msg:'Successfully create UOCs for this batch of ngo based program trainees'})
      
    
     
@@ -362,37 +372,39 @@ router.post('/addnewcoursengo', ensureAuthenticated, async function(req, res)
 });
 router.post('/addnewcourseindustry', ensureAuthenticated, async function(req, res) 
 {
-    const{batch,level1,level2,level3,level4} = req.body;
+    const{batch,level1,traininghours,nolosind,lodataind,trainingcost} = req.body;
     let error = [];
-    const department = await Department.findAll({});
+    const occupation = await Occupation.findAll({});
     const batchngo = await Batch.findAll({where:{program_type:"ngo"}});
     const batchindustry = await Batch.findAll({where:{program_type:"industry"}});
     const [course1, metadata] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_1'"
+      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id= courses.department_id "
     );
     const [course2, metadata2] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_2'"
+      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2'"
     );
     const [course3, metadata3] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_3'"
+      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id= courses.department_id where training_level='Level_3'"
     );
     const [course4, metadata4] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN departments ON departments.department_id = courses.department_id where training_level='Level_4'"
+      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4'"
     );
    if(batch == "0" ){
     error.push({msg:'Please select name of batch name'})
    }
- 
+   if(Math.floor(trainingcost) != trainingcost){
+    error.push({msg:'Please enter the correct cost of UOCs '})
+   }
    if(error.length >0){
     res.render('addnewcourse',{
-      department:department,
+      department:occupation,
       batchngo:batchngo,
       batchindustry:batchindustry,
       course1:course1,
       course2:course2,
       course3:course3,
       course4:course4,
-      error_msg:'Please select all required fields'
+      error_msg:'Please enter all required fields'
      
   });
    }
@@ -432,11 +444,12 @@ router.post('/addnewcourseindustry', ensureAuthenticated, async function(req, re
       course_code: course.course_code,
       department_id: course.department_id,
       department_name:course.department_name,
-      training_hours:course.training_hours,
+      training_hours:traininghours,
       training_level:course.training_level,
       semister:course.semister,
-      nooflo:course.nooflo,
-      learning_obj:course.learning_obj,
+      nooflo:nolosind,
+      training_cost:trainingcost,
+      learning_obj:JSON.parse(lodataind),
       }
        console.log(courseData)
        IndustryCourse.create(courseData)
@@ -447,14 +460,14 @@ router.post('/addnewcourseindustry', ensureAuthenticated, async function(req, re
     } 
    
        res.render('addnewcourse',{
-      department:department,
+      department:occupation,
       batchngo:batchngo,
       batchindustry:batchindustry,
       course1:course1,
       course2:course2,
       course3:course3,
       course4:course4,
-      success_msg:'Successfully create courses for this batch industry based program trainees'})
+      success_msg:'Successfully create UOCs for this batch of industry based program trainees'})
      
    
     

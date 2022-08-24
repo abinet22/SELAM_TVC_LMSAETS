@@ -70,6 +70,8 @@ app.use('/', require('./routes/index.js'));
 app.use('/training', require('./routes/training.js'));
 app.use('/dept', require('./routes/dept.js'));
 app.use('/course', require('./routes/course.js'));
+app.use('/datalist', require('./routes/datalist.js'));
+
 
 
 

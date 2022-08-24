@@ -70,11 +70,11 @@ app.use('/', require('./routes/index.js'));
 app.use('/programs', require('./routes/programs.js'));
 app.use('/company', require('./routes/company.js'));
 app.use('/trainee', require('./routes/trainee.js'));
+app.use('/dataanalysis', require('./routes/dataanalysis.js'));
 
 
 
-
-const PORT = process.env.PORT || 5007;
+const PORT = process.env.PORT || 5008;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);

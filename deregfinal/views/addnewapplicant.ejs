@@ -938,7 +938,7 @@
                                           <option value="0">Please Select Training Choice 1</option>
                                           <% if(department.length >0) {%>
                                             <% department.forEach(function (row){ %>
-                                              <option value="<%= row.department_id %>"><%= row.department_name %></option>
+                                              <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
                                            <% })}else {}%>
                                                        
                                       </select>
@@ -953,8 +953,8 @@
                                           <option value="0">Please Select Training Choice 2</option>
                                           <% if(department.length >0) {%>
                                             <% department.forEach(function (row){ %>
-                                              <option value="<%= row.department_id %>"><%= row.department_name %></option>
-                                           <% })}else {}%>                       
+                                              <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                           <% })}else {}%>                
              </select>
                                   </div>              
                               </div>
@@ -968,7 +968,7 @@
                                           <option value="0">Please Select Training Choice 3</option>
                                           <% if(department.length >0) {%>
                                             <% department.forEach(function (row){ %>
-                                              <option value="<%= row.department_id %>"><%= row.department_name %></option>
+                                              <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
                                            <% })}else {}%>
                                         </select>
                                   </div>              

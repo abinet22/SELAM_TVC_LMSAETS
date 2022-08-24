@@ -11,6 +11,8 @@ const Course = db.courses;
 const NGOCourse = db.ngocourses;
 const IndustryCourse = db.industrycourses;
 const User = db.users;
+const Occupation = db.occupations;
+
 const CourseTeacherClass = db.courseteacherclasses;
 const sequelize = db.sequelize ;
 const { Op } = require("sequelize");
@@ -34,11 +36,13 @@ router.get('/assignclassrepresentative',ensureAuthenticated, async function(req,
       const [industrybased, metaindustrybaseddata] = await sequelize.query(
         "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id"
       );
+      const occupation  = await Occupation.findAll({where:{department_id:req.user.department}})
     res.render('assignclassrepresentative',{
  
         levelbased:levelbased,
         ngobased:ngobased,
-        industrybased:industrybased
+        industrybased:industrybased,
+        occupation:occupation
     })
 
 })
@@ -52,24 +56,27 @@ router.get('/assigncoursetoteacher',ensureAuthenticated,async function(req,res){
       const [industrybased, metaindustrybaseddata] = await sequelize.query(
         "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id"
       );
+      const occupation  = await Occupation.findAll({where:{department_id:req.user.department}})
+  
     res.render('assigncoursetoteacher',{
      
         levelbased:levelbased,
         ngobased:ngobased,
-        industrybased:industrybased
+        industrybased:industrybased,
+        occupation:occupation
     })
 })
 router.post('/coursetoteacherlevelbased',ensureAuthenticated,async function(req,res){
-  const{programidlevel,traininglevel,programtype} = req.body;
+  const{programidlevel,traininglevel,programtype,occupationname} = req.body;
         const teacherlist = await StaffList.findAll({where:{isteacher:'Yes'}})
         const classlist = await ClassInDept.findAll({where:{
                               batch_id:programidlevel,
-                              department_id: req.user.department,
+                              department_id: occupationname,
                               training_level:traininglevel,
                               training_type:programtype}})
         const courselist = await Course.findAll({where:{
                           
-                            department_id: req.user.department,
+                            department_id: occupationname,
                             training_level:traininglevel }})
 
   res.render('courseteacher',{
@@ -78,20 +85,21 @@ router.post('/coursetoteacherlevelbased',ensureAuthenticated,async function(req,
    traininglevel:traininglevel,
    programtype:programtype,
    classlist:classlist,
-   courselist:courselist
+   courselist:courselist,
+   dpt:occupationname
   }) 
 })
 
 router.post('/coursetoteacherindustrybased',ensureAuthenticated,async function(req,res){
-  const{programid,traininglevel,programtype} = req.body;
+  const{programid,traininglevel,programtype,occupationname} = req.body;
         const teacherlist = await StaffList.findAll({where:{isteacher:'Yes'}})
         const classlist = await ClassInDept.findAll({where:{
                               batch_id:programid,
-                              department_id:req.user.department,
+                              department_id:occupationname,
                               training_type:programtype}})
         const courselist = await IndustryCourse.findAll({where:{
                             batch_id:programid,
-                            department_id:req.user.department,
+                            department_id:occupationname,
                              }})
 
   res.render('courseteacher',{
@@ -104,16 +112,16 @@ router.post('/coursetoteacherindustrybased',ensureAuthenticated,async function(r
   }) 
 })
 router.post('/coursetoteacherngobased',ensureAuthenticated,async function(req,res){
-  const{programid,programtype} = req.body;
+  const{programid,programtype,occupationname} = req.body;
         const teacherlist = await StaffList.findAll({where:{isteacher:'Yes'}})
         const classlist = await ClassInDept.findAll({where:{
                               batch_id:programid,
-                              department_id:req.user.department,
+                              department_id:occupationname,
                            
                               training_type:programtype}})
         const courselist = await NGOCourse.findAll({where:{
                             batch_id:programid,
-                            department_id:req.user.department,
+                            department_id:occupationname,
                             }})
 
   res.render('courseteacher',{
@@ -126,11 +134,11 @@ router.post('/coursetoteacherngobased',ensureAuthenticated,async function(req,re
   }) 
 })
 router.post('/assignclassrepresentativelevel',ensureAuthenticated,async function(req,res){
-  const{programidlevel,traininglevel,programtype} = req.body;
+  const{programidlevel,traininglevel,programtype,occupationname} = req.body;
         const teacherlist = await StaffList.findAll({where:{isteacher:'Yes'}})
         const classlist = await ClassInDept.findAll({where:{
                               batch_id:programidlevel,
-                              department_id: req.user.department,
+                              department_id: occupationname,
                               training_level:traininglevel,
                               training_type:programtype}})
        
@@ -146,11 +154,11 @@ router.post('/assignclassrepresentativelevel',ensureAuthenticated,async function
 })
 
 router.post('/assignclassrepresentativengo',ensureAuthenticated,async function(req,res){
-  const{programid,traininglevel,programtype} = req.body;
+  const{programid,traininglevel,programtype,occupationname} = req.body;
         const teacherlist = await StaffList.findAll({where:{isteacher:'Yes'}})
         const classlist = await ClassInDept.findAll({where:{
                               batch_id:programid,
-                              department_id: req.user.department,
+                              department_id: occupationname,
                             
                               training_type:programtype}})
        
@@ -165,11 +173,11 @@ router.post('/assignclassrepresentativengo',ensureAuthenticated,async function(r
   }) 
 })
 router.post('/assignclassrepresentativeindustry',ensureAuthenticated,async function(req,res){
-  const{programid,traininglevel,programtype} = req.body;
+  const{programid,traininglevel,programtype,occupationname} = req.body;
         const teacherlist = await StaffList.findAll({where:{isteacher:'Yes'}})
         const classlist = await ClassInDept.findAll({where:{
                               batch_id:programid,
-                              department_id: req.user.department,
+                              department_id: occupationname,
                            
                               training_type:programtype}})
        
@@ -203,7 +211,7 @@ router.post('/saveclassteachercourse',ensureAuthenticated,async function(req,res
      var batchid = item.batch;
      var level = item.level;
      var programtype = item.programtype;
-     var dpt = req.user.department;
+     var dpt = item.dpt;
      
      const courseteachercomData = {
          course_id:courseid,

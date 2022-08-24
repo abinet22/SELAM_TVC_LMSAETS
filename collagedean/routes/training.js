@@ -28,14 +28,21 @@ router.get('/alltraineelist', ensureAuthenticated, async function (req, res) {
 
    const industrybased  = await IndustryBasedTraining.findAll({});
    const [results, metadata] = await sequelize.query(
-    "SELECT * FROM ngobasedtrainings INNER JOIN funderinfos ON funderinfos.funder_id = ngobasedtrainings.funder_id"
+    "SELECT * FROM occupations INNER JOIN departments ON departments.department_id = occupations.department_id"+
+    " inner join sectorlists on sectorlists.sector_id= departments.training_id"
   );
-  
+  const [occupationlist,occmeta] = await sequelize.query(
+
+" select courses.department_id,occupation_name,departments.department_name,training_level,sum(courses.training_hours) as trhour,sum(courses.training_cost) as trcost     from courses "+
+" inner join occupations on  courses.department_id = occupations.occupation_id "+
+" inner join departments on  departments.department_id = occupations.department_id "+
+" group by courses.department_id,training_level,occupation_name,department_name "
+  )
   console.log(JSON.stringify(results, null, 2));
 console.log(results);
     LevelBasedTraining.findAll({}).then(levelbased =>{
         res.render('traininglist',{
-            levelbased:levelbased,
+            department:occupationlist,
             industrybased:industrybased,
             ngobased:results
         })

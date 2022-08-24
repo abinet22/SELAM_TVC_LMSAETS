@@ -22,11 +22,11 @@ const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 const uploadFile = require('../middleware/upload.js');
 const NGOBasedTrainee = require('../models/NGOBasedTrainee');
 const Attendance  = db.attendances;
-
+const Occupation = db.occupations;
 router.post('/attendancedata',ensureAuthenticated,async function(req,res){
- const {batchid,dept,programtag} = req.body;
+ const {batchid,dept,programtag,occupationid,level} = req.body;
   const [classlist, metadata] = await sequelize.query(
-    "SELECT * FROM  classindepts where batch_id='"+batchid+"' and department_id='"+req.user.department+"'" );
+    "SELECT * FROM  classindepts where batch_id='"+batchid+"' and department_id='"+occupationid+"' and training_level='"+level+"'" );
 
   res.render('myattendanceclasses',{
       classlist:classlist,programtag:programtag

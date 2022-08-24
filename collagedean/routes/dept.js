@@ -7,6 +7,8 @@ const NGOBasedTraining = db.ngobasedtraining;
 const IndustryBasedTraining = db.industrybasedtraining;
 const FunderInfo = db.funderinfo;
 const Department = db.departments;
+const Occupation = db.occupations;
+const SectorList = db.sectorlists;
 const User = db.users;
 const sequelize = db.sequelize ;
 const { Op } = require("sequelize");
@@ -27,7 +29,7 @@ router.get('/alldepartmentlist', ensureAuthenticated, async function (req, res) 
 
   
     const [results, metadata] = await sequelize.query(
-     "SELECT * FROM departments INNER JOIN levelbasedtrainings ON departments.training_id = levelbasedtrainings.training_id"
+     "SELECT * FROM departments INNER JOIN sectorlists ON sectorlists.sector_id = departments.training_id"
    );
    
    res.render('alldepartmentlist',{

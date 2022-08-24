@@ -7,7 +7,7 @@ const StaffList = db.stafflists;
 const Batch = db.batches;
 const LevelBasedProgram = db.levelbasedprograms;
 const NGOBasedProgram = db.ngobasedprograms;
-const IndustryBasedProgram = db.industrybasedprogram;
+const IndustryBasedProgram = db.industrybasedprograms;
 const LevelBasedTrainee = db.levelbasedtrainees;
 const Department =db.departments;
 const NGOBasedTrainee = db.ngobasedtrainees;
@@ -46,7 +46,7 @@ router.get('/createdataencoder',async function(req, res)  {
   res.render('createdataencoder',{stafflist:stafflist})
 });
 router.get('/alldataencoderlist',ensureAuthenticated,async function(req,res){
-    const userlist = await User.findAll({where:{userroll:"REGISTRAR_DATA_ENCODER"}});
+    const userlist = await User.findAll({where:{userroll:"JBS_DATA_ENCODER"}});
     res.render('alldataencoderlist',{userlist:userlist})
 })
 router.post('/addnewregistrardataencoder', ensureAuthenticated,async function (req, res, next) {

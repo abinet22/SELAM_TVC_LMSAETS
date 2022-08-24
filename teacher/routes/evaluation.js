@@ -14,6 +14,7 @@ const LevelBasedProgress = db.levelbasedprogresses;
 const LevelBasedTrainee = db.levelbasedtrainees;
 const StudentMarkListLevelBased = db.studentmarklistlevelbaseds;
 const sequelize = db.sequelize ;
+const Occupation  = db.occupations;
 const { Op } = require("sequelize");
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
@@ -31,7 +32,7 @@ router.get('/manageevaluation',ensureAuthenticated,async function(req,res){
       const [industrybased, metaindustrybaseddata] = await sequelize.query(
         "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id"
       );
-      const department = await Department.findAll({});
+      const department = await Occupation.findAll({});
         res.render('searchevaluation',{
         levelbased:levelbased,
         ngobased:ngobased,
@@ -49,7 +50,7 @@ router.get('/manageprogress',ensureAuthenticated,async function(req,res){
     const [industrybased, metaindustrybaseddata] = await sequelize.query(
       "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id"
     );
-    const department = await Department.findAll({});
+    const department = await Occupation.findAll({});
       res.render('searchprogress',{
       levelbased:levelbased,
       ngobased:ngobased,
@@ -80,10 +81,13 @@ router.get('/generateandsubmitgrade',ensureAuthenticated,async function(req,res)
 
 
 router.post('/findmyclasstoevaluatecourselevel',ensureAuthenticated,async function(req,res){
-    const{batchid, dpt,showtype} = req.body;
+    const{batchid,level, dpt,showtype} = req.body;
    
     const [results, metadata] = await sequelize.query(
-      "SELECT * FROM courseteacherclasses INNER JOIN classindepts ON classindepts.class_id = courseteacherclasses.class_id inner join departments on departments.department_id=classindepts.department_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.department_id='"+dpt+"' "
+      "SELECT * FROM courseteacherclasses INNER JOIN classindepts ON classindepts.class_id = courseteacherclasses.class_id inner join occupations on occupations.occupation_id=classindepts.department_id  "+
+      " inner join batches on classindepts.batch_id = batches.batch_id"+
+      " where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.department_id='"+dpt+"' "+
+      " and classindepts.training_level='"+level+"'"
     );      
      console.log(results)
     res.render('evaluationclasssearchresult',{classlist:results,batchid:batchid,dpt:dpt,programtag:"level" ,showtype:showtype})
@@ -93,7 +97,7 @@ router.post('/findmyclasstoevaluatecourseindustry',ensureAuthenticated,async fun
   const{batchid, dpt,showtype} = req.body;
  
   const [results, metadata] = await sequelize.query(
-     "SELECT * FROM courseteacherclasses INNER JOIN classindepts ON classindepts.class_id = courseteacherclasses.class_id inner join departments on departments.department_id=classindepts.department_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.department_id='"+dpt+"' "
+     "SELECT * FROM courseteacherclasses INNER JOIN classindepts ON classindepts.class_id = courseteacherclasses.class_id inner join occupations on occupations.occupation_id=classindepts.department_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.department_id='"+dpt+"' "
    );    
    console.log(results)
   res.render('evaluationclasssearchresult',{classlist:results,batchid:batchid,dpt:dpt,programtag:"industry",showtype:showtype})
@@ -102,7 +106,7 @@ router.post('/findmyclasstoevaluatecoursengo',ensureAuthenticated,async function
   const{batchid, dpt,showtype} = req.body;
  
   const [results, metadata] = await sequelize.query(
-    "SELECT * FROM courseteacherclasses INNER JOIN classindepts ON classindepts.class_id = courseteacherclasses.class_id inner join departments on departments.department_id=classindepts.department_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.department_id='"+dpt+"' "
+    "SELECT * FROM courseteacherclasses INNER JOIN classindepts ON classindepts.class_id = courseteacherclasses.class_id inner join occupations on occupations.occupation_id=classindepts.department_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.department_id='"+dpt+"' "
   );     
    console.log(results)
   res.render('evaluationclasssearchresult',{classlist:results,batchid:batchid,dpt:dpt,programtag:"ngo",showtype:showtype})
@@ -116,7 +120,11 @@ const [courselist, metadata] = await sequelize.query(
   "INNER JOIN courses ON courses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+req.params.classname+"' "
 );
 const [levelbased, metadatalevelbased] = await sequelize.query(
-  "select * from levelbasedtrainees inner join studentmarklistlevelbaseds on studentmarklistlevelbaseds.class_id = levelbasedtrainees.class_id where levelbasedtrainees.class_id = '"+ req.params.classname +"' and levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id"
+  "select * from studentmarklistlevelbaseds inner join levelbasedtrainees on studentmarklistlevelbaseds.student_id = levelbasedtrainees.trainee_id"+
+  " INNER JOIN courseteacherclasses ON studentmarklistlevelbaseds.course_id = courseteacherclasses.course_id"+
+  " where studentmarklistlevelbaseds.class_id = '"+ req.params.classname +"'  and courseteacherclasses.teacher_id = '"+req.user.userid+"'" +
+  " and courseteacherclasses.department_id='"+dpt+"'" +
+  " and studentmarklistlevelbaseds.training_level = '"+level+"' and studentmarklistlevelbaseds.department_id = '"+dpt+"' and studentmarklistlevelbaseds.batch_id ='"+batchid+"'"
 );     
 res.render('showclassevaluation',{dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype,programtag:"level"})
 

@@ -84,7 +84,7 @@
               
               <strong>FullName:<% var perinfo = JSON.parse(JSON.stringify(applicant.personal_info)) %> <%= perinfo.firstname %> &nbsp; <%= perinfo.middlename %> &nbsp; <%= perinfo.lastname %></strong><br>
             
-              <strong>Department:</strong><%= department.department_name %><br>
+              <strong>Department:</strong><%= department.occupation_name %><br>
           
               <strong>Addmission Type:</strong><%= applicant.admission_type %><br>
               <strong>Telephone:<% var contact = JSON.parse(JSON.stringify(applicant.contact_info)) %> <%= contact.phoneNumber_1 %></strong>

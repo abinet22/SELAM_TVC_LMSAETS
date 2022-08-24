@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | DataTables</title>
+  <title>Selam</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -177,7 +177,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Applicant List</li>
+              <li class="breadcrumb-item active">Students In JBS </li>
             </ol>
           </div>
         </div>
@@ -190,145 +190,128 @@
         <div class="row">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card">
+                    <div class="card card-primary">
+                      <div class="card-header">
+                        <h4 class="card-title">Student List</h4>
+                      </div>
                       <div class="card-body">
-                        <h4 class="card-title">New Program Applicant List</h4>
+                      
                         <%- include ('./partials/messages') %>
                       <br>
-                          <ul class="nav nav-tabs " id="myTab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                              <button class="nav-link  active" style="background-color: #f48d5b;" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Applicant List</button>
-                            </li>
-                         
-                        
-                          </ul>
-                          <div class="tab-content " id="myTabContent">
-                              
-                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">    <div class="row">
-                                <div class="row" style="display: none;">
-                                    <div class="col-sm-12 col-md-6">
-                                        <div class="dt-buttons btn-group flex-wrap">               
-                                    <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Copy</span></button> 
-                                    <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>CSV</span></button> 
-                                    <button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Excel</span></button> 
-                                    <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>PDF</span></button>
-                                     <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="example1" type="button"><span>Print</span></button> <div class="btn-group">
-                                         <button class="btn btn-secondary buttons-collection dropdown-toggle buttons-colvis" tabindex="0" aria-controls="example1" type="button" aria-haspopup="true" aria-expanded="false"><span>Column visibility</span></button></div> </div></div>
-                                         
-                                         <div class="col-sm-12 col-md-6"><div id="example1_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1"></label></div></div>
-                                        </div>
-                                <div class="col-md-12  grid-margin stretch-card">     <div class="card">
-                                  <div class="card-body">
-                                   
-                                    <div class="table-responsive" >
-                                        <table aria-describedby="example1_info" role="grid" class="table table-bordered table-striped dataTable dtr-inline" id="example1">
-                                          <thead>
-                                            <tr>
-                            <th>#</th>
-                                              <th>Applicant Full Name</th>
-                                              <th>Gender</th>
-                                              <th>Contact Info</th>
-                                              <th>Emergency Info</th>
-                                              <th>Extra Info</th>
-                                              <th>Department Choice</th>  
-                                              <th>Entry Exam Result</th>                                        
-                                               <th>Grade 9 Transcript Ave</th>
-                                              <th>Grade 10 Transcript Ave</th>
-                                              <th>Grade 11 Transcript Ave</th>
-                                              <th>Grade 12 Transcript Ave</th>
-                                              <th>Grade 10 Leaving Exam</th>
-                                              <th>Grade 12 Leaving Exam</th>
-                                            
-                                            
-                                              <th>Action To Do</th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                          
-                                             
-                                          
-                                           <% if(industrybased.length >0 ) { %>
-                                            <% var i = 0 ;%>
-                                               <% industrybased.forEach(function (row){ %>
-                                                <% i++ %>
-                                                <% var one, two,three; %>
-                                                <% var name = JSON.parse(JSON.stringify(row.personal_info)); %>
-                                                <% var contact = JSON.parse(JSON.stringify(row.contact_info)); %>
-                                                <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
-                                                <% var contactself = name.firstname +"/ "+contact.phoneNumber_1  %>
-                                                <% var contactemergency = contact.emergencyname +"/ "+contact.emergencyphone  %>
-                                                <tr>
-                                                    <td><%= i %></td>
-                                                    <td><%= fullname %></td>
-                                                    <td><%= name.gender %></td>
-                                                    
-                                                    <td>Self:&nbsp;<%= contactself %></td>
-                                                    <td>Emergency:&nbsp;<%= contactemergency %></td>
-                                                  
-                                                    <td><%= row.is_disable %><br><%= row.disable_info %></td>
-                                                   
-                                                    <td><%var choice1 = row.choice_one %>
-                                                         <%var choice2 =  row.choice_two %>
-                                                         <% var choice3 = row.choice_three %>
-                                                         <% if(department.length > 0){ %>
-                                                            <% department.forEach(function (row){ %>
-                                                               <% var dptid = row.department_id %>
-                                                               <%  if(dptid == choice1)  {%>
-                                                                <%   one = row.department_name %>
-                                                                <%   }  else if(dptid == choice2){%>
-                                                                    <%   two = row.department_name %>
-                                                                  
-                                                                    <%   } else if(dptid == choice3){ %>
-                                                               
-                                                                <%    three = row.department_name %>
-                                                                 
-                                                                <%  }%>
-                                                           <% })} %>
-                                                        1:&nbsp; <%= one %><br>
-                                                        2:&nbsp; <%= two %><br>
-                                                        3:&nbsp; <%= three %><br>
-                                                    </td>
-                                                    <td><%= row.apptitude_result %></td>
-                                                    <td><%= row.grade9_ave %></td>
-                                                    <td><%= row.grade10_ave %></td>
-                                                    <td><%= row.grade11_ave %></td>
-                                                    <td><%= row.grade12_ave %></td>
-                                                  
-                                                    <td><%= row.grade10_leaving %></td>
-                                                    <td><%= row.grade12_leaving %></td>
-                                                   
-                                                    <td><form action="/applicant/updateentraceexamresult/<%= row.applicant_id %>" method="post">
-                                                   <div class="form-group">
-                                                       <label>Please Add Result Here</label>
-                                                       <input name="programidlevel" id="programidlevel" value="<%=programidlevel %>" type="hidden">
-                                                       <input class="form-control" name="entranceresult" id="entranceresult" placeholder="Exam Result" type="number">
-                                                   </div>
-                                                   <button class="btn btn-sm btn-success btn-block" type="submit">Update Result</button>
-                                                    </form></td>
-                                                 
-
-                                                
-                                                  </tr>
-                                             <%  })} else{}     %>
-                                            
-                                        
-                            
-                                               
-                                           
-                                          
-                                          </tbody>
-                                        </table>
-                                      </div>
-                                  
-                                  </div>
+                      <div class="row">
+                        <div class="row" style="display: none;">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="dt-buttons btn-group flex-wrap">               
+                            <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Copy</span></button> 
+                            <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>CSV</span></button> 
+                            <button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Excel</span></button> 
+                            <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>PDF</span></button>
+                             <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="example1" type="button"><span>Print</span></button> <div class="btn-group">
+                                 <button class="btn btn-secondary buttons-collection dropdown-toggle buttons-colvis" tabindex="0" aria-controls="example1" type="button" aria-haspopup="true" aria-expanded="false"><span>Column visibility</span></button></div> </div></div>
+                                 
+                                 <div class="col-sm-12 col-md-6"><div id="example1_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1"></label></div></div>
                                 </div>
-                              </div>
+                        <div class="col-md-12  grid-margin stretch-card">     <div class="card">
+                          <div class="card-body">
                            
+                            <div class="table-responsive" >
+                                <table aria-describedby="example1_info" role="grid" class="table table-bordered table-striped dataTable dtr-inline" id="example1">
+                                  <thead>
+                                    <tr>
+                    <th>#</th>
+                                      <th>Applicant Full Name</th>
+                                      <th>Gender</th>
+                                      <th>Age</th>
+                                      <th>Contact Info</th>
+                                      <th>Address</th>
+                                      <th>Emergency Info</th>
+                                      <th>Extra Info</th>
+                                      <th>Department </th> 
+                                      <th>Class</th> 
+                                      <th>Batch</th>
+                                      <th>Action To Do</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                  
+                                     
+                                  
+                                   <% if(levelbased.length >0 ) { %>
+                                    <% var i = 0 ;%>
+                                       <% levelbased.forEach(function (row){ %>
+                                        <% i++ %>
+                                        <% var dpt = row.department_id %>
+                                        <% var clas = row.class_id %>
+                                        <% var batch = row.batch_id %>
+                                        <tr>
+                                            <td><%= i %></td>
+                                            <td><%= row.full_name %></td>
+                                            <td><%= row.sex %></td>
+                                            <td><%= row.age %></td>
+                                            
+                                            <td>Self:&nbsp;<%= row.personal_phone %></td>
+                                            <td><%= row.region %></td>
+                                            <td>Emergency:&nbsp;<%= row.family_name %>/<%= row.family_phone %></td>
+                                          
+                                            <td><%= row.is_disable %><br><%= row.disable_info %></td>
+                                           
+                                            <td>
+                                                 <% if(department.length > 0){ %>
+                                                    <% department.forEach(function (row){ %>
+                                                       <% var dptid = row.department_id %>
+                                                       <%  if(dptid == dpt)  {%>
+                                                        <%= row.department_name %>
+                                                        <%   }  %>
+                                                   <% })} %>
+                                             
+                                            </td>
+                                            <td>
+                                              <% if(classlist.length > 0){ %>
+                                                <% classlist.forEach(function (row){ %>
+                                                   <% var classid = row.class_id %>
+                                                   <%  if(classid == clas)  {%>
+                                                    <%= row.class_name %>
+                                                    <%   }  %>
+                                               <% })} %>
+                                         
+                                            </td>
+                                            <td>
+                                              <% if(batchlist.length > 0){ %>
+                                                <% batchlist.forEach(function (row){ %>
+                                                   <% var batchid = row.batch_id %>
+                                                   <%  if(batchid == batch)  {%>
+                                                    <%= row.batch_name %>
+                                                    <%   }  %>
+                                               <% })} %>
+                                         
+                                            </td>
+                                         
+                                           
+                                            <td><form action="/trainee/seetraineejbshistory/<%= row.trainee_id %>" method="post">
+                                           
+                                           <button class="btn btn-sm btn-success btn-block" type="submit">Show History</button>
+                                            </form></td>
+                                         
+
+                                        
+                                          </tr>
+                                     <%  })} else{}     %>
+                                    
+                                
+                    
+                                       
+                                   
+                                  
+                                  </tbody>
+                                </table>
+                              </div>
                           
-                            </div>
                           </div>
-                       
+                        </div>
                       </div>
+                   
+                  
+                    </div>
                         
                 
                         </div>
@@ -390,7 +373,7 @@
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "responsive": true, "lengthChange": true, "autoWidth": true,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     $('#example2').DataTable({

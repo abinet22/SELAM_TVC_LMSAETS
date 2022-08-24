@@ -21,10 +21,11 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const { v4: uuidv4 } = require('uuid');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
+const Occupation = db.occupations;
 
 router.get('/addlevelbased', ensureAuthenticated,async function (req, res) 
 {
-    const traininglist = await  LevelBasedTraining.findAll();
+    const traininglist = await  Occupation.findAll();
   const criterialist = await  AppSelectionCriteria.findAll();
     res.render('addlevelbased',{
         training:traininglist,
@@ -35,7 +36,7 @@ router.get('/addlevelbased', ensureAuthenticated,async function (req, res)
 router.get('/addngobased', ensureAuthenticated, async function(req, res) {
     
     const funderinfo = await FunderInfo.findAll({});
-    const traininglist = await  LevelBasedTraining.findAll();
+    const traininglist = await  Occupation.findAll();
     const criterialist = await  AppSelectionCriteria.findAll();
     res.render('addngobased',{
         funderinfo:funderinfo,
@@ -46,7 +47,7 @@ router.get('/addngobased', ensureAuthenticated, async function(req, res) {
 });
 router.get('/addindustrybased', ensureAuthenticated, async function(req, res) {
 
-const traininglist = await  LevelBasedTraining.findAll();
+const traininglist = await  Occupation.findAll();
 
 res.render('addindustrybased',{
 
@@ -244,7 +245,7 @@ router.post('/addnewlevelbasedprogram',ensureAuthenticated, async function(req,r
  
 })
 router.post('/addnewngobasedprogram',ensureAuthenticated, async function(req,res){
-    const {trainingname,description,trainingtype,fundername,
+    const {trainingname,description,trainingtype,fundername,addformdata,
         batchname,appstartdate,appenddate,trainingstartdate,trainingenddate,requirement,criteria} = req.body;
      let errors = [];   
      const traininglist = await  LevelBasedTraining.findAll();
@@ -327,9 +328,10 @@ router.post('/addnewngobasedprogram',ensureAuthenticated, async function(req,res
          training_start_date:trainingstartdate,
          training_end_date: trainingenddate,
          minimum_criteria: requirement,
-         selection_criteria: criteria,
+         selection_criteria: JSON.parse(criteria),
          is_open: "Yes",
-         is_confirm:"No"
+         is_confirm:"No",
+         additional_form_data:JSON.parse(addformdata)
          
      }
     
@@ -569,5 +571,125 @@ LevelBasedProgram.findOne({where:{program_id:req.params.programid}}).then(levelb
 })
 
 })
+router.post('/updateopenprograms/(:programid)', ensureAuthenticated, async function (req, res) {
 
+     const {appenddate,programtag} = req.body;
+     const [results, metadata] = await sequelize.query(
+      "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+    );
+    const [resultsngo, metadatango] = await sequelize.query(
+      "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id"
+    );
+    const [resultsindustry, metadataindustry] = await sequelize.query(
+      "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id"
+    );
+    const funderinfo = await FunderInfo.findAll({});
+  
+    if(programtag ==="levelbased")
+    {
+      LevelBasedProgram.findOne({where:{program_id:req.params.programid}}).then(levelbased =>{
+        if(levelbased){
+          console.log("eoror1")
+         
+          console.log(levelbased)
+          LevelBasedProgram.update({app_end_date:appenddate},{where:{program_id:req.params.programid}}).then(lbp =>{
+            res.render('programlist',{
+              levelbased:results,
+              industrybased:resultsindustry,
+              ngobased:resultsngo,
+              funderinfo:funderinfo,
+              success_msg:'successfully update application deadline'
+              })
+          }).catch(error =>{
+            console.log(error)
+            res.render('programlist',{
+                levelbased:'',
+                industrybased:'',
+                ngobased:'',
+                funderinfo:funderinfo
+            })
+        })
+        
+        }
+          
+      }).catch(error =>{
+        console.log("eoror2")
+        console.log(error)
+          res.render('programlist',{
+              levelbased:'',
+              industrybased:'',
+              ngobased:'',
+              funderinfo:funderinfo
+          })
+      })
+    }
+    else if(programtag === "ngobased"){
+      NGOBasedProgram.findOne({where:{program_id:req.params.programid}}).then(levelbased =>{
+        if(levelbased){
+          
+          NGOBasedProgram.update({app_end_date:appenddate},{where:{program_id:req.params.programid}}).then(lbp =>{
+            res.render('programlist',{
+              levelbased:results,
+              industrybased:resultsindustry,
+              ngobased:resultsngo,
+              funderinfo:funderinfo,
+              success_msg:'successfully update application deadline'
+              })
+          }).catch(error =>{
+            res.render('programlist',{
+                levelbased:'',
+                industrybased:'',
+                ngobased:'',
+                funderinfo:funderinfo
+            })
+        })
+        
+        }
+          
+      }).catch(error =>{
+          res.render('programlist',{
+              levelbased:'',
+              industrybased:'',
+              ngobased:'',
+              funderinfo:funderinfo
+          })
+      })
+    }
+    else if(programtag === "industrybased"){
+      IndustryBasedProgram.findOne({where:{program_id:req.params.programid}}).then(levelbased =>{
+        if(levelbased){
+          
+          IndustryBasedProgram.update({app_end_date:appenddate},{where:{program_id:req.params.programid}}).then(lbp =>{
+            res.render('programlist',{
+              levelbased:results,
+              industrybased:resultsindustry,
+              ngobased:resultsngo,
+              funderinfo:funderinfo,
+              success_msg:'successfully update application deadline'
+              })
+          }).catch(error =>{
+            res.render('programlist',{
+                levelbased:'',
+                industrybased:'',
+                ngobased:'',
+                funderinfo:funderinfo
+            })
+        })
+        
+        }
+          
+      }).catch(error =>{
+          res.render('programlist',{
+              levelbased:'',
+              industrybased:'',
+              ngobased:'',
+              funderinfo:funderinfo
+          })
+      })
+    }
+     
+  
+  
+  });
+  
 module.exports = router;

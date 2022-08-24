@@ -170,9 +170,7 @@
                                                      <th><i class="fa fa-check"></i></th>
                                                      <th><i class="fa fa-times"></i></th>
                                                      <th><b>P</b></th>
-                                                    <th>Present Days</th>
-                                                 <th>Absent Days</th>
-                                                    <th>Permission Days</th>
+                                                   
                                                   <th> Action To Do</th>
                                                    </tr>
                                                  </thead>
@@ -185,7 +183,7 @@
                                                       <% levelbased.forEach(function (row){ %>
                                                        <% i++ %>
                                                        <% var one, two,three; %>
-                                                       <% var name = JSON.parse(row.personal_info); %>
+                                                       <% var name = JSON.parse(JSON.stringify(row.personal_info)); %>
                                                        <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
                                                      <tr>
                                                            <td><%= i %></td>
@@ -240,77 +238,10 @@
                                                                </div>
                                                                  <% }})}else{} %>
                                                             </td>
-                                                          <td>
-                                                            <div class="card card-success collapsed-card">
-                                                              <div class="card-header">
-                                                             
-                                                                <div class="card-tools">
-                                                                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                                                  </button>
-                                                                </div>
-                                                                <!-- /.card-tools -->
-                                                              </div>
-                                                              <!-- /.card-header -->
-                                                              <div class="card-body" style="display: none;">
-                                                                <% if(present.length >0 ) { %>
-                                                           
-                                                                  <%  present.forEach(function (row){ %>
-                                                                 <% var stid = row.student_id %>
-                                                              <% if(trid==stid){ %>
-                                                                <li><%= row.attendance_date %></li> 
-                                                                   <% }})}else{} %>
-                                                              </div>
-                                                              <!-- /.card-body -->
-                                                            </div>
-                                                          </td>
-                                                          <td>
-                                                            <div class="card card-danger collapsed-card">
-                                                              <div class="card-header">
-                                                             
-                                                                <div class="card-tools">
-                                                                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                                                  </button>
-                                                                </div>
-                                                                <!-- /.card-tools -->
-                                                              </div>
-                                                              <!-- /.card-header -->
-                                                              <div class="card-body" style="display: none;">
-                                                               
-                                                                <% if(absent.length >0 ) { %>
-                                                           
-                                                                  <%  absent.forEach(function (row){ %>
-                                                                 <% var stid = row.student_id %>
-                                                              <% if(trid==stid){ %>
-                                                                <li><%= row.attendance_date %></li> 
-                                                                   <% }})}else{} %>
-                                                              </div>
-                                                              <!-- /.card-body -->
-                                                            </div>
-                                                          </td>
-                                                          <td>
-                                                            <div class="card card-primary collapsed-card">
-                                                              <div class="card-header">
-                                                             
-                                                                <div class="card-tools">
-                                                                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                                                  </button>
-                                                                </div>
-                                                                <!-- /.card-tools -->
-                                                              </div>
-                                                              <!-- /.card-header -->
-                                                              <div class="card-body" style="display: none;">
-                                                                <% if(permission.length >0 ) { %>
-                                                           
-                                                                  <%  permission.forEach(function (row){ %>
-                                                                 <% var stid = row.student_id %>
-                                                              <% if(trid==stid){ %>
-                                                                <li><%= row.attendance_date %></li> 
-                                                                   <% }})}else{} %>
-                                                                   
-                                                              </div>
-                                                              <!-- /.card-body -->
-                                                            </div>
-                                                          </td>
+
+                                                        
+
+
                                                          <td>
                                                            <form action="/attendance/showdetailsinglestudent/<%= row.trainee_id %>" method="post">
                                                            <input type="hidden" value="<%= programtype %>" name="programtype" id="programtype">

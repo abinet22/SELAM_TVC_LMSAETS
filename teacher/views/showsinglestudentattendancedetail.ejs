@@ -964,7 +964,7 @@
                         <% levelbased.forEach(function (row){ %>
                             <% var deptid = row.department_id %>
                         <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
-                            <h3 class="text-primary" style="text-transform: uppercase;"><i class="fas fa-paint-brush"></i> <% var name = JSON.parse(row.personal_info) %> 
+                            <h3 class="text-primary" style="text-transform: uppercase;"><i class="fas fa-paint-brush"></i> <% var name = JSON.parse(JSON.stringify(row.personal_info)) %> 
                             <%= name.firstname %> &nbsp; <%= name.middlename %> &nbsp; <%= name.lastname %>
                             </h3>
                             <p class="text-muted"><% var gen =  name.gender %>

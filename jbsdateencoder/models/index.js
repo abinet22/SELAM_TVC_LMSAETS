@@ -1,5 +1,6 @@
 const dbConfig = require("../config/dbconfig.js");
 const Sequelize = require("sequelize");
+const IndustryBasedTrainee = require("../models/IndustryBasedTrainee");
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
@@ -73,4 +74,10 @@ db.stafflists = StaffList;
 db.companies = Company;
 db.attendances = Attendance;
 db.levelbasedprogresses = LevelBasedProgress;
+db.industrybasedprograms = require('./IndustryBasedProgram.js')(sequelize,Sequelize);
+db.jbsstudentdatas = require('./JBSStudentData.js')(sequelize,Sequelize);
+db.employementhistories = require('./EmployeementHistory.js')(sequelize,Sequelize);
+
+db.occupations = require('./Occupation')(sequelize,Sequelize);
+db.sectorlists = require('./SectorList')(sequelize,Sequelize);
 module.exports = db;

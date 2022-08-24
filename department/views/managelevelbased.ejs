@@ -146,6 +146,17 @@
                                 
                               </div>
                               <div class="form-group">
+                                <label>Select  Occupation</label>
+                                <select class="form-control " name="occupationid" id="occupationid">
+                                 <option value="0">Please occupation Name</option>
+                                 <% if(department.length >0) {%>
+                                    <% department.forEach(function (row){ %>
+                                      <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                   <% })}else {}%>
+                                </select>
+                              
+                            </div>
+                              <div class="form-group">
                                 <label>Select Program Type</label>
                                 <select class="form-control " name="programtype" id="programtype">
                                  <option value="0">Please Select Program Type</option>
@@ -191,6 +202,17 @@
                                   </select>
                                 
                               </div>
+                              <div class="form-group">
+                                <label>Select  Occupation</label>
+                                <select class="form-control " name="occupationid" id="occupationid">
+                                 <option value="0">Please occupation Name</option>
+                                 <% if(department.length >0) {%>
+                                    <% department.forEach(function (row){ %>
+                                      <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                   <% })}else {}%>
+                                </select>
+                              
+                            </div>
                               <div class="form-group">
                                 <label>Select Program Type</label>
                                 <select class="form-control " name="programtype" id="programtype">

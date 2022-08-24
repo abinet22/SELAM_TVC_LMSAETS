@@ -175,12 +175,12 @@
                               
                             </div>
                                 <div class="form-group">
-                                  <label>Select Department Name</label>
+                                  <label>Select  Occupation</label>
                                   <select class="form-control " name="dept" id="dept">
-                                   <option value="0">Please Select Department Name</option>
+                                   <option value="0">Please Select Occupation Name</option>
                                    <% if(department.length >0) {%>
                                       <% department.forEach(function (row){ %>
-                                        <option value="<%= row.department_id %>"><%= row.department_name %></option>
+                                        <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
                                      <% })}else {}%>
                                   </select>
                                 
@@ -206,12 +206,12 @@
                                   
                                 </div>
                                 <div class="form-group">
-                                  <label>Select Department </label>
+                                  <label>Select Occupation </label>
                                   <select class="form-control " name="dept" id="dept">
-                                   <option value="0">Please Select Department Name</option>
+                                   <option value="0">Please Select Occupation Name</option>
                                    <% if(department.length >0) {%>
                                       <% department.forEach(function (row){ %>
-                                        <option value="<%= row.department_id %>"><%= row.department_name %></option>
+                                        <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
                                      <% })}else {}%>
                                   </select>
                                 

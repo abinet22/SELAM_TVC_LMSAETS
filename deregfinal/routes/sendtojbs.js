@@ -25,7 +25,7 @@ const Batch = db.batches;
 const LevelBasedProgram = db.levelbasedprograms;
 const IndustryBasedProgram = db.industrybasedprograms;
 const NGOBasedProgram = db.ngobasedprograms;
-
+const Occupation = db.occupations;
 router.post('/allgraduatelevelbaseddatabydepartment',ensureAuthenticated,async function(req,res){
   const {batchid,deptid,level} = req.body;
       const [levelbased, metalevelbaseddata] = await sequelize.query(
@@ -35,7 +35,7 @@ router.post('/allgraduatelevelbaseddatabydepartment',ensureAuthenticated,async f
         " and current_level= '"+level+"'"
       );
     
-    const department = await Department.findAll({});
+    const department = await Occupation.findAll({});
     const classlist = await ClassInDept.findAll({});
     
 res.render('graduatestudentlist',{
@@ -54,7 +54,7 @@ router.post('/allgraduatengobaseddatabydepartment',ensureAuthenticated,async fun
         " and batch_id ='"+batchid+"'"+
         " and department_id ='"+deptid+"'"
       );
-    const department = await Department.findAll({});
+    const department = await Occupation.findAll({});
     const classlist = await ClassInDept.findAll({});
     
 res.render('graduatestudentlist',{
@@ -74,7 +74,7 @@ router.post('/allgraduateindustrybaseddatabydepartment',ensureAuthenticated,asyn
         " and batch_id ='"+batchid+"'"+
         " and department_id ='"+deptid+"'"
       );
-    const department = await Department.findAll({});
+    const department = await Occupation.findAll({});
     const classlist = await ClassInDept.findAll({});
     
 res.render('graduatestudentlist',{

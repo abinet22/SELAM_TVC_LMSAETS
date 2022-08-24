@@ -155,13 +155,13 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="exampleInputConfirmPassword1">Department Name</label>
+                                                    <label for="exampleInputConfirmPassword1">Occupation Name</label>
                                                     <select class="form-control" id="deptid" name="deptid">
-                                                     <option value="0">please select department name</option>
+                                                     <option value="0">please select occupation name</option>
                                                     
                                                      <% if(department.length >0) {%>
                                                         <% department.forEach(function (row){ %>
-                                                          <option value="<%= row.department_id %>"><%= row.department_name %></option>
+                                                          <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
                                                        <% })}else {}%>
                                                     </select>
                                                   </div>
@@ -281,14 +281,14 @@
                                         </div>
                                         <div class="col-md-6">
                                           <div class="form-group">
-                                            <label for="exampleInputConfirmPassword1">Department Name</label>
+                                            <label for="exampleInputConfirmPassword1">Occupation Name</label>
                                             <select class="form-control" id="deptidn" name="deptid">
-                                             <option value="0">please select department name</option>
+                                             <option value="0">please select occupation name</option>
                                             
                                              <% if(department.length >0) {%>
-                                                <% department.forEach(function (row){ %>
-                                                  <option value="<%= row.department_id %>"><%= row.department_name %></option>
-                                               <% })}else {}%>
+                                              <% department.forEach(function (row){ %>
+                                                <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                             <% })}else {}%>
                                             </select>
                                           </div>
                                         </div>
@@ -389,14 +389,14 @@
                                         </div>
                                         <div class="col-md-6">
                                           <div class="form-group">
-                                            <label for="exampleInputConfirmPassword1">Department Name</label>
+                                            <label for="exampleInputConfirmPassword1">Occupation Name</label>
                                             <select class="form-control" id="deptidi" name="deptid">
-                                             <option value="0">please select department name</option>
+                                             <option value="0">please select occupation name</option>
                                             
                                              <% if(department.length >0) {%>
-                                                <% department.forEach(function (row){ %>
-                                                  <option value="<%= row.department_id %>"><%= row.department_name %></option>
-                                               <% })}else {}%>
+                                              <% department.forEach(function (row){ %>
+                                                <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                             <% })}else {}%>
                                             </select>
                                           </div>
                                         </div>

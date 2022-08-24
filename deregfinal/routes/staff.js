@@ -45,7 +45,7 @@ if(!staffid || !firstname || !middlename || !lastname || !phoneNumber_1 || !phon
 errors.push({msg:'please enter all the required fields'})
 }
 if(errors.length >0){
-res.render('/addnewstaff',{
+res.render('addnewstaff',{
     error_msg:'Please enter all the required fields'
 })
 }

@@ -78,7 +78,7 @@
                         <% if(marklist.length >0 ) { %>
                             <% var i = 0 ;%>
                                <% marklist.forEach(function (row){ %>
-                                <% var name = JSON.parse(row.personal_info) %>
+                                <% var name = JSON.parse(JSON.stringify(row.personal_info)) %>
                          
                         <div class="col-lg-12 ">
                             <div class="">
@@ -125,7 +125,16 @@
                             </div>
                             <ul class="social-icon-style1 list-unstyled mb-0 ps-0">
                                 <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Year Of Entry:<%= batch.batch_from %></span><span class="display-26 text-secondary me-2 font-weight-600">Year Of Graduation:<% var dt =  new Date() %><%= dt.toLocaleString() %></span>  </li>
-                                <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Sector:Manufucturing</span> <span class="display-26 text-secondary me-2 font-weight-600">Sub Sector:Wood Work</span> <span class="display-26 text-secondary me-2 font-weight-600">Occupation:<%= department.department_name %></span><span class="display-26 text-secondary me-2 font-weight-600">Level:<%=row.current_level %> </span>  </li>
+                                <li class="mb-1  display-28">
+                                  <% if(sectorlist.length >0) {%>
+                                    <% sectorlist.forEach(function (row){ %>
+                                      <span class="display-26 text-secondary me-2 font-weight-600">Sector:<%= row.sector_name %></span>
+                                  
+                                  <span class="display-26 text-secondary me-2 font-weight-600">Department:<%= row.department_name %></span> 
+                                  
+                                   <% })}else {}%>
+                                 
+                                  <span class="display-26 text-secondary me-2 font-weight-600">Occupation:<%= department.occupation_name %></span><span class="display-26 text-secondary me-2 font-weight-600">Level:<%=row.current_level %> </span>  </li>
                                 <li class="mb-1 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Program:<%= row.admission_type %></span> </li>
                                
                                
@@ -161,9 +170,9 @@
                         <thead>
                           <tr>
                             <th>#</th>
-                            <th>Unit Of Competence  </th>
+                            <th>Unit Of Competency  </th>
                             <th>Module</th>
-                            <th>Total Hour </th>
+                            <th>Total Houres </th>
                                                        
                             <th>Assessement Result 100% </th>
                             <th>Grade In Letter</th>
@@ -182,7 +191,7 @@
                                     <% var i = 0 ;%>
                                        <% marklist.forEach(function (row){ %>
                                         <% i++ %>
-                                        <% var name = JSON.parse(row.personal_info) %>
+                                        <% var name = JSON.parse(JSON.stringify(row.personal_info))%>
                                         <% var course = row.course_id %>
                                          <% if(courseid == course){ %>
                                             <tr>

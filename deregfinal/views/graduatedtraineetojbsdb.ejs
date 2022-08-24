@@ -136,7 +136,7 @@
                     <div class="col-7 col-sm-9">
                       <div class="tab-content" id="vert-tabs-tabContent">
                         <div class="tab-pane text-left fade" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
-                          <form action="/sendtojbs/alllevelindustrybaseddatabydepartment" method="post">
+                          <form action="/sendtojbs/allgraduatelevelbaseddatabydepartment" method="post">
                             <div class="form-group">
                                 <label>Select Level Based Program</label>
                                 <select class="form-control " name="batchid"  id="batchid">
@@ -149,12 +149,12 @@
                               
                             </div>
                             <div class="form-group">
-                                <label>Select Department</label>
+                                <label>Select Occupation</label>
                                 <select class="form-control " name="deptid" id="deptid">
-                                 <option value="0">Please Select Department Name</option>
+                                 <option value="0">Please Select Occupation Name</option>
                                  <% if(department.length >0) {%>
                                     <% department.forEach(function (row){ %>
-                                      <option value="<%= row.department_id %>"><%= row.department_name %></option>
+                                      <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
                                    <% })}else {}%>
                                 </select>
                               
@@ -191,13 +191,13 @@
                                   
                                 </div>
                                 <div class="form-group">
-                                    <label>Select Department</label>
+                                    <label>Select Occupation</label>
                                     <select class="form-control " name="deptid" id="deptid">
-                                     <option value="0">Please Select Department Name</option>
+                                     <option value="0">Please Select occupation Name</option>
                                      <% if(department.length >0) {%>
-                                        <% department.forEach(function (row){ %>
-                                          <option value="<%= row.department_id %>"><%= row.department_name %></option>
-                                       <% })}else {}%>
+                                      <% department.forEach(function (row){ %>
+                                        <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                     <% })}else {}%>
                                     </select>
                                   
                                 </div>
@@ -221,13 +221,13 @@
                                   
                                 </div>
                                 <div class="form-group">
-                                    <label>Select Department</label>
+                                    <label>Select Occupation</label>
                                     <select class="form-control " name="deptid" id="deptid">
-                                     <option value="0">Please Select Department Name</option>
+                                     <option value="0">Please Select occupation Name</option>
                                      <% if(department.length >0) {%>
-                                        <% department.forEach(function (row){ %>
-                                          <option value="<%= row.department_id %>"><%= row.department_name %></option>
-                                       <% })}else {}%>
+                                      <% department.forEach(function (row){ %>
+                                        <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                     <% })}else {}%>
                                     </select>
                                   
                                 </div>

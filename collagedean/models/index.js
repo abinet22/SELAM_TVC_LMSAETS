@@ -26,7 +26,8 @@ const Department =  require("./Department.js")(sequelize, Sequelize);
 const Course =  require("./Course.js")(sequelize, Sequelize);
 const NGOCourse =  require("./NGOCourse")(sequelize, Sequelize);
 const IndustryCourse =  require("./IndustryCourse")(sequelize, Sequelize);
-
+const SectorList = require("./SectorList.js")(sequelize, Sequelize);
+const Occupation = require("./Occupation.js")(sequelize, Sequelize);
 LevelBasedTraining.hasMany(Department);
 Department.belongsTo(LevelBasedTraining);
 Batch.hasOne(LevelBasedProgram);
@@ -56,4 +57,6 @@ db.batches = Batch;
 db.levelbasedprograms =LevelBasedProgram;
 db.ngobasedprograms =NGOBasedProgram;
 db.industrybasedprograms = IndustryBasedProgram;
+db.occupations = Occupation;
+db.sectorlists = SectorList;
 module.exports = db;

@@ -100,7 +100,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Class List</li>
+              <li class="breadcrumb-item active">Section List</li>
             </ol>
           </div>
         </div>
@@ -113,7 +113,7 @@
         <div class="col-md-12">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h4 class="card-title">My Class List</h4>
+                    <h4 class="card-title"> Section List</h4>
                 </div>
               <div class="card-body">
                
@@ -193,7 +193,7 @@
                                                 <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                                 <div class="form-group">
                                                   <label>Select Course</label>
-                                                  <select class="form-control" name="courseid">
+                                                  <select class="form-control" name="courseid" id="courseid" >
                                                     <option value="0">please select course</option>
                                                     <% if(course.length > 0 ){ %>
                                                       <% course.forEach(function (row){ %>
@@ -218,7 +218,7 @@
                                               <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                               <div class="form-group">
                                                 <label>Select Course</label>
-                                                <select class="form-control" name="courseid">
+                                                <select class="form-control" name="courseid" id="courseid">
                                                   <option value="0">please select course</option>
                                                   <% if(course.length > 0 ){ %>
                                                     <% course.forEach(function (row){ %>
@@ -248,7 +248,7 @@
                                                 <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                                 <div class="form-group">
                                                   <label>Select Course</label>
-                                                  <select class="form-control" name="courseid">
+                                                  <select class="form-control" name="courseid"  id="courseid">
                                                     <option value="0">please select course</option>
                                                     <% if(course.length > 0 ){ %>
                                                       <% course.forEach(function (row){ %>
@@ -273,7 +273,7 @@
                                                 <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                                 <div class="form-group">
                                                   <label>Select Course</label>
-                                                  <select class="form-control" name="courseid">
+                                                  <select class="form-control" name="courseid"  id="courseid">
                                                     <option value="0">please select course</option>
                                                     <% if(course.length > 0 ){ %>
                                                       <% course.forEach(function (row){ %>
@@ -297,7 +297,7 @@
                                               <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                               <div class="form-group">
                                                 <label>Select Course</label>
-                                                <select class="form-control" name="courseid">
+                                                <select class="form-control" name="courseid"  id="courseid">
                                                   <option value="0">please select course</option>
                                                   <% if(course.length > 0 ){ %>
                                                     <% course.forEach(function (row){ %>

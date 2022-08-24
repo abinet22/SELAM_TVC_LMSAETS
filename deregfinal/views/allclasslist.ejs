@@ -150,12 +150,12 @@
                                        <%   })} else{} %>
                                           
                                   </select>
-                                  <label class="">Filter Class By Department</label>
+                                  <label class="">Filter Class By Occupation</label>
                                   <select class="form-control" id="dept" name="dept">
-                                    <option value="0">Please select department name</option>
+                                    <option value="0">Please select occupation name</option>
                                     <% if(department.length >0){ %>
                                       <% department.forEach(function (row){ %>
-                                       <option value="<%= row.department_id %>"><%= row.department_name %></option>
+                                       <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
                                        <%   })} else{} %>
                                           
                                   </select>
@@ -194,8 +194,9 @@
                                 <tr>
                 <th>#</th>
                 <th>Training Batch Name </th>
-                <th>Training Department Name </th>
+                <th>Training Occupation Name </th>
                                   <th>Training Class Name</th>
+                                  <th>Training Level</th>
                                 
                                   <th>Assigned Teacher </th>
                                 </tr>
@@ -209,8 +210,9 @@
                                           <tr>
                                               <td><%= i %></td>
                                               <td><%= row.batch_name%></td>
-                                              <td><%= row.department_name %></td>
+                                              <td><%= row.occupation_name %></td>
                                               <td><%= row.class_name %></td>
+                                              <td><%= row.training_level %></td>
                                              
                                               <td><%= row.teacher_name %></td>
                                            

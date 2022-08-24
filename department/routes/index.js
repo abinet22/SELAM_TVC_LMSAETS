@@ -20,7 +20,9 @@ const LevelBasedTrainee = db.levelbasedtrainees;
 const NGOBasedTrainee  = db.ngobasedtrainees;
 router.get('/', forwardAuthenticated, (req, res) => res.render('login'));
 router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
-router.get('/dashboard', ensureAuthenticated, (req, res) => res.render('dashboard'));
+router.get('/dashboard', ensureAuthenticated, async function(req, res) { 
+   const departments = await Department.findOne({where:{department_id:req.user.department}})
+  res.render('dashboard',{department:departments})});
 router.get('/addnewfunder', ensureAuthenticated, (req, res) => res.render('addnewfunder'));
 router.get('/addselectcriteria', ensureAuthenticated, (req, res) => res.render('addselectcriteria'));
 

@@ -104,7 +104,7 @@
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Select Program To Register Applicant</li>
+                <li class="breadcrumb-item active">Select Program To  See Grade Report</li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -150,6 +150,30 @@
                                 </select>
                               
                             </div>
+                            <div class="form-group">
+                              <label>Select Occupation </label>
+                              <select class="form-control " name="occupationname"  id="occupationname">
+                               <option value="0">Please Select Occupation Name</option>
+                               <% if(occupation.length >0) {%>
+                                  <% occupation.forEach(function (row){ %>
+                                    <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                 <% })}else {}%>
+                              </select>
+                            
+                          </div>
+                          <div class="form-group">
+                            <label>Select Program Level</label>
+                            <select class="form-control " name="level" id="level">
+                             <option value="0">Please Select Level</option>
+                             <option value="Level_1">Level_1</option>
+                             <option value="Level_2">Level_2</option>
+                             <option value="Level_3">Level_3</option>
+                             <option value="Level_4">Level_4</option>
+                             <option value="Level_5">Level_5</option>
+                             
+                            </select>
+                          
+                        </div>
                             <div class="col-md-6 offset-md-3">
                                 <button type="submit" class="btn btn-block btn-sm btn-primary">Submit</button>
                      
@@ -171,6 +195,17 @@
                                     </select>
                                   
                                 </div>
+                                <div class="form-group">
+                                  <label>Select Occupation </label>
+                                  <select class="form-control " name="occupationname"  id="occupationname">
+                                   <option value="0">Please Select Occupation Name</option>
+                                   <% if(occupation.length >0) {%>
+                                      <% occupation.forEach(function (row){ %>
+                                        <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                     <% })}else {}%>
+                                  </select>
+                                
+                              </div>
                                 <div class="col-md-6 offset-md-3">
                                     <button type="submit" class="btn btn-block btn-sm btn-primary">Submit</button>
                          
@@ -191,6 +226,18 @@
                                     </select>
                                   
                                 </div>
+                                <div class="form-group">
+                                  <label>Select Occupation </label>
+                                  <select class="form-control " name="occupationname"  id="occupationname">
+                                   <option value="0">Please Select Occupation Name</option>
+                                   <% if(occupation.length >0) {%>
+                                      <% occupation.forEach(function (row){ %>
+                                        <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                     <% })}else {}%>
+                                  </select>
+                                
+                              </div>
+                              
                                 <div class="col-md-6 offset-md-3">
                                     <button type="submit" class="btn btn-block btn-sm btn-primary">Submit</button>
                          

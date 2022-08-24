@@ -6,13 +6,18 @@ const LevelBasedTraining = db.levelbasedtraining;
 const NGOBasedTraining = db.ngobasedtraining;
 const IndustryBasedTraining = db.industrybasedtraining;
 const FunderInfo = db.funderinfo;
+const SectorList  = db.sectorlists;
 const User = db.users;
+const Occupation = db.occupations;
+const Department = db.departments;
 const sequelize = db.sequelize ;
 const { Op } = require("sequelize");
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const { v4: uuidv4 } = require('uuid');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
+
+router.get('/addsector', ensureAuthenticated, (req, res) => res.render('addsector'));
 
 router.get('/addlevelbased', ensureAuthenticated, (req, res) => res.render('addlevelbased'));
 router.get('/addngobased', ensureAuthenticated, async function(req, res) {
@@ -24,18 +29,24 @@ router.get('/addngobased', ensureAuthenticated, async function(req, res) {
 
 });
 router.get('/addindustrybased', ensureAuthenticated, (req, res) => res.render('addindustrybased'));
+
 router.get('/alltraineelist', ensureAuthenticated, async function (req, res) {
 
    const industrybased  = await IndustryBasedTraining.findAll({});
    const [results, metadata] = await sequelize.query(
     "SELECT * FROM ngobasedtrainings INNER JOIN funderinfos ON funderinfos.funder_id = ngobasedtrainings.funder_id"
   );
-  
+  const [resultsnew, metadatanew] = await sequelize.query(
+    "  select courses.department_id,occupation_name,departments.department_name,training_level,sum(courses.training_hours) as trhour,sum(courses.training_cost) as trcost from courses "+
+     " inner join occupations on  courses.department_id = occupations.occupation_id  "+
+   "   inner join departments on  departments.department_id = occupations.department_id  "+
+    "  group by courses.department_id,training_level,occupation_name,department_name"
+ );
   console.log(JSON.stringify(results, null, 2));
 console.log(results);
     LevelBasedTraining.findAll({}).then(levelbased =>{
         res.render('traininglist',{
-            levelbased:levelbased,
+            department:resultsnew,
             industrybased:industrybased,
             ngobased:results
         })
@@ -48,6 +59,68 @@ console.log(results);
     })
 
 
+});
+router.post('/addsector', ensureAuthenticated, async function(req, res) 
+{
+    let error = [];
+    const{sectorname} = req.body;
+   if(!sectorname){
+        error.push({msg:'Please add all required fields'})
+   }
+   
+   if(error.length >0){
+    res.render('addsector',{
+        error_msg:'Please insert all the required fields'
+    })
+   }
+   else{
+    SectorList.findOne({where:{
+        sector_name:sectorname
+       
+       }}).then(sectorlist =>{
+           if(sectorlist)
+           {
+
+            res.render('addsector',{
+                error_msg:'This  sector name  is already registered please try later'
+            })
+           }
+           else
+           {
+            const v1options = {
+                node: [0x01, 0x23],
+                clockseq: 0x1234,
+                msecs: new Date('2011-11-01').getTime(),
+                nsecs: 5678,
+              };
+              sectorid = uuidv4(v1options);
+        const sectordata ={
+            sector_name:sectorname,
+            sector_id:sectorid,
+         
+        }
+
+        SectorList.create(sectordata).then(sectors =>{
+            res.render('addsector',{
+                success_msg:'Your are successfully registered new sector'
+            })
+        }).catch(error =>{
+            res.render('addsector',{
+                error_msg:'Something is wrong while saving data please try later'
+            })
+        })
+
+
+           }
+       }).catch(error =>{
+           console.log(error)
+        res.render('addsector',{
+            error_msg:'Something is wrong please try later'
+        })
+       })
+   }
+   
+   
 });
 router.post('/addlevelbasedtraining', ensureAuthenticated, async function(req, res) 
 {
@@ -179,6 +252,81 @@ router.post('/addindustrybasedtraining', ensureAuthenticated, async function(req
            console.log(error)
         res.render('addindustrybased',{
             error_msg:'Something is wrong please try later'
+        })
+       })
+   }
+   
+   
+});
+router.post('/addnewoccupation', ensureAuthenticated, async function(req, res) 
+{
+    let error = [];
+    const{trainingname,departmentid,trainingduration,trainingcost} = req.body;
+    const dept = await Department.findAll({ });
+  
+
+   if(!trainingname  || !trainingduration || !trainingcost || !departmentid){
+        error.push({msg:'Please add all required fields'})
+   }
+   else if(departmentid =="0" ){
+    error.push({msg:'Please select company name of training program'})
+   }
+   if(error.length >0){
+    res.render('addnewoccupation',{
+        error_msg:'Please ensert all the required fields',
+        dept:dept
+    })
+   }
+   else{
+    Occupation.findOne({where:{
+        department_id:departmentid,
+        occupation_name:trainingname
+       }}).then(industrybasedtraining =>{
+           if(industrybasedtraining)
+           {
+
+            res.render('addnewoccupation',{
+                error_msg:'This occupation  is already registered please try later',
+                dept:dept
+            })
+           }
+           else
+           {
+            const v1options = {
+                node: [0x01, 0x23],
+                clockseq: 0x1234,
+                msecs: new Date('2011-11-01').getTime(),
+                nsecs: 5678,
+              };
+              occupationid = uuidv4(v1options);
+        const occupationData ={
+            training_cost:trainingcost,
+            training_duration:trainingduration,
+            department_id:departmentid,
+            occupation_id:occupationid,
+            occupation_name:trainingname,
+           
+        }
+
+        Occupation.create(occupationData).then(industrybased =>{
+            res.render('addnewoccupation',{
+                success_msg:'Your are successfully registered new occupation',
+                dept:dept
+            })
+        }).catch(error =>{
+            res.render('addnewoccupation',{
+                error_msg:'Something is wrong while saving data please try later',
+                dept:dept
+            })
+        })
+
+
+           }
+       }).catch(error =>{
+           console.log(error)
+        res.render('addnewoccupation',{
+            error_msg:'Something is wrong please try later',
+            dept:dept
         })
        })
    }

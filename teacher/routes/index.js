@@ -9,12 +9,23 @@ const sequelize = db.sequelize ;
 const { Op } = require("sequelize");
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+const StaffList = db.stafflists;
 const { v4: uuidv4 } = require('uuid');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
 router.get('/', forwardAuthenticated, (req, res) => res.render('login'));
 router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
-router.get('/dashboard', ensureAuthenticated, (req, res) => res.render('dashboard'));
+router.get('/dashboard', ensureAuthenticated, async function(req, res) 
+{
+  const [userlist, metalclassl] = await sequelize.query(
+    "SELECT * FROM stafflists INNER JOIN users ON users.fullname  = stafflists.staff_id "+
+    " where staff_id = '"+req.user.fullname+"'"
+   
+    );
+  res.render('dashboard',{user:userlist})
+
+}
+);
 router.get('/report',ensureAuthenticated,async function(req,res){
   const [ngobased, metangobaseddata] = await sequelize.query(
       "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id"

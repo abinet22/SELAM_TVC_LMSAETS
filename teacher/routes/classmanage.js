@@ -16,10 +16,12 @@ const passport = require('passport');
 const { v4: uuidv4 } = require('uuid');
 const Batch = db.batches;
 const ClassInDept = db.classindepts;
+const Occupation = db.occupations;
+const SectorList = db.sectorlists;
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
 router.get('/searchclasswithbatch',ensureAuthenticated,async function(req,res){
-  const dpt = await Department.findAll({});
+  const dpt = await Occupation.findAll({});
   const [ngobased, metangobaseddata] = await sequelize.query(
       "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id"
     );
@@ -52,7 +54,7 @@ router.post('/filterclasslistbydepartmentandbatch',ensureAuthenticated,async fun
  
     const {batch,dept} = req.body;
     const batches = await Batch.findAll({});
-    const department = await Department.findAll({});
+    const department = await Occupation.findAll({});
     const [results, metadata] = await sequelize.query(
       "SELECT classindepts.class_name,classindepts.department_id,classindepts.batch_id,classindepts.training_level,classindepts.class_id,classindepts.training_type FROM  courseteacherclasses "+
       "INNER JOIN classindepts ON classindepts.class_id = courseteacherclasses.class_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' "

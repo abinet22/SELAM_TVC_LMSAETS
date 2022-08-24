@@ -13,6 +13,7 @@ const User = db.users;
 const LevelBasedTrainee = db.levelbasedtrainees;
 const StudentMarkListLevelBased = db.studentmarklistlevelbaseds;
 const sequelize = db.sequelize ;
+const Occupation  = db.occupations;
 const { Op } = require("sequelize");
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
@@ -110,11 +111,10 @@ router.post('/findmyclasstoevaluatecoursengo',ensureAuthenticated,async function
 
 router.post('/showclassevaluation/(:classname)',ensureAuthenticated,async function(req,res){
 
-const{level,programtype,dpt,batchid} = req.body;
+const{level,programtype,dpt,batchid,courseid} = req.body;
 const [courselist, metadata] = await sequelize.query(
-  "SELECT courses.course_name,courses.course_id FROM  courseteacherclasses "+
-  "INNER JOIN courses ON courses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+req.params.classname+"' "
-);
+  "SELECT * from courses where course_id='"+courseid+"'"
+  );
 const [levelbased, metadatalevelbased] = await sequelize.query(
   "select * from levelbasedtrainees inner join studentmarklistlevelbaseds on studentmarklistlevelbaseds.class_id = levelbasedtrainees.class_id where levelbasedtrainees.class_id = '"+ req.params.classname +"' and levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id"
 );     
@@ -154,11 +154,10 @@ router.post('/showclassevaluationindustry/(:classname)',ensureAuthenticated,asyn
 
 router.post('/showclassprogress/(:classname)',ensureAuthenticated,async function(req,res){
 
-const{level,programtype,dpt,batchid} = req.body;
+const{level,programtype,dpt,batchid,courseid} = req.body;
 const [courselist, metadata] = await sequelize.query(
-"SELECT courses.course_name,courses.course_id FROM  courseteacherclasses "+
-"INNER JOIN courses ON courses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+req.params.classname+"' "
-);
+  "SELECT * from courses where course_id='"+courseid+"'"
+  );
 const [levelbased, metadatalevelbased] = await sequelize.query(
 "select * from levelbasedtrainees inner join levelbasedprogresses on levelbasedprogresses.class_id = levelbasedtrainees.class_id where levelbasedtrainees.class_id = '"+ req.params.classname +"' and levelbasedtrainees.trainee_id = levelbasedprogresses.student_id"
 );     

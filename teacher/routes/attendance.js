@@ -22,11 +22,13 @@ const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 const uploadFile = require('../middleware/upload.js');
 const NGOBasedTrainee = require('../models/NGOBasedTrainee');
 const Attendance  = db.attendances;
+const Occupation = db.occupations;
+const SectorList = db.sectorlists;
 router.get('/takeattendance',ensureAuthenticated,async function(req,res){
 
   const [classlist, metadata] = await sequelize.query(
     "SELECT * FROM  classindepts "+
-    "INNER JOIN batches ON classindepts.batch_id = batches.batch_id inner join departments on departments.department_id=classindepts.department_id where classindepts.rep_teacher_id = '"+req.user.userid+"' "
+    "INNER JOIN batches ON classindepts.batch_id = batches.batch_id inner join occupations on occupations.occupation_id =classindepts.department_id where classindepts.rep_teacher_id = '"+req.user.userid+"' "
   );
     res.render('myattendanceclasses',{
         classlist:classlist,
@@ -38,7 +40,7 @@ router.get('/attendancedata',ensureAuthenticated,async function(req,res){
 
   const [classlist, metadata] = await sequelize.query(
     "SELECT * FROM  classindepts "+
-    "INNER JOIN batches ON classindepts.batch_id = batches.batch_id inner join departments on departments.department_id=classindepts.department_id where classindepts.rep_teacher_id = '"+req.user.userid+"' "
+    "INNER JOIN batches ON classindepts.batch_id = batches.batch_id inner join occupations on occupations.occupation_id = classindepts.department_id where classindepts.rep_teacher_id = '"+req.user.userid+"' "
   );
   res.render('attendanceclasssearchdata',{
       classlist:classlist,

@@ -105,7 +105,7 @@
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
                 <li class="breadcrumb-item">Dashboard</li>
-                <li class="breadcrumb-item active">Add New Course</li>
+                <li class="breadcrumb-item active">Add New Unit Of Competency</li>
            
             </ol>
             </div><!-- /.col -->
@@ -122,7 +122,7 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                   <div class="card-header">
-                    <h3 class="card-title">Add New Course</h3>
+                    <h3 class="card-title">Add New Unit Of Competency</h3>
                   </div>
                   <!-- /.card-header -->
                   <!-- form start -->
@@ -131,7 +131,7 @@
                     <div class="col-5 col-sm-3">
                       <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
                         <a class="nav-link active" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="false">Level Based</a>
-                        <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">NGO Based</a>
+                        <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Short Term /Project/ Based</a>
                         <a class="nav-link " id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-messages" role="tab" aria-controls="vert-tabs-messages" aria-selected="true">Industry Based</a>
                      </div>
                     </div>
@@ -140,23 +140,21 @@
                         <div class="tab-pane  fade active show" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
                           <%- include ('./partials/messages') %>
                           <form class="forms-sample" action="/course/addnewcourse" method="post">
+                          
                             <div class="form-group">
-                              <label for="exampleInputUsername1">Program Type</label>
+                              <label for="exampleInputUsername1">Select Occupation</label>
                         
-                              <select class="form-control" id="programtype" name="programtype" onchange="handleprogramtype(this.value);">
-                                  <option value="0">Select Program type</option>
-                                  <option value="Level_Based">Level Based</option>
-                                  <option value="NGO_Based">NGO Based</option>
-                                  <option value="Industry_Based">Industry Based</option>
-                               
+                              <select class="form-control" id="occupationname" name="occupationname" >
+                                  <option value="0">Select Occupation Name</option>
+                                  <% if(department.length >0){ %>
+                                    <% department.forEach(function (row){ %>
+                                     <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                     <%   })} else{} %>
                               </select>
                             </div>
-                            <div  style="display: none;" id="level">
-                              <div class="row">
-                                
-                                <div class="col-md-6">
+                           
                                   <div class="form-group">
-                                    <label for="exampleInputUsername1">Training Category Level</label>
+                                    <label for="exampleInputUsername1">Select Level</label>
                                
                                     <select class="form-control" name="traininglevel" id="traininglevel">
                                       <option value="0">Please select training level</option>
@@ -167,53 +165,32 @@
                                       <option>Level_5</option>
                                   </select>
                                 </div>
-                                </div>
-                                <div class="col-md-6">
-                                  <div class="form-group">
-                                    <label>Please Select Semister</label>
-                                    <select class="form-control" name="semister">
-                                      <option value="1">Semister I</option>
-                                      <option value="2">Semister II</option>
-          
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
                               
-                             
-                             
-                            </div>  
-                            <div class="col-md-12" >
+                               
                               <div class="form-group">
-                                <label for="exampleInputUsername1">Department Name</label>
-                          
-                                <select class="form-control" id="deptname" name="deptname">
-                                    <option value="0">Select Department Name</option>
-                                   <% if(department.length >0){ %>
-                                     <% department.forEach(function (row){ %>
-                                      <option value="<%= row.department_id %>"><%= row.department_name %></option>
-                                      <%   })} else{} %>
-                                 
-                                </select>
-                              </div>
-                            </div>
-                              <div class="form-group">
-                                <label for="exampleInputUsername1">Course Name</label>
-                                <input type="text" class="form-control" id="coursename" name="coursename" placeholder="Enter Course Name">
+                                <label for="exampleInputUsername1">Unit Of Competency Name</label>
+                                <input type="text" class="form-control" id="coursename" name="coursename" placeholder="Enter UOF Name">
                              
                               </div>
                               <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                   <div class="form-group">
-                                    <label for="exampleInputUsername1">Course Code</label>
+                                    <label for="exampleInputUsername1">Module Code</label>
                                     <input type="text" class="form-control" id="coursecode" name="coursecode" placeholder="Enter Course Name">
                                  
                                   </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                   <div class="form-group">
                                     <label for="exampleInputUsername1">Training Hours</label>
-                                    <input type="text" class="form-control" id="traininghours" name="traininghours" placeholder="Enter Training Hours">
+                                    <input type="text" class="form-control" id="traininghours" name="traininghours" placeholder="Enter UOC Training Cost">
+                                 
+                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                  <div class="form-group">
+                                    <label for="exampleInputUsername1">Training Cost</label>
+                                    <input type="text" class="form-control" id="trainingcost" name="trainingcost" placeholder="Enter Training Course">
                                  
                                   </div>
                                 </div>
@@ -222,7 +199,7 @@
                                 <div class="col-md-12">
                                     <div class="card card-info card-outline collapsed-card" style="transition: all 0.15s ease 0s; height: inherit; width: inherit;">
                                       <div class="card-header">
-                                        <h3 class="card-title">Add Learning Objectives</h3>
+                                        <h3 class="card-title">Add Learning Objectives/Outcome/</h3>
                         
                                         <div class="card-tools">
                                          
@@ -256,7 +233,7 @@
                                             <div class="col-md-6 offset-md-3 form-check form-check-primary">
                                               <div class="callout callout-success">
                                                 <ul class="" id="list">
-                                                  <p>Course Learning Objectives List</p>
+                                                  <p>Learning Objectives List</p>
                                                 </ul>
                                               </div>
                                             
@@ -331,26 +308,128 @@
                       </div>
                  
                       <div class="row">
-                        <label>Please select course list for this batch</label>
+                        <label>Please select UOCs list for this batch</label>
                         <div class="col-md-12">
                          <div class="form-group">
                         
-                           <select class="form-control" name="level1" multiple>
+                           <select class="form-control" name="level1"  >
                           
 
           <% if(course1.length >0 ) { %>
           
                <% course1.forEach(function (row){ %>
                
-                <option value="<%= row.course_id %>"><%= row.course_code %>/<%= row.course_name %>/<%= row.training_level%>/<%= row.training_hours%></option>
+                <option value="<%= row.course_id %>"><%= row.occupation_name%>/<%= row.training_level%>/<%= row.course_code %>/<%= row.course_name %></option>
              <%  })} else{}     %>
                            </select>
                           </div>
                         </div>
                       
-                      
-             <!-- /.col -->
            </div>
+           <div class="row">
+                            
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleInputUsername1">Training Hours</label>
+                <input type="text" class="form-control" id="traininghours" name="traininghours" placeholder="Enter UOC Training Cost">
+             
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleInputUsername1">Training Cost</label>
+                <input type="text" class="form-control" id="trainingcost" name="trainingcost" placeholder="Enter Training Course">
+             
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+                <div class="card card-info card-outline collapsed-card" style="transition: all 0.15s ease 0s; height: inherit; width: inherit;">
+                  <div class="card-header">
+                    <h3 class="card-title">Add Learning Objectives/Outcome/</h3>
+    
+                    <div class="card-tools">
+                     
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-plus"></i>
+                      </button>
+                      
+                    </div>
+                    <!-- /.card-tools -->
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body" style="display: none;">
+                    <div class="card-body">
+                       <div class="form-group">
+                         <label>Please add number of LOs</label>
+                         <input class="form-control" name="nolosngo" id="nolosngo" type="number">
+                       </div>
+                       <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <button class="btn btn-sm form-control btn-primary" id="addlosngo"  type="button">Add LOs</button>
+                      
+                          </div>
+                          <input type="text" name="lonamengo" id="lonamengo" placeholder="Learning Objective Name" class="form-control">
+                         
+                        </div>
+                      </div>
+                      <input type="hidden" id="lodatango" name="lodatango">
+      
+                      <div class="row">
+                        <div class="col-md-6 offset-md-3 form-check form-check-primary">
+                          <div class="callout callout-success">
+                            <ul class="" id="listngo">
+                              <p>Learning Objectives List</p>
+                            </ul>
+                          </div>
+                        
+                        </div>
+                      </div>
+                      </div>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+          </div>
+
+          <script>
+              
+             
+            var lolist = [] ;
+            var lolistdatango ={}; 
+     
+                       var k =1 ;
+                       $("#addlosngo").on("click", function(e){
+                       
+                         var data3 = document.getElementById("nolosngo").value;
+                      if(data3 < k)
+                      {
+                    
+                      }
+                      else
+                      {
+                                         
+                       var lonamengo = document.getElementById("lonamengo").value;
+                       lonamengo.trim();
+                       var loidngo = "lo"+k;
+                     lolistdatango[loidngo] = lonamengo ;
+                    k++;
+                    $('#lodatango').val( JSON.stringify(lolistdatango) );
+                    console.log(JSON.stringify(lolistdatango) );  
+                      // $('#criteria').val([criteria]);
+                             
+     $("#listngo").append("<li>"+loidngo+"_" + $("#lonamengo").val() + " </li>");
+                    
+     return false;
+                      }
+                 
+                    
+     });
+        
+                     </script>
                      
                         <div class="col-md-8 offset-md-2">
                           <button type="submit" class="btn btn-primary btn-block me-2">Submit</button>
@@ -374,10 +453,46 @@
                           </select>
                             </div>
                             <div class="row">
+                              <label>Please select UOCs list for this batch</label>
+                              <div class="col-md-12">
+                                <div class="form-group">
+                               
+                                  <select class="form-control" name="level1" >
+                                 
+       
+                 <% if(course1.length >0 ) { %>
+                 
+                      <% course1.forEach(function (row){ %>
+                        <option value="<%= row.course_id %>"><%= row.occupation_name%>/<%= row.training_level%>/<%= row.course_code %>/<%= row.course_name %></option>
+           
+                    <%  })} else{}     %>
+                                  </select>
+                                 </div>
+                               </div>
+                             
+                 </div>
+                            <div class="row">
+                            
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="exampleInputUsername1">Training Hours</label>
+                                  <input type="text" class="form-control" id="traininghours" name="traininghours" placeholder="Enter UOC Training Cost">
+                               
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="exampleInputUsername1">Training Cost</label>
+                                  <input type="text" class="form-control" id="trainingcost" name="trainingcost" placeholder="Enter Training Course">
+                               
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
                               <div class="col-md-12">
                                   <div class="card card-info card-outline collapsed-card" style="transition: all 0.15s ease 0s; height: inherit; width: inherit;">
                                     <div class="card-header">
-                                      <h3 class="card-title">Select Courses</h3>
+                                      <h3 class="card-title">Add Learning Objectives/Outcome/</h3>
                       
                                       <div class="card-tools">
                                        
@@ -391,28 +506,32 @@
                                     <!-- /.card-header -->
                                     <div class="card-body" style="display: none;">
                                       <div class="card-body">
-                                        <div class="row">
-                                          <label>Please select course list for this batch</label>
-                                          <div class="col-md-12">
-                                            <div class="form-group">
-                                           
-                                              <select class="form-control" name="level1" multiple>
-                                             
-                   
-                             <% if(course1.length >0 ) { %>
-                             
-                                  <% course1.forEach(function (row){ %>
-                                  
-                                   <option value="<%= row.course_id %>"><%= row.course_code %>/<%= row.course_name %>/<%= row.training_level%>/<%= row.training_hours%></option>
-                                <%  })} else{}     %>
-                                              </select>
-                                             </div>
-                                           </div>
-                                         
+                                         <div class="form-group">
+                                           <label>Please add number of LOs</label>
+                                           <input class="form-control" name="nolosind" id="nolosind" type="number">
+                                         </div>
+                                         <div class="form-group">
+                                          <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <button class="btn btn-sm form-control btn-primary" id="addlosind"  type="button">Add LOs</button>
                                         
-                               <!-- /.col -->
-                             </div>
-                                       
+                                            </div>
+                                            <input type="text" name="lonameind" id="lonameind" placeholder="Learning Objective Name" class="form-control">
+                                           
+                                          </div>
+                                        </div>
+                                        <input type="hidden" id="lodataind" name="lodataind">
+                        
+                                        <div class="row">
+                                          <div class="col-md-6 offset-md-3 form-check form-check-primary">
+                                            <div class="callout callout-success">
+                                              <ul class="" id="list2">
+                                                <p>Learning Objectives List</p>
+                                              </ul>
+                                            </div>
+                                          
+                                          </div>
+                                        </div>
                                         </div>
                                     </div>
                                     <!-- /.card-body -->
@@ -420,6 +539,42 @@
                                   <!-- /.card -->
                                 </div>
                             </div>
+
+                            <script>
+                                
+                               
+                              var lolist = [] ;
+                              var lolistdata2 ={}; 
+                       
+                                         var j =1 ;
+                                         $("#addlosind").on("click", function(e){
+                                         
+                                           var data2 = document.getElementById("nolosind").value;
+                                        if(data2 < j)
+                                        {
+                                      
+                                        }
+                                        else
+                                        {
+                                                           
+                                         var loname2 = document.getElementById("lonameind").value;
+                                         loname2.trim();
+                                         var loid2 = "lo"+j;
+                                       lolistdata2[loid2] = loname2 ;
+                                      j++;
+                                      $('#lodataind').val( JSON.stringify(lolistdata2) );
+                                      console.log(JSON.stringify(lolistdata2) );  
+                                        // $('#criteria').val([criteria]);
+                                               
+                       $("#list2").append("<li>"+loid2+"_" + $("#lonameind").val() + " </li>");
+                                      
+                       return false;
+                                        }
+                                   
+                                      
+                       });
+                          
+                                       </script>
                               <div class="col-md-8 offset-md-2">
                                 <button type="submit" class="btn btn-primary btn-block me-2">Submit</button>
                               

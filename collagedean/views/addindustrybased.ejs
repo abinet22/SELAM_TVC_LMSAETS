@@ -188,7 +188,7 @@ background-color: #f48d5b;;
                     </div>
                   
                     <div class="input-group input-group-sm">
-                      <input type="text" class="form-control" oninput="this.className = ''"  id="batchname" name="batchname"> 
+                      <input type="text" class="form-control"   id="batchname" name="batchname"> 
                       <span class="input-group-append">
                         <button type="button" class="btn btn-info btn-flat" style="background-color: #f48d5b;" type="button" onclick="generatebatchname();">Generate Batch Name</button>
                       </span>
@@ -200,20 +200,20 @@ background-color: #f48d5b;;
                         var batchnew = new Date();
                         var thisyear = batchnew.getFullYear();
                         var thismonth = batchnew.getMonth();
-                        var batchname = "Selam"+"_"+"Batch"+"_"+thismonth+"_"+thisyear;
+                        var batchname = "SelamIB"+"_"+"Batch"+"_"+thismonth+"_"+thisyear;
                         document.getElementById('batchname').value = batchname ;
   
                       }
                     </script>
-                    <div class="form-group">
-                      <label for="exampleInputUsername1">Select Training Category Include</label>
-                      <select class="form-control" multiple="" id="trainingname" name="trainingname">
-                <% if(training.length >0) {%>
-                          <% training.forEach(function (row){ %>
-                            <option value="<%= row.training_name %>"><%= row.training_name %></option>
-                         <% })}else {}%>
-              </select>
-                    </div>
+                     <div class="form-group">
+                        <label for="exampleInputUsername1">Select Occupation Include</label>
+                        <select class="form-control" multiple="" id="trainingname" name="trainingname">
+                          <% if(training.length >0) {%>
+                            <% training.forEach(function (row){ %>
+                              <option value="<%= row.occupation_name %>"><%= row.occupation_name %></option>
+                           <% })}else {}%>
+                </select>
+                      </div>
                   
                   </div>
                

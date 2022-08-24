@@ -130,13 +130,13 @@
                   <%- include ('./partials/messages') %>
                     <form class="forms-sample" action="/dept/addnewdepartment" method="post">
                         <div class="form-group">
-                            <label for="exampleInputUsername1">Training Category</label>
+                            <label for="exampleInputUsername1">Select Sector</label>
                       
                             <select class="form-control" id="trainingname" name="trainingname">
-                                <option value="0">Select Training Name</option>
+                                <option value="0">Select Sector Name</option>
                                <% if(training.length >0){ %>
                                  <% training.forEach(function (row){ %>
-                                  <option value="<%= row.training_id %>"><%= row.training_name %></option>
+                                  <option value="<%= row.sector_id %>"><%= row.sector_name %></option>
                                   <%   })} else{} %>
                              
                             </select>

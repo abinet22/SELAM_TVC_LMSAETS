@@ -279,7 +279,7 @@
                                                       <% levelbased.forEach(function (row){ %>
                                                        <% i++ %>
                                                        <% var one, two,three; %>
-                                                       <% var name = JSON.parse(row.personal_info); %>
+                                                       <% var name = JSON.parse(JSON.stringify(row.personal_info)); %>
                                                        <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
                                                      <tr>
                                                            <td><%= i %></td>
@@ -426,7 +426,7 @@
                                       <% i++ %>
                                         <tr>
                                     
-                                            <% var name = JSON.parse(row.personal_info); %>
+                                            <% var name = JSON.parse(JSON.stringify(row.personal_info)); %>
                                             <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
                                          
                                             <td><%= i %></td>

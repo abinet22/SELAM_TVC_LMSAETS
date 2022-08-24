@@ -154,7 +154,7 @@ background-color: #f48d5b;;
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
               <li class="breadcrumb-item">Dashboard</li>
-              <li class="breadcrumb-item active">NGO Level Based Program</li>
+              <li class="breadcrumb-item active">Short Term/Project/ Based Program</li>
          
           </ol>
           </div><!-- /.col -->
@@ -170,7 +170,7 @@ background-color: #f48d5b;;
           <div class="col-md-10 offset-md-1">
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Add New NGO Based Training Program</h3>
+                <h3 class="card-title">Add New Short Term/Project/ Based Training Program</h3>
               </div>
               <div class="card-body">
                 <%- include ('./partials/messages') %>
@@ -194,7 +194,7 @@ background-color: #f48d5b;;
                     </div>
                   
                     <div class="input-group input-group-sm">
-                      <input type="text" class="form-control" oninput="this.className = ''"  id="batchname" name="batchname"> 
+                      <input type="text" class="form-control"   id="batchname" name="batchname"> 
                       <span class="input-group-append">
                         <button type="button" class="btn btn-info btn-flat" style="background-color: #f48d5b;" type="button" onclick="generatebatchname();">Generate Batch Name</button>
                       </span>
@@ -206,17 +206,17 @@ background-color: #f48d5b;;
                         var batchnew = new Date();
                         var thisyear = batchnew.getFullYear();
                         var thismonth = batchnew.getMonth();
-                        var batchname = "Selam"+"_"+"Batch"+"_"+thismonth+"_"+thisyear;
+                        var batchname = "SelamPB"+"_"+"Batch"+"_"+thismonth+"_"+thisyear;
                         document.getElementById('batchname').value = batchname ;
   
                       }
                     </script>
-                    <div class="form-group">
-                      <label for="exampleInputUsername1">Select Training Category Include</label>
+                     <div class="form-group">
+                      <label for="exampleInputUsername1">Select Occupation Include</label>
                       <select class="form-control" multiple="" id="trainingname" name="trainingname">
-                <% if(training.length >0) {%>
+                        <% if(training.length >0) {%>
                           <% training.forEach(function (row){ %>
-                            <option value="<%= row.training_name %>"><%= row.training_name %></option>
+                            <option value="<%= row.occupation_name %>"><%= row.occupation_name %></option>
                          <% })}else {}%>
               </select>
                     </div>
@@ -232,7 +232,32 @@ background-color: #f48d5b;;
              
               </select>
                     </div>
-                   
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <button class="btn btn-sm form-control" id="addngo" style="background-color: #f48d5b;" type="button">Add Data Needs</button>
+                          
+                              </div>
+                         <input type="text" class="form-control"  name="formdataneeded"  id="formdataneeded" placeholder="Please Add Form Data Needed For Registration">
+                
+                            </div>
+                          </div>
+                        
+                        </div>
+                      
+                      </div>
+                    </div>
+                
+                        <div class="row">
+                          <div class="col-md-6 offset-md-3 form-check form-check-primary">
+                            <ul class="" id="listngo">
+                              <label>Applicant Form Data </label>
+                            </ul>
+                          </div>
+                        </div>
                     <div class="form-group">
                       <label for="exampleInputUsername1">Application Entry Requirements</label>
                       <textarea type="text" class="form-control" rows="3" id="requirement" name="requirement" placeholder="Enter Applicant Minimum Requirements"></textarea>
@@ -312,6 +337,7 @@ background-color: #f48d5b;;
                       </div>
                     </div>
                     <input type="hidden" id="criteria" name="criteria">
+                    <input type="hidden" id="addformdata" name="addformdata">
                   
                         <div class="row">
                           <div class="col-md-6 offset-md-3 form-check form-check-primary">
@@ -342,7 +368,45 @@ background-color: #f48d5b;;
             -
               <!-- general form elements -->
               <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-               
+              <script>
+                 
+     var criarry = [] ;
+     var criteria2 ={}; 
+
+                var criid2 = 0 ;
+                $("#addngo").on("click", function(e){
+                  var data2 = document.getElementById("formdataneeded").value;
+                  console.log(data2);
+               if(data2 === "")
+               {
+
+               }
+               else
+               {
+                criid2 ++ ;
+               var criname2 = document.getElementById("formdataneeded").value;
+            
+                var checkboxvalue2 = criid2 + "_" +criname2;
+                 criname2.trim();
+               var formdata =   criname2.replace(/ /g,"_");
+              // criarry.push(checkboxvalue);
+              // criteria['name'] = criname;
+              //  criteria['val'] = criname;
+              //    criteria['id'] = criid;string.replace(/ /g,"_");
+              criteria2[criid2] = formdata ;
+              console.log(criteria2);
+              //criarry.push(criteria);
+               // $('#criteria').val([criteria]);
+               $('#addformdata').val( JSON.stringify(criteria2) );
+                     
+$("#listngo").append("<li><input type='checkbox' id="+ checkboxvalue2 +" class='form-check-input' checked >"+criid2 +"__"+ $("#formdataneeded").val() + "</li>");
+
+return false;
+               }
+             
+});
+ 
+              </script>
               <script>
                 var slider = document.getElementById("myRange");
              

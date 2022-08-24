@@ -15,7 +15,8 @@ const sequelize = db.sequelize ;
 const { Op } = require("sequelize");
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-
+const Occupation = db.occupations;
+const SectorList = db.sectorlists;
 const uploadFile = require('../middleware/upload.js');
 const { v4: uuidv4 } = require('uuid');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');

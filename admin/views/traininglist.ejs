@@ -100,7 +100,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Training List</li>
+              <li class="breadcrumb-item active">Department List</li>
             </ol>
           </div>
         </div>
@@ -115,183 +115,71 @@
                 <div class="col-md-12">
                     <div class="card card-primary">
                       <div class="card-header">
-                        <h4 class="card-title">Training List</h4>
+                        <h4 class="card-title">Department List</h4>
                       </div>
                       <div class="card-body">
-                        
-                      <br>
-                          <ul class="nav nav-tabs " id="myTab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                              <button class="nav-link  active"  id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Level Based Training Programs</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                              <button class="nav-link "  id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">NGO Based Training Programs</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                              <button class="nav-link "  id="industry-tab" data-bs-toggle="tab" data-bs-target="#industry" type="button" role="tab" aria-controls="industry" aria-selected="false">Industry Driven Training Programs</button>
-                            </li>
-                        
-                          </ul>
-                          <div class="tab-content " id="myTabContent">
-                              
-                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">    <div class="row">
-                                <div class="row" style="display: none;">
-                                    <div class="col-sm-12 col-md-6">
-                                        <div class="dt-buttons btn-group flex-wrap">               
-                                    <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Copy</span></button> 
-                                    <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>CSV</span></button> 
-                                    <button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Excel</span></button> 
-                                    <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>PDF</span></button>
-                                     <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="example1" type="button"><span>Print</span></button> <div class="btn-group">
-                                         <button class="btn btn-secondary buttons-collection dropdown-toggle buttons-colvis" tabindex="0" aria-controls="example1" type="button" aria-haspopup="true" aria-expanded="false"><span>Column visibility</span></button></div> </div></div>
-                                         
-                                         <div class="col-sm-12 col-md-6"><div id="example1_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1"></label></div></div></div>
-                                <div class="col-md-12  grid-margin stretch-card">     <div class="card">
-                                  <div class="card-body">
+                        <div class="row">
+                          <div class="row" style="display: none;">
+                              <div class="col-sm-12 col-md-6">
+                                  <div class="dt-buttons btn-group flex-wrap">               
+                              <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Copy</span></button> 
+                              <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>CSV</span></button> 
+                              <button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Excel</span></button> 
+                              <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>PDF</span></button>
+                               <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="example1" type="button"><span>Print</span></button> <div class="btn-group">
+                                   <button class="btn btn-secondary buttons-collection dropdown-toggle buttons-colvis" tabindex="0" aria-controls="example1" type="button" aria-haspopup="true" aria-expanded="false"><span>Column visibility</span></button></div> </div></div>
                                    
-                                    <div class="table-responsive" >
-                                        <table aria-describedby="example1_info" role="grid" class="table table-bordered table-striped dataTable dtr-inline" id="example1">
-                                          <thead>
-                                            <tr>
-                            <th>#</th>
-                                              <th>Training Category Name</th>
-                                              <th>Training Duration</th>
-                                              <th> Training Cost</th>
-                                              <th> Training Level</th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                          
-                                             
-                                          
-                                           <% if(levelbased.length >0 ) { %>
-                                            <% var i = 0 ;%>
-                                               <% levelbased.forEach(function (row){ %>
-                                                <% i++ %>
-                                                <tr>
-                                                    <td><%= i %></td>
-                                                    <td><%= row.training_name %></td>
-                                                    <td><%= row.training_duration %></td>
-                                                    <td><%= row.training_cost %></td>
-                                                
-                                                    <td><%= row.training_level %></td>
-                                                
-                                                  </tr>
-                                             <%  })} else{}     %>
-                                            
-                                        
-                            
-                                               
-                                           
-                                          
-                                          </tbody>
-                                        </table>
-                                      </div>
-                                  
+                                   <div class="col-sm-12 col-md-6"><div id="example1_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1"></label></div></div>
                                   </div>
-                                </div>
-                              </div>
-                           
-                          
-                            </div>
-                          </div>
-                          <div class="tab-pane " id="profile" role="tabpanel" aria-labelledby="profile-tab">    <div class="row">
-                            <div class="col-md-12  grid-margin stretch-card">     <div class="card">
-                                <div class="card-body">
-                                 
-                                  <div class="table-responsive" id="trainingdata">
-                                    <table class="table table-hover">
-                                      <thead>
-                                        <tr>
-                        <th>#</th>
-                        <th>Training Funder Name</th>
-                                          <th>Training Category Name</th>
-                                          <th>Training Duration</th>
-                                          <th> Training Cost</th>
-                                
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                      
-                                         
-                                      
-                                            
-                                        
-                                    
-                                        <% if(ngobased.length >0 ) { %>
-                                          <% var i = 0 ;%>
-                                             <% ngobased.forEach(function (row){ %>
-                                              <% i++ %>
-                                              <tr>
-                                                  <td><%= i %></td>
-                                                  <td><%= row.funder_name %></td>
-                                                  <td><%= row.training_name %></td>
-                                                  <td><%= row.training_duration %></td>
-                                                  <td><%= row.training_cost %></td>
-                                              
-                                                 
-                                                </tr>
-                                           <%  })} else{}     %>
-                                           
-                                       
-                                      
-                                      </tbody>
-                                    </table>
-                                  </div>
-                                
-                                </div>
-                              </div>
-                            </div>
-                         
-                        
-                          </div>
-                        </div>
-                        <div class="tab-pane " id="industry" role="tabpanel" aria-labelledby="industry-tab">    <div class="row">
                           <div class="col-md-12  grid-margin stretch-card">     <div class="card">
-                              <div class="card-body">
-                              <div class="table-responsive" id="trainingdata">
-                                    <table class="table table-hover">
-                                      <thead>
-                                        <tr>
-                        <th>#</th>
-                        <th>Company Name</th>
-                                          <th>Training Category Name</th>
-                                          <th>Training Duration</th>
-                                          <th> Training Cost</th>
-                                        
-                                        </tr>
-                                      </thead>
-                                      <tbody>
+                            <div class="card-body">
+                             
+                              <div class="table-responsive" >
+                                  <table aria-describedby="example1_info" role="grid" class="table table-bordered table-striped dataTable dtr-inline" id="example1">
+                                    <thead>
+                                      <tr>
+                      <th>#</th>
+
+                                        <th>Department Name</th>
+                                        <th>Occupation Name</th>
+                                        <th>Training Level</th>
+                                        <th>Training Houres</th>
+                                        <th>Training Cost</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                    
+                                       
+                                    
+                                     <% if(department.length >0 ) { %>
+                                      <% var i = 0 ;%>
+                                         <% department.forEach(function (row){ %>
+                                          <% i++ %>
+                                          <tr>
+                                              <td><%= i %></td>
+                                           
+                                              <td><%= row.department_name %></td>
+                                              <td><%= row.occupation_name %></td>
+                                              <td><%= row.training_level %></td>
+                                              <td><%= row.trhour %></td>
+                                              <td><%= row.trcost %></td>
+                                            </tr>
+                                       <%  })} else{}     %>
+                                      
+                                  
                       
                                          
-                                      
-                                        <% if(industrybased.length >0 ) { %>
-                                          <% var i = 0 ;%>
-                                             <% industrybased.forEach(function (row){ %>
-                                              <% i++ %>
-                                              <tr>
-                                                  <td><%= i %></td>
-                                                  <td><%= row.company_name %></td>
-                                                  <td><%= row.training_name %></td>
-                                                  <td><%= row.training_duration %></td>
-                                                  <td><%= row.training_cost %></td>
-                                              
-                                              
-                                                </tr>
-                                           <%  })} else{}     %>
-                                           
-                                       
-                                      
-                                      </tbody>
-                                    </table>
-                                  </div>
-                              
-                              </div>
+                                     
+                                    
+                                    </tbody>
+                                  </table>
+                                </div>
+                            
                             </div>
                           </div>
-                       
-                      
                         </div>
+                     
+                    
                       </div>
                         
                 

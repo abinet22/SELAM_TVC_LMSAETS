@@ -286,7 +286,7 @@
                                                       <% levelbased.forEach(function (row){ %>
                                                        <% y++ %>
                                                        <% var one, two,three; %>
-                                                       <% var name = JSON.parse(row.personal_info); %>
+                                                       <% var name = JSON.parse(JSON.stringify(row.personal_info)); %>
                                                        <% var contact = JSON.parse(JSON.stringify(row.contact_info)); %>
                                                        <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
                                                        <% var contactself = name.firstname +"/ "+contact.phoneNumber_1  %>
@@ -523,7 +523,7 @@
                                     <% levelbased.forEach(function (row){ %>
                                      <% y++ %>
                                      <% var one, two,three; %>
-                                     <% var name = JSON.parse(row.personal_info); %>
+                                     <% var name = JSON.parse(JSON.stringify(row.personal_info)); %>
                                      <% var contact = JSON.parse(JSON.stringify(row.contact_info)); %>
                                      <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
                                      <% var contactself = name.firstname +"/ "+contact.phoneNumber_1  %>

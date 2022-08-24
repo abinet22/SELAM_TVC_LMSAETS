@@ -25,7 +25,7 @@ const IndustryBasedTraining = require('../models/IndustryBasedTraining');
 
 router.get('/', forwardAuthenticated, (req, res) => res.render('login'));
 router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
-router.get('/dashboard', ensureAuthenticated, (req, res) => res.render('dashboard'));
+router.get('/dashboard', ensureAuthenticated, (req, res) => res.render('dashboard',{user:req.user}));
 
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {

@@ -104,7 +104,7 @@
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Assign Teacher To Course List</li>
+                <li class="breadcrumb-item active">Assign Teacher To UOCs List</li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -118,7 +118,7 @@
             <div class="col-md-12">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h4 class="card-title">Course List</h4>
+                        <h4 class="card-title">Unit Of Competency List</h4>
                       </div>
                   <div class="card-body">
                    
@@ -137,6 +137,7 @@
                              <input type="hidden" name="programid" id="programid" value="<%= programid %>">
                              <input type="hidden" name="level" id="level" value="<%= traininglevel %>">
                              <input type="hidden" name="programtype" id="programtype" value="<%= programtype %>">
+                             <input type="hidden" name="dpt" id="dpt" value="<%= dpt %>">
                           
 
                             <div class="form-group">
@@ -187,7 +188,7 @@
                                                   <option value="0">Please select teacher name</option>
                                                   <% if(teacherlist.length >0) {%>
                                                    <% teacherlist.forEach(function (aaa){ %>
-                                                     <option value="<%= aaa.staff_id %>"><%= aaa.staff_f_name %> <%= aaa.staff_m_name %> </option>
+                                                     <option value="<%= aaa.staff_id %>"><%= aaa.staff_f_name %> &nbsp; <%= aaa.staff_m_name %> </option>
                                                   <% })}else {}%>
                                                   </select>
                                             </div>
@@ -232,6 +233,7 @@ var classname = document.getElementById('classname').value;
 var programtype = document.getElementById('programtype').value;
 var traininglevel = document.getElementById('level').value;
 var batchid = document.getElementById('programid').value;
+var dpt = document.getElementById('dpt').value;
 var senddt = [];
 
 if(personalinfo.length >0)
@@ -250,6 +252,7 @@ tblobj['teacher'] = obj[val] ;
 tblobj['level'] = traininglevel;
 tblobj['programtype'] = programtype;
 tblobj['batch'] = batchid;
+tblobj['dpt'] = dpt;
 if(assignteacher != "0")
 {
 senddt.push(tblobj)
