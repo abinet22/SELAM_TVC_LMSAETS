@@ -19,6 +19,12 @@ module.exports = (sequelize, DataTypes) => {
         message: {
             type: DataTypes.STRING,
         },
+        income_increase:{
+            type:DataTypes.DECIMAL,
+        },
+        update_type:{
+            type: DataTypes.STRING,
+        }
    
     });
   

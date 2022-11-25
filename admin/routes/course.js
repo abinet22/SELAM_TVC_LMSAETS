@@ -49,23 +49,696 @@ const [course4, metadata4] = await sequelize.query(
     });
 
 });
+
+router.post('/deletecourseinfo/(:courseid)', ensureAuthenticated, async function(req, res) 
+{
+  
+  let errors =[];
+ 
+  const [course1, metadata] = await sequelize.query(
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_1'"
+  );
+  const [course2, metadata2] = await sequelize.query(
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2'"
+  );
+  const [course3, metadata3] = await sequelize.query(
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3'"
+  );
+  const [course4, metadata4] = await sequelize.query(
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4'"
+  );
+  const [course5, metadata5] = await sequelize.query(
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_5'"
+  );
+  const occupation = await Occupation.findAll({});
+  if(errors.length >0){
+    res.render('allcourselist',{
+      department:occupation,     
+      course1:course1,
+      course2:course2,
+      course3:course3,
+      course4:course4,
+      course5:course5,
+      error_msg:errors
+     
+   })
+  }else{
+
+    Course.findOne({where:{course_id:req.params.courseid}}).then(occ =>{
+      if(!occ){
+        res.render('allcourselist',{
+          department:occupation,     
+          course1:course1,
+          course2:course2,
+          course3:course3,
+          course4:course4,
+          course5:course5,
+          error_msg:"Cant Find UOC With This ID"
+         
+       })
+      }
+      else{
+        
+          Course.destroy({where:{course_id:req.params.courseid}}).then( occ =>{
+            res.render('allcourselist',{
+              department:occupation,     
+              course1:course1,
+              course2:course2,
+              course3:course3,
+              course4:course4,
+              course5:course5,
+              success_msg:"You Are Deleting UOC  Info Successfully"
+             
+           })
+          
+          }).catch(err =>{
+            res.render('allcourselist',{
+              department:occupation,     
+              course1:course1,
+              course2:course2,
+              course3:course3,
+              course4:course4,
+              course5:course5,
+              error_msg:"Error While Updating UOCs Los"
+             
+           })
+          })
+      }
+  }).catch(err =>{
+    console.log(err)
+    res.render('allcourselist',{
+      department:occupation,     
+      course1:course1,
+      course2:course2,
+      course3:course3,
+      course4:course4,
+      course5:course5,
+      error_msg:"Error While Updating UOCs LOs Info Please Try Later"
+     
+   })
+  })
+  }
+});
+router.post('/removeupdateucs/(:courseid)', ensureAuthenticated, async function(req, res) 
+{
+  const{loselect} =req.body;
+  let errors =[];
+  if(loselect ==0){
+    errors.push("Please Select Los First");
+  }
+  const [course1, metadata] = await sequelize.query(
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_1'"
+  );
+  const [course2, metadata2] = await sequelize.query(
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2'"
+  );
+  const [course3, metadata3] = await sequelize.query(
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3'"
+  );
+  const [course4, metadata4] = await sequelize.query(
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4'"
+  );
+  const [course5, metadata5] = await sequelize.query(
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_5'"
+  );
+  const occupation = await Occupation.findAll({});
+  if(errors.length >0){
+    res.render('allcourselist',{
+      department:occupation,     
+      course1:course1,
+      course2:course2,
+      course3:course3,
+      course4:course4,
+      course5:course5,
+      error_msg:errors
+     
+   })
+  }else{
+
+    Course.findOne({where:{course_id:req.params.courseid}}).then(occ =>{
+      if(!occ){
+        res.render('allcourselist',{
+          department:occupation,     
+          course1:course1,
+          course2:course2,
+          course3:course3,
+          course4:course4,
+          course5:course5,
+          error_msg:"Cant Find UOC With This ID"
+         
+       })
+      }
+      else{
+        var data = occ.learning_obj;
+        console.log(data)
+        if(data == 0){
+          data = {};
+        }else{
+          data = occ.learning_obj;
+        }
+        delete data[loselect];
+        console.log("updateeeeeeeeeeeeeee")
+        var keyCount  = Object.keys(data).length;
+        console.log(data)
+          Course.update({learning_obj:data},{where:{course_id:req.params.courseid}}).then( occ =>{
+            Course.update({nooflo:keyCount},{where:{course_id:req.params.courseid}}).then(()=>{
+              res.render('allcourselist',{
+                department:occupation,     
+                course1:course1,
+                course2:course2,
+                course3:course3,
+                course4:course4,
+                course5:course5,
+                success_msg:"You Are Update UOC LOs Info Successfully"
+               
+             })
+            })
+          
+          }).catch(err =>{
+            res.render('allcourselist',{
+              department:occupation,     
+              course1:course1,
+              course2:course2,
+              course3:course3,
+              course4:course4,
+              course5:course5,
+              error_msg:"Error While Updating UOCs Los"
+             
+           })
+          })
+      }
+  }).catch(err =>{
+    console.log(err)
+    res.render('allcourselist',{
+      department:occupation,     
+      course1:course1,
+      course2:course2,
+      course3:course3,
+      course4:course4,
+      course5:course5,
+      error_msg:"Error While Updating UOCs LOs Info Please Try Later"
+     
+   })
+  })
+  }
+});
+
+router.post('/updateucs/(:courseid)', ensureAuthenticated, async function(req, res) 
+{
+  const{loselect,loupdateinfo} =req.body;
+  let errors =[];
+  if(loselect ==0){
+    errors.push("Please Select Los First");
+  }
+  if(!loupdateinfo){
+    errors.push("Please Insert Los name First");
+  }
+  const [course1, metadata] = await sequelize.query(
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_1'"
+  );
+  const [course2, metadata2] = await sequelize.query(
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2'"
+  );
+  const [course3, metadata3] = await sequelize.query(
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3'"
+  );
+  const [course4, metadata4] = await sequelize.query(
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4'"
+  );
+  const [course5, metadata5] = await sequelize.query(
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_5'"
+  );
+  const occupation = await Occupation.findAll({});
+  if(errors.length >0){
+    res.render('allcourselist',{
+      department:occupation,     
+      course1:course1,
+      course2:course2,
+      course3:course3,
+      course4:course4,
+      course5:course5,
+      error_msg:errors
+     
+   })
+  }else{
+    Course.findOne({where:{course_id:req.params.courseid}}).then(occ =>{
+      if(!occ){
+        res.render('allcourselist',{
+          department:occupation,     
+          course1:course1,
+          course2:course2,
+          course3:course3,
+          course4:course4,
+          course5:course5,
+          error_msg:"Cant Find UOC With This ID"
+         
+       })
+      }
+      else{
+        var data = occ.learning_obj;
+        if(data == 0){
+          data = {};
+        }else{
+          data = occ.learning_obj;
+        }
+        data[loselect] = loupdateinfo;
+        console.log("daaaaaaaaaaaaaaaaaaaaa")
+        console.log(data);
+          Course.update({learning_obj:data},{where:{course_id:req.params.courseid}}).then( occ =>{
+            res.render('allcourselist',{
+              department:occupation,     
+              course1:course1,
+              course2:course2,
+              course3:course3,
+              course4:course4,
+              course5:course5,
+              success_msg:"You Are Update UOC LOs Info Successfully"
+             
+           })
+          }).catch(err =>{
+            res.render('allcourselist',{
+              department:occupation,     
+              course1:course1,
+              course2:course2,
+              course3:course3,
+              course4:course4,
+              course5:course5,
+              error_msg:"Error While Updating UOCs Los"
+             
+           })
+          })
+      }
+  }).catch(err =>{
+    console.log(err)
+    res.render('allcourselist',{
+      department:occupation,     
+      course1:course1,
+      course2:course2,
+      course3:course3,
+      course4:course4,
+      course5:course5,
+      error_msg:"Error While Updating UOCs LOs Info Please Try Later"
+     
+   })
+  })
+  }
+
+});
+
+router.post('/updatecourseinfo/(:courseid)', ensureAuthenticated, async function(req, res) 
+{
+    const {updateinfo,updatetype} = req.body;
+    const [course1, metadata] = await sequelize.query(
+      "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_1'"
+    );
+    const [course2, metadata2] = await sequelize.query(
+      "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2'"
+    );
+    const [course3, metadata3] = await sequelize.query(
+      "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3'"
+    );
+    const [course4, metadata4] = await sequelize.query(
+      "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4'"
+    );
+    const [course5, metadata5] = await sequelize.query(
+      "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_5'"
+    );
+    const occupation = await Occupation.findAll({});
+   
+   if(updatetype ==0 ){
+    res.render('allcourselist',{
+      department:occupation,     
+      course1:course1,
+      course2:course2,
+      course3:course3,
+      course4:course4,
+      course5:course5,
+      error_msg:"Please Select  Update Type First!"
+     
+   })
+   }
+   else{
+     if(updatetype ==1 ){
+      if(!updateinfo){
+        res.render('allcourselist',{
+          department:occupation,     
+          course1:course1,
+          course2:course2,
+          course3:course3,
+          course4:course4,
+          course5:course5,
+          error_msg:"Please Insert New UOC Name First!"
+         
+       })
+          
+      }
+      else{
+          Course.findAll({where:{course_id:req.params.courseid}}).then(occ =>{
+              if(!occ){
+                res.render('allcourselist',{
+                  department:occupation,     
+                  course1:course1,
+                  course2:course2,
+                  course3:course3,
+                  course4:course4,
+                  course5:course5,
+                  error_msg:"Cant Find UOC With This ID"
+                 
+               })
+              }
+              else{
+                  Course.update({course_name:updateinfo},{where:{course_id:req.params.courseid}}).then( occ =>{
+                    res.render('allcourselist',{
+                      department:occupation,     
+                      course1:course1,
+                      course2:course2,
+                      course3:course3,
+                      course4:course4,
+                      course5:course5,
+                      success_msg:"You Are Update UOC  Name Info Successfully"
+                     
+                   })
+                  }).catch(err =>{
+                    res.render('allcourselist',{
+                      department:occupation,     
+                      course1:course1,
+                      course2:course2,
+                      course3:course3,
+                      course4:course4,
+                      course5:course5,
+                      error_msg:"Error While Updating Course Info"
+                     
+                   })
+                  })
+              }
+          }).catch(err =>{
+            res.render('allcourselist',{
+              department:occupation,     
+              course1:course1,
+              course2:course2,
+              course3:course3,
+              course4:course4,
+              course5:course5,
+              error_msg:"Error While Updating Course Info Please Try Later"
+             
+           })
+          })
+      }
+     }else if(updatetype ==2){
+      if(!updateinfo){
+        res.render('allcourselist',{
+          department:occupation,     
+          course1:course1,
+          course2:course2,
+          course3:course3,
+          course4:course4,
+          course5:course5,
+          error_msg:"Please Insert New  UOC Module Code First!"
+         
+       })
+          
+      }
+      else{
+          Course.findAll({where:{course_id:req.params.courseid}}).then(occ =>{
+              if(!occ){
+                res.render('allcourselist',{
+                  department:occupation,     
+                  course1:course1,
+                  course2:course2,
+                  course3:course3,
+                  course4:course4,
+                  course5:course5,
+                  error_msg:"Cant Find UOC With This ID"
+                 
+               })
+              }
+              else{
+                  Course.update({course_code:updateinfo},{where:{course_id:req.params.courseid}}).then( occ =>{
+                    res.render('allcourselist',{
+                      department:occupation,     
+                      course1:course1,
+                      course2:course2,
+                      course3:course3,
+                      course4:course4,
+                      course5:course5,
+                      success_msg:"You Are Update UOC Module Code Info Successfully"
+                     
+                   })
+                  }).catch(err =>{
+                    res.render('allcourselist',{
+                      department:occupation,     
+                      course1:course1,
+                      course2:course2,
+                      course3:course3,
+                      course4:course4,
+                      course5:course5,
+                      error_msg:"Error While Updating Course Info"
+                     
+                   })
+                  })
+              }
+          }).catch(err =>{
+            res.render('allcourselist',{
+              department:occupation,     
+              course1:course1,
+              course2:course2,
+              course3:course3,
+              course4:course4,
+              course5:course5,
+              error_msg:"Error While Updating Course Info Please Try Later"
+             
+           })
+          })
+      }
+     }else if(updatetype ==3){
+      if(!updateinfo || isNaN(updateinfo)){
+        res.render('allcourselist',{
+          department:occupation,     
+          course1:course1,
+          course2:course2,
+          course3:course3,
+          course4:course4,
+          course5:course5,
+          error_msg:"Please Insert New  UOC Hour First!"
+         
+       })
+          
+      }
+      else{
+          Course.findAll({where:{course_id:req.params.courseid}}).then(occ =>{
+              if(!occ){
+                res.render('allcourselist',{
+                  department:occupation,     
+                  course1:course1,
+                  course2:course2,
+                  course3:course3,
+                  course4:course4,
+                  course5:course5,
+                  error_msg:"Cant Find UOC With This ID"
+                 
+               })
+              }
+              else{
+                  Course.update({training_hours:updateinfo},{where:{course_id:req.params.courseid}}).then( occ =>{
+                    console.log("updaaaaaaaaaaaaaaaaaa");
+                    console.log(occ);
+                    res.render('allcourselist',{
+                      department:occupation,     
+                      course1:course1,
+                      course2:course2,
+                      course3:course3,
+                      course4:course4,
+                      course5:course5,
+                      success_msg:"You Are Update UOC Hour Info Successfully"
+                     
+                   })
+                  }).catch(err =>{
+                    res.render('allcourselist',{
+                      department:occupation,     
+                      course1:course1,
+                      course2:course2,
+                      course3:course3,
+                      course4:course4,
+                      course5:course5,
+                      error_msg:"Error While Updating Course Info"
+                     
+                   })
+                  })
+              }
+          }).catch(err =>{
+            res.render('allcourselist',{
+              department:occupation,     
+              course1:course1,
+              course2:course2,
+              course3:course3,
+              course4:course4,
+              course5:course5,
+              error_msg:"Error While Updating Course Info Please Try Later"
+             
+           })
+          })
+      }
+    }else if (updatetype ==4){
+      if(!updateinfo || isNaN(updateinfo)){
+        res.render('allcourselist',{
+          department:occupation,     
+          course1:course1,
+          course2:course2,
+          course3:course3,
+          course4:course4,
+          course5:course5,
+          error_msg:"Please Insert New UOC Cost  First!"
+         
+       })
+          
+      }
+      else{
+          Course.findAll({where:{course_id:req.params.courseid}}).then(occ =>{
+              if(!occ){
+                res.render('allcourselist',{
+                  department:occupation,     
+                  course1:course1,
+                  course2:course2,
+                  course3:course3,
+                  course4:course4,
+                  course5:course5,
+                  error_msg:"Cant Find UOC With This ID"
+                 
+               })
+              }
+              else{
+                var cost = parseFloat(updateinfo);
+                  Course.update({training_cost:cost},{where:{course_id:req.params.courseid}}).then( occ =>{
+                    console.log("updaaaaaaaaaaaaaaaaaa");
+                    console.log(cost);
+                    res.render('allcourselist',{
+                      department:occupation,     
+                      course1:course1,
+                      course2:course2,
+                      course3:course3,
+                      course4:course4,
+                      course5:course5,
+                      success_msg:"You Are Update UOC Cost Info Successfully"
+                     
+                   })
+                  }).catch(err =>{
+                    res.render('allcourselist',{
+                      department:occupation,     
+                      course1:course1,
+                      course2:course2,
+                      course3:course3,
+                      course4:course4,
+                      course5:course5,
+                      error_msg:"Error While Updating Course Info"
+                     
+                   })
+                  })
+              }
+          }).catch(err =>{
+            res.render('allcourselist',{
+              department:occupation,     
+              course1:course1,
+              course2:course2,
+              course3:course3,
+              course4:course4,
+              course5:course5,
+              error_msg:"Error While Updating Course Info Please Try Later"
+             
+           })
+          })
+      }
+    }else if (updatetype ==5){
+      if(!updateinfo || isNaN(updateinfo)){
+        res.render('allcourselist',{
+          department:occupation,     
+          course1:course1,
+          course2:course2,
+          course3:course3,
+          course4:course4,
+          course5:course5,
+          error_msg:"Please Insert New UOC No Of LOs  First!"
+         
+       })
+          
+      }
+      else{
+          Course.findAll({where:{course_id:req.params.courseid}}).then(occ =>{
+              if(!occ){
+                res.render('allcourselist',{
+                  department:occupation,     
+                  course1:course1,
+                  course2:course2,
+                  course3:course3,
+                  course4:course4,
+                  course5:course5,
+                  error_msg:"Cant Find UOC With This ID"
+                 
+               })
+              }
+              else{
+                var cost = parseFloat(updateinfo);
+                  Course.update({nooflo:cost},{where:{course_id:req.params.courseid}}).then( occ =>{
+                    console.log("updaaaaaaaaaaaaaaaaaa");
+                    console.log(cost);
+                    res.render('allcourselist',{
+                      department:occupation,     
+                      course1:course1,
+                      course2:course2,
+                      course3:course3,
+                      course4:course4,
+                      course5:course5,
+                      success_msg:"You Are Update UOC No Of LOs Info Successfully"
+                     
+                   })
+                  }).catch(err =>{
+                    res.render('allcourselist',{
+                      department:occupation,     
+                      course1:course1,
+                      course2:course2,
+                      course3:course3,
+                      course4:course4,
+                      course5:course5,
+                      error_msg:"Error While Updating Course Info"
+                     
+                   })
+                  })
+              }
+          }).catch(err =>{
+            res.render('allcourselist',{
+              department:occupation,     
+              course1:course1,
+              course2:course2,
+              course3:course3,
+              course4:course4,
+              course5:course5,
+              error_msg:"Error While Updating Course Info Please Try Later"
+             
+           })
+          })
+      }
+    }
+
+
+   }
+   
+});
 router.get('/allcourselist', ensureAuthenticated, async function (req, res) {
 
   
   const [course1, metadata] = await sequelize.query(
-    "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_1'"
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name  FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_1'"
   );
   const [course2, metadata2] = await sequelize.query(
-    "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2'"
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name  FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2'"
   );
   const [course3, metadata3] = await sequelize.query(
-    "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3'"
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name  FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3'"
   );
   const [course4, metadata4] = await sequelize.query(
-    "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4'"
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name  FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4'"
   );
   const [course5, metadata5] = await sequelize.query(
-    "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_5'"
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name  FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_5'"
   );
 
   const occupation = await Occupation.findAll({});
@@ -87,19 +760,19 @@ router.get('/allcourselist', ensureAuthenticated, async function (req, res) {
     const {dept,semister} = req.body;
   
     const [course1, metadata] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_1' and courses.department_id ='"+dept+"' "
+      "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name  FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_1' and courses.department_id ='"+dept+"' "
     );
     const [course2, metadata2] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2' and courses.department_id ='"+dept+"' "
+      "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name  FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2' and courses.department_id ='"+dept+"' "
     );
     const [course3, metadata3] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3' and courses.department_id ='"+dept+"' "
+      "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name  FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3' and courses.department_id ='"+dept+"' "
     );
     const [course4, metadata4] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4' and courses.department_id ='"+dept+"' "
+      "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name  FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4' and courses.department_id ='"+dept+"' "
     );
     const [course5, metadata5] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_5' and courses.department_id ='"+dept+"' "
+      "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name  FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_5' and courses.department_id ='"+dept+"' "
     );
     const [ngo, metadatango] = await sequelize.query(
       "SELECT * FROM ngocourses INNER JOIN occupations ON occupations.occupation_id = ngocourses.department_id where  ngocourses.department_id ='"+dept+"' "

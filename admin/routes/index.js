@@ -19,20 +19,55 @@ router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
 router.get('/dashboard', ensureAuthenticated, (req, res) => res.render('dashboard',{user:req.user}));
 router.get('/addnewfunder', ensureAuthenticated, (req, res) => res.render('addnewfunder'));
 router.get('/addselectcriteria', ensureAuthenticated, (req, res) => res.render('addselectcriteria'));
+router.get('/changepassword', ensureAuthenticated, (req, res) => res.render('changepassword'));
 
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
-        successRedirect: '/dashboard',
-        failureRedirect: '/login',
+        successRedirect: '/admin/dashboard',
+        failureRedirect: '/admin/login',
         failureFlash: true
     })(req, res, next);
 });
-  
+
+router.post('/changepassword',ensureAuthenticated,async function (req, res)  {
+    const {oldpass,newpass,newpassre} = req.body;
+    let errors =[];
+if(!oldpass || !newpass || !newpassre){
+errors.push("please enter all required fields!")
+}
+
+if(newpass != newpassre){
+    errors.push("your new password and re-type password are not the same!") 
+}
+else{
+    bcrypt.compare(oldpass, req.user.password, (err, isMatch) => {
+        if (err) throw err;
+        if (!isMatch) {
+            errors.push("please enter correct old password!")
+        } 
+      });
+}
+if(errors.length >0){
+res.render('changepassword',{error_msg:errors})
+}
+else{
+    bcrypt.hash(newpass, 10, (err, hash) => {
+       
+        User.update({password:hash},{where:{userid:req.user.userid}}).then(user =>{
+            res.render('changepassword',{success_msg:"You Are Successfully Update Your Password "})
+         }).catch(err =>{
+            res.render('changepassword',{error_msg:errors})
+         })
+        }); // 
+
+}
+
+});  
   // Logout
 router.get('/logout', (req, res) => {
     req.logout();
     req.flash('success_msg', 'You are logged out');
-    res.redirect('/login');
+    res.redirect('/admin/login');
 });
 router.get('/notifications',async function(req, res)  {
   res.render('notificationlist')
@@ -249,7 +284,8 @@ router.get('/addnewsystemuser',ensureAuthenticated, async function(req,res){
 
 })
 router.get('/allsystemuserlist',ensureAuthenticated,async function(req,res){
-    const users = await User.findAll({});
+     const [users, metadata] = await sequelize.query("select * from users inner join stafflists on"+
+" stafflists.staff_id=users.fullname");
     res.render('alluserlist',{
        
         userlist:users

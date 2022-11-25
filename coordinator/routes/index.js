@@ -26,8 +26,8 @@ router.get('/addselectcriteria', ensureAuthenticated, (req, res) => res.render('
 
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
-        successRedirect: '/dashboard',
-        failureRedirect: '/login',
+        successRedirect: '/coordinator/dashboard',
+        failureRedirect: '/coordinator/login',
         failureFlash: true
     })(req, res, next);
 });
@@ -36,7 +36,7 @@ router.post('/login', (req, res, next) => {
 router.get('/logout', (req, res) => {
     req.logout();
     req.flash('success_msg', 'You are logged out');
-    res.redirect('/login');
+    res.redirect('/coordinator/login');
 });
 router.get('/notifications',async function(req, res)  {
   res.render('notificationlist')

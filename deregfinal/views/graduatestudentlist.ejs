@@ -27,7 +27,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Home</a>
+        <a href="/registrardataencoder/dashboard" class="nav-link">Home</a>
       </li>
    
     </ul>
@@ -72,7 +72,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"   href="/logout" role="button">
+        <a class="nav-link"   href="/registrardataencoder/logout" role="button">
           Logout
         </a>
       </li>
@@ -116,7 +116,7 @@
                     <div class="card card-primary">
                         <div class="card-header">
                             <div class="card-title">
-                                <h4 class="card-title">Graduated Student List To Be Sent To JBS DB</h4>
+                                <h4 class="card-title">Graduated & COC PASS Student List To Be Sent To JBS DB</h4>
                         
                             </div>
                         </div>
@@ -184,8 +184,8 @@
                                        <% studentlist.forEach(function (row){ %>
                                         <% i++ %>
                                         <% var dpt = row.department_id %>
-                                        <% var name = JSON.parse(row.personal_info); %>
-                                        <% var contact = JSON.parse(row.contact_info); %>
+                                        <% var name = JSON.parse(JSON.stringify(row.personal_info)); %>
+                                        <% var contact = JSON.parse(JSON.stringify(row.contact_info)); %>
                                         <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
                                         <% var contactself = name.firstname +"/ "+contact.phoneNumber_1  %>
                                         <% var contactemergency = contact.emergencyname +"/ "+contact.emergencyphone  %>
@@ -197,9 +197,9 @@
                                             <td>
                                                 <% if(department.length > 0){ %>
                                                    <% department.forEach(function (row){ %>
-                                                      <% var dptid = row.department_id %>
+                                                      <% var dptid = row.occupation_id %>
                                                       <%  if(dptid == dpt)  {%>
-                                                       <%= row.department_name %>
+                                                       <%= row.occupation_name %>
                                                        <%   } %>
                                                         
                                                   <% })} %>
@@ -307,8 +307,8 @@
                                 <% studentlist.forEach(function (row){ %>
                                  <% i++ %>
                                  <% var dpt = row.department_id %>
-                                 <% var name = JSON.parse(row.personal_info); %>
-                                 <% var contact = JSON.parse(row.contact_info); %>
+                                 <% var name = JSON.parse(JSON.stringify(row.personal_info)); %>
+                                 <% var contact = JSON.parse(JSON.stringify(row.contact_info)); %>
                                  <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
                                  <% var contactself = name.firstname +"/ "+contact.phoneNumber_1  %>
                                  <% var contactemergency = contact.emergencyname +"/ "+contact.emergencyphone  %>
@@ -321,9 +321,9 @@
                                      <td>
                                          <% if(department.length > 0){ %>
                                             <% department.forEach(function (row){ %>
-                                               <% var dptid = row.department_id %>
+                                               <% var dptid = row.occupation_id %>
                                                <%  if(dptid == dpt)  {%>
-                                                <%= row.department_name %>
+                                                <%= row.occupation_name %>
                                                 <%   } %>
                                                  
                                            <% })} %>
@@ -412,7 +412,7 @@
     
     $.ajax({
                 type: "POST",
-                url: "/sendtojbs/sendgraduatedstudentlisttojbsdb",
+                url: "/registrardataencoder/sendtojbs/sendgraduatedstudentlisttojbsdb",
                 data: "pTableData=" + TableData,    // post TableData to server script
     
                 success: function (data) {

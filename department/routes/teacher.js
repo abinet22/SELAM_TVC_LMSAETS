@@ -106,6 +106,7 @@ router.post('/coursetoteacherindustrybased',ensureAuthenticated,async function(r
    programid:programid,
    teacherlist:teacherlist,
    traininglevel:'',
+ dpt:occupationname,
    programtype:programtype,
    classlist:classlist,
    courselist:courselist
@@ -128,6 +129,7 @@ router.post('/coursetoteacherngobased',ensureAuthenticated,async function(req,re
    programid:programid,
    teacherlist:teacherlist,
    traininglevel:'',
+dpt:occupationname,
    programtype:programtype,
    classlist:classlist,
    courselist:courselist

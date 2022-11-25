@@ -1,0 +1,194 @@
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SELAM </title>
+  
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  
+  </head>
+  <body>
+  <div class="wrapper">
+    <!-- Main content -->
+    <section class="invoice">
+      <!-- title row -->
+      <div class="invoice p-3 mb-3" id="tobebilled">
+        <!-- title row -->
+        <div class="row">
+          <div class="col-12">
+            <table style="
+            border: 1px solid black;
+            border-collapse: collapse;
+            width: 100%;
+          ">
+            <tr style="
+            border: 1px solid black;
+            border-collapse: collapse;
+          ">
+              <td><img src="../../../dist/img/logoselam.jpg" width="150px" height="150px"></td>
+              <td colspan="2" style="
+              border: 1px solid black;
+              border-collapse: collapse;
+            ">
+                <h4>
+                  Organization Name <br>
+                  Selam Technical And Vocational Collage
+                 
+                </h4>
+              </td>
+             
+              <td  colspan="2"  style="
+              border: 1px solid black;
+              border-collapse: collapse;
+            ">
+
+                <h5> <small class="float-">Doc No._____</small><br>
+                  <small class="float-">SDR-TVC/QF/____</small></h5>
+                  <small class="float-">Issued Date:<% var today = new Date().toLocaleDateString() %> <%= today %></small>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colspan="3">
+                <h5> <small class="">Office Of Registrar</small>
+                  <small class="">Trainee Application Form</small></h5>
+              </td>
+            
+              <td>
+                Issue No. __
+              </td>
+            </tr>
+          </table>
+         
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- info row -->
+        <div class="row invoice-info">
+         
+          <div class="col-sm-4 invoice-col">
+        
+            <address>
+              
+              <strong>FullName:<% var perinfo = JSON.parse(JSON.stringify(applicant.personal_info)) %> <%= perinfo.firstname %> &nbsp; <%= perinfo.middlename %> &nbsp; <%= perinfo.lastname %></strong><br>
+            
+           <strong>Address:<% var contact = JSON.parse(JSON.stringify(applicant.contact_info)) %> <%= contact.region %>,<%= contact.zonesubcity %>,<%= contact.hno %> </strong><br>
+              <strong>Phone Number: <%= contact.phoneNumber_1 %>/<%= contact.phoneNumber_2 %> </strong>
+           
+            </address>
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-4 invoice-col">
+            <b>Nationality:</b>Ethiopian<br>
+            
+          
+           
+            <b>Sex:</b> <%= perinfo.gender %><br>
+          
+            <b>ID:</b> <%= applicant.applicant_id %>
+          </div>
+          <div class="col-sm-4 invoice-col">
+              <div class="row">
+                  <div class="col-md-6">
+                    <strong>Occupation Choice:</strong>
+                  </div>
+                  <div class="col-md-6">
+                    <% if (department.length > 0 ){ %>
+                        <% department.forEach(function(row){ %>
+                          
+                            <% var occupation = row.occupation_id %>
+                         <%if(occupation === applicant.choice_one) {%>
+                          Choice_One:  <%= row.occupation_name %><br>
+                            <%} else if(occupation == applicant.choice_two) {%>
+                              Choice_Two:  <%= row.occupation_name %><br>
+                                <%} else if(occupation === applicant.choice_three) {%>
+                                 Choice_Three:   <%= row.occupation_name %><br>
+                                    <%}})%>
+                        <% }else {} %> 
+                </div>
+              </div>
+            
+
+            
+            <% if (applicant.choice_level ) {%>
+                <b>Level:</b> <%= applicant.choice_level %><br>
+                            <%}%>
+            <b>Addmission Type:</b><%= applicant.choice_program_type %><br>
+            
+            <b>Acadamic Year:</b><% var today = new Date().getYear()
+            %> <%= today
+            %><br>
+           
+          
+           
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <!-- Table row -->
+        
+        <!-- /.row -->
+
+        <div class="row">
+          <!-- accepted payments column -->
+          <div class="col-6">
+            <p class="lead">Date:<%var dt =  new Date(); %> <%= dt.toLocaleString()%></p>
+            
+          </div>
+        
+          <!-- /.col -->
+          <div class="col-6">
+            <p class="lead">Registrar Signiture </p>
+
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <!-- this row will not appear when printing -->
+       
+      </div>
+
+      <div class="row no-print">
+        <div class="col-12">
+          
+          <a type="button " class="btn-block btn-sm btn no-print" style="background-color: aqua;" onclick="printDiv('tobebilled')"><i class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print Application Form</a>
+         <!-- <% if( programtag == "ngo"){ %>
+          <a type="button " class="btn-block btn-sm btn no-print" style="background-color: aqua;" href="/registration/newngobasedregistration"> Go Back</a>
+       
+          <% }else if(programtag == "level"){ %>
+            <a type="button " class="btn-block btn-sm btn no-print" style="background-color: aqua;" href="/registration/newlevelbasedregistration"> Go Back</a>
+       
+            <% }else if(programtag == "industry"){ %>
+              <a type="button " class="btn-block btn-sm btn no-print" style="background-color: aqua;" href="/registrardataencoder/registration/newindustrydrivenregistration"> Go Back</a>
+       
+              <% } %> -->
+        
+        </div>
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- ./wrapper -->
+  <!-- Page specific script -->
+  <script>
+ function printDiv(divName) {
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+}
+  </script>
+  
+  
+  </body></html>

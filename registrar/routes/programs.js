@@ -63,7 +63,8 @@ router.get('/newngobased', ensureAuthenticated, async function(req, res) {
             res.render('newngobased',{
                 levelbased:'',
                 industrybased:'',
-                ngobased:''
+                ngobased:'',
+funderinfo:funderinfo,
             })
         })
 
@@ -126,14 +127,14 @@ router.post('/updateconfirmprogram', ensureAuthenticated, async function (req, r
             levelbased:'',
             industrybased:'',
             ngobased:resultsngo,
-            funder:funderinfo,
+            funderinfo:funderinfo,
             success_msg:'Successfully confirm new program to start registration'
         })
     }).catch(error =>{
         res.render('newngobased',{
             levelbased:'',
             industrybased:'',
-            funder:funderinfo,
+            funderinfo:funderinfo,
             ngobased:resultsngo,
             error_msg:'cant update now please try again'
         })

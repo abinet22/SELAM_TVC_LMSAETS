@@ -27,7 +27,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Home</a>
+        <a href="/admin/dashboard" class="nav-link">Home</a>
       </li>
    
     </ul>
@@ -72,7 +72,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"   href="/logout" role="button">
+        <a class="nav-link"   href="/admin/logout" role="button">
           Logout
         </a>
       </li>
@@ -159,14 +159,14 @@
                                               <td><%= row.criteria_status %></td>
                                               <td><%var stat =  row.criteria_status ; %>
                                                 <% if(stat == "Enabled"){%>
-                                                    <form action="/disableselectioncriteria/<%=row.criteria_id%>" method="post">
+                                                    <form action="/admin/disableselectioncriteria/<%=row.criteria_id%>" method="post">
                                                         <button type="type" class="btn btn-outline-warning btn-icon-text">
                                                           <i class="mdi mdi-key-remove"></i>                                                        
                                                              Disable
                                                             </button>
                                                       </form>
                                                 <% }else{ %>
-                                                    <form action="/enableeselectioncriteria/<%=row.criteria_id%>" method="post">
+                                                    <form action="/admin/enableeselectioncriteria/<%=row.criteria_id%>" method="post">
                                                         <button type="type" class="btn btn-outline-warning btn-icon-text">
                                                           <i class="mdi mdi-key-remove"></i>                                                        
                                                              Enable

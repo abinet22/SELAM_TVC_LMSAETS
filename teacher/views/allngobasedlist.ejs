@@ -281,7 +281,9 @@
                                                 <td>
                                                   <form action="/trainee/singlethoreticalevaluation/<%= trainee %>" method="post">
                                                       <div class="form-group">
-                                                  <input class="form-control" name="mark" id="mark" placeholder="Mark" type="number">
+                                                  <input class="form-control" name="mark" id="mark" placeholder="Mark"
+ onkeypress="return isNumberKey(event)" 
+           type="text">
                                                   <input class="form-control" name="tobeudt" id="tobeudt" type="hidden" value="<%= x[i] %>" >
                                                  
                                                   <select class="form-control" id="evaluationtype" name="evaluationtype">
@@ -400,7 +402,8 @@
                          
                              <% })}else {}%>
                           </select>
-                          <input class="form-control" name="totmark" id="totmark" placeholder="Please enter total marks">
+                          <input class="form-control" onkeypress="return isNumberKey(event)" 
+           type="text" name="totmark" id="totmark" placeholder="Please enter total marks">
                           <input type="hidden" id="courseid" name="courseid" value="<%= courseid %>">
                             <input type="hidden" id="classid" name="classid" value="<%= classid %>">
                             <input type="hidden" id="level" name="level" value="<%= level %>">
@@ -523,7 +526,8 @@
                          
                              <% })}else {}%>
                           </select>
-                          <input class="form-control" name="totmarki" id="totmarki" placeholder="Please enter total marks">
+                          <input class="form-control" name="totmarki" id="totmarki" onkeypress="return isNumberKey(event)" 
+           type="text"  placeholder="Please enter total marks">
                           <input type="hidden" id="courseid" name="courseid" value="<%= courseid %>">
                             <input type="hidden" id="classid" name="classid" value="<%= classid %>">
                             <input type="hidden" id="level" name="level" value="<%= level %>">
@@ -558,7 +562,7 @@
                                             <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
                                          
                                             <td><%= i %></td>
-                                            <td><%= row.trainee_id%></td>
+                                            <td><%= row.student_unique_id  %></td>
                                             <td><%= fullname %></td>
                                           
                                             <td><input id="<%= row.trainee_id %>" name="<%= row.trainee_id %>" type="number" class="form-control"> </td>
@@ -645,7 +649,7 @@
                          
                              <% })}else {}%>
                           </select>
-                          <input class="form-control" name="totmarkp" id="totmarkp" placeholder="Please enter total marks">
+                          <input class="form-control" type="text" onkeypress="return isNumberKey(event)"  name="totmarkp" id="totmarkp" placeholder="Please enter total marks">
                           <input type="hidden" id="courseid" name="courseid" value="<%= courseid %>">
                             <input type="hidden" id="classid" name="classid" value="<%= classid %>">
                             <input type="hidden" id="level" name="level" value="<%= level %>">
@@ -680,7 +684,7 @@
                                             <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
                                          
                                             <td><%= i %></td>
-                                            <td><%= row.trainee_id%></td>
+                                            <td><%= row.student_unique_id  %></td>
                                             <td><%= fullname %></td>
                                           
                                             <td><input id="<%= row.trainee_id %>" name="<%= row.trainee_id %>" type="number" class="form-control"> </td>
@@ -716,6 +720,19 @@
     </section>
     <!-- /.content -->
   </div>
+ <SCRIPT language=Javascript>
+      
+       function isNumberKey(evt)
+       {
+          var charCode = (evt.which) ? evt.which : evt.keyCode;
+          if (charCode != 46 && charCode > 31 
+            && (charCode < 48 || charCode > 57))
+             return false;
+
+          return true;
+       }
+       
+    </SCRIPT>
   <script>
      
     $(function(){
@@ -805,7 +822,7 @@ TableData =  tobesaveddt ;
 
 $.ajax({
 type: "POST",
-url: "/trainee/savestudentevaluationtheretical",
+url: "/teacher/trainee/savestudentevaluationtheretical",
 data: "pTableData=" + TableData,    // post TableData to server script
 
 success: function (data) {
@@ -930,7 +947,7 @@ TableData =  tobesaveddt ;
 
 $.ajax({
 type: "POST",
-url: "/trainee/savestudentevaluationpractical",
+url: "/teacher/trainee/savestudentevaluationpractical",
 data: "pTableData=" + TableData,    // post TableData to server script
 
 success: function (data) {
@@ -1056,7 +1073,7 @@ TableData =  tobesaveddt ;
 
 $.ajax({
 type: "POST",
-url: "/trainee/savestudentevaluationinternship",
+url: "/teacher/trainee/savestudentevaluationinternship",
 data: "pTableData=" + TableData,    // post TableData to server script
 
 success: function (data) {

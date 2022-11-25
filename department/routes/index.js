@@ -28,8 +28,8 @@ router.get('/addselectcriteria', ensureAuthenticated, (req, res) => res.render('
 
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
-        successRedirect: '/dashboard',
-        failureRedirect: '/login',
+        successRedirect: '/department/dashboard',
+        failureRedirect: '/department/login',
         failureFlash: true
     })(req, res, next);
 });

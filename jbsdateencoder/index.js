@@ -67,7 +67,6 @@ app.use(function(req, res, next) {
 app.use(express.static(path.join(__dirname,'./public')));
 // Routes
 app.use('/', require('./routes/index.js'));
-app.use('/programs', require('./routes/programs.js'));
 app.use('/company', require('./routes/company.js'));
 app.use('/trainee', require('./routes/trainee.js'));
 app.use('/dataanalysis', require('./routes/dataanalysis.js'));

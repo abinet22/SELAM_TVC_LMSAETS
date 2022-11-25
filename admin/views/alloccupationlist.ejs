@@ -9,13 +9,13 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../../plugins/fontawesome-free/css/all.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../../../dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -27,7 +27,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Home</a>
+        <a href="/admin/dashboard" class="nav-link">Home</a>
       </li>
    
     </ul>
@@ -72,7 +72,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"   href="/logout" role="button">
+        <a class="nav-link"   href="/admin/logout" role="button">
           Logout
         </a>
       </li>
@@ -118,7 +118,8 @@
                         <h4 class="card-title">Occupation List</h4>
                       </div>
                       <div class="card-body">
-                        <div class="row">
+  <%- include ('./partials/messages') %> 
+                       <div class="row">
                           <div class="row" style="display: none;">
                               <div class="col-sm-12 col-md-6">
                                   <div class="dt-buttons btn-group flex-wrap">               
@@ -143,8 +144,9 @@
                                         <th>Department Name</th>
                                         <th>Occupation Name</th>
                                         <th>Training Level</th>
-                                        <th>Training Houres</th>
+                                        <th>Training Hour</th>
                                         <th>Training Cost</th>
+                                         <th>Action ToDo </th>
                                       </tr>
                                     </thead>
                                     <tbody>
@@ -163,6 +165,15 @@
                                               <td><%= row.training_level %></td>
                                               <td><%= row.trhour %></td>
                                               <td><%= row.trcost %></td>
+                                              <td>
+                                                  <form action="/admin/dept/updateoccupationname/<%= row.occupation_id %>" method="post">
+                                                  <div class="form-group">
+<lable>Please insert occupation name</lable>
+<input type="text" class="form-control"  name="newoccupationname" id="newoccupationname"  placeholder="please ensert new occupation name" />
+<button class="btn btn-sm btn-block btn-warning" type="submit">Update</button>
+</div>                                                 
+</form>
+                                                  </td>
                                             </tr>
                                        <%  })} else{}     %>
                                       
@@ -218,26 +229,26 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="./../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables  & Plugins -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../../plugins/jszip/jszip.min.js"></script>
-<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="../../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../../../plugins/jszip/jszip.min.js"></script>
+<script src="../../../plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../../../plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
+<script src="../../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
+<script src="../../../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
   $(function () {

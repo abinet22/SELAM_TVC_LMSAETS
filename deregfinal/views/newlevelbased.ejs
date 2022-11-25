@@ -27,7 +27,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Home</a>
+        <a href="/registrardataencoder/dashboard" class="nav-link">Home</a>
       </li>
    
     </ul>
@@ -72,7 +72,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"   href="/logout" role="button">
+        <a class="nav-link"   href="/registrardataencoder/logout" role="button">
           Logout
         </a>
       </li>
@@ -139,7 +139,7 @@
                       <th>#</th>
                                         <th>Batch Name</th>
                                         <th>Program Description</th>
-                                        <th>Training Name</th>
+                                        <th>Occupation  Name</th>
                                         <th>Training Level</th>
                                         <th>Training Type</th>
                                         <th> Training From-To</th>
@@ -248,7 +248,7 @@
                               
                                              <td> 
                                               <% if(new Date(aed) > new Date(todayis)){ %> 
-                                                <form action="/applicant/addapplicanttolevelbasedprogram" method="post">
+                                                <form action="/registrardataencoder/applicant/addapplicanttolevelbasedprogram" method="post">
                                                   <input type="hidden" name="programidlevel" value="<%= row.program_id %>">
                                                   <button class="btn btn-block btn-info"><i class="fa fa-edit"></i>Register Applicants</button> 
                                               

@@ -27,7 +27,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Home</a>
+        <a href="/dean/dashboard" class="nav-link">Home</a>
       </li>
    
     </ul>
@@ -72,7 +72,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"   href="/logout" role="button">
+        <a class="nav-link"   href="/dean/logout" role="button">
           Logout
         </a>
       </li>
@@ -141,7 +141,7 @@
                           <!-- /.card-header -->
                           <div class="card-body" style="display: block;">
                               
-                            <form action="/course/filterbydepartment" method="post">
+                            <form action="/dean/course/filterbydepartment" method="post">
                   
                               <div class="form-group">
                                 <label class="">Filter UOCs By Occupation</label>
@@ -222,7 +222,7 @@
                                     <th>Training UOC Name </th>
                                    
                                     <th>Training  Hours </th>
-                                    
+                                    <th>Training Cost </th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -237,7 +237,7 @@
                                                 <td><%= row.course_code %></td>
                                                 <td><%= row.course_name %></td>
                                                 <td><%= row.training_hours %></td>
-                                             
+                                              <td><%= row.training_cost %></td>
                                               </tr>
                                          <%  })} else{}     %>
                                      
@@ -267,6 +267,7 @@
                                     <th>Training UOC Name </th>
                                    
                                     <th>Training  Hours </th>
+<th>Training Cost </th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -281,7 +282,7 @@
                                             <td><%= row.course_code %></td>
                                             <td><%= row.course_name %></td>
                                             <td><%= row.training_hours %></td>
-                                         
+                                          <td><%= row.training_cost %></td>                  
                                           </tr>
                                      <%  })} else{}     %>
                               </tbody>
@@ -310,6 +311,7 @@
               <th>Training UOC Name </th>
              
               <th>Training  Hours </th>
+<th>Training Cost </th>
                               </tr>
                             </thead>
                             <tbody>
@@ -323,7 +325,7 @@
                                             <td><%= row.course_code %></td>
                                             <td><%= row.course_name %></td>
                                             <td><%= row.training_hours %></td>
-                                         
+                       <td><%= row.training_cost %></td>                  
                                           </tr>
                                      <%  })} else{}     %>
                       
@@ -353,6 +355,7 @@
               <th>Training UOC Name </th>
              
               <th>Training  Hours </th>
+<th>Training Cost </th>
                               </tr>
                             </thead>
                             <tbody>
@@ -366,7 +369,7 @@
                                             <td><%= row.course_code %></td>
                                             <td><%= row.course_name %></td>
                                             <td><%= row.training_hours %></td>
-                                         
+                       <td><%= row.training_cost %></td>                  
                                           </tr>
                                      <%  })} else{}     %>
                       
@@ -396,6 +399,7 @@
             <th>Training UOC Name </th>
            
             <th>Training  Hours </th>
+<th>Training Cost</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -410,7 +414,7 @@
                                         <td><%= row.course_code %></td>
                                         <td><%= row.course_name %></td>
                                         <td><%= row.training_hours %></td>
-                                     
+                 <td><%= row.training_cost %></td>                    
                                       </tr>
                                  <%  })} else{}     %>
                   

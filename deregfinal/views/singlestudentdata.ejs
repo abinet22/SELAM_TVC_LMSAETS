@@ -27,7 +27,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Home</a>
+        <a href="/registrardataencoder/dashboard" class="nav-link">Home</a>
       </li>
    
     </ul>
@@ -72,7 +72,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"   href="/logout" role="button">
+        <a class="nav-link"   href="/registrardataencoder/logout" role="button">
           Logout
         </a>
       </li>
@@ -126,7 +126,7 @@
                 
                 <div class="row mb-2">
              <div class="col-md-4">
-              <form action="/trainee/updatestudentdatagraduated" method="post">
+              <form action="/registrardataencoder/trainee/updatestudentdatagraduated" method="post">
                 <div class="form-group">
                     <input type="hidden" name="programtag" id="programtag" value="<%= programtag %>">
                     <input type="hidden" name="traineeid" id="traineeid" value="<%= traineeid %>">  
@@ -141,7 +141,7 @@
              </form>
              </div>
              <div class="col-md-4">
-                 <form action="/trainee/printgraduatescertificate" method="post">
+                 <form action="/registrardataencoder/trainee/printgraduatescertificate" method="post">
                     <div class="form-group">
                         <input type="hidden" name="programtag" value="<%= programtag %>">
                         <input type="hidden" name="traineeid" value="<%= traineeid %>">  
@@ -158,7 +158,7 @@
             </div>
             <div class="col-md-4">
              
-                <form action="/trainee/printgraduatesgradereport" method="post">
+                <form action="/registrardataencoder/trainee/printgraduatesgradereport" method="post">
                     <div class="form-group">
                         <input type="hidden" name="programtag" value="<%= programtag %>">
                         <input type="hidden" name="traineeid" value="<%= traineeid %>">  
@@ -478,7 +478,7 @@ console.log(obj);
 
 $.ajax({
             type: "POST",
-            url: "/grade/confirmsingleclasscoursegradereporttoregistrar",
+            url: "/registrardataencoder/grade/confirmsingleclasscoursegradereporttoregistrar",
             data: "pTableData=" + TableData,    // post TableData to server script
 
             success: function (data) {

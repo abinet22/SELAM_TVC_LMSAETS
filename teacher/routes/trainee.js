@@ -30,11 +30,13 @@ router.post('/showclassstudentlevel/(:classname)',ensureAuthenticated,async func
     const [courselist, metadata] = await sequelize.query(
         "SELECT * FROM  courses where course_id='"+courseid +"' "
       );   
-      const [levelbased, metadatalevel] = await sequelize.query(
-        "SELECT * FROM  levelbasedprogresses  inner join levelbasedtrainees on levelbasedprogresses.student_id= levelbasedtrainees.trainee_id "+
+      const [levelbasedold, metadatalevel] = await sequelize.query(
+        "SELECT * FROM  levelbasedtrainees  inner join levelbasedprogresses on "+
+" levelbasedprogresses.student_id= levelbasedtrainees.trainee_id "+
        " where levelbasedprogresses.course_id='"+courseid +"' and levelbasedtrainees.class_id='"+req.params.classname+"' "+
        " and levelbasedprogresses.is_confirm_teacher='No'"
       );     
+const levelbased = await LevelBasedTrainee.findAll({where:{class_id:req.params.classname}});
      res.render('alllevelbasedlist',{courseid:courseid,dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype})
 
     })
@@ -197,13 +199,19 @@ router.post('/savestudentevaluationtheretical',ensureAuthenticated,async functio
         is_confirm_teacher:"No"
 
      }
-     console.log(mark);
+ console.log("prtheroretical_evaluation |theroretical_evaluation |theroretical_evaluation |theroretical_evaluation |theroretical_evaluation |")   
+  console.log(mark);
      LevelBasedProgress.findOne({where:{course_id:courseid,student_id:studentid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}}).then(marklist =>{
          if(!marklist){
             LevelBasedProgress.create(mark);
          }
          else{
           var data = marklist.theroretical_evaluation;
+ if(data == 0){
+            data = {};
+          }else{
+            data = marklist.theroretical_evaluation;
+          }
           data[loid] = parseFloat(evaluation);
             LevelBasedProgress.update({theroretical_evaluation:data},{where:{course_id:courseid,student_id:studentid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}})
          }

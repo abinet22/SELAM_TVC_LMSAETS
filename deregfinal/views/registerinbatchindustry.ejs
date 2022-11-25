@@ -27,7 +27,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Home</a>
+        <a href="/registrardataencoder/dashboard" class="nav-link">Home</a>
       </li>
    
     </ul>
@@ -72,7 +72,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"   href="/logout" role="button">
+        <a class="nav-link"   href="/registrardataencoder/logout" role="button">
           Logout
         </a>
       </li>
@@ -181,7 +181,7 @@
                                            <td><%= row.department_name %></td>
                                           
                                            
-                                           <td><form action="/registration/searchapplicantbyidtoregisterindustry" method="post">
+                                           <td><form action="/registrardataencoder/registration/searchapplicantbyidtoregisterindustry" method="post">
                                             <input type="hidden" name="programidlevel" value="<%= row.application_id %>" >
                                             <input type="hidden" name="applicantid" value="<%= row.applicant_id %>" >
                                             <input type="hidden" name="programtag" value="<%=  programtag %>">

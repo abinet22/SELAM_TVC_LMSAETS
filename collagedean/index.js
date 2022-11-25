@@ -64,21 +64,28 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(express.static(path.join(__dirname,'./public')));
+app.use('/dean',express.static(path.join(__dirname,'./public')));
 // Routes
+var router = express.Router();
 app.use('/', require('./routes/index.js'));
+//router.use(() =>{});
+//router.use('/', require('./routes/index.js'));
 app.use('/training', require('./routes/training.js'));
 app.use('/dept', require('./routes/dept.js'));
 app.use('/course', require('./routes/course.js'));
 app.use('/programs', require('./routes/programs.js'));
 app.use('/company', require('./routes/company.js'));
 app.use('/trainee', require('./routes/trainee.js'));
+//app.use('/trainee', require('./routes/trainee.js'));
 
 
 
+
+
+//app.use('/dean', router);
 
 const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+console.log(`Server is running on port ${PORT}.`);
 });

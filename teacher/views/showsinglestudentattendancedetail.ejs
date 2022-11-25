@@ -32,7 +32,7 @@
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="/dashboard" class="nav-link">Home</a>
+          <a href="/teacher/dashboard" class="nav-link">Home</a>
         </li>
      
       </ul>
@@ -77,7 +77,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link"   href="/logout" role="button">
+          <a class="nav-link"   href="/teacher/logout" role="button">
             Logout
           </a>
         </li>
@@ -1009,13 +1009,13 @@
                                <% var a =  row.absent %>
                               <% if( a > 6){ %>
                                 <% if(dropout =="Yes") {%>
-                                  <form action="/trainee/updatetraineestatusdropout/<%= studentid %>" method="post">
+                                  <form action="/teacher/trainee/updatetraineestatusdropout/<%= studentid %>" method="post">
                                     <input type="hidden" name="programtype" value="<%= programtype %>">
                                     <button type="submit" class="btn btn-primary btn-block"><b>Update Student Status >> Active</b></button>
                               
                                   </form>
                                 <% }else{ %>
-                                  <form action="/trainee/updatetraineestatusdropout/<%= studentid %>" method="post">
+                                  <form action="/teacher/trainee/updatetraineestatusdropout/<%= studentid %>" method="post">
                                     <input type="hidden" name="programtype" value="<%= programtype %>">
                                     <button type="submit" class="btn btn-primary btn-block"><b>Update Student Status >> Dropout</b></button>
                               

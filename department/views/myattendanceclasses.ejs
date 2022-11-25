@@ -27,7 +27,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Home</a>
+        <a href="/department/dashboard" class="nav-link">Home</a>
       </li>
    
     </ul>
@@ -72,7 +72,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"   href="/logout" role="button">
+        <a class="nav-link"   href="/department/logout" role="button">
           Logout
         </a>
       </li>
@@ -163,7 +163,7 @@
                                           <td>
                                             <% var curcls = row.class_id %>
                                             <% if(programtag =="level" ){ %>
-                                              <form action="/attendance/attendancedatafromclass/<%= row.class_id %>" method="post">
+                                              <form action="/department/attendance/attendancedatafromclass/<%= row.class_id %>" method="post">
                                                 <input type="hidden" name="level"  value="<%= row.training_level %>">
                                                 <input type="hidden" name="programtype" value="<%= programtag %>">
                                                 <input type="hidden" name="dpt" value="<%= row.department_id %>">
@@ -175,7 +175,7 @@
                                                </form>
                                               
                                              <% } else if(programtag =="ngo"){ %>
-                                              <form action="/attendance/attendancedatafromclass/<%= row.class_id %>" method="post">
+                                              <form action="/department/attendance/attendancedatafromclass/<%= row.class_id %>" method="post">
                                                 <input type="hidden" name="level"  value="<%= row.training_level %>">
                                                 <input type="hidden" name="programtype" value="<%= programtag %>">
                                                 <input type="hidden" name="dpt" value="<%= row.department_id %>">
@@ -186,7 +186,7 @@
                                                  </div>
                                                </form>
                                            <%  }else if(programtag =="industry") { %>
-                                            <form action="/attendance/attendancedatafromclass/<%= row.class_id %>" method="post">
+                                            <form action="/department/attendance/attendancedatafromclass/<%= row.class_id %>" method="post">
                                               <input type="hidden" name="level"  value="<%= row.training_level %>">
                                               <input type="hidden" name="programtype" value="<%= programtag %>">
                                               <input type="hidden" name="dpt" value="<%= row.department_id %>">

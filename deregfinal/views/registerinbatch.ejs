@@ -27,7 +27,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Home</a>
+        <a href="/registrardataencoder/dashboard" class="nav-link">Home</a>
       </li>
    
     </ul>
@@ -62,7 +62,7 @@
             <i class="fas fa-file mr-2"></i> 3 new reports
             <span class="float-right text-muted text-sm">2 days</span>
           </a>
-          <div class="dropdown-divider"></div>
+          <div class="dropdown-divider"></div>x
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
@@ -72,7 +72,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"   href="/logout" role="button">
+        <a class="nav-link"   href="/registrardataencoder/logout" role="button">
           Logout
         </a>
       </li>
@@ -181,7 +181,7 @@
                                            <td><%= row.occupation_name %></td>
                                           
                                            
-                                            <td><form action="/registration/searchapplicantbyidtoregister" method="post">
+                                            <td><form action="/registrardataencoder/registration/searchapplicantbyidtoregister" method="post">
                                           <input type="hidden" name="programidlevel" value="<%= row.application_id %>" >
                                           <input type="hidden" name="applicantid" value="<%= row.applicant_id %>" >
                                           <input type="hidden" name="programtag" value="<%=  programtag%>">

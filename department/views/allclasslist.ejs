@@ -27,7 +27,7 @@
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="/dashboard" class="nav-link">Home</a>
+          <a href="/department/dashboard" class="nav-link">Home</a>
         </li>
      
       </ul>
@@ -72,7 +72,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link"   href="/logout" role="button">
+          <a class="nav-link"   href="/department/logout" role="button">
             Logout
           </a>
         </li>
@@ -162,7 +162,7 @@
                                            
                                             <td><%= row.staff_f_name %> &nbsp; <%= row.staff_m_name %></td>
                                          <td>
-                                           <form action="/grade/showgradeforclasscourse/<%= row.class_id %>" method="post">
+                                           <form action="/department/grade/showgradeforclasscourse/<%= row.class_id %>" method="post">
                                              <input type="hidden" name="programtag" value="<%= programtag %>">
                                              <input type="hidden" name="deptid" value="<%= row.occupation_id %>">
                                              <input type="hidden" name="batchid" value="<%= row.batch_id %>">

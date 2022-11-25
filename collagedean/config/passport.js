@@ -14,7 +14,7 @@ module.exports = function(passport) {
       // Match user
       User.findOne({ where:{username:email,userroll:"Collage_Dean"}}).then(data => {
       
-        if(data.length==0)
+        if(!data)
         {
             return done(null,false,{ message: 'Invalid Credential' });
         }

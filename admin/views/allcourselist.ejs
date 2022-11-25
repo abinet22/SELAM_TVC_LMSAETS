@@ -6,16 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>selam</title>
 
+  
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../../plugins/fontawesome-free/css/all.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../../../dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -27,7 +28,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Home</a>
+        <a href="/admin/dashboard" class="nav-link">Home</a>
       </li>
    
     </ul>
@@ -72,7 +73,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"   href="/logout" role="button">
+        <a class="nav-link"   href="/admin/logout" role="button">
           Logout
         </a>
       </li>
@@ -100,7 +101,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Course List</li>
+              <li class="breadcrumb-item active">Unit of Competency List</li>
             </ol>
           </div>
         </div>
@@ -113,10 +114,10 @@
         <div class="col-md-12">
             <div class="card card-primary">
               <div class="card-header">
-                <h4 class="card-title">Course List</h4>
+                <h4 class="card-title">Unit of Competency List</h4>
               </div>
               <div class="card-body">
-               
+                <%- include ('./partials/messages') %>
                 <div class="row">
         
                   <div class="col-md-12">
@@ -124,7 +125,7 @@
                       <div class="card card-widget">
                           <div class="card-header">
                               <div class="user-block">
-                                 <span class="username">Search Filter Course List</span>
+                                 <span class="username">Search Filter UOCs List</span>
                                 </div>
                             <!-- /.user-block -->
                             <div class="card-tools">
@@ -141,12 +142,12 @@
                           <!-- /.card-header -->
                           <div class="card-body" style="display: block;">
                               
-                            <form action="/course/filterbydepartment" method="post">
+                            <form action="/admin/course/filterbydepartment" method="post">
                   
                               <div class="form-group">
                                 <label class="">Filter UOCs By Occupation</label>
-                                <select class="form-control" id="dept" name="dept">
-                                  <option value="0">Please select Occupation to filter</option>
+                                <select class="form-control-sm  js-example-basic-single " style="width:100%"  id="dept" name="dept">
+                                  <option value="0">Please Select Occupation To Filter</option>
                                   <% if(department.length >0){ %>
                                     <% department.forEach(function (row){ %>
                                      <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
@@ -195,8 +196,10 @@
                      
                   </ul>
                   <div class="tab-content " id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">    <div class="row">
-                      <div class="col-md-12  grid-margin stretch-card">     <div class="card">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab"> 
+                         <div class="row">
+                      <div class="col-md-12  grid-margin stretch-card">     
+                        <div class="card">
                           <div class="card-body">
                             <h4 class="card-title"> Level One UOC List</h4>
                             <div class="row" style="display: none;">
@@ -222,6 +225,11 @@
                                     <th>Training Module Code </th>
                                     <th>Training UOC Name </th>
                                     <th>Training Hours </th>
+                                    <th>Training Cost </th>
+                                    <th>No Of LOs</th>
+                                    <th >Learning Outcome</th>
+                                    <th>Update Option </th>
+                                    
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -238,10 +246,151 @@
                                                 <td><%= row.course_name %></td>
 
                                                 <td><%= row.training_hours %></td>
+                                                <td><%= row.training_cost %></td>
+                                                <td >
+                                                  <% var lono =  row.nooflo %>
+                                                  <%=  row.nooflo %>
+                                               
+                                                  </td>
+                                                  <td >
+                                                     <%
+                                                                                var selectioncriteria= [];
+                                                                               var x =[];
+                                                                               var z= [];
+                                                                               var objs = JSON.parse(JSON.stringify(row.learning_obj));
+                                                                               selectioncriteria.push(objs);
+                                                                               selectioncriteria.forEach(obj => {
+                                                                                 Object.entries(obj).forEach(([key, value]) => {
+                                                                                    var key  = key;
+                                                                                    var value =value;
+                                                                                    x.push(key);
+                                                                                    z.push(value);
+                                                                                 });
+                                                                                 
+                                                                                })%>
+                                                                                <form action="/admin/course/updateucs/<%= row.course_id %>" method="post">
+                                                                             
+                                                                                <div class="row">
+                                                                                  <div class="col-md-12">
+                                                                                    <p style="width: 300px;">You can update learning outcome here!</p>
+                                                                                  </div>
+                                                                   <div class="col-md-4">
+                                                  <select class="form-control-sm" name="loselect">
+                                                  <option value="0">Select LOs </option>   
+                                                                <% for(var k= 0 ; k < x.length ; k++ ) { %>
+                                                  
+                                                  
+                                                                                <option value="<%= x[k] %>" ><%= x[k] %> &nbsp; : <%= z[k] %></option>
+                                                  
+                                                  
+                                                                                      <%}%>
+                                                   <% for(var l= x.length+1 ; l <= lono ; l++ ) { %>
+                                                  
+                                                  
+                                                                                <option value="lo<%= l %>" >Los <%= l %></option>
+                                                  
+                                                  
+                                                                                      <%}%>
+                                                  </select>
+                                                  </div>
+                                                 
+                                                    <div class="col-md-5">
+                                                    
+                                                      <input type="text" autocomplete="off" class="form-control-sm"  name="loupdateinfo" id="loupdateinfo"  placeholder="Insert LOs Name">
+                                                    
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                      <button class=" btn btn-link btn-sm "   type="submit">Update</button>
+                                                   
+                                                    </div>
+                                                                                      
+                                                    </div>
+                                                    </form>
+           <form action="/admin/course/removeupdateucs/<%= row.course_id %>" method="post">
+                                                                             
+                                                    <div class="row">
+                                                     
+                                       <div class="col-md-9">
+                      <select class="form-control-sm" name="loselect">
+                      <option value="0">Select LOs You Want Remove </option>   
+                                    <% for(var k= 0 ; k < x.length ; k++ ) { %>
+                      
+                      
+                                                    <option value="<%= x[k] %>" ><%= x[k] %> &nbsp; : <%= z[k] %>
+                                                  
+                                                    
+                                                    </option>
+                      
+                      
+                                                          <%}%>
+                       <% for(var l= x.length+1 ; l <= lono ; l++ ) { %>
+                      
+                      
+                                                    <option value="lo<%= l %>" >los <%= l %>
+                                                    
+                                                    </option>
+                      
+                      
+                                                          <%}%>
+                      </select>
+                      </div>
+                     
+                       
+                        <div class="col-md-3">
+                          <button class=" btn btn-link btn-sm  text-danger"    type="submit"><i class="fa fa-sm fa-trash"></i> Remove</button>
+                       
+                        </div>
+                                                          
+                        </div>
+                     
+                     
+                      </form>
+                                   <br>
+ <form action="/admin/course/deletecourseinfo/<%= row.course_id %>" method="post">
+                                                  <button type="submit" class="btn btn-link ">Delete All Info</button>
+                                                </form>
+                                                                   </td>
+                                                <td>
+                                                  
+                                                  <form action="/admin/course/updatecourseinfo/<%= row.course_id %>" method="post">
+                                                   
+                                                  <div class="row">
+                                                    <div class="col-md-12">
+                                                      <p style="width: 300px;">You can update other UOC infos  here!</p>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                    <select class="form-control-sm" name="updatetype" id="updatetype" >
+                                                   <option value="0">Update Option</option>
+                                                   <option value="1">Update UOC Name</option>
+                                                   <option value="2">Update UOC Code</option>
+                                                   <option value="3">Update UOC Hours</option>
+                                                   <option value="4">Update UOC Cost</option>
+                                                   <option value="5">Update UOC No Of LOs</option>
+                                               
+                                                  </select>                         
+                                                    </div>
+                                             
+                                                  
+                                                 
+                                                    <div class="col-md-5">
+                                                      <input type="text" autocomplete="off" class="form-control-sm"  name="updateinfo" id="updateinfo"  placeholder="Insert Update Info">
+                                                    
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                      <button class=" btn btn-link btn-sm "   type="submit">Update</button>
+                                                   
+                                                    </div>
+                                                  </div>
+                                                                                      
+                                                    
+                                               
+
+  </form>
+                                                  </td>
                                              
                                               </tr>
                                          <%  })} else{}     %>
-                                     
+                                      
                                 </tbody>
                               </table>
                             </div>
@@ -253,39 +402,191 @@
                   
                     </div>
                   </div>
-                  <div class="tab-pane " id="profile" role="tabpanel" aria-labelledby="profile-tab">    <div class="row">
-                    <div class="col-md-12  grid-margin stretch-card">     <div class="card">
+                  <div class="tab-pane " id="profile" role="tabpanel" aria-labelledby="profile-tab">   
+                     <div class="row">
+                    <div class="col-md-12  grid-margin stretch-card">   
+                        <div class="card">
                         <div class="card-body">
                           <h4 class="card-title"> Level Two UOC List</h4>
-                           
+                       
                           <div class="table-responsive" id="trainingdata">
-                            <table class="table table-hover">
+                            <table class="table table-hover" id="example2">
                               <thead>
                                 <tr>
                 <th>#</th>
-                <th>Training Occupation Name</th>
-                <th>Training Module Code </th>
-                <th>Training UOC Name </th>
-                
-                <th>Training Hours </th>
+                                  <th>Training Occupation Name</th>
+                               
+                                  <th>Training Module Code </th>
+                                  <th>Training UOC Name </th>
+                                  <th>Training Hours </th>
+                                  <th>Training Cost </th>
+                                  <th>No Of LOs</th>
+                                  <th >Learning Outcome</th>
+                                  <th>Update Option </th>
+                                  
                                 </tr>
                               </thead>
                               <tbody>
                   
-                                <% if(course2.length >0 ) { %>
-                                    <% var i = 0 ;%>
-                                       <% course2.forEach(function (row){ %>
-                                        <% i++ %>
-                                        <tr>
-                                            <td><%= i %></td>
-                                            <td><%= row.occupation_name %></td>
+                                  <% if(course2.length >0 ) { %>
+                                      <% var i = 0 ;%>
+                                         <% course2.forEach(function (row){ %>
+                                          <% i++ %>
+                                          <tr>
+                                              <td><%= i %></td>
+                                              <td><%= row.occupation_name %></td>
+                                              
+                                              <td><%= row.course_code %></td>
+                                              <td><%= row.course_name %></td>
+
+                                              <td><%= row.training_hours %></td>
+                                              <td><%= row.training_cost %></td>
+                                              <td>
+                                                <% var lono =  row.nooflo %>
+                                                <%=  row.nooflo %>
+                                                
+                                                </td>
+                                                <td >
+                                                   <%
+                                                                              var selectioncriteria= [];
+                                                                             var x =[];
+                                                                             var z= [];
+                                                                             var objs = JSON.parse(JSON.stringify(row.learning_obj));
+                                                                             selectioncriteria.push(objs);
+                                                                             selectioncriteria.forEach(obj => {
+                                                                               Object.entries(obj).forEach(([key, value]) => {
+                                                                                  var key  = key;
+                                                                                  var value =value;
+                                                                                  x.push(key);
+                                                                                  z.push(value);
+                                                                               });
+                                                                               
+                                                                              })%>
+                                                                              <form action="/admin/course/updateucs/<%= row.course_id %>" method="post">
+                                                                             
+                                                                              <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                  <p style="width: 300px;">You can update learning outcome here!</p>
+                                                                                </div>
+                                                                 <div class="col-md-4">
+                                                <select class="form-control-sm" name="loselect">
+                                                <option value="0">Select LOs </option>   
+                                                              <% for(var k= 0 ; k < x.length ; k++ ) { %>
+                                                
+                                                
+                                                                              <option value="<%= x[k] %>" ><%= x[k] %> &nbsp; : <%= z[k] %></option>
+                                                
+                                                
+                                                                                    <%}%>
+                                                 <% for(var l= x.length+1 ; l <= lono ; l++ ) { %>
+                                                
+                                                
+                                                                              <option value="lo<%= l %>" >Los <%= l %></option>
+                                                
+                                                
+                                                                                    <%}%>
+                                                </select>
+                                                </div>
+                                               
+                                                  <div class="col-md-5">
+                                                  
+                                                    <input type="text" autocomplete="off" class="form-control-sm"  name="loupdateinfo" id="loupdateinfo"  placeholder="Insert LOs Name">
+                                                  
+                                                  </div>
+                                                  <div class="col-md-3">
+                                                    <button class=" btn btn-link btn-sm "   type="submit">Update</button>
+                                                 
+                                                  </div>
+                                                                                    
+                                                  </div>
+                                                </form>
+           <form action="/admin/course/removeupdateucs/<%= row.course_id %>" method="post">
+                                                                             
+                                                    <div class="row">
+                                                     
+                                       <div class="col-md-9">
+                      <select class="form-control-sm" name="loselect">
+                      <option value="0">Select LOs You Want Remove </option>   
+                                    <% for(var k= 0 ; k < x.length ; k++ ) { %>
+                      
+                      
+                                                    <option value="<%= x[k] %>" ><%= x[k] %> &nbsp; : <%= z[k] %>
+                                                  
+                                                    
+                                                    </option>
+                      
+                      
+                                                          <%}%>
+                       <% for(var l= x.length+1 ; l <= lono ; l++ ) { %>
+                      
+                      
+                                                    <option value="lo<%= l %>" >los <%= l %>
+                                                    
+                                                    </option>
+                      
+                      
+                                                          <%}%>
+                      </select>
+                      </div>
+                     
+                       
+                        <div class="col-md-3">
+                          <button class=" btn btn-link btn-sm  text-danger"    type="submit"><i class="fa fa-sm fa-trash"></i> Remove</button>
+                       
+                        </div>
+                                                          
+                        </div>
+                     
+                     
+                      </form>
+                     
+ <br>
+ <form action="/admin/course/deletecourseinfo/<%= row.course_id %>" method="post">
+                                                  <button type="submit" class="btn btn-link ">Delete All Info</button>
+                                                </form>              
+                                                                 </td>
+                                              <td>
+                                                
+                                                <form action="/admin/course/updatecourseinfo/<%= row.course_id %>" method="post">
+                                                 
+                                                <div class="row">
+                                                  <div class="col-md-12">
+                                                    <p style="width: 300px;">You can update other UOC infos  here!</p>
+                                                  </div>
+                                                  <div class="col-md-4">
+                                                  <select class="form-control-sm" name="updatetype" id="updatetype" >
+                                                 <option value="0">Update Option</option>
+                                                 <option value="1">Update UOC Name</option>
+                                                 <option value="2">Update UOC Code</option>
+                                               
+                                                 <option value="3">Update UOC Hours</option>
+                                                 <option value="4">Update UOC Cost</option>
+                                                 <option value="5">Update UOC No Of LOs</option>
+                                               
+                                                </select>                         
+                                                  </div>
                                            
-                                            <td><%= row.course_code %></td>
-                                            <td><%= row.course_name %></td>
-                                            <td><%= row.training_hours %></td>
-                                         
-                                          </tr>
-                                     <%  })} else{}     %>
+                                                
+                                               
+                                                  <div class="col-md-5">
+                                                    <input type="text" autocomplete="off" class="form-control-sm"  name="updateinfo" id="updateinfo"  placeholder="Insert Update Info">
+                                                  
+                                                  </div>
+                                                  <div class="col-md-3">
+                                                    <button class=" btn btn-link btn-sm "   type="submit">Update</button>
+                                                 
+                                                  </div>
+                                                </div>
+                                                                                    
+                                                  
+                                             
+
+</form>
+                                                </td>
+                                           
+                                            </tr>
+                                       <%  })} else{}     %>
+                                    
                               </tbody>
                             </table>
                           </div>
@@ -303,18 +604,24 @@
                         <h4 class="card-title"> Level Three UOC List</h4>
                            
                         <div class="table-responsive" id="trainingdata">
-                          <table class="table table-hover">
+                          <table class="table table-hover" id="example3">
                             <thead>
                               <tr>
               <th>#</th>
-              <th>Training Occupation Name</th>
-              <th>Training Module Code </th>
-              <th>Training UOC Name </th>
-             
-              <th>Training Hours </th>
+                                <th>Training Occupation Name</th>
+                             
+                                <th>Training Module Code </th>
+                                <th>Training UOC Name </th>
+                                <th>Training Hours </th>
+                                <th>Training Cost </th>
+                                <th>No Of LOs</th>
+                                <th >Learning Outcome</th>
+                                <th>Update Option </th>
+                                
                               </tr>
                             </thead>
                             <tbody>
+                
                                 <% if(course3.length >0 ) { %>
                                     <% var i = 0 ;%>
                                        <% course3.forEach(function (row){ %>
@@ -322,14 +629,157 @@
                                         <tr>
                                             <td><%= i %></td>
                                             <td><%= row.occupation_name %></td>
-                                           
+                                            
                                             <td><%= row.course_code %></td>
                                             <td><%= row.course_name %></td>
+
                                             <td><%= row.training_hours %></td>
+                                            <td><%= row.training_cost %></td>
+                                            <td>
+                                              <% var lono =  row.nooflo %>
+                                              <%=  row.nooflo %>
+                                              
+                                              </td>
+                                              <td >
+                                                 <%
+                                                                            var selectioncriteria= [];
+                                                                           var x =[];
+                                                                           var z= [];
+                                                                           var objs = JSON.parse(JSON.stringify(row.learning_obj));
+                                                                           selectioncriteria.push(objs);
+                                                                           selectioncriteria.forEach(obj => {
+                                                                             Object.entries(obj).forEach(([key, value]) => {
+                                                                                var key  = key;
+                                                                                var value =value;
+                                                                                x.push(key);
+                                                                                z.push(value);
+                                                                             });
+                                                                             
+                                                                            })%>
+                                                                      <form action="/admin/course/updateucs/<%= row.course_id %>" method="post">
+                                                                              
+                                                                        <div class="row">
+                                                                          <div class="col-md-12">
+                                                                            <p style="width: 300px;">You can update learning outcome here!</p>
+                                                                          </div>
+                                                           <div class="col-md-4">
+                                          <select class="form-control-sm" name="loselect">
+                                          <option value="0">Select LOs </option>   
+                                                        <% for(var k= 0 ; k < x.length ; k++ ) { %>
+                                          
+                                          
+                                                                        <option value="<%= x[k] %>" ><%= x[k] %> &nbsp; : <%= z[k] %></option>
+                                          
+                                          
+                                                                              <%}%>
+                                           <% for(var l= x.length+1 ; l <= lono ; l++ ) { %>
+                                          
+                                          
+                                                                        <option value="lo<%= l %>" >Los <%= l %></option>
+                                          
+                                          
+                                                                              <%}%>
+                                          </select>
+                                          </div>
+                                         
+                                            <div class="col-md-5">
+                                            
+                                              <input type="text" autocomplete="off" class="form-control-sm"  name="loupdateinfo" id="loupdateinfo"  placeholder="Insert LOs Name">
+                                            
+                                            </div>
+                                            <div class="col-md-3">
+                                              <button class=" btn btn-link btn-sm "   type="submit">Update</button>
+                                           
+                                            </div>
+                                                                              
+                                            </div>
+                                                                      </form>
+           <form action="/admin/course/removeupdateucs/<%= row.course_id %>" method="post">
+                                                                             
+                                                    <div class="row">
+                                                     
+                                       <div class="col-md-9">
+                      <select class="form-control-sm" name="loselect">
+                      <option value="0">Select LOs You Want Remove </option>   
+                                    <% for(var k= 0 ; k < x.length ; k++ ) { %>
+                      
+                      
+                                                    <option value="<%= x[k] %>" ><%= x[k] %> &nbsp; : <%= z[k] %>
+                                                  
+                                                    
+                                                    </option>
+                      
+                      
+                                                          <%}%>
+                       <% for(var l= x.length+1 ; l <= lono ; l++ ) { %>
+                      
+                      
+                                                    <option value="lo<%= l %>" >los <%= l %>
+                                                    
+                                                    </option>
+                      
+                      
+                                                          <%}%>
+                      </select>
+                      </div>
+                     
+                       
+                        <div class="col-md-3">
+                          <button class=" btn btn-link btn-sm  text-danger"    type="submit"><i class="fa fa-sm fa-trash"></i> Remove</button>
+                       
+                        </div>
+                                                          
+                        </div>
+                     
+                     
+                      </form>
+                                   
+ <br>
+ <form action="/admin/course/deletecourseinfo/<%= row.course_id %>" method="post">
+                                                  <button type="submit" class="btn btn-link ">Delete All Info</button>
+                                                </form>
+                                                               </td>
+                                            <td>
+                                              
+                                              <form action="/admin/course/updatecourseinfo/<%= row.course_id %>" method="post">
+                                               
+                                              <div class="row">
+                                                <div class="col-md-12">
+                                                  <p style="width: 300px;">You can update other UOC infos  here!</p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                <select class="form-control-sm" name="updatetype" id="updatetype" >
+                                               <option value="0">Update Option</option>
+                                               <option value="1">Update UOC Name</option>
+                                               <option value="2">Update UOC Code</option>
+                                               <option value="3">Update UOC Hours</option>
+                                               <option value="4">Update UOC Cost</option>
+                                               <option value="5">Update UOC No Of LOs</option>
+                                                
+                                              </select>                         
+                                                </div>
+                                         
+                                              
+                                             
+                                                <div class="col-md-5">
+                                                  <input type="text" autocomplete="off" class="form-control-sm"  name="updateinfo" id="updateinfo"  placeholder="Insert Update Info">
+                                                
+                                                </div>
+                                                <div class="col-md-3">
+                                                  <button class=" btn btn-link btn-sm "   type="submit">Update</button>
+                                               
+                                                </div>
+                                              </div>
+                                                                                  
+                                                
+                                           
+
+</form>
+                                              </td>
                                          
                                           </tr>
                                      <%  })} else{}     %>
-                      
+                                  
                             </tbody>
                           </table>
                         </div>
@@ -347,18 +797,24 @@
                         <h4 class="card-title"> Level Four UOC List</h4>
                            
                         <div class="table-responsive" id="trainingdata">
-                          <table class="table table-hover">
+                          <table class="table table-hover" id="example4">
                             <thead>
                               <tr>
               <th>#</th>
-              <th>Training Occupation Name</th>
-                            
-              <th>Training Module Code </th>
-              <th>Training UOC Name </th>
-              <th>Training Hours </th>
+                                <th>Training Occupation Name</th>
+                             
+                                <th>Training Module Code </th>
+                                <th>Training UOC Name </th>
+                                <th>Training Hours </th>
+                                <th>Training Cost </th>
+                                <th>No Of LOs</th>
+                                <th >Learning Outcome</th>
+                                <th>Update Option </th>
+                                
                               </tr>
                             </thead>
                             <tbody>
+                
                                 <% if(course4.length >0 ) { %>
                                     <% var i = 0 ;%>
                                        <% course4.forEach(function (row){ %>
@@ -366,13 +822,156 @@
                                         <tr>
                                             <td><%= i %></td>
                                             <td><%= row.occupation_name %></td>
+                                            
                                             <td><%= row.course_code %></td>
                                             <td><%= row.course_name %></td>
+
                                             <td><%= row.training_hours %></td>
+                                            <td><%= row.training_cost %></td>
+                                            <td>
+                                              <% var lono =  row.nooflo %>
+                                              <%=  row.nooflo %>
+                                              
+                                              </td>
+                                              <td >
+                                                 <%
+                                                                            var selectioncriteria= [];
+                                                                           var x =[];
+                                                                           var z= [];
+                                                                           var objs = JSON.parse(JSON.stringify(row.learning_obj));
+                                                                           selectioncriteria.push(objs);
+                                                                           selectioncriteria.forEach(obj => {
+                                                                             Object.entries(obj).forEach(([key, value]) => {
+                                                                                var key  = key;
+                                                                                var value =value;
+                                                                                x.push(key);
+                                                                                z.push(value);
+                                                                             });
+                                                                             
+                                                                            })%>
+                                                                            <form action="/admin/course/updateucs/<%= row.course_id %>" method="post">
+                                                                             
+                                                                            <div class="row">
+                                                                              <div class="col-md-12">
+                                                                                <p style="width: 300px;">You can update learning outcome here!</p>
+                                                                              </div>
+                                                               <div class="col-md-4">
+                                              <select class="form-control-sm" name="loselect">
+                                              <option value="0">Select LOs </option>   
+                                                            <% for(var k= 0 ; k < x.length ; k++ ) { %>
+                                              
+                                              
+                                                                            <option value="<%= x[k] %>" ><%= x[k] %> &nbsp; : <%= z[k] %></option>
+                                              
+                                              
+                                                                                  <%}%>
+                                               <% for(var l= x.length+1 ; l <= lono ; l++ ) { %>
+                                              
+                                              
+                                                                            <option value="lo<%= l %>" >Los <%= l %></option>
+                                              
+                                              
+                                                                                  <%}%>
+                                              </select>
+                                              </div>
+                                             
+                                                <div class="col-md-5">
+                                                
+                                                  <input type="text" autocomplete="off" class="form-control-sm"  name="loupdateinfo" id="loupdateinfo"  placeholder="Insert LOs Name">
+                                                
+                                                </div>
+                                                <div class="col-md-3">
+                                                  <button class=" btn btn-link btn-sm "   type="submit">Update</button>
+                                               
+                                                </div>
+                                                                                  
+                                                </div>
+                                                </form>
+           <form action="/admin/course/removeupdateucs/<%= row.course_id %>" method="post">
+                                                                             
+                                                    <div class="row">
+                                                     
+                                       <div class="col-md-9">
+                      <select class="form-control-sm" name="loselect">
+                      <option value="0">Select LOs You Want Remove </option>   
+                                    <% for(var k= 0 ; k < x.length ; k++ ) { %>
+                      
+                      
+                                                    <option value="<%= x[k] %>" ><%= x[k] %> &nbsp; : <%= z[k] %>
+                                                  
+                                                    
+                                                    </option>
+                      
+                      
+                                                          <%}%>
+                       <% for(var l= x.length+1 ; l <= lono ; l++ ) { %>
+                      
+                      
+                                                    <option value="lo<%= l %>" >los <%= l %>
+                                                    
+                                                    </option>
+                      
+                      
+                                                          <%}%>
+                      </select>
+                      </div>
+                     
+                       
+                        <div class="col-md-3">
+                          <button class=" btn btn-link btn-sm  text-danger"    type="submit"><i class="fa fa-sm fa-trash"></i> Remove</button>
+                       
+                        </div>
+                                                          
+                        </div>
+                     
+                     
+                      </form>
+                                    <br>
+ <form action="/admin/course/deletecourseinfo/<%= row.course_id %>" method="post">
+                                                  <button type="submit" class="btn btn-link ">Delete All Info</button>
+                                                </form>
+                                                               </td>
+                                            <td>
+                                              
+                                              <form action="/admin/course/updatecourseinfo/<%= row.course_id %>" method="post">
+                                               
+                                              <div class="row">
+                                                <div class="col-md-12">
+                                                  <p style="width: 300px;">You can update other UOC infos  here!</p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                <select class="form-control-sm" name="updatetype" id="updatetype" >
+                                               <option value="0">Update Option</option>
+                                               <option value="1">Update UOC Name</option>
+                                               <option value="2">Update UOC Code</option>
+                                               <option value="3">Update UOC Hours</option>
+                                               <option value="4">Update UOC Cost</option>
+                                             
+                                               <option value="5">Update UOC No Of LOs</option>
+                                              </select>                         
+                                                </div>
+                                         
+                                              
+                                             
+                                                <div class="col-md-5">
+                                                  <input type="text" autocomplete="off" class="form-control-sm"  name="updateinfo" id="updateinfo"  placeholder="Insert Update Info">
+                                                
+                                                </div>
+                                                <div class="col-md-3">
+                                                  <button class=" btn btn-link btn-sm "   type="submit">Update</button>
+                                               
+                                                </div>
+                                              </div>
+                                                                                  
+                                                
+                                           
+
+</form>
+                                              </td>
                                          
                                           </tr>
                                      <%  })} else{}     %>
-                      
+                                  
                             </tbody>
                           </table>
                         </div>
@@ -390,33 +989,181 @@
                       <h4 class="card-title"> Level Five UOC List</h4>
                          
                       <div class="table-responsive" id="trainingdata">
-                        <table class="table table-hover">
+                        <table class="table table-hover" id="example5">
                           <thead>
                             <tr>
             <th>#</th>
                               <th>Training Occupation Name</th>
-                            
+                           
                               <th>Training Module Code </th>
                               <th>Training UOC Name </th>
                               <th>Training Hours </th>
+                              <th>Training Cost </th>
+                              <th>No Of LOs</th>
+                              <th >Learning Outcome</th>
+                              <th>Update Option </th>
+                              
                             </tr>
                           </thead>
                           <tbody>
-          
-                            <% if(course5.length >0 ) { %>
-                                <% var i = 0 ;%>
-                                   <% course5.forEach(function (row){ %>
-                                    <% i++ %>
-                                    <tr>
-                                        <td><%= i %></td>
-                                        <td><%= row.occupation_name %></td>
-                                        <td><%= row.course_code %></td>
-                                        <td><%= row.course_name %></td>
-                                        <td><%= row.training_hours %></td>
-                                     
-                                      </tr>
-                                 <%  })} else{}     %>
-                  
+              
+                              <% if(course5.length >0 ) { %>
+                                  <% var i = 0 ;%>
+                                     <% course5.forEach(function (row){ %>
+                                      <% i++ %>
+                                      <tr>
+                                          <td><%= i %></td>
+                                          <td><%= row.occupation_name %></td>
+                                          
+                                          <td><%= row.course_code %></td>
+                                          <td><%= row.course_name %></td>
+
+                                          <td><%= row.training_hours %></td>
+                                          <td><%= row.training_cost %></td>
+                                          <td>
+                                            <% var lono =  row.nooflo %>
+                                            <%=  row.nooflo %>
+                                            
+                                            </td>
+                                            <td >
+                                               <%
+                                                                          var selectioncriteria= [];
+                                                                         var x =[];
+                                                                         var z= [];
+                                                                         var objs = JSON.parse(JSON.stringify(row.learning_obj));
+                                                                         selectioncriteria.push(objs);
+                                                                         selectioncriteria.forEach(obj => {
+                                                                           Object.entries(obj).forEach(([key, value]) => {
+                                                                              var key  = key;
+                                                                              var value =value;
+                                                                              x.push(key);
+                                                                              z.push(value);
+                                                                           });
+                                                                           
+                                                                          })%>
+                                                                          <form action="/admin/course/updateucs/<%= row.course_id %>" method="post">
+                                                                             
+                                                                          <div class="row">
+                                                                            <div class="col-md-12">
+                                                                              <p style="width: 300px;">You can update learning outcome here!</p>
+                                                                            </div>
+                                                             <div class="col-md-4">
+                                            <select class="form-control-sm" name="loselect">
+                                            <option value="0">Select LOs </option>   
+                                                          <% for(var k= 0 ; k < x.length ; k++ ) { %>
+                                            
+                                            
+                                                                          <option value="<%= x[k] %>" ><%= x[k] %> &nbsp; : <%= z[k] %></option>
+                                            
+                                            
+                                                                                <%}%>
+                                             <% for(var l= x.length+1 ; l <= lono ; l++ ) { %>
+                                            
+                                            
+                                                                          <option value="lo<%= l %>" >Los <%= l %></option>
+                                            
+                                            
+                                                                                <%}%>
+                                            </select>
+                                            </div>
+                                           
+                                              <div class="col-md-5">
+                                              
+                                                <input type="text" autocomplete="off" class="form-control-sm"  name="loupdateinfo" id="loupdateinfo"  placeholder="Insert LOs Name">
+                                              
+                                              </div>
+                                              <div class="col-md-3">
+                                                <button class=" btn btn-link btn-sm "   type="submit">Update</button>
+                                             
+                                              </div>
+                                                                                
+                                              </div></form>
+           <form action="/admin/course/removeupdateucs/<%= row.course_id %>" method="post">
+                                                                             
+                                                    <div class="row">
+                                                     
+                                       <div class="col-md-9">
+                      <select class="form-control-sm" name="loselect">
+                      <option value="0">Select LOs You Want Remove </option>   
+                                    <% for(var k= 0 ; k < x.length ; k++ ) { %>
+                      
+                      
+                                                    <option value="<%= x[k] %>" ><%= x[k] %> &nbsp; : <%= z[k] %>
+                                                  
+                                                    
+                                                    </option>
+                      
+                      
+                                                          <%}%>
+                       <% for(var l= x.length+1 ; l <= lono ; l++ ) { %>
+                      
+                      
+                                                    <option value="lo<%= l %>" >los <%= l %>
+                                                    
+                                                    </option>
+                      
+                      
+                                                          <%}%>
+                      </select>
+                      </div>
+                     
+                       
+                        <div class="col-md-3">
+                          <button class=" btn btn-link btn-sm  text-danger"    type="submit"><i class="fa fa-sm fa-trash"></i> Remove</button>
+                       
+                        </div>
+                                                          
+                        </div>
+                     
+                     
+                      </form>
+ <br>
+ <form action="/admin/course/deletecourseinfo/<%= row.course_id %>" method="post">
+                                                  <button type="submit" class="btn btn-link ">Delete All Info</button>
+                                                </form>                                   
+
+                                                             </td>
+                                          <td>
+                                            
+                                            <form action="/admin/course/updatecourseinfo/<%= row.course_id %>" method="post">
+                                             
+                                            <div class="row">
+                                              <div class="col-md-12">
+                                                <p style="width: 300px;">You can update other UOC infos  here!</p>
+                                              </div>
+                                              <div class="col-md-4">
+                                              <select class="form-control-sm" name="updatetype" id="updatetype" >
+                                             <option value="0">Update Option</option>
+                                             <option value="1">Update UOC Name</option>
+                                             <option value="2">Update UOC Code</option>
+                                             <option value="3">Update UOC Hours</option>
+                                             <option value="4">Update UOC Cost</option>
+                                             <option value="5">Update UOC No Of LOs</option>
+                                                
+                                            </select>                         
+                                              </div>
+                                       
+                                            
+                                           
+                                              <div class="col-md-5">
+                                                <input type="text" autocomplete="off" class="form-control-sm"  name="updateinfo" id="updateinfo"  placeholder="Insert Update Info">
+                                              
+                                              </div>
+                                              <div class="col-md-3">
+                                                <button class=" btn btn-link btn-sm "   type="submit">Update</button>
+                                             
+                                              </div>
+                                            </div>
+                                                                                
+                                              
+                                         
+
+</form>
+                                            </td>
+                                       
+                                        </tr>
+                                   <%  })} else{}     %>
+                                
                           </tbody>
                         </table>
                       </div>
@@ -435,9 +1182,19 @@
               </div>
             </div>
         
-           
+  <script>
+    $(document).ready(function() {
+$('.js-example-basic-single').select2();
+});
+  </script>           
        
-                
+  <script>
+    var e=document.querySelectorAll('option')
+e.forEach(x=>{
+if(x.textContent.length>40)
+x.textContent=x.textContent.substring(0,40)+'...';
+})
+  </script>                
 
                    
 				</div>
@@ -465,43 +1222,98 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables  & Plugins -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../../plugins/jszip/jszip.min.js"></script>
-<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="../../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../../../plugins/jszip/jszip.min.js"></script>
+<script src="../../../plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../../../plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
+<script src="../../../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      "responsive": false, "lengthChange": true, "autoWidth": true,"width":400,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: false
+        }]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
+    $("#example3").DataTable({
+      "responsive": false, "lengthChange": true, "autoWidth": true,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: false
+        }]
+    }).buttons().container().appendTo('#example3_wrapper .col-md-6:eq(0)');
+    $("#example4").DataTable({
+      "responsive": false, "lengthChange": true, "autoWidth": true,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: false
+        }]
+    }).buttons().container().appendTo('#example4_wrapper .col-md-6:eq(0)');
+    $("#example5").DataTable({
+      "responsive": false, "lengthChange": true, "autoWidth": true,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: false
+        }]
+    }).buttons().container().appendTo('#example5_wrapper .col-md-6:eq(0)');
+    $("#example2").DataTable({
+      "responsive": false, "lengthChange": true, "autoWidth": true,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: false
+        }]
+    }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+  })
 </script>
+ <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 </body>
 </html>

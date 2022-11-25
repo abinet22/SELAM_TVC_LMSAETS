@@ -250,6 +250,48 @@ const [classinfo,metaclassinfo] = await sequelize.query(
   }
   
 })
+
+router.post('/selecttraineeebyidtosendcoc',ensureAuthenticated,async function(req,res){
+  const{level,traineeid,programidbatch,dept,programtag} = req.body;
+  
+  const [classinfo,metaclassinfo] = await sequelize.query(
+      "select * from classindepts inner join batches on batches.batch_id = classindepts.batch_id "+
+      " inner join occupations on occupations.occupation_id= classindepts.department_id "+
+      " where occupations.occupation_id = '"+ dept +"' and batches.batch_id='"+programidbatch+"'");
+    
+      const department = await Occupation.findOne({where:{occupation_id:dept}});
+     const batch = await Batch.findOne({where:{batch_id:programidbatch}});
+ 
+      const [courselist,metacourselist] = await sequelize.query(
+        "select * from courses where department_id='"+dept+"' and training_level='"+level+"'");
+       
+        const [marklist, metaclasslist] = await sequelize.query(
+            "SELECT * FROM levelbasedtrainees  INNER JOIN studentmarklistlevelbaseds ON levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
+            "inner join courses on courses.course_id = studentmarklistlevelbaseds.course_id "+
+        " where levelbasedtrainees.student_unique_id ='"+traineeid+"'" +
+        " and levelbasedtrainees.current_level ='"+level+"'"+
+        " and studentmarklistlevelbaseds.department_id ='"+dept+"' "+
+       " and studentmarklistlevelbaseds.batch_id ='"+programidbatch+"' "+
+        "  and courses.training_level='"+level+"'" +
+        "  and courses.department_id='"+dept+"'" 
+          );
+          res.render('singlestudenttococ',{
+            marklist:marklist,
+            programtag:programtag,
+            deptid:dept,
+            batchid:programidbatch,
+            classid:'',
+            courseid:'',
+            department:department,
+            batch:batch,
+            courselist:courselist,
+            classinfo:'',
+            level:level,
+            traineeid:traineeid
+        })
+   
+    
+  })
 router.post('/searchtraineebydepartmentgradereport',ensureAuthenticated,async function(req,res){
 const{level,programidbatch,dept,programtag} = req.body;
 
@@ -335,7 +377,7 @@ router.post('/reportproblemtodepartment/(:traineeid)',ensureAuthenticated,async 
       "select * from courses where department_id = '"+deptid+"' and training_level='"+level+"'");
      
       const [marklist, metaclasslist] = await sequelize.query(
-          "SELECT * FROM studentmarklistlevelbaseds INNER JOIN levelbasedtrianees ON levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
+          "SELECT * FROM studentmarklistlevelbaseds INNER JOIN levelbasedtrainees ON levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
       " where studentmarklistlevelbaseds.course_id ='"+courseid+"'"+
       " and studentmarklistlevelbaseds.class_id ='"+classid+"' " +
       " and studentmarklistlevelbaseds.department_id ='"+deptid+"' "+
@@ -343,7 +385,7 @@ router.post('/reportproblemtodepartment/(:traineeid)',ensureAuthenticated,async 
       " and studentmarklistlevelbaseds.is_confirm_department ='Yes' "+
       " and studentmarklistlevelbaseds.is_confirm_teacher ='Yes' "
         );
-        StudentMarkListLevelBased.update({is_confirm_department:'No'},{where:{batch_id:batchid,course_id:courseid,department_id:deptid,teacher_id:teacherid,student_id:req.params.traineeid}}).then(()=>{
+        StudentMarkListLevelBased.update({is_confirm_department:'No',is_confirm_registrar:'No'},{where:{batch_id:batchid,course_id:courseid,department_id:deptid,teacher_id:teacherid,student_id:req.params.traineeid}}).then(()=>{
           res.render('studentdataindepartment',{
             marklist:marklist,
             programtag:programtag,
@@ -559,7 +601,86 @@ copyItems.forEach((item) => {
   }
 
 })
+router.post('/updatestudentdatacocresult',ensureAuthenticated,async function(req,res){
+  const {programtag,batchid,traineeid,deptid,level,cocresult} = req.body;
+  const department = await Occupation.findOne({where:{occupation_id:deptid}});
+  const batch = await Batch.findOne({where:{batch_id:batchid}});
+ 
+    const [courselist,metacourselist] = await sequelize.query(
+      "select * from courses where  training_level='"+level+"' and department_id='"+deptid+"'");
+     
+    const [marklist, metaclasslist] = await sequelize.query(
+      "SELECT * FROM studentmarklistlevelbaseds INNER JOIN levelbasedtrainees ON levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
+      "inner join courses on courses.department_id = levelbasedtrainees.department_id "+
+  " where levelbasedtrainees.student_unique_id ='"+traineeid+"'" +
+  " and levelbasedtrainees.current_level ='"+level+"'"+
+  " and studentmarklistlevelbaseds.department_id ='"+deptid+"' "+
+  " and studentmarklistlevelbaseds.batch_id ='"+batchid+"' "
+    );
+    if(cocresult ==="0"){
+      res.render('singlestudenttococ',{
+        marklist:marklist,
+        programtag:programtag,
+        deptid:deptid,
+        batchid:batchid,
+        classid:'',
+        department:department,
+        batch:batch,
+        traineeid:traineeid,
+        courselist:courselist,
+        classinfo:'',
+        level:level,
+        error_msg:"Please Select COC Result"
+    })
+    }
+   else{
+    LevelBasedTrainee.findOne({where:{batch_id:batchid,student_unique_id:traineeid,department_id:deptid,current_level:level}}).then(trainee =>{
+      console.log(trainee);
+      console.log("sfffffffffffffffffsdddddddddddddddddddddddssdsdssd")
+      console.log(cocresult)
+      if(!trainee){
+        res.render('singlestudenttococ',{
+          marklist:marklist,
+          programtag:programtag,
+          deptid:deptid,
+          batchid:batchid,
+          classid:'',
+          department:department,
+          batch:batch,
+          traineeid:traineeid,
+          courselist:courselist,
+          classinfo:'',
+          level:level,
+          error_msg:"Trainee Is Not Found"
+      })
+    
+      }
+      else{
+       
+        LevelBasedTrainee.update({is_pass_semister:cocresult},{where:{batch_id:batchid,student_unique_id:traineeid,department_id:deptid,current_level:level}}).then((result)=>{
+          console.log(result)
+          res.render('singlestudenttococ',{
+            marklist:marklist,
+            programtag:programtag,
+            deptid:deptid,
+            batchid:batchid,
+            classid:'',
+            department:department,
+            batch:batch,
+            traineeid:traineeid,
+            courselist:courselist,
+            classinfo:'',
+            level:level,
+            success_msg:'COC Result Updated Successfully'+cocresult
+        })
+        })
+      }
+    })
+   }
 
+ 
+
+})
 router.post('/updatestudentdatagraduated',ensureAuthenticated,async function(req,res){
   const {programtag,batchid,traineeid,deptid,level} = req.body;
   const department = await Occupation.findOne({where:{occupation_id:deptid}});
@@ -576,7 +697,7 @@ router.post('/updatestudentdatagraduated',ensureAuthenticated,async function(req
   " and studentmarklistlevelbaseds.department_id ='"+deptid+"' "+
   " and studentmarklistlevelbaseds.batch_id ='"+batchid+"' "
     );
-    LevelBasedTrainee.findOne({where:{batch_id:batchid,trainee_id:traineeid,department_id:deptid,current_level:level}}).then(trainee =>{
+    LevelBasedTrainee.findOne({where:{batch_id:batchid,student_unique_id:traineeid,department_id:deptid,current_level:level}}).then(trainee =>{
       console.log(trainee);
       console.log("sfffffffffffffffff")
       if(!trainee){
@@ -598,7 +719,7 @@ router.post('/updatestudentdatagraduated',ensureAuthenticated,async function(req
       }
       else{
        
-        LevelBasedTrainee.update({is_graduated:'Yes'},{where:{batch_id:batchid,trainee_id:traineeid,department_id:deptid,current_level:level}}).then(()=>{
+        LevelBasedTrainee.update({is_graduated:'Yes'},{where:{batch_id:batchid,student_unique_id:traineeid,department_id:deptid,current_level:level}}).then(()=>{
           res.render('singlestudentdata',{
             marklist:marklist,
             programtag:programtag,
@@ -626,13 +747,13 @@ router.post('/updatestudentdatagraduated',ensureAuthenticated,async function(req
     " and studentmarklistlevelbaseds.department_id ='"+deptid+"' "+
     " and studentmarklistlevelbaseds.batch_id ='"+batchid+"' "
     );
-    NGOBasedTrainee.findOne({where:{batch_id:batchid,trainee_id:traineeid,department_id:deptid}}).then(trainee =>{
+    NGOBasedTrainee.findOne({where:{batch_id:batchid,student_unique_id:traineeid,department_id:deptid}}).then(trainee =>{
       if(!trainee){
 
       }
       else{
        
-        NGOBasedTrainee.update({is_graduated:'Yes'},{where:{batch_id:batchid,trainee_id:traineeid,department_id:deptid}}).then(()=>{
+        NGOBasedTrainee.update({is_graduated:'Yes'},{where:{batch_id:batchid,student_unique_id:traineeid,department_id:deptid}}).then(()=>{
           res.render('singlestudentdata',{
             marklist:marklist,
             programtag:programtag,
@@ -659,12 +780,12 @@ router.post('/updatestudentdatagraduated',ensureAuthenticated,async function(req
     " and studentmarklistlevelbaseds.department_id ='"+deptid+"' "+
     " and studentmarklistlevelbaseds.batch_id ='"+batchid+"' "
       );
-    IndustryBasedTrainee.findOne({where:{batch_id:batchid,trainee_id:traineeid,department_id:deptid}}).then(trainee =>{
+    IndustryBasedTrainee.findOne({where:{batch_id:batchid,student_unique_id:traineeid,department_id:deptid}}).then(trainee =>{
       if(!trainee){
 
       }
       else{
-        IndustryBasedTrainee.update({is_graduated:'Yes'},{where:{batch_id:batchid,trainee_id:traineeid,department_id:deptid}}).then(()=>{
+        IndustryBasedTrainee.update({is_graduated:'Yes'},{where:{batch_id:batchid,student_unique_id:traineeid,department_id:deptid}}).then(()=>{
           res.render('singlestudentdata',{
             marklist:marklist,
             programtag:programtag,

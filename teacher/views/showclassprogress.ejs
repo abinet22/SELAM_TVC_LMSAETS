@@ -27,7 +27,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Home</a>
+        <a href="/teacher/dashboard" class="nav-link">Home</a>
       </li>
    
     </ul>
@@ -72,7 +72,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"   href="/logout" role="button">
+        <a class="nav-link"   href="/teacher/logout" role="button">
           Logout
         </a>
       </li>
@@ -148,12 +148,13 @@
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body" style="display: none;">
-                                        <form action="/evaluation/filterprogressbycoursename" method="post">
+                                        <form action="/teacher/evaluation/filterprogressbycoursename" method="post">
                                             <div class="form-group">
                                                 <input type="hidden" name="dpt" value="<%= dpt %>">
                                                 <input type="hidden" name="batchid" value="<%= batchid %>">
                                                 <input type="hidden" name="classid" value="<%= classid %>">
-                                  
+                                                                   <input type="hidden" name="level" value="<%= level %>">
+
                                                 <input type="hidden" name="programtag" value="<%= programtag %>">
                                                 <label>Please Select Course Name First</label>
                                                 <select class="form-control" id="courseid" name="courseid">
@@ -348,22 +349,22 @@
                                                          
                                                            <td>
                                                             <% for(var i= 0 ; i < xp.length ; i++ ) { %>
-                                                                <% var mrk =  zp[i].toFixed(2) %>
+                                                                <% var mrk2 =  zp[i].toFixed(2) %>
                                                                 <% var mrkp =  zp[i]+"%" %>
                                                                 <% var lop = xp[i] %>
-                                                                <% if( mrk < 32 ){ %>
+                                                                <% if( mrk2 < 32 ){ %>
                                                                     <div class="progress progress-xs">
                                                                         <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="<%= zp[i] %>" aria-valuemin="0" aria-valuemax="100" style="width:<%= mrkp %>">
                                                                         </div>
                                                                       </div>
-                                                                      <p><%= lop %>:<code><%= mrk +"%" %></code></p>
+                                                                      <p><%= lop %>:<code><%= mrk2 +"%" %></code></p>
                                                                       
-                                                               <% }else if(mrk >= 32 && mrk < 100){ %>
+                                                               <% }else if(mrk2 >= 32 && mrk2 < 100){ %>
                                                                 <div class="progress progress-xs">
                                                                     <div class="progress-bar bg-success" role="progressbar" aria-valuenow="<%= zp[i] %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= mrkp %>">
                                                                     </div>
                                                                   </div>
-                                                                  <p><%= lop %>:<code><%=mrk +"%" %></code></p>
+                                                                  <p><%= lop %>:<code><%=mrk2 +"%" %></code></p>
                                                                   
                                                                <% }else{} %>
                                                             
@@ -374,22 +375,22 @@
                                                           
                                                            <td>
                                                             <% for(var i= 0 ; i < xi.length ; i++ ) { %>
-                                                                <% var mrk =  zi[i].toFixed(2) %>
+                                                                <% var mrk3 =  zi[i].toFixed(2) %>
                                                                 <% var loi = xi[i] %>
                                                                 <% var mrkp =  zi[i]+"%" %>
-                                                                <% if( mrk < 24 ){ %>
+                                                                <% if( mrk3 < 24 ){ %>
                                                                     <div class="progress progress-xs">
                                                                         <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="<%= zi[i] %>" aria-valuemin="0" aria-valuemax="100" style="width:<%= mrkp %>">
                                                                          </div>
                                                                       </div>
-                                                                      <p><%= loi %>:<code><%= mrk+"%" %></code></p>
+                                                                      <p><%= loi %>:<code><%= mrk3+"%" %></code></p>
                                                                       
-                                                               <% }else if(mrk >= 24 && mrk < 100){ %>
+                                                               <% }else if(mrk3 >= 24 && mrk3 < 100){ %>
                                                                 <div class="progress progress-xs">
                                                                     <div class="progress-bar bg-success" role="progressbar" aria-valuenow="<%= zi[i] %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= mrkp %>">
                                                                    </div>
                                                                   </div>
-                                                                  <p><%= loi %>:<code><%=mrk+"%" %></code></p>
+                                                                  <p><%= loi %>:<code><%=mrk3+"%" %></code></p>
                                                                   
                                                                <% }else{} %>
                                                             
@@ -648,7 +649,7 @@ TableData =  tobesaveddt ;
 
 $.ajax({
 type: "POST",
-url: "/evaluation/updatestatussenttodepartment",
+url: "/teacher/evaluation/updatestatussenttodepartment",
 data: "pTableData=" + TableData,    // post TableData to server script
 
 success: function (data) {

@@ -45,10 +45,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         is_confirm:{
             type: DataTypes.STRING,
+        },
+    additional_form_data:{
+            type: DataTypes.JSON,
         }
-       
-        
-       
+             
     });
 
   

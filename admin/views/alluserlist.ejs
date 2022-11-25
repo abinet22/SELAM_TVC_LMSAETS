@@ -27,7 +27,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Home</a>
+        <a href="/admin/dashboard" class="nav-link">Home</a>
       </li>
    
     </ul>
@@ -72,7 +72,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"   href="/logout" role="button">
+        <a class="nav-link"   href="/admin/logout" role="button">
           Logout
         </a>
       </li>
@@ -139,8 +139,8 @@
                                           <thead>
                                             <tr>
                                               <th>#</th>
-                                           
-                                              <th>User Name</th>
+                                               <th>Full Name</th>                                        
+                                                 <th>User Name</th>
                                               <th>User Roll</th>
                                               <th>Is Active?</th>
                                               <th>Action To Do</th>
@@ -154,6 +154,7 @@
                                               <% i++ %>
                                               <tr>
                                                 <td><%= i %></td>
+                                                   <td style="text-transform: uppercase;"><%= row.fullname %></td>
                                                 <td style="text-transform: uppercase;"><%= row.username %></td>
                                                 <td style="text-transform: uppercase;"><%= row.userroll %></td>
                                                 <td style="text-transform: uppercase;"><%= row.isactive %></td>
@@ -163,7 +164,7 @@
                                                     <% if(row.isactive =="Yes"){%>
                                                       <div class="col-md-6">
                                                       
-                                                        <form action="/diactivatesystemuser/<%= row.userid %>" method="post">
+                                                        <form action="/admin/diactivatesystemuser/<%= row.userid %>" method="post">
                                                           <button type="type" class="btn btn-outline-danger btn-icon-text">
                                                             <i class="mdi mdi-key-remove"></i>                                                        
                                                                 Diactivate User
@@ -175,7 +176,7 @@
                                                     <%}else{ %>
                                                       <div class="col-md-6">
                                                       
-                                                        <form action="/activatesystemuser/<%= row.userid %>" method="post">
+                                                        <form action="/admin/activatesystemuser/<%= row.userid %>" method="post">
                                                           <button type="type" class="btn btn-outline-success btn-icon-text">
                                                             <i class="mdi mdi-key-remove"></i>                                                        
                                                                 Activate User

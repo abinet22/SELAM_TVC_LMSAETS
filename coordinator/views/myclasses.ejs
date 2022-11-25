@@ -27,7 +27,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Home</a>
+        <a href="/coordinator/dashboard" class="nav-link">Home</a>
       </li>
    
     </ul>
@@ -72,7 +72,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"   href="/logout" role="button">
+        <a class="nav-link"   href="/coordinator/logout" role="button">
           Logout
         </a>
       </li>
@@ -162,7 +162,7 @@
                                        
                                           <td>
                                             <% if(programtag =="level" ){ %>
-                                              <form action="/evaluation/showclassprogress/<%= row.class_id %>" method="post">
+                                              <form action="/coordinator/evaluation/showclassprogress/<%= row.class_id %>" method="post">
                                                 <input type="hidden" name="level"  value="<%= row.training_level %>">
                                                 <input type="hidden" name="programtype" value="<%= row.training_type %>">
                                                 <input type="hidden" name="dpt" value="<%= row.department_id %>">
@@ -186,7 +186,7 @@
                                                  </div>
                                                </form>
                                              <% } else if(programtag =="ngo"){ %>
-                                              <form action="/evaluation/showclassprogressngo/<%= row.class_id %>" method="post">
+                                              <form action="/coordinator/evaluation/showclassprogressngo/<%= row.class_id %>" method="post">
                                                 <input type="hidden" name="level"  value="<%= row.training_level %>">
                                                 <input type="hidden" name="programtype" value="<%= row.training_type %>">
                                                 <input type="hidden" name="dpt" value="<%= row.department_id %>">
@@ -211,7 +211,7 @@
                                                  </div>
                                                </form>
                                            <%  }else if(programtag =="industry") { %>
-                                            <form action="/evaluation/showclassprogressindustry/<%= row.class_id %>" method="post">
+                                            <form action="/coordinator/evaluation/showclassprogressindustry/<%= row.class_id %>" method="post">
                                               <input type="hidden" name="level"  value="<%= row.training_level %>">
                                               <input type="hidden" name="programtype" value="<%= row.training_type %>">
                                               <input type="hidden" name="dpt" value="<%= row.department_id %>">
@@ -241,7 +241,7 @@
                                           <td>
                                             <% var curcls = row.class_id %>
                                             <% if(programtag =="level" ){ %>
-                                              <form action="/evaluation/showclassevaluation/<%= row.class_id %>" method="post">
+                                              <form action="/coordinator/evaluation/showclassevaluation/<%= row.class_id %>" method="post">
                                                 <input type="hidden" name="level"  value="<%= row.training_level %>">
                                                 <input type="hidden" name="programtype" value="<%= row.training_type %>">
                                                 <input type="hidden" name="dpt" value="<%= row.department_id %>">
@@ -266,7 +266,7 @@
                                                </form>
                                               
                                              <% } else if(programtag =="ngo"){ %>
-                                              <form action="/evaluation/showclassevaluationngo/<%= row.class_id %>" method="post">
+                                              <form action="/coordinator/evaluation/showclassevaluationngo/<%= row.class_id %>" method="post">
                                                 <input type="hidden" name="level"  value="<%= row.training_level %>">
                                                 <input type="hidden" name="programtype" value="<%= row.training_type %>">
                                                 <input type="hidden" name="dpt" value="<%= row.department_id %>">
@@ -290,7 +290,7 @@
                                                  </div>
                                                </form>
                                            <%  }else if(programtag =="industry") { %>
-                                            <form action="/evaluation/showclassevaluationindustry/<%= row.class_id %>" method="post">
+                                            <form action="/coordinator/evaluation/showclassevaluationindustry/<%= row.class_id %>" method="post">
                                               <input type="hidden" name="level"  value="<%= row.training_level %>">
                                               <input type="hidden" name="programtype" value="<%= row.training_type %>">
                                               <input type="hidden" name="dpt" value="<%= row.department_id %>">

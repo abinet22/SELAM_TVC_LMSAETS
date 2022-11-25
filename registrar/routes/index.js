@@ -29,8 +29,8 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => res.render('dashboar
 
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
-        successRedirect: '/dashboard',
-        failureRedirect: '/login',
+        successRedirect: '/registrar/dashboard',
+        failureRedirect: '/registrar/login',
         failureFlash: true
     })(req, res, next);
 });
@@ -39,7 +39,7 @@ router.post('/login', (req, res, next) => {
 router.get('/logout', (req, res) => {
     req.logout();
     req.flash('success_msg', 'You are logged out');
-    res.redirect('/login');
+    res.redirect('/registrar/login');
 });
 router.get('/createdataencoder',async function(req, res)  {
     const stafflist = await StaffList.findAll({where:{isteacher:"No"}});

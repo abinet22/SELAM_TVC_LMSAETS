@@ -20,6 +20,7 @@ const { v4: uuidv4, parse } = require('uuid');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
 const LevelBasedProgram = db.levelbasedprograms;
+const NGOBasedProgram = db.ngobasedprograms;
 
 
 router.get('/addnewapplicant',ensureAuthenticated,async function(req,res){
@@ -62,7 +63,7 @@ if(errors.length >0)
     industrybased:industrybased,
     error_msg:'Please select batch/open program first'
 });
-}
+	}
 else
 {
     const department = await Department.findAll({})
@@ -79,7 +80,9 @@ router.post('/addapplicanttongobasedprogram',ensureAuthenticated, async function
       const [industrybased, metaindbaseddata] = await sequelize.query(
         "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes'"
       );
-     
+    
+  const prodata = await NGOBasedProgram.findAll({where:{program_id:programidngo}});
+  
     let errors = [];
     if(programidngo == "0" || !programidngo){
     errors.push({msg:'please select batch name first'})
@@ -95,8 +98,8 @@ router.post('/addapplicanttongobasedprogram',ensureAuthenticated, async function
     }
     else
     {
-        const department = await Department.findAll({})
-        res.render('addnewapplicantngo',{programidlevel:programidngo,department:department});
+        const department = await Occupation.findAll({})
+        res.render('addnewapplicantngo',{prodata:prodata,programidlevel:programidngo,department:department});
     
     }
    
@@ -128,7 +131,7 @@ router.post('/addapplicanttongobasedprogram',ensureAuthenticated, async function
     }
     else
     {
-        const department = await Department.findAll({})
+        const department = await Occupation.findAll({})
      res.render('addnewapplicantindustry',{programidlevel:programid,department:department});}
  });
 router.post('/updateapplicanttolevelbasedprogram',ensureAuthenticated, async function(req,res){
@@ -288,9 +291,12 @@ router.post('/addnewapplicant',ensureAuthenticated,async function(req,res){
   let errors =[];
   const department = await Occupation.findAll({});
   
-  const {totaltranscript,age,gender,scholarshiptype,specialneedes, perinfos,addinfo,grade9trans,grade10trans,grade11trans,grade12trans,ave12trans,appid,
-    programid, ave11trans,paymentinfo,ave10trans,ave9trans,isdisable,choice1,choice2,choice3,level,trainingtype,egsec,ssle
-} = req.body ;
+  const {totaltranscript,age,gender,scholarshiptype,specialneedes,
+ perinfos,addinfo,grade9trans,grade10trans,grade11trans,grade12trans,ave12trans,appid
+   ,grade9thtransave,grade10thtransave,grade11thtransave,grade12thtransave,
+ programid, ave11trans,paymentinfo,ave10trans,ave9trans,isdisable,choice1,choice2,choice3,
+level,trainingtype,egsec,ssle,grade10score,grade12score
+} = req.body ; 
 
    const applicant = await NewApplicant.findOne({where:{applicant_id:appid,application_id:programid}})
    if(choice1 =="0" || choice2== "0" || choice3 =="0" || paymentinfo =="0" || gender=="0"){
@@ -318,10 +324,10 @@ router.post('/addnewapplicant',ensureAuthenticated,async function(req,res){
       applicant_id:appid,
       personal_info: JSON.parse(perinfos),
       contact_info:JSON.parse(addinfo),
-      grade9_trans: JSON.parse(grade9trans),
-      grade10_trans:JSON.parse(grade10trans),
-      grade11_trans: JSON.parse(grade11trans),
-      grade12_trans: JSON.parse(grade12trans),
+      grade9_trans: "",
+      grade10_trans:"",
+      grade11_trans:"",
+      grade12_trans: "",
       grade10_leaving: parseFloat(egsec).toFixed(2) ,
       grade12_leaving: parseFloat(ssle).toFixed(2),
       apptitude_result: 0,
@@ -337,15 +343,16 @@ router.post('/addnewapplicant',ensureAuthenticated,async function(req,res){
       payment_info:paymentinfo,
       disable_description:specialneedes,
       scholarship_type:scholarshiptype,
-     
+     grade10_old:JSON.parse(grade12score),
+grade12_old:JSON.parse(grade12score),
       total_transcript_ave912:totaltranscript,
       entrance_exam:0,
       age:age,
       affarmative_action:gender=="f"?3:0,
-      grade12_ave:parseFloat(ave12trans).toFixed(2),
-      grade11_ave:parseFloat(ave11trans).toFixed(2),
-      grade10_ave:parseFloat(ave10trans).toFixed(2),
-      grade9_ave:parseFloat(ave9trans).toFixed(2),
+      grade12_ave:grade12thtransave,
+      grade11_ave:grade11thtransave,
+      grade10_ave:grade10thtransave,
+      grade9_ave:grade9thtransave,
     };
 
     NewApplicant.create(newapplicantData).then(applicant =>{
@@ -353,7 +360,7 @@ router.post('/addnewapplicant',ensureAuthenticated,async function(req,res){
         {
           res.render('addnewapplicant',{programidlevel:programid,department:department,
             success_msg_extra:"Successfully register applicant data.",
-            success_extra:'/applicant/printapplication/'+appid})
+            success_extra:'/registrardataencoder/applicant/printapplication/'+appid})
 
         }
         else
@@ -374,13 +381,16 @@ router.post('/addnewapplicant',ensureAuthenticated,async function(req,res){
 })
 router.post('/addnewapplicantngo',ensureAuthenticated,async function(req,res){
     let errors =[];
-    const department = await Department.findAll({});
+    const department = await Occupation.findAll({});
     
-    const {gender,scholarshiptype,specialneedes, totaltranscript,age,perinfos,addinfo,grade9trans,grade10trans,grade11trans,grade12trans,ave12trans,appid,
-      programid, ave11trans,paymentinfo,ave10trans,ave9trans,isdisable,choice1,choice2,choice3,trainingtype,egsec,ssle
-  } = req.body ;
+       const {totaltranscript,age,gender,scholarshiptype,specialneedes, 
+ perinfos,addinfo,grade9trans,grade10trans,grade11trans,grade12trans,ave12trans,appid
+   ,grade9thtransave,grade10thtransave,grade11thtransave,grade12thtransave, 
+ programid, ave11trans,paymentinfo,ave10trans,ave9trans,isdisable,choice1,choice2,choice3,
+trainingtype,egsec,ssle,grade10score,grade12score,additionaldatas
+} = req.body ; 
   const applicant = await NewApplicant.findOne({where:{applicant_id:appid,application_id:programid}})
-  
+ const prodata = await NGOBasedProgram.findAll({where:{program_id:programid}}); 
      if(choice1 =="0" || choice2== "0" || choice3 =="0" ||paymentinfo =="0" || gender=="0"){
          errors.push({msg:'Please select department choices'})
      }
@@ -397,7 +407,7 @@ router.post('/addnewapplicantngo',ensureAuthenticated,async function(req,res){
   
      }
      if(errors.length >0){
-      res.render('addnewapplicantngo',{programidlevel:programid,department:department,error_msg:'Please enter all requred fields'})
+      res.render('addnewapplicantngo',{programidlevel:programid,prodata:prodata,department:department,error_msg:'Please enter all requred fields'})
     
      }
      else{
@@ -406,13 +416,13 @@ router.post('/addnewapplicantngo',ensureAuthenticated,async function(req,res){
         applicant_id:appid,
         personal_info: JSON.parse(perinfos),
         contact_info:JSON.parse(addinfo),
-        grade9_trans: JSON.parse(grade9trans),
-        grade10_trans:JSON.parse(grade10trans),
-        grade11_trans: JSON.parse(grade11trans),
-        grade12_trans: JSON.parse(grade12trans),
+        grade9_trans: "",
+        grade10_trans:"",
+        grade11_trans: "",
+        grade12_trans: "",
         grade10_leaving: parseFloat(egsec).toFixed(2) ,
         grade12_leaving: parseFloat(ssle).toFixed(2),
-        apptitude_result: "",
+        apptitude_result: 0,
         is_selected: "No",
         selected_department: "",
         selected_class:"",
@@ -423,35 +433,40 @@ router.post('/addnewapplicantngo',ensureAuthenticated,async function(req,res){
         is_disable:isdisable,
         disable_description:specialneedes,
         scholarship_type:scholarshiptype,
+ grade10_old:JSON.parse(grade12score),
+grade12_old:JSON.parse(grade12score),
         total_transcript_ave912:totaltranscript,
         entrance_exam:0,
         age:age,
         affarmative_action:gender=="f"?3:0,
         payment_info:paymentinfo,
-        grade12_ave:parseFloat(ave12trans).toFixed(2),
-        grade11_ave:parseFloat(ave11trans).toFixed(2),
-        grade10_ave:parseFloat(ave10trans).toFixed(2),
-        grade9_ave:parseFloat(ave9trans).toFixed(2),
+         grade12_ave:grade12thtransave,
+      grade11_ave:grade11thtransave,
+      grade10_ave:grade10thtransave,
+      grade9_ave:grade9thtransave,
+additional_data:additionaldatas
       };
 
       NewApplicant.create(newapplicantData).then(applicant =>{
           if(applicant)
           {
-            res.render('addnewapplicant',{programidlevel:programid,department:department,
-              success_msg_extra:"Successfully register applicant data.",
-              success_extra:'/applicant/printapplicantion/'+appid})
+            res.render('addnewapplicantngo',{programidlevel:programid,department:department,
+              success_msg_extra:"Successfully register applicant data.",prodata:prodata,
+              success_extra:'/registrardataencoder/applicant/printapplication/'+appid})
   
           }
           else
           {
-            res.render('addnewapplicantngo',{programidlevel:programid,department:department,error_msg:'Error while register applicant try later'})
+            res.render('addnewapplicantngo',{programidlevel:programid,department:department,prodata:prodata,error_msg:'Error while register applicant try later'})
   
           }
       }).catch(error =>{
 
 
         console.log(error);
-        res.render('addnewapplicantngo',{programidlevel:programid,department:department,error_msg:'Error while register applicant try later'})
+
+        res.render('addnewapplicantngo',{programidlevel:programid,prodata:prodata,
+department:department,error_msg:'Error while register applicant try later'})
       })
      }
        
@@ -511,6 +526,8 @@ router.post('/filterapplicantlevelbased',ensureAuthenticated,async function(req,
         department:department,
         applicantlist:applicantlist,
         applevel:level,
+  selecteddptid:'',
+        choice:'',
         applistfilter:applicantlist,
         programtype:trainingtype,
         programidlevel:programidlevel
@@ -551,11 +568,13 @@ router.post('/filterapplicantngobased',ensureAuthenticated,async function(req,re
   else
   {
     const department = await Occupation.findAll({});
-    const applicantlist = await NewApplicant.findAll({where:{is_selected:"No",application_id:programidngo,choice_program_type:trainingtype}})
+    const applicantlist = await NewApplicant.findAll({where:{is_selected:"No",application_id:programidngo}})
     res.render('applicantlisttobefilter',{
         department:department,
         applicantlist:applicantlist,
         applevel:'',
+  selecteddptid:'',
+        choice:'',
         applistfilter:applicantlist,
         programtype:trainingtype,
         programidlevel:programidngo
@@ -569,7 +588,8 @@ let dptchoice = departmentchoice;
 const department = await Occupation.findAll({});
 
 var querytop = "select *  from newapplicants where is_selected = 'No' and application_id = '"+programidlevel+"' and choice_level ='"+applevel+"'";
-var query = "select applicant_id, sum(";
+var query = "select personal_info,apptitude_result,grade12_leaving,contact_info,entrance_exam,grade10_leaving,total_transcript_ave912,applicant_id,choice_one,choice_two,choice_three, sum(";
+
 var filter ;
 if(criteria){
   filter = JSON.parse(criteria);
@@ -599,23 +619,23 @@ if(criteria){
     });
 }
 
- query += " 0 ) as total from newapplicants where is_selected = 'No' and application_id = '"+programidlevel+"' group by applicant_id";
+  query += " 0 ) as total from newapplicants where is_selected = 'No' and application_id = '"+programidlevel+"' and choice_level ='"+applevel+"' ";
 
  if(choiceorder){
   if(choiceorder =="choice_one"){
-    querytop +=" and choice_one='"+departmentchoice+"'"
+    query +=" and choice_one='"+departmentchoice+"'"
    
     }
     else if(choiceorder =="choice_two"){
-      querytop +=" and choice_two='"+departmentchoice+"'";
+      query +=" and choice_two='"+departmentchoice+"'";
         
     }
     else if(choiceorder =="choice_three"){
-      querytop +=" and choice_three='"+departmentchoice+"'"
+      query +=" and choice_three='"+departmentchoice+"'"
     }
  }
 
-  query +="  order by total desc";
+   query +=" group by applicant_id,apptitude_result,grade12_leaving, choice_one,choice_two,choice_three,personal_info,contact_info,entrance_exam,grade10_leaving,total_transcript_ave912 order by total desc";
 
   if(limitsize == ""){
   
@@ -623,9 +643,10 @@ if(criteria){
   else{
       query +=" limit "+limitsize+"";
   }
+console.log(querytop);
  console.log(query);  
 const [applfilter, metalevelbaseddata] = await sequelize.query(query);
-const [applicantlistsqt, metalevelbaseddatat] = await sequelize.query(querytop);
+const [applicantlistsqt, metalevelbaseddatat] = await sequelize.query(query);
 
 res.render('applicantlisttobefilter',{
     department:department,
@@ -633,6 +654,8 @@ res.render('applicantlisttobefilter',{
     applistfilter:applfilter,
     applevel:applevel,
     programtype:programtype,
+ choice:choiceorder,
+    selecteddptid:departmentchoice,
     programidlevel:programidlevel
 });
 

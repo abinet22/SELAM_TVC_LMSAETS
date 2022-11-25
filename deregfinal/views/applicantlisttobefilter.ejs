@@ -27,7 +27,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Home</a>
+        <a href="/registrardataencoder/dashboard" class="nav-link">Home</a>
       </li>
    
     </ul>
@@ -72,7 +72,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"   href="/logout" role="button">
+        <a class="nav-link"   href="/registrardataencoder/logout" role="button">
           Logout
         </a>
       </li>
@@ -122,7 +122,7 @@
                   </div>
                 </div>
                 <div class="card-body" style="display: block;">
-                    <form action="/applicant/filterapplicantbycriteriassetted" method="post">
+                    <form action="/registrardataencoder/applicant/filterapplicantbycriteriassetted" method="post">
                         <div class="card-body">
                             <div class="row">
                            <div class="col-md-6">
@@ -305,9 +305,7 @@
                                           <% var appid= row.applicant_id %>
                                           <% var filtertotal= row.total %>
 
-                                          <% applicantlist.forEach(function (row){ %>
-                                            <% var traineeid = row.applicant_id %>
-                                            <% if(appid == traineeid) {%>
+                                         
                                               <% i++ %>
                                               <% var one, two,three; %>
                                               <% var name = JSON.parse(JSON.stringify(row.personal_info)); %>
@@ -329,20 +327,33 @@
                                                              <% var dptid = row.occupation_id %>
                                                              <%  if(dptid == choice1)  {%>
                                                               <%   one = row.occupation_name %>
-                                                              <%   }  else if(dptid == choice2){%>
-                                                                  <%   two = row.occupation_name %>
-                                                                
-                                                                  <%   } else if(dptid == choice3){ %>
-                                                             
-                                                              <%    three = row.occupation_name %>
+                                                              <%   }   %>
                                                                
-                                                              <%  }%>
+                                                              
                                                          <% })} %>
                                                       <%= one %>
                                                     
                                                   </td>
-                                                  <td> <%= two %></td>
-                                                  <td> <%= three %> </td>
+                                                  <td> 
+                                                    <% if(department.length > 0){ %>
+                                                      <% department.forEach(function (row){ %>
+                                                         <% var dptid = row.occupation_id %>
+                                                         <%  if(dptid == choice2)  {%>
+                                                          <%   two = row.occupation_name %>
+                                                          <%   }   %>
+                                                     <% })} %>
+                                                     <%= two %>
+                                                  </td>
+                                                  <td> <% if(department.length > 0){ %>
+                                                    <% department.forEach(function (row){ %>
+                                                       <% var dptid = row.occupation_id %>
+                                                       <%   if(dptid == choice3){%>
+                                                            <%   three = row.occupation_name %>
+                                                          
+                                                            <%   } %>
+                                                   <% })} %> 
+                                                   <%= three %>
+                                                   </td>
                                                   <td><%= row.entrance_exam %>/<%= row.apptitude_result %></td>
                                                   <td><%= row.grade10_leaving %>/<%= row.grade12_leaving %></td>
                                                
@@ -384,7 +395,7 @@
     
                                               
                                                 </tr>
-                                            <%}})%>
+                                          
                                         
                                        <%  })} else{}     %>
                                        <script>
@@ -461,15 +472,16 @@
                                        </div>
                                    <div class="form-group">
                                      <input type="hidden" name="batchid" id="batchid" value="<%= programidlevel %>">
-                                     <input type="hidden" name="departmentselectedm" id="departmentselectedm">
-                                    <label>Select Department Name</label>
-                                                             <select class="form-control " name="deptselectedm"  id="deptselectedm" onchange="deptselected(this.value);">
-                                                              <option value="0">Choice Department Name</option>
-                                                              <% if(department.length >0) {%>
-                                                                 <% department.forEach(function (row){ %>
-                                                                   <option value="<%= row.department_id %>"><%= row.department_name %></option>
-                                                                <% })}else {}%>
-                                                             </select>
+                                     <input type="hidden" name="departmentselectedm" id="departmentselectedm" value="<%= selecteddptid %>">
+                                 
+                                    <% if(department.length >0) {%>
+                                      <% department.forEach(function (row){ %>
+                                       <% var deptid = row.occupation_id %>
+                                        <% if(deptid ===selecteddptid){ %>
+                                          <label>Selected Occupation:<%= row.occupation_name %></label>
+                                        <%}%>
+                                      <% })}else {}%>
+                                      <label>Selected Choice:<%= choice %></label>        
                                     </div>
                                     <p></p>
                                     <script>
@@ -507,9 +519,7 @@
                                                  <% var appid= row.applicant_id %>
                                                  <% var filtertotal= row.total %>
        
-                                                 <% applicantlist.forEach(function (row){ %>
-                                                   <% var traineeid = row.applicant_id %>
-                                                   <% if(appid == traineeid) {%>
+                                                
                                                      <% i++ %>
                                                      <% var one, two,three; %>
                                                      <% var name = JSON.parse(JSON.stringify(row.personal_info)); %>
@@ -529,24 +539,35 @@
                                                               <%var choice2 =  row.choice_two %>
                                                               <% var choice3 = row.choice_three %>
                                                               <% if(department.length > 0){ %>
-                                                                 <% department.forEach(function (row){ %>
-                                                                    <% var dptid = row.department_id %>
-                                                                    <%  if(dptid == choice1)  {%>
-                                                                     <%   one = row.department_name %>
-                                                                     <%   }  else if(dptid == choice2){%>
-                                                                         <%   two = row.department_name %>
-                                                                       
-                                                                         <%   } else if(dptid == choice3){ %>
-                                                                    
-                                                                     <%    three = row.department_name %>
+                                                                <% department.forEach(function (row){ %>
+                                                                   <% var dptid = row.occupation_id %>
+                                                                   <%   if(dptid == choice1){%>
+                                                                        <%   one = row.occupation_name %>
                                                                       
-                                                                     <%  }%>
-                                                                <% })} %>
+                                                                        <%   } %>
+                                                               <% })} %> 
+                                                             
                                                              <%= one %>
                                                            
                                                          </td>
-                                                         <td> <%= two %></td>
-                                                         <td> <%= three %> </td>
+                                                         <td><% if(department.length > 0){ %>
+                                                          <% department.forEach(function (row){ %>
+                                                             <% var dptid = row.occupation_id %>
+                                                             <%   if(dptid == choice2){%>
+                                                                  <%   two = row.occupation_name %>
+                                                                
+                                                                  <%   } %>
+                                                         <% })} %> 
+                                                         <%= two %></td>
+                                                         <td> <% if(department.length > 0){ %>
+                                                          <% department.forEach(function (row){ %>
+                                                             <% var dptid = row.occupation_id %>
+                                                             <%   if(dptid == choice3){%>
+                                                                  <%   three = row.occupation_name %>
+                                                                
+                                                                  <%   } %>
+                                                         <% })} %> 
+                                                        <%= three %> </td>
                                                         
                                                          <td><%= filtertotal %></td>
                                                       
@@ -555,7 +576,7 @@
            
                                                      
                                                        </tr>
-                                                   <%}})%>
+                                                  
                                                
                                               <%  })} else{}     %>
                                               <script>
@@ -723,7 +744,7 @@
                       
                       $.ajax({
                                   type: "POST",
-                                  url: "/applicant/confirmselectedapplicantdepartmentbulk",
+                                  url: "/registrardataencoder/applicant/confirmselectedapplicantdepartmentbulk",
                                   data: "pTableData=" + TableData,    // post TableData to server script
                       
                                   success: function (data) {

@@ -17,8 +17,40 @@ const passport = require('passport');
 const { v4: uuidv4 } = require('uuid');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
-router.get('/addsector', ensureAuthenticated, (req, res) => res.render('addsector'));
+router.get('/addsector', ensureAuthenticated, async function(req, res)
+{
+    const sectorlist  = await SectorList.findAll({});
+    res.render('addsector',{
+        sectorlist:sectorlist
+    })
+} );
+router.post('/updatesectorname', ensureAuthenticated, async function(req, res)
+{
+    const sectorlist  = await SectorList.findAll({});
+    const {pTableData} =req.body ;
+  
+    const copyItems = [];
+  myObj = JSON.parse(pTableData);
+  
+  for (let i = 0; i < myObj.length; i++) {
+    copyItems.push(myObj[i]);
+  }
+  console.log(copyItems);
+    if(copyItems.length >0)
+    {
+        copyItems.forEach((item) => {
 
+            var sectorid = item.sectorid;
+     var sectorname = item.sectorname; 
+     SectorList.update({sector_name:sectorname},{where:{sector_id:sectorid}})
+       
+        }) 
+        res.send({message:'success'})
+    }
+    else{
+        res.send({message:'error'})
+    }
+} );
 router.get('/addlevelbased', ensureAuthenticated, (req, res) => res.render('addlevelbased'));
 router.get('/addngobased', ensureAuthenticated, async function(req, res) {
     
@@ -64,13 +96,15 @@ router.post('/addsector', ensureAuthenticated, async function(req, res)
 {
     let error = [];
     const{sectorname} = req.body;
+ const sectorlistold  = await SectorList.findAll({});
    if(!sectorname){
         error.push({msg:'Please add all required fields'})
    }
    
    if(error.length >0){
     res.render('addsector',{
-        error_msg:'Please insert all the required fields'
+        error_msg:'Please insert all the required fields',
+sectorlist:sectorlistold
     })
    }
    else{
@@ -82,7 +116,8 @@ router.post('/addsector', ensureAuthenticated, async function(req, res)
            {
 
             res.render('addsector',{
-                error_msg:'This  sector name  is already registered please try later'
+                error_msg:'This  sector name  is already registered please try later',
+              sectorlist:sectorlistold
             })
            }
            else
@@ -102,11 +137,13 @@ router.post('/addsector', ensureAuthenticated, async function(req, res)
 
         SectorList.create(sectordata).then(sectors =>{
             res.render('addsector',{
-                success_msg:'Your are successfully registered new sector'
+                success_msg:'Your are successfully registered new sector',
+                sectorlist:sectorlistold
             })
         }).catch(error =>{
             res.render('addsector',{
-                error_msg:'Something is wrong while saving data please try later'
+                error_msg:'Something is wrong while saving data please try later',
+                sectorlist:sectorlistold
             })
         })
 
@@ -115,7 +152,8 @@ router.post('/addsector', ensureAuthenticated, async function(req, res)
        }).catch(error =>{
            console.log(error)
         res.render('addsector',{
-            error_msg:'Something is wrong please try later'
+            error_msg:'Something is wrong please try later',
+        sectorlist:sectorlistold
         })
        })
    }
@@ -265,11 +303,11 @@ router.post('/addnewoccupation', ensureAuthenticated, async function(req, res)
     const dept = await Department.findAll({ });
   
 
-   if(!trainingname  || !trainingduration || !trainingcost || !departmentid){
+   if(!trainingname || !departmentid){
         error.push({msg:'Please add all required fields'})
    }
    else if(departmentid =="0" ){
-    error.push({msg:'Please select company name of training program'})
+    error.push({msg:'Please select department  name of training program'})
    }
    if(error.length >0){
     res.render('addnewoccupation',{

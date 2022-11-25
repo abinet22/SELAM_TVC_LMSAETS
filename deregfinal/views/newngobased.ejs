@@ -27,7 +27,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Home</a>
+        <a href="/registrardataencoder/dashboard" class="nav-link">Home</a>
       </li>
    
     </ul>
@@ -72,7 +72,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"   href="/logout" role="button">
+        <a class="nav-link"   href="/registrardataencoder/logout" role="button">
           Logout
         </a>
       </li>
@@ -131,7 +131,7 @@
                       <th>Funder Name</th>     
                       <th>Batch Name</th>
                                         <th>Program Description</th>
-                                        <th>Training Name</th>
+                                        <th>Occupation Name</th>
                                        
                                         <th>Training Type</th>
                                         <th> Training From-To</th>
@@ -206,7 +206,7 @@
                                               <td><%= row.minimum_criteria %> </td>
                                               <td><% var selectioncriteria= [];
                                                var x =[];
-                                               var objs = JSON.parse(row.selection_criteria);
+                                               var objs = JSON.parse(JSON.stringify(row.selection_criteria));
                                                selectioncriteria.push(objs);
                                                selectioncriteria.forEach(obj => {
                                                  Object.entries(obj).forEach(([key, value]) => {
@@ -242,7 +242,7 @@
                               
                                              <td> 
                                               <% if(new Date(aed) > new Date(todayis)){ %> 
-                                                <form action="/applicant/addapplicanttongobasedprogram" method="post">
+                                                <form action="/registrardataencoder/applicant/addapplicanttongobasedprogram" method="post">
                                                   <input name="programidngo" value="<%= row.program_id %>" type="hidden">
                                                   <button class="btn btn-block btn-info"><i class="fa fa-edit"></i>Register Applicants</button> 
                                               

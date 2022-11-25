@@ -98,10 +98,7 @@ module.exports = (sequelize, DataTypes) => {
         payment_info: {
             type: DataTypes.STRING,
         },
-        is_pass_semister:{
-            type:DataTypes.STRING,
-        }
-        
+               
     });
   
 

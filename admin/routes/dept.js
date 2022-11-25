@@ -15,15 +15,101 @@ const SectorList = db.sectorlists;
 const passport = require('passport');
 const { v4: uuidv4 } = require('uuid');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
-
+const Occupation = db.occupations;
 router.get('/addnewdepartment', ensureAuthenticated,async function (req, res) 
 {
+
+    const [deptlist, metadata] = await sequelize.query(
+        "  select * from departments inner join sectorlists on departments.training_id = sectorlists.sector_id"
+   
+     );
 const training = await SectorList.findAll({ });
     res.render('addnewdepartment',{
-        training:training
+        training:training,
+        deptlist:deptlist
     });
 
 });
+
+router.post('/updateoccupationname/(:occupationid)', ensureAuthenticated, async function(req, res) 
+{
+    const {newoccupationname} = req.body;
+    const [results, metadata] = await sequelize.query(
+        "  select occupation_id,courses.department_id,occupation_name,departments.department_name,training_level,sum(courses.training_hours) as trhour,sum(courses.training_cost) as trcost from courses "+
+         " inner join occupations on  courses.department_id = occupations.occupation_id  "+
+       "   inner join departments on  departments.department_id = occupations.department_id  "+
+        "  group by occupation_id,courses.department_id,training_level,occupation_name,department_name"
+     );
+     
+    
+   
+    if(!newoccupationname){
+        res.render('alloccupationlist',{
+             
+            department:results,
+            error_msg:"Please Insert New Occupation Name First!"
+         })
+    }
+    else{
+        Occupation.findAll({where:{occupation_id:req.params.occupationid}}).then(occ =>{
+            if(!occ){
+                res.render('alloccupationlist',{
+             
+                    department:results,
+                    error_msg:"Cant Find Occupation With This ID Please Try Later!"
+                 })
+            }
+            else{
+                Occupation.update({occupation_name:newoccupationname},{where:{occupation_id:req.params.occupationid}}).then( occ =>{
+                    res.render('alloccupationlist',{
+             
+                        department:results,
+                        success_msg:"You are successfully update occupation name!"
+                     })
+                }).catch(err =>{
+                    res.render('alloccupationlist',{
+             
+                        department:results,
+                        error_msg:"Error Occur While Update Occupation Name Please Try Later!"
+                     })
+                })
+            }
+        }).catch(err =>{
+            res.render('alloccupationlist',{
+             
+                department:results,
+                error_msg:"Error Occur While Update Occupation Name Please Try Later!"
+             })
+        })
+    }
+});
+router.post('/updatedepartmentname', ensureAuthenticated, async function(req, res)
+{
+  
+    const {pTableData} =req.body ;
+  
+    const copyItems = [];
+  myObj = JSON.parse(pTableData);
+  
+  for (let i = 0; i < myObj.length; i++) {
+    copyItems.push(myObj[i]);
+  }
+  console.log(copyItems);
+    if(copyItems.length >0)
+    {
+        copyItems.forEach((item) => {
+
+            var deptid = item.deptid;
+     var deptname = item.deptname; 
+     Department.update({department_name:deptname},{where:{department_id:deptid}})
+       
+        }) 
+        res.send({message:'success'})
+    }
+    else{
+        res.send({message:'error'})
+    }
+} );
 router.get('/addnewoccupation', ensureAuthenticated,async function (req, res) 
 {
 const dept = await Department.findAll({ });
@@ -50,10 +136,10 @@ router.get('/alldepartmentlist', ensureAuthenticated, async function (req, res) 
 
   
     const [results, metadata] = await sequelize.query(
-      "  select courses.department_id,occupation_name,departments.department_name,training_level,sum(courses.training_hours) as trhour,sum(courses.training_cost) as trcost from courses "+
+      "  select occupation_id,courses.department_id,occupation_name,departments.department_name,training_level,sum(courses.training_hours) as trhour,sum(courses.training_cost) as trcost from courses "+
        " inner join occupations on  courses.department_id = occupations.occupation_id  "+
      "   inner join departments on  departments.department_id = occupations.department_id  "+
-      "  group by courses.department_id,training_level,occupation_name,department_name"
+      "  group by courses.department_id,training_level,occupation_id, occupation_name,department_name"
    );
    
    res.render('alloccupationlist',{
@@ -69,7 +155,10 @@ router.post('/addnewdepartment', ensureAuthenticated, async function(req, res)
     const{trainingname,deptname} = req.body;
     let error = [];
     const training = await SectorList.findAll({});
-
+    const [deptlist, metadata] = await sequelize.query(
+        "  select * from departments inner join sectorlists on departments.training_id = sectorlists.sector_id"
+   
+     );
 
    if(!trainingname || !deptname ){
         error.push({msg:'Please add all required fields'})
@@ -80,7 +169,8 @@ router.post('/addnewdepartment', ensureAuthenticated, async function(req, res)
    if(error.length >0){
     res.render('addnewdepartment',{
         error_msg:'Please insert all the required fields',
-        training:training
+        training:training,
+ deptlist:deptlist
     })
    }
    else{
@@ -94,6 +184,7 @@ router.post('/addnewdepartment', ensureAuthenticated, async function(req, res)
 
             res.render('addnewdepartment',{
                 training:training,
+ deptlist:deptlist,
                 error_msg:'This department is already registered please try later'
             })
            }
@@ -116,14 +207,15 @@ router.post('/addnewdepartment', ensureAuthenticated, async function(req, res)
         }
 
         Department.create(departmentData).then(department =>{
-
-            res.render('addnewdepartment',{  training:training,
+          
+            res.render('addnewdepartment',{  training:training,deptlist:deptlist,
 
                 success_msg:'Your are successfully registered new department '
             })
         }).catch(error =>{
             res.render('addnewdepartment',{
                 training:training,
+ deptlist:deptlist,
                 error_msg:'Something is wrong while saving data please try later'
             })
         })
@@ -134,6 +226,7 @@ router.post('/addnewdepartment', ensureAuthenticated, async function(req, res)
            console.log(error)
         res.render('addnewdepartment',{
             training:training,
+ deptlist:deptlist,
             error_msg:'Something is wrong please try later'
         })
        })

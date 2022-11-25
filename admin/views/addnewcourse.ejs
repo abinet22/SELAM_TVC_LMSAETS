@@ -32,7 +32,7 @@
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="/dashboard" class="nav-link">Home</a>
+          <a href="/admin/dashboard" class="nav-link">Home</a>
         </li>
      
       </ul>
@@ -77,7 +77,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link"   href="/logout" role="button">
+          <a class="nav-link"   href="/admin/logout" role="button">
             Logout
           </a>
         </li>
@@ -103,7 +103,7 @@
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
                 <li class="breadcrumb-item">Dashboard</li>
                 <li class="breadcrumb-item active">Add New Unit Of Competency</li>
            
@@ -139,12 +139,12 @@
                       <div class="tab-content" id="vert-tabs-tabContent">
                         <div class="tab-pane  fade active show" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
                           <%- include ('./partials/messages') %>
-                          <form class="forms-sample" action="/course/addnewcourse" method="post">
+                          <form class="forms-sample" action="/admin/course/addnewcourse" method="post">
                           
                             <div class="form-group">
                               <label for="exampleInputUsername1">Select Occupation</label>
                         
-                              <select class="form-control" id="occupationname" name="occupationname" >
+                              <select class="form-control-sm js-example-basic-single " style="width:100%" id="occupationname" name="occupationname" >
                                   <option value="0">Select Occupation Name</option>
                                   <% if(department.length >0){ %>
                                     <% department.forEach(function (row){ %>
@@ -169,28 +169,31 @@
                                
                               <div class="form-group">
                                 <label for="exampleInputUsername1">Unit Of Competency Name</label>
-                                <input type="text" class="form-control" id="coursename" name="coursename" placeholder="Enter UOF Name">
+                                <input type="text" autocomplete="off"  class="form-control" id="coursename" name="coursename" placeholder="Enter UOF Name">
                              
                               </div>
                               <div class="row">
                                 <div class="col-md-4">
                                   <div class="form-group">
                                     <label for="exampleInputUsername1">Module Code</label>
-                                    <input type="text" class="form-control" id="coursecode" name="coursecode" placeholder="Enter Course Name">
+                                    <input type="text" class="form-control" 
+autocomplete="off"  id="coursecode" name="coursecode" placeholder="Enter Module Code">
                                  
                                   </div>
                                 </div>
                                 <div class="col-md-4">
                                   <div class="form-group">
                                     <label for="exampleInputUsername1">Training Hours</label>
-                                    <input type="text" class="form-control" id="traininghours" name="traininghours" placeholder="Enter UOC Training Cost">
+                                    <input type="text" class="form-control" autocomplete="off"
+  id="traininghours" name="traininghours" placeholder="Enter Training Hours">
                                  
                                   </div>
                                 </div>
                                 <div class="col-md-4">
                                   <div class="form-group">
                                     <label for="exampleInputUsername1">Training Cost</label>
-                                    <input type="text" class="form-control" id="trainingcost" name="trainingcost" placeholder="Enter Training Course">
+                                    <input type="text" class="form-control" autocomplete="off"
+  id="trainingcost" name="trainingcost" placeholder="Enter Training Cost">
                                  
                                   </div>
                                 </div>
@@ -215,7 +218,7 @@
                                         <div class="card-body">
                                            <div class="form-group">
                                              <label>Please add number of LOs</label>
-                                             <input class="form-control" name="nolos" id="nolos" type="number">
+                                             <input class="form-control" name="nolos" id="nolos" autocomplete="off"  type="number">
                                            </div>
                                            <div class="form-group">
                                             <div class="input-group">
@@ -223,7 +226,7 @@
                                                 <button class="btn btn-sm form-control btn-primary" id="addlos"  type="button">Add LOs</button>
                                           
                                               </div>
-                                              <input type="text" name="loname" id="loname" placeholder="Learning Objective Name" class="form-control">
+                                              <input type="text" name="loname" id="loname" autocomplete="off"  placeholder="Learning Objective Name" class="form-control">
                                              
                                             </div>
                                           </div>
@@ -289,7 +292,7 @@
                         </div>
                         <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
                           <%- include ('./partials/messages') %>
-                    <form class="forms-sample" action="/course/addnewcoursengo" method="post">
+                    <form class="forms-sample" action="/admin/course/addnewcoursengo" method="post">
                       
                       
                       <div class="col-md-12" >
@@ -312,7 +315,7 @@
                         <div class="col-md-12">
                          <div class="form-group">
                         
-                           <select class="form-control" name="level1"  >
+                           <select class="form-control-sm js-example-basic-single " style="width:100%" name="level1"  >
                           
 
           <% if(course1.length >0 ) { %>
@@ -331,14 +334,16 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="exampleInputUsername1">Training Hours</label>
-                <input type="text" class="form-control" id="traininghours" name="traininghours" placeholder="Enter UOC Training Cost">
+                <input type="text" class="form-control" autocomplete="off"
+  id="traininghours" name="traininghours" placeholder="Enter Training Hours">
              
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="exampleInputUsername1">Training Cost</label>
-                <input type="text" class="form-control" id="trainingcost" name="trainingcost" placeholder="Enter Training Course">
+                <input type="text" class="form-control" id="trainingcost" autocomplete="off"
+  name="trainingcost" placeholder="Enter Training Cost">
              
               </div>
             </div>
@@ -363,7 +368,7 @@
                     <div class="card-body">
                        <div class="form-group">
                          <label>Please add number of LOs</label>
-                         <input class="form-control" name="nolosngo" id="nolosngo" type="number">
+                         <input class="form-control" name="nolosngo" id="nolosngo" autocomplete="off"  type="number">
                        </div>
                        <div class="form-group">
                         <div class="input-group">
@@ -371,7 +376,7 @@
                             <button class="btn btn-sm form-control btn-primary" id="addlosngo"  type="button">Add LOs</button>
                       
                           </div>
-                          <input type="text" name="lonamengo" id="lonamengo" placeholder="Learning Objective Name" class="form-control">
+                          <input type="text" name="lonamengo" id="lonamengo" autocomplete="off"  placeholder="Learning Objective Name" class="form-control">
                          
                         </div>
                       </div>
@@ -439,7 +444,7 @@
                         </div>
                         <div class="tab-pane fade  " id="vert-tabs-messages" role="tabpanel" aria-labelledby="vert-tabs-messages-tab">
                           <%- include ('./partials/messages') %>
-                          <form class="forms-sample" action="/course/addnewcourseindustry" method="post">
+                          <form class="forms-sample" action="/admin/course/addnewcourseindustry" method="post">
                             <div class="form-group">
                               <label for="exampleInputUsername1">Batch Name</label>
                     
@@ -457,7 +462,7 @@
                               <div class="col-md-12">
                                 <div class="form-group">
                                
-                                  <select class="form-control" name="level1" >
+                                  <select class="form-control-sm js-example-basic-single " style="width:100%" name="level1" >
                                  
        
                  <% if(course1.length >0 ) { %>
@@ -476,14 +481,16 @@
                               <div class="col-md-6">
                                 <div class="form-group">
                                   <label for="exampleInputUsername1">Training Hours</label>
-                                  <input type="text" class="form-control" id="traininghours" name="traininghours" placeholder="Enter UOC Training Cost">
+                                  <input type="text" class="form-control" id="traininghours" autocomplete="off"
+  name="traininghours" placeholder="Enter Training Hours">
                                
                                 </div>
                               </div>
                               <div class="col-md-6">
                                 <div class="form-group">
                                   <label for="exampleInputUsername1">Training Cost</label>
-                                  <input type="text" class="form-control" id="trainingcost" name="trainingcost" placeholder="Enter Training Course">
+                                  <input type="text" class="form-control" id="trainingcost" name="trainingcost" 
+autocomplete="off"  placeholder="Enter Training Cost">
                                
                                 </div>
                               </div>
@@ -508,7 +515,7 @@
                                       <div class="card-body">
                                          <div class="form-group">
                                            <label>Please add number of LOs</label>
-                                           <input class="form-control" name="nolosind" id="nolosind" type="number">
+                                           <input class="form-control" autocomplete="off"  name="nolosind" id="nolosind" type="number">
                                          </div>
                                          <div class="form-group">
                                           <div class="input-group">
@@ -516,7 +523,7 @@
                                               <button class="btn btn-sm form-control btn-primary" id="addlosind"  type="button">Add LOs</button>
                                         
                                             </div>
-                                            <input type="text" name="lonameind" id="lonameind" placeholder="Learning Objective Name" class="form-control">
+                                            <input type="text" name="lonameind" id="lonameind" autocomplete="off"  placeholder="Learning Objective Name" class="form-control">
                                            
                                           </div>
                                         </div>
@@ -625,6 +632,11 @@
     <footer class="main-footer">
         <%- include ('./partials/footer') %>
     </footer>
+  <script>
+    $(document).ready(function() {
+$('.js-example-basic-single').select2();
+});
+  </script>
   <div id="sidebar-overlay"></div></div>
   <!-- ./wrapper -->
   
@@ -645,5 +657,7 @@
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script src="../../../dist/js/pages/dashboard3.js"></script>
   
-  
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
   </body></html>

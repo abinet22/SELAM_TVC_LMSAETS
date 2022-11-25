@@ -26,7 +26,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Home</a>
+        <a href="/coordinator/dashboard" class="nav-link">Home</a>
       </li>
    
     </ul>
@@ -71,7 +71,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/logout" role="button">
+        <a class="nav-link" href="/coordinator/logout" role="button">
           Logout
         </a>
       </li>
@@ -131,7 +131,7 @@
                     <div class="tab-content" id="vert-tabs-tabContent">
               
                       <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
-                          <form action="/trainee/findmyclasstoevaluatecoursengo" method="post">
+                          <form action="/coordinator/trainee/findmyclasstoevaluatecoursengo" method="post">
                             <input type="hidden" name="reporttype" value="progress" > 
                            
                             <div class="form-group">
@@ -164,7 +164,7 @@
                               </form>
                         </div>
                         <div class="tab-pane fade" id="vert-tabs-printid" role="tabpanel" aria-labelledby="vert-tabs-printid-tab">
-                          <form action="/attendance/attendancedata" method="post">
+                          <form action="/coordinator/attendance/attendancedata" method="post">
                             <input type="hidden" name="reporttype" value="attendance" > 
                             <input type="hidden" name="programtag" value="ngo" > 
                            

@@ -53,19 +53,19 @@ router.get('/allcourselist', ensureAuthenticated, async function (req, res) {
 
   
   const [course1, metadata] = await sequelize.query(
-    "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_1'"
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_1'"
   );
   const [course2, metadata2] = await sequelize.query(
-    "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2'"
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2'"
   );
   const [course3, metadata3] = await sequelize.query(
-    "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3'"
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3'"
   );
   const [course4, metadata4] = await sequelize.query(
-    "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4'"
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4'"
   );
   const [course5, metadata5] = await sequelize.query(
-    "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_5'"
+    "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_5'"
   );
 
   const occupation = await Occupation.findAll({});
@@ -87,19 +87,19 @@ router.get('/allcourselist', ensureAuthenticated, async function (req, res) {
     const {dept,semister} = req.body;
   
     const [course1, metadata] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_1' and courses.department_id ='"+dept+"' "
+      "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_1' and courses.department_id ='"+dept+"' "
     );
     const [course2, metadata2] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2' and courses.department_id ='"+dept+"' "
+      "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2' and courses.department_id ='"+dept+"' "
     );
     const [course3, metadata3] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3' and courses.department_id ='"+dept+"' "
+      "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3' and courses.department_id ='"+dept+"' "
     );
     const [course4, metadata4] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4' and courses.department_id ='"+dept+"' "
+      "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4' and courses.department_id ='"+dept+"' "
     );
     const [course5, metadata5] = await sequelize.query(
-      "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_5' and courses.department_id ='"+dept+"' "
+      "SELECT courses.*,occupations.training_cost as cost,occupations.occupation_name FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_5' and courses.department_id ='"+dept+"' "
     );
     const [ngo, metadatango] = await sequelize.query(
       "SELECT * FROM ngocourses INNER JOIN occupations ON occupations.occupation_id = ngocourses.department_id where  ngocourses.department_id ='"+dept+"' "

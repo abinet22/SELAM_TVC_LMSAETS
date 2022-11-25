@@ -95,6 +95,15 @@ module.exports = (sequelize, DataTypes) => {
         scholarship_type:{
             type: DataTypes.JSON,
         },
+        grade10_old: {
+            type: DataTypes.JSON,
+        },
+        grade12_old: {
+            type: DataTypes.JSON,
+        },
+       additional_data: {
+            type: DataTypes.JSON,
+        },
     });
   
 

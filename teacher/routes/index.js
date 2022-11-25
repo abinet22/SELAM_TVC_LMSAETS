@@ -139,8 +139,8 @@ router.post('/showstatistics', ensureAuthenticated,async function (req, res)
 
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
-        successRedirect: '/dashboard',
-        failureRedirect: '/login',
+        successRedirect: '/teacher/dashboard',
+        failureRedirect: '/teacher/login',
         failureFlash: true
     })(req, res, next);
 });
@@ -149,7 +149,7 @@ router.post('/login', (req, res, next) => {
 router.get('/logout', (req, res) => {
     req.logout();
     req.flash('success_msg', 'You are logged out');
-    res.redirect('/login');
+    res.redirect('/teacher/login');
 });
 router.get('/notifications',async function(req, res)  {
   res.render('notificationlist')

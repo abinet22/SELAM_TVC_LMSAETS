@@ -1,3 +1,5 @@
+
+
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const passport = require('passport');
@@ -8,15 +10,18 @@ const path = require('path');
 const cors = require("cors");
 const db = require('./models');
 const app = express();
-
+const router = express.Router();
+const adminrouter = express.Router();
+const  config  = require('./config/adminurl.js');
 // Passport authentication Config
 require('./config/passport')(passport);
-
+global.__basedir = __dirname;
+var base_path = __basedir
 var corsOptions = {
     origin: "http://localhost:8081"
   };
   
-app.use(cors(corsOptions));
+ app.use(cors(corsOptions));
 // connect to mysql
 
 // connection
@@ -64,19 +69,26 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(express.static(path.join(__dirname,'./public')));
+app.use('/admin',express.static(path.join(__dirname,'../public')));
+//app.use(express.static(path.resolve('./public')));
 // Routes
+// Generate the route
+
+
 app.use('/', require('./routes/index.js'));
 app.use('/training', require('./routes/training.js'));
 app.use('/dept', require('./routes/dept.js'));
 app.use('/course', require('./routes/course.js'));
 app.use('/datalist', require('./routes/datalist.js'));
+app.enable('trust proxy');
 
 
 
+//app.use('/admin',router);
 
 
-const PORT = process.env.PORT || 5000;
+
+const PORT = process.env.PORT || 5004;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);

@@ -35,6 +35,14 @@ res.render('alljbstraineelist',{
     batchlist:batchlist
 })
 })
+router.post('/seetraineejbshistory/(:traineeid)',ensureAuthenticated,async function(req,res){
+    const levelbased = await EmployeementHistory.findAll({where:{trainee_id:req.params.traineeid}});
+
+res.render('singlestudentjbshistory',{
+    levelbased:levelbased,
+    
+})
+})
 router.get('/managengobased',ensureAuthenticated,async function(req,res){
     const levelbased = await JBSStudentData.findAll({where:{programtag:"ngo"}});
     const department = await Department.findAll({});
@@ -71,15 +79,5 @@ res.render('alljbstraineelist',{
     batchlist:batchlist
 })
 })
-router.post('/seetraineejbshistory/(:traineeid)',ensureAuthenticated,async function(req,res){
-    const levelbased = await EmployeementHistory.findAll({where:{student_unique_id:req.params.traineeid}});
-    const department = await Department.findAll({});
-    const classlist = await ClassInDept.findAll({});
-    const marklist = await LevelBasedTrainee.findAll({where:{student_unique_id:req.params.traineeid}});
-    const batchlist = await Batch.findAll({});
-res.render('singlestudentjbshistory',{
-    levelbased:levelbased,
-    marklist:marklist
-})
-})
+
 module.exports = router;

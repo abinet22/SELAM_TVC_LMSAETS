@@ -77,7 +77,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link"   href="/logout" role="button">
+          <a class="nav-link"   href="/department/logout" role="button">
             Logout
           </a>
         </li>
@@ -137,7 +137,7 @@
                       <%- include ('./partials/messages') %>
                       <div class="tab-content" id="vert-tabs-tabContent">
                         <div class="tab-pane text-left fade" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
-                          <form action="/grade/searchgrade" method="post">
+                          <form action="/department/grade/searchgrade" method="post">
                             <input type="hidden" name="programtag" value="level">
                             <div class="form-group">
                                 <label>Select Level Based Program</label>
@@ -182,7 +182,7 @@
                            
                         </div>
                         <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
-                            <form action="/grade/searchgrade" method="post">
+                            <form action="/department/grade/searchgrade" method="post">
                                 <input type="hidden" name="programtag" value="ngo">
                                 <div class="form-group">
                                     <label>Select Short Term/Project Based/ Program</label>
@@ -213,7 +213,7 @@
                                 </form>
                           </div>
                           <div class="tab-pane fade" id="vert-tabs-profile1" role="tabpanel" aria-labelledby="vert-tabs-profile1-tab">
-                            <form action="/grade/searchgrade" method="post">
+                            <form action="/department/grade/searchgrade" method="post">
                                 <input type="hidden" name="programtag" value="industry">
                                 <div class="form-group">
                                     <label>Select Industry Based Program</label>

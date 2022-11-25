@@ -27,7 +27,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Home</a>
+        <a href="/teacher/dashboard" class="nav-link">Home</a>
       </li>
    
     </ul>
@@ -72,7 +72,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"   href="/logout" role="button">
+        <a class="nav-link"   href="/teacher/logout" role="button">
           Logout
         </a>
       </li>
@@ -148,7 +148,7 @@
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body" style="display: none;">
-                                        <form action="/evaluation/filterevaluationbycoursename" method="post">
+                                        <form action="/teacher/evaluation/filterevaluationbycoursename" method="post">
                                             <div class="form-group">
                                                 <input type="hidden" name="dpt" value="<%= dpt %>">
                                                 <input type="hidden" name="batchid" value="<%= batchid %>">
@@ -364,7 +364,7 @@ TableData =  tobesaveddt ;
 
 $.ajax({
 type: "POST",
-url: "/evaluation/updatestatussenttodepartment",
+url: "/teacher/evaluation/updatestatussenttodepartment",
 data: "pTableData=" + TableData,    // post TableData to server script
 
 success: function (data) {

@@ -753,7 +753,7 @@ obj.is_confirm_registrar="No";
 obj.is_confirm_department="No";
 obj.is_confirm_teacher="Yes";
 
-if(col6_value || col7_value || col8_value || col9_value || col10_value || col11_value || col12_value){
+if(col6_value !="" || col7_value!=""  || col8_value!=""  || col9_value!=""  || col10_value!=""  || col11_value!=""  || col12_value!="" ){
   TableData.push(obj);
 }
 
@@ -777,7 +777,7 @@ console.log(obj);
 
 $.ajax({
             type: "POST",
-            url: "/evaluation/sendgradereporttodepartment",
+            url: "/teacher/evaluation/sendgradereporttodepartment",
             data: "pTableData=" + TableData,    // post TableData to server script
 
             success: function (data) {

@@ -76,5 +76,6 @@ const SectorList = require('./SectorList.js')(sequelize,Sequelize);
 db.occupations = Occupation;
 db.sectorlists = SectorList;
 db.studentmarklistlevelbaseds = StudentMarkListLevelBased
+db.ngobasedtrainees = require('./NGOBasedTrainee.js')(sequelize,Sequelize);
 db.jbsstudentdatas = require('./JBSStudentData.js')(sequelize,Sequelize);
 module.exports = db;

@@ -24,8 +24,8 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => res.render('dashboar
 
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
-        successRedirect: '/dashboard',
-        failureRedirect: '/login',
+        successRedirect: '/dean/dashboard',
+        failureRedirect: '/dean/login',
         failureFlash: true
     })(req, res, next);
 });
@@ -34,7 +34,7 @@ router.post('/login', (req, res, next) => {
 router.get('/logout', (req, res) => {
     req.logout();
     req.flash('success_msg', 'You are logged out');
-    res.redirect('/login');
+    res.redirect('/dean/login');
 });
 router.get('/statistics',ensureAuthenticated,async function(req, res)  {
     const [traineebatch, classevalmeta] = await sequelize.query(

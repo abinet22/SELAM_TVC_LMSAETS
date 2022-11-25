@@ -300,7 +300,7 @@
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="/dashboard" class="nav-link">Home</a>
+          <a href="/registrardataencoder/dashboard" class="nav-link">Home</a>
         </li>
      
       </ul>
@@ -345,7 +345,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/logout" role="button">
+          <a class="nav-link" href="/registrardataencoder/logout" role="button">
             Logout
           </a>
         </li>
@@ -371,7 +371,7 @@
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+                <li class="breadcrumb-item"><a href="/registrardataencoder/dashboard">Home</a></li>
                 <li class="breadcrumb-item">Dashboard</li>
                 <li class="breadcrumb-item active">Register Training Applicant</li>
            
@@ -394,7 +394,7 @@
                 <div class="card-body">
                      
                     <%- include ('./partials/messages') %>
-                  <form id="msform" action="/applicant/addnewapplicant" method="post">
+                  <form id="msform" action="/registrardataencoder/applicant/addnewapplicant" method="post">
                     <ul id="progressbar">
                         <li class="active" id="personalInfo"><strong>Personal info</strong></li>
                         <li id="address"><strong>Contact Address</strong></li>
@@ -561,108 +561,284 @@
                                 <div class="row">
                                     <div class="col-5 col-sm-3">
                                       <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
-                                        <a class="nav-link active" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="true">Grade 10 & 12 Leave </a>
-                                        <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Grade 9 Transcript</a>
-                                        <a class="nav-link" id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-messages" role="tab" aria-controls="vert-tabs-messages" aria-selected="false">Grade 10 Transcript </a>
-                                        <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">Grade 11 Transcript</a>
-                                        <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings2" role="tab" aria-controls="vert-tabs-settings2" aria-selected="false">Grade 12 Transcript</a>
+                                 
+                                        <a class="nav-link active" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="true">Grade 9-12 Transcript</a>
+                  
+                                        <a class="nav-link " id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="false">Grade 10 Leave </a>
+                                        <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings3" role="tab" aria-controls="vert-tabs-settings3" aria-selected="false">Grade 12 Leave</a>
+                    
                                       
                                     </div>
                                     </div>
                                     <div class="col-7 col-sm-9">
                                       <div class="tab-content" id="vert-tabs-tabContent">
-                                        <div class="tab-pane text-left fade show active" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
-                                            <div class="row">
+                                        <div class="tab-pane text-left fade show " id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
+                                          <div class="row">
+                                                     
+                                            <label class="col-sm-5 "> Select Grade 10 Leaving Exam Type<code>*</code></label>
+                                        
+                                            <div class="col-sm-7">
+                                                <select name="g10leavechoice" id="g10leavechoice" onchange="changeg12leavechoiceoption(this.value);" class="form-control">
+                                                   
+                                                    <option value="0">No Document Attached</option>
+                                                    <option value="1">Document Attached</option>    
+                                                </select>
+                                            </div> 
+                                          </div>
+                                          <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>10 Grade (EGSEC)<code>(If applicable)</code></label>
-                                                        <input type="text" name="egsec" class="form-control" id="egsec" placeholder="Grage 10 Leaving Exam Result"> 
-                                                       
+                                                      
                                                     </div>
                                                   </div>
                                                   <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>12 Grade (SSLE)<code>***</code></label>
-                                                        <input type="text" name="ssle" class="form-control" id="ssle" placeholder="Grade 12 Leaving Exam Result">
-                                                      
-                                                    </div>
+                                                    
                                                 </div>  
                                             </div>
+                                            <fieldset id="grade10">
+                                              <div class="row">
+                                                <div class="col-md-6">
+                                                  <div class="row form-group">
+                                                    <div class="col-md-6">Amharic</div>
+                                                    <div class="col-md-6">
+                                                      <select name="am10" class="form-control" onchange="g10total(this.value);">
+                                                        <option value="NEW">Please select grade</option>
+                                                        <option value="4">A</option>
+                                                        <option value="3">B</option>
+                                                        <option value="2">C</option>
+                                                        <option value="1">D</option>
+                                                        <option value="0">F</option>
+                                                        <option value="NG">NG</option>
+                                                      </select>
+                                                    </div>
+                                                  </div>
+                                                  <div class="row form-group">
+                                                    <div class="col-md-6">Mathimatics</div>
+                                                    <div class="col-md-6">
+                                                      <select name="ma10" class="form-control" onchange="g10total(this.value);">
+                                                        <option value="NEW">Please select grade</option>
+                                                        <option value="4">A</option>
+                                                        <option value="3">B</option>
+                                                        <option value="2">C</option>
+                                                        <option value="1">D</option>
+                                                        <option value="0">F</option>
+                                                        <option value="NG">NG</option>
+                                                      </select>
+                                                    </div>
+                                                  </div>
+                                                  <div class="row form-group">
+                                                    <div class="col-md-6">English</div>
+                                                    <div class="col-md-6">
+                                                      <select name="en10" class="form-control" onchange="g10total(this.value);">
+                                                        <option value="NEW">Please select grade</option>
+                                                        <option value="4">A</option>
+                                                        <option value="3">B</option>
+                                                        <option value="2">C</option>
+                                                        <option value="1">D</option>
+                                                        <option value="0">F</option>
+                                                        <option value="NG">NG</option>
+                                                      </select>
+                                                    </div>
+                                                  </div>
+                                                  <div class="row form-group">
+                                                    <div class="col-md-6">Physics</div>
+                                                    <div class="col-md-6">
+                                                      <select name="py10" class="form-control" onchange="g10total(this.value);">
+                                                        <option value="NEW">Please select grade</option>
+                                                        <option value="4">A</option>
+                                                        <option value="3">B</option>
+                                                        <option value="2">C</option>
+                                                        <option value="1">D</option>
+                                                        <option value="0">F</option>
+                                                        <option value="NG">NG</option>
+                                                      </select>
+                                                    </div>
+                                                  </div>
+                                                  <div class="row form-group">
+                                                    <div class="col-md-6">Chemistry</div>
+                                                    <div class="col-md-6">
+                                                      <select name="ch10" class="form-control" onchange="g10total(this.value);">
+                                                        <option value="NEW">Please select grade</option>
+                                                        <option value="4">A</option>
+                                                        <option value="3">B</option>
+                                                        <option value="2">C</option>
+                                                        <option value="1">D</option>
+                                                        <option value="0">F</option>
+                                                        <option value="NG">NG</option>
+                                                      </select>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                  <div class="row form-group">
+                                                    <div class="col-md-6">Biology</div>
+                                                    <div class="col-md-6">
+                                                      <select name="bi10" class="form-control" onchange="g10total(this.value);">
+                                                        <option value="NEW">Please select grade</option>
+                                                        <option value="4">A</option>
+                                                        <option value="3">B</option>
+                                                        <option value="2">C</option>
+                                                        <option value="1">D</option>
+                                                        <option value="0">F</option>
+                                                        <option value="NG">NG</option>
+                                                      </select>
+                                                    </div>
+                                                  </div>
+                                                  <div class="row form-group">
+                                                    <div class="col-md-6">Geography</div>
+                                                    <div class="col-md-6">
+                                                      <select name="ge10" class="form-control" onchange="g10total(this.value);">
+                                                        <option value="NEW">Please select grade</option>
+                                                        <option value="4">A</option>
+                                                        <option value="3">B</option>
+                                                        <option value="2">C</option>
+                                                        <option value="1">D</option>
+                                                        <option value="0">F</option>
+                                                        <option value="NG">NG</option>
+                                                      </select>
+                                                    </div>
+                                                  </div>
+                                                  <div class="row form-group">
+                                                    <div class="col-md-6">History</div>
+                                                    <div class="col-md-6">
+                                                      <select name="hi10" class="form-control" onchange="g10total(this.value);">
+                                                        <option value="NEW">Please select grade</option>
+                                                        <option value="4">A</option>
+                                                        <option value="3">B</option>
+                                                        <option value="2">C</option>
+                                                        <option value="1">D</option>
+                                                        <option value="0">F</option>
+                                                        <option value="NG">NG</option>
+                                                      </select>
+                                                    </div>
+                                                  </div>
+                                                  <div class="row form-group">
+                                                    <div class="col-md-6">Civic</div>
+                                                    <div class="col-md-6">
+                                                      <select name="ci10" class="form-control" onchange="g10total(this.value);">
+                                                        <option value="NEW">Please select grade</option>
+                                                        <option value="4">A</option>
+                                                        <option value="3">B</option>
+                                                        <option value="2">C</option>
+                                                        <option value="1">D</option>
+                                                        <option value="0">F</option>
+                                                        <option value="NG">NG</option>
+                                                      </select>
+                                                    </div>
+                                                  </div>
+                                                  <div class="row form-group">
+                                                    <div class=" col-md-6 form-group">
+                                                      <button class="btn btn-sm btn-primary" >Total Grade</button>
+                                                      
+                                                       <p id="totalg10"></p>
+                                                       <input type="hidden" name="egsec" id="egsec">
+                                                   </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </fieldset>
+                                         
+                                          <script>
+                                            var i =0;
+                                            var sum = 0 ;
+                                            grade = 0;
+                                      function g10total(val){
+                                            
+                                        if(val =="NEW"){
+                                       
+                                        }
+                                        else{
+                                          if(val =="4"){
+                                       sum = sum + 4 ;
+                                       i++;
+                                       grade = sum/i ;
+                                       document.getElementById("totalg10").innerHTML = grade;
+                                       document.getElementById("egsec").value = grade;
+                                          }
+                                          else if( val== "3"){
+                                            sum = sum + 3 ;
+                                            i++;
+                                            grade = sum/i ;
+                                            document.getElementById("egsec").value = grade;
+                                            document.getElementById("totalg10").innerHTML = grade;
+                                          }
+                                          else if( val== "2"){
+                                            sum = sum + 2 ;
+                                            i++;
+                                            grade = sum/i ;
+                                            document.getElementById("totalg10").innerHTML = grade;
+                                            document.getElementById("egsec").value = grade;
+                                          }
+                                          else if( val== "1"){
+                                            sum = sum + 1 ;
+                                            i++;
+                                            grade = sum/i ;
+                                            document.getElementById("totalg10").innerHTML = grade;
+                                            document.getElementById("egsec").value = grade;
+                                          }
+                                          else if( val== "0"){
+                                            sum = sum + 0 ;
+                                            i++;
+                                            grade = sum/i ;
+                                            document.getElementById("totalg10").innerHTML = grade;
+                                            document.getElementById("egsec").value = grade;
+                                          } else if( val== "NG"){
+                                            sum = sum + 0 ;
+                                            grade = sum/i ;
+                                            document.getElementById("totalg10").innerHTML = grade;
+                                            document.getElementById("egsec").value = grade;
+                                          }
+                                        }
+                                      }
+                                          </script>
+                                           
                                         </div>
-                                        <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
+                                        <div class="tab-pane fade show active" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
                                             <fieldset id="trans9">
                                                 <div class="form-card">
                                                     <div class="col-md-12" id="nine">
-                                                        <h4>9th</h4>
+                                                        <h4>Transcript Average </h4>
                                                         <div class="row">
-                                                            <div class=" col-md-2 form-group">
-                                                                <label for="experience">AM</label>
+                                                            <div class=" col-md-3 form-group">
+                                                                <label for="experience">9th</label>
                                                               
-                                                                    <input class="form-control" name="t9am" type="number">
+                                                                    <input class="form-control" max="100" min="0" onkeypress="return isNumberKey(event)"  name="grade9thtransave" id="grade9thtransave" type="text">
                                                                 
                                                             </div>
-                                                            <div class=" col-md-2 form-group">
-                                                                <label  for="experience">EN</label>
+                                                            <div class=" col-md-3 form-group">
+                                                              <label for="experience">10th</label>
+                                                            
+                                                                  <input class="form-control" max="100" min="0" onkeypress="return isNumberKey(event)"  name="grade10thtransave" id="grade10thtransave" type="text">
                                                               
-                                                                    <input class="form-control" name="t9en" type="number">
-                                                               
-                                                            </div>
-                                                            <div class="row col-md-2 form-group">
-                                                                <label  for="experience">MA</label>
-                                                              
-                                                                    <input class="form-control" name="t9ma" type="number">
-                                                             
-                                                            </div>
-                                                            <div class=" col-md-2 form-group">
-                                                                <label  for="experience">GE</label>
-                                                              
-                                                                    <input class="form-control" name="t9ge" type="number">
-                                                               
-                                                            </div>
-                                                            <div class="  col-md-2 form-group">
-                                                                <label  for="experience">HI</label>
-                                                              
-                                                                    <input class="form-control" name="t9hi" type="number">
-                                                               
-                                                            </div>
-                                                            <div class=" col-md-2 form-group">
-                                                                <label  for="experience">PE</label>
-                                                               
-                                                                    <input class="form-control" name="t9pe" type="number">
-                                                              
-                                                            </div>
-                                                            <div class=" col-md-2 form-group">
-                                                                <label  for="experience">PY</label>
-                                                              
-                                                                    <input class="form-control" name="9py" type="number">
-                                                               
-                                                            </div>
-                                                            <div class=" col-md-2 form-group">
-                                                                <label  for="experience">BI</label>
-                                                               
-                                                                    <input class="form-control" name="t9bi" type="number">
-                                                              
-                                                            </div>
-                                                            <div class=" col-md-2 form-group">
-                                                                <label  for="experience">CH</label>
-                                                             
-                                                                    <input class="form-control" name="t9ch" type="number">
-                                                                
-                                                            </div>
-                                                            <div class=" col-md-2 form-group">
-                                                                <label  for="experience">IT</label>
-                                                              
-                                                                    <input class="form-control" name="t9it" type="number">
-                                                                
-                                                            </div>
-                                                            <div class=" col-md-2 form-group">
-                                                                <label  for="experience">CI</label>
-                                                                
-                                                                    <input class="form-control" name="t9ci" type="number">
-                                                              
-                                                            </div>
+                                                          </div>
+                                                          <div class=" col-md-3 form-group">
+                                                            <label for="experience">11th</label>
+                                                          
+                                                                <input class="form-control" max="100" min="0" onkeypress="return isNumberKey(event)"  name="grade11thtransave" id="grade11thtransave" type="text">
+                                                            
                                                         </div>
+                                                        <div class=" col-md-3 form-group">
+                                                          <label for="experience">12th</label>
                                                         
+                                                              <input class="form-control" max="100" min="0" name="grade12thtransave" id="grade12thtransave" type="
+                                                              text" onkeypress="return isNumberKey(event)" >
+                                                          
+                                                      </div>
+                                                        </div>
+                                                        <SCRIPT language=Javascript>
+                                                         
+                                                          function isNumberKey(evt)
+                                                          {
+                                                             var charCode = (evt.which) ? evt.which : evt.keyCode;
+                                                             if (charCode != 46 && charCode > 31 
+                                                               && (charCode < 48 || charCode > 57))
+                                                                return false;
+                                                   
+                                                             return true;
+                                                          }
+                                                        
+                                                       </SCRIPT>
                                                         </div>
                                                     </div>
                                                     </fieldset> 
@@ -676,67 +852,67 @@
                                                             <div class=" col-md-2 form-group">
                                                                 <label  for="experience">AM</label>
                                                                
-                                                                    <input class="form-control" name="t10am" type="number">
+                                                                    <input class="form-control" name="t10am" max="100" min="0"  type="number">
                                                                 
                                                             </div>
                                                             <div class=" col-md-2 form-group">
                                                                 <label for="experience">EN</label>
                                                                
-                                                                    <input class="form-control" name="t10en" type="number">
+                                                                    <input class="form-control" name="t10en" max="100" min="0"  type="number">
                                                               
                                                             </div>
                                                             <div class=" col-md-2 form-group">
                                                                 <label  for="experience">MA</label>
                                                                
-                                                                    <input class="form-control" name="t10ma" type="number">
+                                                                    <input class="form-control" name="t10ma" max="100" min="0"  type="number">
                                                                 
                                                             </div>
                                                             <div class=" col-md-2 form-group">
                                                                 <label  for="experience">GE</label>
                                                                
-                                                                    <input class="form-control" name="t10ge" type="number">
+                                                                    <input class="form-control" name="t10ge" max="100" min="0"  type="number">
                                                                
                                                             </div>
                                                             <div class=" col-md-2 form-group">
                                                                 <label  for="experience">HI</label>
                                                                 
-                                                                    <input class="form-control" name="t10hi" type="number">
+                                                                    <input class="form-control" name="t10hi" max="100" min="0"  type="number">
                                                                
                                                             </div>
                                                             <div class=" col-md-2 form-group">
                                                                 <label for="experience">PE</label>
                                                               
-                                                                    <input class="form-control" name="t10pe" type="number">
+                                                                    <input class="form-control" name="t10pe" max="100" min="0"  type="number">
                                                              
                                                             </div>
                                                             <div class=" col-md-2 form-group">
                                                                 <label for="experience">PY</label>
                                                               
-                                                                    <input class="form-control" name="t10py" type="number">
+                                                                    <input class="form-control" name="t10py" max="100" min="0"  type="number">
                                                               
                                                             </div>
                                                             <div class=" col-md-2 form-group">
                                                                 <label  for="experience">BI</label>
                                                                
-                                                                    <input class="form-control" name="t10bi" type="number">
+                                                                    <input class="form-control" name="t10bi" max="100" min="0"  type="number">
                                                              
                                                             </div>
                                                             <div class=" col-md-2 form-group">
                                                                 <label  for="experience">CH</label>
                                                                
-                                                                    <input class="form-control" name="t10ch" type="number">
+                                                                    <input class="form-control" name="t10ch" max="100" min="0"  type="number">
                                                                
                                                             </div>
                                                             <div class=" col-md-2 form-group">
                                                                 <label  for="experience">IT</label>
                                                                
-                                                                    <input class="form-control" name="t10it" type="number">
+                                                                    <input class="form-control" name="t10it" max="100" min="0"  type="number">
                                                              
                                                             </div>
                                                             <div class=" col-md-2 form-group">
                                                                 <label  for="experience">CI</label>
                                                                
-                                                                    <input class="form-control" name="t10ci" type="number">
+                                                                    <input class="form-control" name="t10ci" max="100" min="0"  type="number">
                                                              
                                                             </div>
                                                         </div>
@@ -751,80 +927,135 @@
                         <div class="form-card">
                             <div class="col-md-12" id="eleven">
                                 <h4>11th</h4>
-                                <div class="row">
-                                    <div class=" col-md-2 form-group">
-                                        <label  for="experience">AM</label>
-                                        
-                                            <input class="form-control" name="t11am" type="number">
-                                       
-                                    </div>
-                                    <div class=" col-md-2 form-group">
-                                        <label  for="experience">EN</label>
-                                        
-                                            <input class="form-control" name="t11en" type="number">
+                                <select class="form-control" name="g11sn" onchange="g11socialnatural(this.value);">
+                                  <option value="0">Please select social/natural</option>
+                                  <option value="social11">Social</option>
+                                  <option value="natural11">Natural</option>
+                                </select>
+                                <div  id="allg11" style="display: none;">
+                                  <div class="row">
+                                    <div class=" col-md-3 ">
+                                      <label  for="experience">AM</label>
                                       
-                                    </div>
-                                    <div class=" col-md-2 form-group">
-                                        <label  for="experience">MA</label>
-                                       
-                                            <input class="form-control" name="t11ma" type="number">
-                                       
-                                    </div>
-                                    <div class=" col-md-2 form-group">
-                                        <label  for="experience">GE</label>
-                                       
-                                            <input class="form-control" name="t11ge" type="number">
-                                      
-                                    </div>
-                                    <div class=" col-md-2 form-group">
-                                        <label  for="experience">HI</label>
-                                        
-                                            <input class="form-control" name="t11hi" type="number">
-                                       
-                                    </div>
-                                    <div class=" col-md-2 form-group">
-                                        <label for="experience">PE</label>
-                                       
-                                            <input class="form-control" name="t11pe" type="number">
-                                      
-                                    </div>
-                                    <div class="  col-md-2 form-group">
-                                        <label for="experience">PY</label>
+                                          <input class="form-control" name="t11am" type="number">
                                      
-                                            <input class="form-control" name="t11py" type="number">
-                                       
-                                    </div>
-                                    <div class=" col-md-2 form-group">
-                                        <label  for="experience">BI</label>
+                                  </div>
+                                  <div class=" col-md-3 ">
+                                      <label  for="experience">EN</label>
                                       
-                                            <input class="form-control" name="t11bi" type="number">
-                                       
-                                    </div>
-                                    <div class=" col-md-2 form-group">
-                                        <label for="experience">CH</label>
-                                       
-                                            <input class="form-control" name="t11ch" type="number">
-                                      
-                                    </div>
-                                    <div class=" col-md-2 form-group">
-                                        <label  for="experience">IT</label>
-                                     
-                                            <input class="form-control" name="t11it" type="number">
-                                       
-                                    </div>
-                                    <div class=" col-md-2 form-group">
-                                        <label  for="experience">CI</label>
-                                     
-                                            <input class="form-control" name="t11ci" type="number">
+                                          <input class="form-control" name="t11en" type="number">
                                     
-                                    </div>
-                                    <div class=" col-md-2 form-group">
-                                        <label for="experience">EC</label>
-                                    
-                                            <input class="form-control" name="t11ec" type="number">
+                                  </div>
+                                  <div class=" col-md-3 ">
+                                      <label  for="experience">MA</label>
                                      
-                                    </div>
+                                          <input class="form-control" name="t11ma" type="number">
+                                     
+                                  </div>
+                                  <div class=" col-md-3 ">
+                                    <label  for="experience">IT</label>
+                                 
+                                        <input class="form-control" name="t11it" type="number">
+                                   
                                 </div>
+                                <div class=" col-md-3 ">
+                                    <label  for="experience">CI</label>
+                                 
+                                        <input class="form-control" name="t11ci" type="number">
+                                
+                                </div>
+                                  
+                                  <div class=" col-md-3 ">
+                                      <label for="experience">PhE</label>
+                                     
+                                          <input class="form-control" name="t11pe" type="number">
+                                    
+                                  </div>
+                                  </div>
+                                
+                                   
+                                </div>
+
+                                <div  style="display: none;" id="g11social">
+                                  <div class="row">
+                                    <div class=" col-md-3">
+                                      <label  for="experience">GE</label>
+                                     
+                                          <input class="form-control" name="t11ge" type="number">
+                                    
+                                  </div>
+                                  <div class=" col-md-3 ">
+                                      <label  for="experience">HI</label>
+                                      
+                                          <input class="form-control" name="t11hi" type="number">
+                                     
+                                  </div>
+                                  <div class=" col-md-3 ">
+                                    <label for="experience">EC</label>
+                                
+                                        <input class="form-control" name="t11ec" type="number">
+                                 
+                                </div> 
+                                  </div>
+                               
+                                </div>
+                              <div  style="display:none;" id="g11natural">
+                                <div class="row">
+                                  <div class="  col-md-3 ">
+                                    <label for="experience">PY</label>
+                                 
+                                        <input class="form-control" name="t11py" type="number">
+                                   
+                                </div>
+                                <div class=" col-md-3 ">
+                                    <label  for="experience">BI</label>
+                                  
+                                        <input class="form-control" name="t11bi" type="number">
+                                   
+                                </div>
+                                <div class=" col-md-3 ">
+                                    <label for="experience">CH</label>
+                                   
+                                        <input class="form-control" name="t11ch" type="number">
+                                  
+                                </div>
+                                <div class=" col-md-3 ">
+                                  <label  for="experience">TD</label>
+                               
+                                      <input class="form-control" name="t11tdr" type="number">
+                              
+                              </div>
+                                </div>
+                               
+                              </div>
+
+
+
+
+                                <script>
+                                  function g11socialnatural(val){
+                                    if(val =="0"){
+                                      document.getElementById("allg11").style.display ="none";
+                                      document.getElementById("g11social").style.display ="none";
+                                      document.getElementById("g11natural").style.display ="none";
+                                     
+                                    }else {
+                                          if(val =="social11"){
+                                         document.getElementById("g11social").style.display ="block";
+                                         document.getElementById("g11natural").style.display ="none";
+                                         document.getElementById("allg11").style.display ="block";
+                                     
+                                         
+                                          }else{
+                                            document.getElementById("g11natural").style.display ="block";
+                                         document.getElementById("g11social").style.display ="none";
+                                         document.getElementById("allg11").style.display ="block";
+                                     
+                                         
+                                          }
+                                    }
+                                  }
+                                </script>
                                 
                             </div>
                             </div>
@@ -835,90 +1066,641 @@
                                                 <div class="form-card">
                                                     <div class="col-md-12" id="twelve">
                                                         <h4>12th</h4>
-                                                        <div class="row">
-                                                            <div class=" col-md-2 form-group">
-                                                                <label  for="experience">AM</label>
-                                                               
-                                                                    <input class="form-control" name="tam12" type="number">
-                                                               
-                                                            </div>
-                                                            <div class=" col-md-2 form-group">
-                                                                <label for="experience">EN</label>
-                                                               
-                                                                    <input class="form-control" name="ten12" type="number">
-                                                                
-                                                            </div>
-                                                            <div class=" col-md-2 form-group">
-                                                                <label  for="experience">MA</label>
-                                                              
-                                                                    <input class="form-control" name="tma12" type="number">
-                                                               
-                                                            </div>
-                                                            <div class=" col-md-2 form-group">
-                                                                <label  for="experience">GE</label>
-                                                               
-                                                                    <input class="form-control" name="tge12" type="number">
-                                                               
-                                                            </div>
-                                                            <div class=" col-md-2 form-group">
-                                                                <label  for="experience">HI</label>
-                                                               
-                                                                    <input class="form-control" name="thi12" type="number">
-                                                                
-                                                            </div>
-                                                            <div class=" col-md-2 form-group">
-                                                                <label  for="experience">PE</label>
-                                                              
-                                                                    <input class="form-control" name="tpe12" type="number">
-                                                               
-                                                            </div>
-                                                            <div class=" col-md-2 form-group">
-                                                                <label for="experience">PY</label>
-                                                                
-                                                                    <input class="form-control" name="tpy12" type="number">
+                                                        <select class="form-control" name="g12sn" onchange="g12socialnatural(this.value);">
+                                                          <option value="0">Please select social/natural</option>
+                                                          <option value="social12">Social</option>
+                                                          <option value="natural12">Natural</option>
+                                                        </select>
+                                                        <div id="allg12" style="display: none;" class="row" >
+                                                        
+                                                          <div class="row">
+                                                            <div class=" col-md-3 form-group">
+                                                              <label  for="experience">AM</label>
                                                              
-                                                            </div>
-                                                            <div class=" col-md-2 form-group">
-                                                                <label  for="experience">BI</label>
+                                                                  <input class="form-control" name="tam12" type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-3 form-group">
+                                                              <label for="experience">EN</label>
+                                                             
+                                                                  <input class="form-control" name="ten12" type="number">
                                                               
-                                                                    <input class="form-control" name="tbi12" type="number">
-                                                                
-                                                            </div>
-                                                            <div class="row col-md-2 form-group">
-                                                                <label  for="experience">CH</label>
-                                                               
-                                                                    <input class="form-control" name="tch12" type="number">
-                                                                
-                                                            </div>
-                                                            <div class=" col-md-2 form-group">
-                                                                <label for="experience">IT</label>
-                                                                
-                                                                    <input class="form-control" name="tit12" type="number">
+                                                          </div>
+                                                          <div class=" col-md-3 form-group">
+                                                              <label  for="experience">MA</label>
+                                                            
+                                                                  <input class="form-control" name="tma12" type="number">
                                                              
-                                                            </div>
-                                                            <div class=" col-md-2 form-group">
-                                                                <label  for="experience">CI</label>
-                                                             
-                                                                    <input class="form-control" name="t12ci" type="number">
-                                                                
-                                                            </div>
-                                                            <div class=" col-md-2 form-group">
+                                                          </div>
+                                                          <div class=" col-md-3 form-group">
+                                                            <label for="experience">IT</label>
+                                                            
+                                                                <input class="form-control" name="tit12" type="number">
+                                                         
+                                                        </div>
+                                                        <div class=" col-md-3 form-group">
+                                                            <label  for="experience">CI</label>
+                                                         
+                                                                <input class="form-control" name="t12ci" type="number">
+                                                            
+                                                        </div>
+                                                        <div class=" col-md-3 form-group">
+                                                          <label  for="experience">PhE</label>
+                                                        
+                                                              <input class="form-control" name="tpe12" type="number">
+                                                         
+                                                      </div>
+                                                           </div>
+                                                              <div style="display: none;" id="g12social" class="row">
+                                                               <div class="row">
+                                                                <div class=" col-md-3 form-group">
+                                                                  <label  for="experience">GE</label>
+                                                                 
+                                                                      <input class="form-control" name="tge12" type="number">
+                                                                 
+                                                              </div>
+                                                              <div class=" col-md-3 form-group">
+                                                                  <label  for="experience">HI</label>
+                                                                 
+                                                                      <input class="form-control" name="thi12" type="number">
+                                                                  
+                                                              </div>
+                                                              <div class=" col-md-3 form-group">
                                                                 <label  for="experience">EC</label>
                                                             
                                                                     <input class="form-control" name="t12ec" type="number">
                                                               
                                                             </div>
+                                                               </div>
+                                                          </div>
+                                                            </div>
+                                                           
+                                                           <div style="display: none;" id="g12natural" class="row">
+                                                        <div class="row">
+                                                          <div class=" col-md-3 form-group">
+                                                            <label for="experience">PY</label>
+                                                            
+                                                                <input class="form-control" name="tpy12" type="number">
+                                                         
                                                         </div>
+                                                        <div class=" col-md-3 form-group">
+                                                            <label  for="experience">BI</label>
+                                                          
+                                                                <input class="form-control" name="tbi12" type="number">
+                                                            
+                                                        </div>
+                                                        <div class="col-md-3 form-group">
+                                                            <label  for="experience">CH</label>
+                                                           
+                                                                <input class="form-control" name="tch12" type="number">
+                                                            
+                                                        </div>
+
+                                                        <div class="col-md-3 form-group">
+                                                          <label  for="experience">TD</label>
+                                                         
+                                                              <input class="form-control" name="ttd12" type="number">
+                                                          
+                                                      </div>
+                                                        </div>
+                                                          </div>
+                                                           
+                                                          <script>
+                                                            function g12socialnatural(val){
+                                                              if(val =="0"){
+                                                                document.getElementById("allg12").style.display ="none";
+                                                                document.getElementById("g12social").style.display ="none";
+                                                                document.getElementById("g12natural").style.display ="none";
+                                                               
+                                                              }else {
+                                                                    if(val =="social12"){
+                                                                   document.getElementById("g12social").style.display ="block";
+                                                                   document.getElementById("g12natural").style.display ="none";
+                                                                   document.getElementById("allg12").style.display ="block";
+                                                               
+                                                                   
+                                                                    }else{
+                                                                      document.getElementById("g12natural").style.display ="block";
+                                                                   document.getElementById("g12social").style.display ="none";
+                                                                   document.getElementById("allg12").style.display ="block";
+                                                               
+                                                                   
+                                                                    }
+                                                              }
+                                                            }
+                                                          </script>  
+                                                       
                                                         
                                                     </div>
                                                     </div>
                                                     </fieldset> 
                                         </div>
+                                        <div class="tab-pane fade" id="vert-tabs-settings3" role="tabpanel" aria-labelledby="vert-tabs-settings3-tab">
+                                          <fieldset id="trans12old">
+                                              <div class="form-card">
+                                                  <div class="col-md-12" id="twelve">
+                                                    <div class="row">
+                                                     
+                                                      <label class="col-sm-5 "> Select Grade 12 Leaving Exam Type<code>*</code></label>
+                                                  
+                                                      <div class="col-sm-7">
+                                                          <select name="g12leavechoice" id="g12leavechoice" onchange="changeg12leavechoiceoption(this.value);" class="form-control">
+                                                              <option value="0">Please Select Type</option>
+                                                              <option value="1">No Document Attached</option>
+                                                              <option value="old5subnatural">Grade 12 Old 5 Subject Natural</option>
+                                                              <option value="old7subnatural">Grade 12 Old 7 Subject Natural</option>
+                                                              <option value="newcariculumnatural">Grade 12 New Cariculum Natural</option>
+                                                              <option value="old5subsocial">Grade 12 Old 5 Subject Social</option>
+                                                              <option value="old7subsocial">Grade 12 Old 7 Subject Social</option>
+                                                              <option value="newcariculumsocial">Grade 12 New Cariculum Social</option>
+                                                                           
+                                                          </select>
+                                                      </div>
+                                                      <div id="g125subsocial" style="display: none;">
+                                                        <div class="row">
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">CI</label>
+                                                             
+                                                                  <input class="form-control" name="tam512" id="tam512" max="100" min="0"  type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label for="experience">EN</label>
+                                                             
+                                                                  <input class="form-control" name="ten512" id="ten512" max="100" min="0"  type="number">
+                                                              
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">MA</label>
+                                                            
+                                                                  <input class="form-control" name="tma512" id="tma512" max="100" min="0"  type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">SC</label>
+                                                             
+                                                                  <input class="form-control" name="tgsc512" id="tgsc512" max="100" min="0"  type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">AP</label>
+                                                             
+                                                                  <input class="form-control" name="tap512" id="tap512" max="100" min="0"  type="number">
+                                                              
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                           <button class="btn btn-sm btn-primary" type="button" onclick="g12total5();">Total</button>
+                                                           
+                                                            <p id="tot512s"></p>
+                                                            
+                                                        </div>
+                                                        <script>
+                                                          function g12total5(){
+                                                            var sub1 = document.getElementById("tgsc512").value;
+                                                            var sub2 = document.getElementById("tap512").value;
+                                                            var sub3 = document.getElementById("tma512").value;
+                                                            var sub4 = document.getElementById("ten512").value;
+                                                            var sub5 = document.getElementById("tam512").value;
+                                                            if( sub1=="" || sub2=="" || sub3=="" || sub4=="" || sub5==""){
+                                                              document.getElementById("tot512s").innerHTML= "Please enter correct value";
+                                                            }else{
+                                                              var total = parseInt(sub1)  + parseInt(sub2) + parseInt(sub3) +parseInt(sub4)+ parseInt(sub5) ;
+                                                           document.getElementById("tot512s").innerHTML= total;
+                                                           document.getElementById("ssle").value = "";
+                                                           document.getElementById("ssle").value = total;
+                                                            }
+                                                         
+                                                          }
+                                                        </script>
+                                                      </div>
+                                                      </div> 
+                                                      <div id="g125subnatural" style="display: none;">
+                                                        <div class="row">
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">CI</label>
+                                                             
+                                                                  <input class="form-control" name="ci512n" id="ci512n" max="100" min="0"  type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label for="experience">EN</label>
+                                                             
+                                                                  <input class="form-control" name="en512n" id="en512n" max="100" min="0" type="number">
+                                                              
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">MA</label>
+                                                            
+                                                                  <input class="form-control" name="ma512n" id="ma512n" max="100" min="0"  type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">GS</label>
+                                                             
+                                                                  <input class="form-control" name="gs512n" id="gs512n" max="100" min="0"  type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">AP</label>
+                                                             
+                                                                  <input class="form-control" name="ap512n" id="ap512n" type="number">
+                                                              
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                            <button class="btn btn-sm btn-primary" type="button" onclick="g12total5n();">Total</button>
+                                                            
+                                                             <p id="tot512n"></p>
+                                                             
+                                                         </div>
+                                                         <script>
+                                                          function g12total5n(){
+                                                            console.log("clicked")
+                                                            var sub1 = document.getElementById("ci512n").value;
+                                                            var sub2 = document.getElementById("en512n").value;
+                                                            var sub3 = document.getElementById("gs512n").value;
+                                                            var sub4 = document.getElementById("ma512n").value;
+                                                            var sub5 = document.getElementById("ap512n").value;
+                                                            if( sub1=="" || sub2=="" || sub3=="" || sub4=="" || sub5==""){
+                                                              document.getElementById("tot512n").innerHTML= "Please enter correct value";
+                                                            }else{
+                                                              var total = parseInt(sub1)  + parseInt(sub2) + parseInt(sub3) +parseInt(sub4)+ parseInt(sub5) ;
+                                                           document.getElementById("tot512n").innerHTML= total;
+                                                           document.getElementById("ssle").value = "";
+                                                           document.getElementById("ssle").value = total;
+                                                          }
+                                                         
+                                                          }
+                                                        </script>
+                                                      </div>
+                                                      </div> 
+                                                      <div id="g127subsocial" style="display: none;">
+                                                        <div class="row">
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">CI</label>
+                                                             
+                                                                  <input class="form-control" name="ci712" id="ci712" max="100" min="0" type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label for="experience">EN</label>
+                                                             
+                                                                  <input class="form-control" name="en712" id=en712 max="100" min="0" type="number">
+                                                              
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">MA</label>
+                                                            
+                                                                  <input class="form-control" name="ma712" id="ma712" max="100" min="0" type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">GE</label>
+                                                             
+                                                                  <input class="form-control" name="ge712" id="ge712" max="100" min="0" type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">HI</label>
+                                                             
+                                                                  <input class="form-control" name="hi712" id="hi712" max="100" min="0"  type="number">
+                                                              
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">EC</label>
+                                                            
+                                                                  <input class="form-control" name="ec712" id="ec712" max="100" min="0"  type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label for="experience">Ap</label>
+                                                              
+                                                                  <input class="form-control" name="ap712" id="ap712" max="100" min="0" type="number">
+                                                           
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                            <button class="btn btn-sm btn-primary" type="button" onclick="g12total7s();">Total</button>
+                                                            
+                                                             <p id="tot712s"></p>
+                                                             
+                                                         </div>
+                                                         <script>
+                                                          function g12total7s(){
+                                                            console.log("clicked")
+                                                            var sub1 = document.getElementById("ci712").value;
+                                                            var sub2 = document.getElementById("en712").value;
+                                                            var sub3 = document.getElementById("ge712").value;
+                                                            var sub4 = document.getElementById("ma712").value;
+                                                            var sub5 = document.getElementById("ap712").value;
+                                                            var sub6 = document.getElementById("hi712").value;
+                                                            var sub7 = document.getElementById("ec712").value;
+                                                            if( sub1=="" || sub2=="" || sub3=="" || sub4=="" || sub5=="" || sub6=="" || sub7==""){
+                                                              document.getElementById("tot712s").innerHTML= "Please enter correct value";
+                                                            }else{
+                                                              var total = parseInt(sub1)  + parseInt(sub2) + parseInt(sub3) +parseInt(sub4)+ parseInt(sub5) + parseInt(sub6) + parseInt(sub7) ;
+                                                           document.getElementById("tot712s").innerHTML= total;
+                                                           document.getElementById("ssle").value = "";
+                                                           document.getElementById("ssle").value = total;
+                                                          }
+                                                         
+                                                          }
+                                                        </script>
+                                                        
+                                                      </div>
+                                                      </div> 
+                                                      <div id="g127subnatural" style="display: none;">
+                                                        <div class="row">
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">CI</label>
+                                                             
+                                                                  <input class="form-control" name="ci712n" id="ci712n" type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label for="experience">EN</label>
+                                                             
+                                                                  <input class="form-control" name="en712n" id="en712n" type="number">
+                                                              
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">MA</label>
+                                                            
+                                                                  <input class="form-control" name="ma712n" id="ma712n" max="100" min="0"  type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">PY</label>
+                                                             
+                                                                  <input class="form-control" name="py712n" id="py712n" max="100" min="0"  type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">CH</label>
+                                                             
+                                                                  <input class="form-control" name="ch712n" id="ch712n" max="100" min="0"  type="number">
+                                                              
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">BI</label>
+                                                            
+                                                                  <input class="form-control" name="bi712n" id="bi712n" max="100" min="0"  type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label for="experience">AP</label>
+                                                              
+                                                                  <input class="form-control" name="ap712n" id="ap712n" max="100" min="0" type="number">
+                                                           
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                            <button class="btn btn-sm btn-primary" type="button" onclick="g12total7n();">Total</button>
+                                                            
+                                                             <p id="tot712n"></p>
+                                                             
+                                                         </div>
+                                                         <script>
+                                                          function g12total7n(){
+                                                            console.log("clicked")
+                                                            var sub1 = document.getElementById("ci712n").value;
+                                                            var sub2 = document.getElementById("en712n").value;
+                                                            var sub3 = document.getElementById("ch712n").value;
+                                                            var sub4 = document.getElementById("ma712n").value;
+                                                            var sub5 = document.getElementById("ap712n").value;
+                                                            var sub6 = document.getElementById("py712n").value;
+                                                            var sub7 = document.getElementById("bi712n").value;
+                                                            if( sub1=="" || sub2=="" || sub3=="" || sub4=="" || sub5=="" || sub6=="" || sub7==""){
+                                                              document.getElementById("tot712n").innerHTML= "Please enter correct value";
+                                                            }else{
+                                                              var total = parseInt(sub1)  + parseInt(sub2) + parseInt(sub3) +parseInt(sub4)+ parseInt(sub5) + parseInt(sub6) + parseInt(sub7) ;
+                                                           document.getElementById("tot712n").innerHTML= total;
+                                                           document.getElementById("ssle").value = "";
+                                                           document.getElementById("ssle").value = total;
+                                                          }
+                                                         
+                                                          }
+                                                        </script>
+                                                      </div>
+                                                      </div> 
+                                                      <div id="g12newsocial" style="display: none;">
+                                                        <div class="row">
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">CI</label>
+                                                             
+                                                                  <input class="form-control" name="n12cis" id="n12cis" max="100" min="0" type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label for="experience">EN</label>
+                                                             
+                                                                  <input class="form-control" name="n12ens" id="n12ens" max="100" min="0" type="number">
+                                                              
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">MA</label>
+                                                            
+                                                                  <input class="form-control" name="n12mas" id="n12mas" max="100" min="0" type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">GE</label>
+                                                             
+                                                                  <input class="form-control" name="n12ges" id="n12ges" max="100" min="0"  type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">HI</label>
+                                                             
+                                                                  <input class="form-control" name="n12his" id="n12his" max="100" min="0" type="number">
+                                                              
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">AP</label>
+                                                            
+                                                                  <input class="form-control" name="n12aps" id="n12aps" max="100" min="0" type="number">
+                                                             
+                                                          </div>
+                                                        
+                                                          <div class=" col-md-2 form-group">
+                                                            <button class="btn btn-sm btn-primary" type="button" onclick="g12totaln12s();">Total</button>
+                                                            
+                                                             <p id="totn12s"></p>
+                                                             
+                                                         </div>
+                                                         <script>
+                                                          function g12totaln12s(){
+                                                            console.log("clicked")
+                                                            var sub1 = document.getElementById("n12cis").value;
+                                                            var sub2 = document.getElementById("n12ens").value;
+                                                            var sub3 = document.getElementById("n12his").value;
+                                                            var sub4 = document.getElementById("n12ges").value;
+                                                            var sub5 = document.getElementById("n12mas").value;
+                                                            var sub6 = document.getElementById("n12aps").value;
+                                                           
+                                                            if( sub1=="" || sub2=="" || sub3=="" || sub4=="" || sub5=="" || sub6=="" ){
+                                                              document.getElementById("totn12s").innerHTML= "Please enter correct value";
+                                                            }else{
+                                                              var total = parseInt(sub1)  + parseInt(sub2) + parseInt(sub3) +parseInt(sub4)+ parseInt(sub5) + parseInt(sub6) ;
+                                                           document.getElementById("totn12s").innerHTML= total;
+                                                           document.getElementById("ssle").value = "";
+                                                           document.getElementById("ssle").value = total; 
+                                                          }
+                                                         
+                                                          }
+                                                        </script>
+                                                      </div>
+                                                      </div> 
+                                                      <div id="g12newnatural" style="display: none;">
+                                                        <div class="row">
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">CI</label>
+                                                             
+                                                                  <input class="form-control" name="n12ci" id="n12ci" max="100" min="0" type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label for="experience">EN</label>
+                                                             
+                                                                  <input class="form-control" name="n12en" id="n12en" max="100" min="0" type="number">
+                                                              
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">MA</label>
+                                                            
+                                                                  <input class="form-control" name="n12ma" id="n12ma" max="100" min="0"  type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">PY</label>
+                                                             
+                                                                  <input class="form-control" name="n12py" id="n12py" max="100" min="0" type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">BI</label>
+                                                             
+                                                                  <input class="form-control" name="n12bi" id="n12bi" max="100" min="0" type="number">
+                                                              
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                              <label  for="experience">CH</label>
+                                                            
+                                                                  <input class="form-control" name="n12ch" id="n12ch" max="100" min="0" type="number">
+                                                             
+                                                          </div>
+                                                          <div class=" col-md-2 form-group">
+                                                            <label  for="experience">AP</label>
+                                                          
+                                                                <input class="form-control" name="n12ap" id="n12ap" max="100" min="0" type="number">
+                                                           
+                                                        </div>
+                                                         
+                                                          <div class=" col-md-2 form-group">
+                                                            <button class="btn btn-sm btn-primary" type="button" onclick="g12totaln12();">Total</button>
+                                                            
+                                                             <p id="totn12"></p>
+                                                             
+                                                         </div>
+                                                         <script>
+                                                          function g12totaln12(){
+                                                            console.log("clicked")
+                                                            var sub1 = document.getElementById("n12ci").value;
+                                                            var sub2 = document.getElementById("n12en").value;
+                                                            var sub3 = document.getElementById("n12ch").value;
+                                                            var sub4 = document.getElementById("n12bi").value;
+                                                            var sub5 = document.getElementById("n12py").value;
+                                                            var sub6 = document.getElementById("n12ma").value;
+                                                            var sub7 = document.getElementById("n12ap").value;
+                                                            if( sub1=="" || sub2=="" || sub3=="" || sub4=="" || sub5=="" || sub6=="" || sub7==""){
+                                                              document.getElementById("totn12").innerHTML= "Please enter correct value";
+                                                            }else{
+                                                              var total = parseInt(sub1)  + parseInt(sub2) + parseInt(sub3) +parseInt(sub4)+ parseInt(sub5) + parseInt(sub6) + parseInt(sub7) ;
+                                                           document.getElementById("totn12").innerHTML= total;
+                                                           document.getElementById("ssle").value = "";
+                                                           document.getElementById("ssle").value = total;  
+                                                          }
+                                                         
+                                                          }
+                                                        </script>
+                                                      </div>
+                                                      </div> 
+                                                    
+                                                      <script>
+                                                        function changeg12leavechoiceoption(val){
+                                                          console.log(val);
+                                                       
+                                                          var n7 = document.getElementById("g127subnatural");
+                                                          var n5 = document.getElementById("g125subnatural");
+                                                          var s5 = document.getElementById("g125subsocial");
+                                                          var s7 = document.getElementById("g127subsocial");
+                                                          var ncs = document.getElementById("g12newsocial");
+                                                          var ncn = document.getElementById("g12newnatural");
+                                                        
+                                                          if(val === "old5subnatural"){
+                                                            n5.style.display ="block";
+                                                            s5.style.display ="none";
+                                                            s7.style.display ="none";
+                                                            n7.style.display ="none";
+                                                            ncs.style.display ="none";
+                                                            ncn.style.display ="none";
+                                                          
+                                                          }
+                                                          else if(val === "old7subnatural"){
+                                                          n7.style.display ="block";
+                                                          n5.style.display ="none";
+                                                            s5.style.display ="none";
+                                                            s7.style.display ="none";
+                                                         
+                                                            ncs.style.display ="none";
+                                                            ncn.style.display ="none";
+                                                          }
+                                                          else if(val =="old5subsocial"){
+                                                           s5.style.display ="block";
+                                                           n5.style.display ="none";
+                                                          
+                                                            s7.style.display ="none";
+                                                            n7.style.display ="none";
+                                                            ncs.style.display ="none";
+                                                            ncn.style.display ="none";
+                                                          }
+                                                          else if(val =="old7subsocial"){
+                                                            s7.style.display ="block";
+                                                            n5.style.display ="none";
+                                                            s5.style.display ="none";
+                                                          
+                                                            n7.style.display ="none";
+                                                            ncs.style.display ="none";
+                                                            ncn.style.display ="none";
+                                                          }
+                                                          else if(val =="newcariculumsocial"){
+                                                            ncs.style.display ="block";
+                                                            n5.style.display ="none";
+                                                            s5.style.display ="none";
+                                                            s7.style.display ="none";
+                                                            n7.style.display ="none";
+                                                         
+                                                            ncn.style.display ="none";
+                                                          }
+                                                          else if(val =="newcariculumnatural"){
+                                                            ncn.style.display ="block";
+                                                            n5.style.display ="none";
+                                                            s5.style.display ="none";
+                                                            s7.style.display ="none";
+                                                            n7.style.display ="none";
+                                                            ncs.style.display ="none";
+                                                           
+                                                          }
+
+                                                        }
+                                                      </script>
+                                                  </div>
+                                                  </div>
+                                                  </fieldset> 
+                                      </div>
+                                    
                                       </div>
                                     </div>
                                   </div>
                          
-                              
+
                             </div>
                           
                             <input type="button" name="previous" class="previous action-button-previous" value="Previous"> 
@@ -954,7 +1736,7 @@
                                           <% if(department.length >0) {%>
                                             <% department.forEach(function (row){ %>
                                               <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
-                                           <% })}else {}%>                
+                                           <% })}else {}%>               
              </select>
                                   </div>              
                               </div>
@@ -968,7 +1750,7 @@
                                           <option value="0">Please Select Training Choice 3</option>
                                           <% if(department.length >0) {%>
                                             <% department.forEach(function (row){ %>
-                                              <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                              <option value="<%= row.occupation_id %>"> <%= row.occupation_name %></option>
                                            <% })}else {}%>
                                         </select>
                                   </div>              
@@ -1081,18 +1863,20 @@
                         </div>
                         <input type="hidden" id="perinfos" name="perinfos">
                         <input type="hidden" id="addinfo" name="addinfo">
-                        <input type="hidden" id="grade9trans" name="grade9trans">
+                        <!-- <input type="hidden" id="grade9trans" name="grade9trans">
                         <input type="hidden" id="grade10trans" name="grade10trans">
                         <input type="hidden" id="grade11trans" name="grade11trans">
-                        <input type="hidden" id="grade12trans" name="grade12trans">
+                        <input type="hidden" id="grade12trans" name="grade12trans"> -->
                         <input type="hidden" id="age" name="age">
                         <input type="hidden" id="totaltranscript" name="totaltranscript">
                         <input type="hidden" id="ave9trans" name="ave9trans">
                         <input type="hidden" id="ave10trans" name="ave10trans">
                         <input type="hidden" id="ave11trans" name="ave11trans">
                         <input type="hidden" id="ave12trans" name="ave12trans">
+                        <input type="hidden" id="grade10score" name="grade10score">
+                        <input type="hidden" id="grade12score" name="grade12score">
                         <input type="hidden" id="programid" name="programid" value="<%= programidlevel %>">
-                      
+                        <input type="hidden" id="ssle" name="ssle">
                         <input type="hidden" id="extrainfo" name="extrainfo">
                         <input type="hidden" id="selectcriteria" name="selectcriteria">
                         <input type="hidden" id="traininglevel" name="traininglevel">
@@ -1200,34 +1984,26 @@ var formData = $('#continfo').serializeArray(),
 });
 $(function(){
 $(document).on('click', '#three', function(){
-var formData = $('#trans9').serializeArray(),
 
-  rs = formObj2JsonNum(formData);
 
-  var formData10 = $('#trans10').serializeArray(),
+  var formDatagrade10 = $('#grade10').serializeArray(),
 
-  rs10 = formObj2JsonNum(formData10);
+rsg10 = formObj2JsonNum(formDatagrade10);
+var formDatagrade12 = $('#trans12old').serializeArray(),
 
-  var formData11 = $('#trans11').serializeArray(),
-
-  rs11 = formObj2JsonNum(formData11);
-
-  var formData12 = $('#trans12').serializeArray(),
-
-  rs12 = formObj2JsonNum(formData12);
-
+rsg12 = formObj2JsonNum(formDatagrade12);
   var personalinfo = [];
   var object = {};
-var object9 = [];
-var object10 = [];
-var object11 = [];
-var object12 = [];
+
+var objectg10 = [];
+var objectg12 = [];
 // console.log(JSON.stringify(rs));
-  //console.log(JSON.stringify(rs, undefined, 2));
-  object9.push(rs);
-  object10.push(rs10);
-  object11.push(rs11);
-  object12.push(rs12);
+  console.log(JSON.stringify(rsg12, undefined, 2));
+ var xcx =  document.getElementById("ssle").value ;
+ console.log(xcx)
+
+  objectg10.push(rsg10);
+  objectg12.push(rsg12);
   function sum( obj ) {
     var sum = 0;
     for(let key in obj) {
@@ -1251,15 +2027,16 @@ var object12 = [];
 //     object[key] = parseFloat(value) ;
   
 // }
- var summed9 = sum( rs );
- var summed10 = sum( rs10 );
- var summed11 = sum( rs11 );
- var summed12 = sum( rs12 );
- console.log( "sum: "+summed9 );
- console.log( "sum: "+summed10 );
- console.log( "sum: "+summed11 );
- console.log( "sum: "+summed12 );
 
+var gd10 =document.getElementById("g10leavechoice").value;
+var gd12 =document.getElementById("g12leavechoice").value;
+if(gd10 =="0"){
+  document.getElementById("egsec").value = 0;
+}
+if(gd12 =="1" || gd12 =="0"){
+  document.getElementById("ssle").value = 0;
+                                                        
+}
 //    personalinfo.forEach(function(row){
 //     object['trans9'] = summed9 ;
 //     object['trans10'] = summed10;
@@ -1267,25 +2044,29 @@ var object12 = [];
 //         object['trans12'] = summed12;
 
 // });
- var ave9 = summed9/11 ;
- var ave10 = summed10/11 ;
- var ave12 = summed12/10 ;
- var ave11 = summed11/10 ;
- console.log(JSON.stringify(object9));
- console.log(JSON.stringify(object10));
- console.log(JSON.stringify(object12));
- console.log(JSON.stringify(object11));
+var a9 = document.getElementById("grade9thtransave").value;
+ var a10 = document.getElementById("grade10thtransave").value;
+ var a12 = document.getElementById("grade12thtransave").value;
+ var a11 = document.getElementById("grade11thtransave").value; 
+
+ var ave9 = parseFloat(a9);
+ var ave10 = parseFloat(a10);
+ var ave12 = parseFloat(a12);
+ var ave11 = parseFloat(a11); 
+//  console.log(JSON.stringify(object9));
+//  console.log(JSON.stringify(object10));
+//  console.log(JSON.stringify(object12));
+//  console.log(JSON.stringify(object11));
  console.log(ave9);
  console.log(ave10);
- console.log(ave11);
- console.log(ave12);
+  console.log(ave11);
+  console.log(ave12);
  var totave = ((ave9 + ave10 +ave11 +ave12)/4).toFixed(2);
  console.log(totave);
  // document.getElementById('eductinfo').value = rs;
-  $('#grade9trans').val( JSON.stringify(rs));
-  $('#grade10trans').val( JSON.stringify(rs10));
-  $('#grade11trans').val( JSON.stringify(rs11));
-  $('#grade12trans').val( JSON.stringify(rs12));
+
+  $('#grade10score').val( JSON.stringify(rsg10));
+  $('#grade12score').val( JSON.stringify(rsg12));
   $('#ave9trans').val( ave9);
   $('#ave10trans').val( ave10);
   $('#ave11trans').val( ave11);

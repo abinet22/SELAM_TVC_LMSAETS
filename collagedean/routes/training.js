@@ -24,8 +24,7 @@ router.get('/addngobased', ensureAuthenticated, async function(req, res) {
 
 });
 router.get('/addindustrybased', ensureAuthenticated, (req, res) => res.render('addindustrybased'));
-router.get('/alltraineelist', ensureAuthenticated, async function (req, res) {
-
+router.get('/alloccupationlist', ensureAuthenticated, async function (req, res) {
    const industrybased  = await IndustryBasedTraining.findAll({});
    const [results, metadata] = await sequelize.query(
     "SELECT * FROM occupations INNER JOIN departments ON departments.department_id = occupations.department_id"+

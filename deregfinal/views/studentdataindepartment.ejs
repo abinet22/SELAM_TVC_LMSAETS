@@ -27,7 +27,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Home</a>
+        <a href="/registrardataencoder/dashboard" class="nav-link">Home</a>
       </li>
    
     </ul>
@@ -72,7 +72,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"   href="/logout" role="button">
+        <a class="nav-link"   href="/registrardataencoder/logout" role="button">
           Logout
         </a>
       </li>
@@ -126,7 +126,7 @@
                 <div class="row">
                   <div class="col-md-8">
                       <div class="callout callout-success">
-                       <form action="/trainee/searchfiltermarklistbycourseclass" method="post">
+                       <form action="/registrardataencoder/trainee/searchfiltermarklistbycourseclass" method="post">
                         <label>Filter Mark List Result First</label>
                        <input type="hidden" name="programtag" value="<%= programtag %>">
                         <input type="hidden" name="deptid" value="<%= deptid %>">
@@ -252,7 +252,7 @@
                                             <td><%= row.grade_in_latter %> </td>
                                             <td> <%= row.grade_in_point %></td>
                                          <td>
-                                           <form action="/trainee/reportproblemtodepartment/<%= row.trainee_id %>" method="post">
+                                           <form action="/registrardataencoder/trainee/reportproblemtodepartment/<%= row.trainee_id %>" method="post">
                                              <div class="form-group">
                                               
                                              <input type="hidden" name="courseid" value="<%= row.course_id %>">
@@ -352,7 +352,7 @@
                                 <th>Student ID  </th>
                                 <th>Student Name</th>
                                 <th>Gender </th>
-                                                           
+                                <th>UOC Name </th>                                                           
                                 <th>Grade In Letter </th>
                                 <th>Grade In Point</th>
                              
@@ -365,7 +365,8 @@
                                      <% marklist.forEach(function (row){ %>
                                       <% i++ %>
                                       <% var name = JSON.parse(JSON.stringify(row.personal_info)) %>
-                                      <% console.log(name) %>
+  <% var courseids = row.course_id %>                            
+          <% console.log(name) %>
                                       <tr>
                                         <td><div style="display: none;">
                                           <%= row.trainee_id %>
@@ -377,7 +378,14 @@
                                           
                                           <td><%var gen =  name.gender %><%= gen=="m"?"Male":"Female" %></td>
                                         
-                                         
+                                           <td>
+                                              <% if(courseid.length >0) {%>
+                                                <% courseid.forEach(function (row){ %>
+                                                 <% if(courseids == row.course_id) { %>
+                                                  <%= row.course_name %>
+
+                                               <%} })}else {}%>
+                                            </td>
                                           <td><%= row.grade_in_latter %> </td>
                                           <td> <%= row.grade_in_point %></td>
                                       
@@ -429,7 +437,7 @@ if(!col.length )
 else{
 var col1_value= currentRow.find("td:eq(0)").text();
 var col2_value=document.getElementById('deptid').value;
-var col3_value=document.getElementById('courseid').value;
+var col3_value=currentRow.find("td:eq(5)").text();
 var col4_value=document.getElementById('batchid').value;
 var col5_value=document.getElementById('classid').value;
 
@@ -467,7 +475,7 @@ console.log(obj);
 
 $.ajax({
             type: "POST",
-            url: "/trainee/confirmsingleclasscoursegradereportaccepted",
+            url: "/registrardataencoder/trainee/confirmsingleclasscoursegradereportaccepted",
             data: "pTableData=" + TableData,    // post TableData to server script
 
             success: function (data) {
