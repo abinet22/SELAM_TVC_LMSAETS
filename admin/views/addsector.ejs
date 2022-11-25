@@ -140,7 +140,7 @@
                  </div>
                 </div>
                 <!-- /.card -->
-
+              </div>
 
     <div class="row">
                     <div class="col-md-12">
@@ -179,7 +179,7 @@
                           <th>#</th>
                                            
                                             <th>Sector Name</th>
-                                         <th> Edit </th>
+                                         <th> Edit Sector Name </th>
                                           </tr>
                                         </thead>
                                         <tbody>
@@ -279,13 +279,13 @@
     var msg = document.getElementById("servermsg");
     x.style.display = "block";
     x.className="alert-danger alert  alert-dismissible fade show";
-    msg.innerHTML="Please add sector name to  first"
+    msg.innerHTML="Please add sector name to update first "
     setTimeout(function(){// wait for 5 secs(2)
     location.reload(); // then reload the page.(3)
     }, 1000); 
     }
     else{
-    convertArrayToJSON(tobesaveddt);
+   convertArrayToJSON(tobesaveddt);
     }
     
     //document.getElementById('extrainfo').value = rs;
@@ -354,7 +354,7 @@
               
                 <!-- /.card -->
     
-              </div>
+             
             <!-- /.col-md-6 -->
          
             <!-- /.col-md-6 -->

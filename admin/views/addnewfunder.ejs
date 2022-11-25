@@ -105,7 +105,7 @@
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
                 <li class="breadcrumb-item">Dashboard</li>
-                <li class="breadcrumb-item active">Add New Program Funder NGO</li>
+                <li class="breadcrumb-item active">Add New Program Funder </li>
            
             </ol>
             </div><!-- /.col -->
@@ -122,7 +122,7 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                   <div class="card-header">
-                    <h3 class="card-title">Add New Training Program Funder NGO</h3>
+                    <h3 class="card-title">Add New Training Program Funder </h3>
                   </div>
                   <!-- /.card-header -->
                   <!-- form start -->
@@ -130,33 +130,54 @@
                   <%- include ('./partials/messages') %>
                     <form  action="/admin/addnewfunder" method="post">
                         <div class="card-body">
-      
+                          <label>Organization Info</label>
                                   <div class="form-group ">
-                                    <label class="">Funder Name<code>***</code></label>
+                                    <label class="">Funder Organization Name<code>***</code></label>
                                   
-                                      <input type="text" class=" form-control" name="fundername" id="fundername">
+                                      <input type="text" autocomplete="off" class="form-control" name="fundername" id="fundername">
                                    
-                                  </div>
-                             
-                                  <div class="form-group ">
-                                    <label class="">Full Address<code>***</code></label>
-                                   
-                                      <input type="text" class=" form-control" name="funderaddress" id="funderaddress">
-                                    
                                   </div>
                               
-                                  <div class="form-group">
-                                    <label class="">Phone 1<code>***</code></label>
-                                   
-                                      <input type="text" class=" form-control" name="funderphone" id="funderphone">
+                                  <div class="row">
+                                    <div class="form-group col-md-6">
+                                      <label class="">Full Address<code>***</code></label>
+                                     
+                                        <input type="text" autocomplete="off" class=" form-control" name="funderaddress" id="funderaddress">
+                                      
+                                    </div>
+                                
+                                    <div class="form-group col-md-6">
+                                      <label class="">Office Phone <code>***</code></label>
+                                     
+                                        <input type="text" autocomplete="off" class=" form-control" onkeyup="this.value=this.value.replace(/[^0-9+() -.]/g,'')" name="funderphone" id="funderphone">
+                                    </div>
                                   </div>
                                  
-                              <div class="row">
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <div class="form-group ">
+                                        <label class="">Company Email</label>
+                                       
+                                          <input type="email" autocomplete="off" class=" form-control" name="email" id="email">
+                                        
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="form-group ">
+                                        <label class="">Company Website</label>
+                                       
+                                          <input type="text" autocomplete="off" class=" form-control" name="website" id="website">
+                                     
+                                      </div>
+                                    </div>
+                                  </div>
+                              <div class="row" style="border: 1em; background-color: aqua;">
+                                <label>Contact Info</label>
                                 <div class="col-md-6">
                                   <div class="form-group ">
                                     <label class="">Contact Person Name<code>***</code></label>
                                     
-                                      <input type="text" class=" form-control" name="contactperson" id="contactperson">
+                                      <input type="text" autocomplete="off" class=" form-control" name="contactperson" id="contactperson">
                                   
                                   </div>
                                 </div>
@@ -164,30 +185,13 @@
                                   <div class="form-group ">
                                     <label class="">Contact Person Mobile <code>***</code></label>
                                   
-                                      <input type="text" class=" form-control" name="contactpersonphone" id="contactpersonphone">
+                                      <input type="text" autocomplete="off" onkeyup="this.value=this.value.replace(/[^0-9+() -.]/g,'')" class=" form-control" name="contactpersonphone" id="contactpersonphone">
                                    
                                   </div>
                                 </div>
                               </div>
-                              <div class="row">
-                                <div class="col-md-6">
-                                  <div class="form-group ">
-                                    <label class="">Company Email</label>
-                                   
-                                      <input type="text" class=" form-control" name="email" id="email">
-                                    
-                                  </div>
-                                </div>
-                                <div class="col-md-6">
-                                  <div class="form-group ">
-                                    <label class="">Company Website</label>
-                                   
-                                      <input type="text" class=" form-control" name="website" id="website">
-                                 
-                                  </div>
-                                </div>
-                              </div>
-                           <div class="col-md-6 offset-md-3">
+                             
+                           <div class="col-md-6 offset-md-3 my-2">
                             <button type="submit" class="btn btn-primary btn-block me-2">Submit</button>
                           
                            </div>

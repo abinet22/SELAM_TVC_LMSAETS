@@ -157,7 +157,7 @@
                                     <label for="exampleInputUsername1">Select Level</label>
                                
                                     <select class="form-control" name="traininglevel" id="traininglevel">
-                                      <option value="0">Please select training level</option>
+                                      <option value="0">Please Select Training Level</option>
                                       <option>Level_1</option>
                                       <option>Level_2</option>
                                       <option>Level_3</option>
@@ -176,7 +176,7 @@
                                 <div class="col-md-4">
                                   <div class="form-group">
                                     <label for="exampleInputUsername1">Module Code</label>
-                                    <input type="text" class="form-control" 
+                                    <input type="text" class="form-control"  
 autocomplete="off"  id="coursecode" name="coursecode" placeholder="Enter Module Code">
                                  
                                   </div>
@@ -184,7 +184,7 @@ autocomplete="off"  id="coursecode" name="coursecode" placeholder="Enter Module 
                                 <div class="col-md-4">
                                   <div class="form-group">
                                     <label for="exampleInputUsername1">Training Hours</label>
-                                    <input type="text" class="form-control" autocomplete="off"
+                                    <input type="text" class="form-control" autocomplete="off" onkeypress='return event.charCode >= 48 && event.charCode <= 57'
   id="traininghours" name="traininghours" placeholder="Enter Training Hours">
                                  
                                   </div>
@@ -192,7 +192,7 @@ autocomplete="off"  id="coursecode" name="coursecode" placeholder="Enter Module 
                                 <div class="col-md-4">
                                   <div class="form-group">
                                     <label for="exampleInputUsername1">Training Cost</label>
-                                    <input type="text" class="form-control" autocomplete="off"
+                                    <input type="text" class="form-control" autocomplete="off" onkeypress='return event.charCode >= 48 && event.charCode <= 57'
   id="trainingcost" name="trainingcost" placeholder="Enter Training Cost">
                                  
                                   </div>
@@ -217,8 +217,8 @@ autocomplete="off"  id="coursecode" name="coursecode" placeholder="Enter Module 
                                       <div class="card-body" style="display: none;">
                                         <div class="card-body">
                                            <div class="form-group">
-                                             <label>Please add number of LOs</label>
-                                             <input class="form-control" name="nolos" id="nolos" autocomplete="off"  type="number">
+                                             <label>Please Add Number Of LOs</label>
+                                             <input class="form-control" name="nolos" id="nolos" autocomplete="off"  type="number" min="1" max="15">
                                            </div>
                                            <div class="form-group">
                                             <div class="input-group">
@@ -235,8 +235,10 @@ autocomplete="off"  id="coursecode" name="coursecode" placeholder="Enter Module 
                                           <div class="row">
                                             <div class="col-md-6 offset-md-3 form-check form-check-primary">
                                               <div class="callout callout-success">
+                                                <button class="btn btn-link btn-sm" type="button"  onclick="removeallloslist();">Clear LOs</button>
                                                 <ul class="" id="list">
                                                   <p>Learning Objectives List</p>
+                                                 
                                                 </ul>
                                               </div>
                                             
@@ -250,12 +252,27 @@ autocomplete="off"  id="coursecode" name="coursecode" placeholder="Enter Module 
                                   </div>
                               </div>
                               <script>
-                                
-                               
-                     var lolist = [] ;
+                                   var lolist = [] ;
                      var lolistdata ={}; 
-              
-                                var i =1 ;
+                     var i =1 ;
+                                function removeallloslist(){
+                                  lolistdata ={}; 
+                                  i=1;
+                                  $('#lodata').val( JSON.stringify(lolistdata) );
+                                  document.getElementById("loname").value ="";
+                                  var nolo =document.getElementById("nolos").value;
+                                  var addlos = document.getElementById('list');
+                                  var item = document.getElementById('lolist');
+                                  for(f=0;f<= nolo ; f++){
+                                    addlos.removeChild(item);
+                                  }
+                                 
+                                  console.log(JSON.stringify(lolistdata) );  
+                                 
+                                }
+                               
+                  
+                               
                                 $("#addlos").on("click", function(e){
                                 
                                   var data = document.getElementById("nolos").value;
@@ -275,7 +292,7 @@ autocomplete="off"  id="coursecode" name="coursecode" placeholder="Enter Module 
                              console.log(JSON.stringify(lolistdata) );  
                                // $('#criteria').val([criteria]);
                                       
-              $("#list").append("<li>"+loid+"_" + $("#loname").val() + " </li>");
+              $("#list").append("<li id='lolist'>"+loid+"_" + $("#loname").val() + " </li>");
                              
               return false;
                                }
@@ -311,7 +328,7 @@ autocomplete="off"  id="coursecode" name="coursecode" placeholder="Enter Module 
                       </div>
                  
                       <div class="row">
-                        <label>Please select UOCs list for this batch</label>
+                        <label>Please Select UOCs List For This batch</label>
                         <div class="col-md-12">
                          <div class="form-group">
                         
@@ -335,7 +352,7 @@ autocomplete="off"  id="coursecode" name="coursecode" placeholder="Enter Module 
               <div class="form-group">
                 <label for="exampleInputUsername1">Training Hours</label>
                 <input type="text" class="form-control" autocomplete="off"
-  id="traininghours" name="traininghours" placeholder="Enter Training Hours">
+  id="traininghours" name="traininghours" placeholder="Enter Training Hours" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
              
               </div>
             </div>
@@ -343,7 +360,7 @@ autocomplete="off"  id="coursecode" name="coursecode" placeholder="Enter Module 
               <div class="form-group">
                 <label for="exampleInputUsername1">Training Cost</label>
                 <input type="text" class="form-control" id="trainingcost" autocomplete="off"
-  name="trainingcost" placeholder="Enter Training Cost">
+  name="trainingcost" placeholder="Enter Training Cost" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
              
               </div>
             </div>
@@ -366,9 +383,10 @@ autocomplete="off"  id="coursecode" name="coursecode" placeholder="Enter Module 
                   <!-- /.card-header -->
                   <div class="card-body" style="display: none;">
                     <div class="card-body">
+                      
                        <div class="form-group">
-                         <label>Please add number of LOs</label>
-                         <input class="form-control" name="nolosngo" id="nolosngo" autocomplete="off"  type="number">
+                         <label>Please Add Number Of LOs</label>
+                         <input class="form-control" name="nolosngo" id="nolosngo" autocomplete="off" min="1" max="15"  type="number">
                        </div>
                        <div class="form-group">
                         <div class="input-group">
@@ -383,8 +401,12 @@ autocomplete="off"  id="coursecode" name="coursecode" placeholder="Enter Module 
                       <input type="hidden" id="lodatango" name="lodatango">
       
                       <div class="row">
+                        
                         <div class="col-md-6 offset-md-3 form-check form-check-primary">
+                          
                           <div class="callout callout-success">
+                            <button class="btn btn-link btn-sm" type="button"  onclick="removeallloslistngo();">Clear LOs</button>
+                                             
                             <ul class="" id="listngo">
                               <p>Learning Objectives List</p>
                             </ul>
@@ -407,6 +429,21 @@ autocomplete="off"  id="coursecode" name="coursecode" placeholder="Enter Module 
             var lolistdatango ={}; 
      
                        var k =1 ;
+                       function removeallloslistngo(){
+                        lolistdatango ={}; 
+                                  k=1;
+                                  $('#lodatango').val( JSON.stringify(lolistdatango) );
+                                  document.getElementById("lonamengo").value ="";
+                                  var nolo =document.getElementById("nolosngo").value;
+                                  var addlos = document.getElementById('listngo');
+                                  var item = document.getElementById('lolistngo');
+                                  for(f=0;f<= nolo ; f++){
+                                    addlos.removeChild(item);
+                                  }
+                                 
+                                  console.log(JSON.stringify(lolistdata) );  
+                                 
+                                }
                        $("#addlosngo").on("click", function(e){
                        
                          var data3 = document.getElementById("nolosngo").value;
@@ -426,7 +463,7 @@ autocomplete="off"  id="coursecode" name="coursecode" placeholder="Enter Module 
                     console.log(JSON.stringify(lolistdatango) );  
                       // $('#criteria').val([criteria]);
                              
-     $("#listngo").append("<li>"+loidngo+"_" + $("#lonamengo").val() + " </li>");
+     $("#listngo").append("<li id='lolistngo'>"+loidngo+"_" + $("#lonamengo").val() + " </li>");
                     
      return false;
                       }
@@ -481,7 +518,7 @@ autocomplete="off"  id="coursecode" name="coursecode" placeholder="Enter Module 
                               <div class="col-md-6">
                                 <div class="form-group">
                                   <label for="exampleInputUsername1">Training Hours</label>
-                                  <input type="text" class="form-control" id="traininghours" autocomplete="off"
+                                  <input type="text" class="form-control" id="traininghours" autocomplete="off" onkeypress='return event.charCode >= 48 && event.charCode <= 57'
   name="traininghours" placeholder="Enter Training Hours">
                                
                                 </div>
@@ -489,7 +526,7 @@ autocomplete="off"  id="coursecode" name="coursecode" placeholder="Enter Module 
                               <div class="col-md-6">
                                 <div class="form-group">
                                   <label for="exampleInputUsername1">Training Cost</label>
-                                  <input type="text" class="form-control" id="trainingcost" name="trainingcost" 
+                                  <input type="text" class="form-control" id="trainingcost" name="trainingcost" onkeypress='return event.charCode >= 48 && event.charCode <= 57'
 autocomplete="off"  placeholder="Enter Training Cost">
                                
                                 </div>
@@ -514,8 +551,8 @@ autocomplete="off"  placeholder="Enter Training Cost">
                                     <div class="card-body" style="display: none;">
                                       <div class="card-body">
                                          <div class="form-group">
-                                           <label>Please add number of LOs</label>
-                                           <input class="form-control" autocomplete="off"  name="nolosind" id="nolosind" type="number">
+                                           <label>Please Add Number Of LOs</label>
+                                           <input class="form-control" autocomplete="off"  min="1" max="15" name="nolosind" id="nolosind" type="number">
                                          </div>
                                          <div class="form-group">
                                           <div class="input-group">
@@ -532,6 +569,8 @@ autocomplete="off"  placeholder="Enter Training Cost">
                                         <div class="row">
                                           <div class="col-md-6 offset-md-3 form-check form-check-primary">
                                             <div class="callout callout-success">
+                                              <button class="btn btn-link btn-sm" type="button"  onclick="removeallloslistind();">Clear LOs</button>
+                                 
                                               <ul class="" id="list2">
                                                 <p>Learning Objectives List</p>
                                               </ul>
@@ -554,6 +593,21 @@ autocomplete="off"  placeholder="Enter Training Cost">
                               var lolistdata2 ={}; 
                        
                                          var j =1 ;
+                                         function removeallloslistind(){
+                                          lolistdata2 ={}; 
+                                  j=1;
+                                  $('#lodataind').val( JSON.stringify(lolistdata2) );
+                                  document.getElementById("lonamengo").value ="";
+                                  var nolo =document.getElementById("nolosind").value;
+                                  var addlos = document.getElementById('list2');
+                                  var item = document.getElementById('lolistind');
+                                  for(f=0;f<= nolo ; f++){
+                                    addlos.removeChild(item);
+                                  }
+                                 
+                                  console.log(JSON.stringify(lolistdata) );  
+                                 
+                                }
                                          $("#addlosind").on("click", function(e){
                                          
                                            var data2 = document.getElementById("nolosind").value;
@@ -573,7 +627,7 @@ autocomplete="off"  placeholder="Enter Training Cost">
                                       console.log(JSON.stringify(lolistdata2) );  
                                         // $('#criteria').val([criteria]);
                                                
-                       $("#list2").append("<li>"+loid2+"_" + $("#lonameind").val() + " </li>");
+                       $("#list2").append("<li id='lolistind'>"+loid2+"_" + $("#lonameind").val() + " </li>");
                                       
                        return false;
                                         }

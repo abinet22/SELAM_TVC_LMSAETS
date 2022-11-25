@@ -42,9 +42,14 @@ router.post('/updatesectorname', ensureAuthenticated, async function(req, res)
 
             var sectorid = item.sectorid;
      var sectorname = item.sectorname; 
+     SectorList.findOne({where:{sector_id:sectorid}}).then(sector =>{
+     if(sector){
      SectorList.update({sector_name:sectorname},{where:{sector_id:sectorid}})
-       
-        }) 
+     }
+     }).catch(err=>{
+
+     })
+     }) 
         res.send({message:'success'})
     }
     else{
@@ -136,10 +141,20 @@ sectorlist:sectorlistold
         }
 
         SectorList.create(sectordata).then(sectors =>{
-            res.render('addsector',{
-                success_msg:'Your are successfully registered new sector',
-                sectorlist:sectorlistold
-            })
+            if(sectors){
+                SectorList.findAll({}).then(sectorlistnew =>{
+                    res.render('addsector',{
+                        success_msg:'Your are successfully registered new sector',
+                        sectorlist:sectorlistnew
+                    })
+                }).catch(err =>{
+                    res.render('addsector',{
+                        error_msg:'Something is wrong while saving data please try later',
+                        sectorlist:sectorlistold
+                    })
+                })
+            }
+         
         }).catch(error =>{
             res.render('addsector',{
                 error_msg:'Something is wrong while saving data please try later',

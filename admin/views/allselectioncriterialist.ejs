@@ -159,20 +159,21 @@
                                               <td><%= row.criteria_status %></td>
                                               <td><%var stat =  row.criteria_status ; %>
                                                 <% if(stat == "Enabled"){%>
-                                                    <form action="/admin/disableselectioncriteria/<%=row.criteria_id%>" method="post">
-                                                        <button type="type" class="btn btn-outline-warning btn-icon-text">
-                                                          <i class="mdi mdi-key-remove"></i>                                                        
-                                                             Disable
-                                                            </button>
-                                                      </form>
-                                                <% }else{ %>
-                                                    <form action="/admin/enableeselectioncriteria/<%=row.criteria_id%>" method="post">
-                                                        <button type="type" class="btn btn-outline-warning btn-icon-text">
-                                                          <i class="mdi mdi-key-remove"></i>                                                        
-                                                             Enable
-                                                            </button>
-                                                      </form>
-                                               <% }%></td>
+                                                  <form action="/admin/disableselectioncriteria/<%=row.criteria_id%>" method="get">
+                                                      <button type="type" class="btn btn-outline-danger btn-icon-text">
+                                                        <i class="mdi mdi-key-remove"></i>                                                        
+                                                           Disable
+                                                          </button>
+                                                    </form>
+                                              <% }else{ %>
+                                                  <form action="/admin/enableselectioncriteria/<%=row.criteria_id%>" method="get">
+                                                      <button type="type" class="btn btn-outline-warning btn-icon-text">
+                                                        <i class="mdi mdi-key-remove"></i>                                                        
+                                                           Enable
+                                                          </button>
+                                                    </form>
+                                             <% }%>
+                                              </td>
                                            
                                           
                                             </tr>
@@ -253,20 +254,39 @@
 <!-- Page specific script -->
 <script>
   $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
+  $("#example1").DataTable({
+    "responsive": false, "lengthChange": true, "autoWidth": true,"width":400,
+    "buttons": ["copy", "csv", "excel", "pdf",  {
+              extend: 'print',
+              customize: function ( win ) {
+                  $(win.document.body)
+                      .css( 'font-size', '10pt' )
+                      .prepend(
+                          '<img src="" style="position:absolute; top:0; left:0;" />'
+                          
+                          );
+
+                  $(win.document.body).find( 'table' )
+                      .addClass( 'compact' )
+                      .css( 'font-size', 'inherit' );
+              },
+              title: function() {
+  return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+ " <td > <h4>  Organization Name <br> Selam Technical And Vocational Collage <br> Applicant Selection Critera List</h4> </td> </tr> </table>"
+            
+} ,
+
+              
+              exportOptions: {
+                  columns: ':visible'
+              }
+          }, "colvis"],
+          columnDefs: [ {
+          targets: -1,
+          visible: false
+      }]
+  }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+});
 </script>
 </body>
 </html>

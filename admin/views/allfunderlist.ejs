@@ -118,6 +118,7 @@
                         <h4 class="card-title">Funder List</h4>
                       </div>
                       <div class="card-body">
+                        <%- include('./partials/messages') %>
                         <div class="row">
                           <div class="row" style="display: none;">
                               <div class="col-sm-12 col-md-6">
@@ -142,7 +143,9 @@
                                         <th>Funder Name</th>
                                         <th>Funder Address</th>
                                         <th>Funder Contact</th>
-                                     
+                                        <th>Update Option</th>
+                                        <th></th>
+                                        <th>Delete</th>
                                       </tr>
                                     </thead>
                                     <tbody>
@@ -158,7 +161,33 @@
                                               <td><%= row.funder_name %></td>
                                               <td><%= row.funder_address %></td>
                                            <td><%= row.funder_contact_name%>/<%= row.funder_contact_phone%></td>
-                                          
+                                           <td>
+                                            <form action="/admin/updatefunderinfo/<%= row.funder_id %>" method="post">
+                                            <div class="form-group">
+                                            <select class="form-control" name="updateoption">
+                                              <option value="0">Update Option</option>
+                                              <option value="Contact_Name">Contact Name</option>
+                                              <option value="Contact_Phone">Contact Phone</option>
+                                              <option value="Office_Phone">Office Phone</option>
+                                              <option value="Email">Office Email</option>
+                                              <option value="Office_Address">Office Address</option>
+                                         
+                                            </select>
+                                            </td>
+                                            <td>
+
+                                              <input class="form-control" placeholder="Update Value" name="updatevalue">
+                                             </div>                                                 
+                                           
+                                            </td>
+                                          <td>
+                                            <button class="btn btn-sm btn-block btn-link" type="submit">Update</button>
+                                          </form>
+                                           <form method="post" action="/admin/deletefunderinfo/<%= row.funder_id %>">
+                                            <button class="btn btn-sm btn-block btn-link" type="submit">Delete</button>
+                                         
+                                           </form>
+                                          </td>
                                             </tr>
                                        <%  })} else{}     %>
                                       
@@ -238,18 +267,37 @@
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      "responsive": false, "lengthChange": true, "autoWidth": true,"width":400,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' )
+                        .prepend(
+                            '<img src="" style="position:absolute; top:0; left:0;" />'
+                            
+                            );
+ 
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' );
+                },
+                title: function() {
+    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+   " <td > <h4>  Organization Name <br> Selam Technical And Vocational Collage <br> Funder Organization List</h4> </td> </tr> </table>"
+              
+  } ,
+
+                
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: false
+        }]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
   });
 </script>
 </body>

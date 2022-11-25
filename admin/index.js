@@ -69,18 +69,18 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/admin',express.static(path.join(__dirname,'../public')));
+app.use('/',express.static(path.join(__dirname,'./public')));
 //app.use(express.static(path.resolve('./public')));
 // Routes
 // Generate the route
 
 
-app.use('/', require('./routes/index.js'));
-app.use('/training', require('./routes/training.js'));
-app.use('/dept', require('./routes/dept.js'));
-app.use('/course', require('./routes/course.js'));
-app.use('/datalist', require('./routes/datalist.js'));
-app.enable('trust proxy');
+app.use('/admin', require('./routes/index.js'));
+app.use('/admin/training', require('./routes/training.js'));
+app.use('/admin/dept', require('./routes/dept.js'));
+app.use('/admin/course', require('./routes/course.js'));
+app.use('/admin/datalist', require('./routes/datalist.js'));
+
 
 
 

@@ -101,8 +101,16 @@ router.post('/updatedepartmentname', ensureAuthenticated, async function(req, re
 
             var deptid = item.deptid;
      var deptname = item.deptname; 
-     Department.update({department_name:deptname},{where:{department_id:deptid}})
+     Department.findOne({where:{department_id:deptid}}).then(dept =>{
+         if(dept){
+            Department.update({department_name:deptname},{where:{department_id:deptid}})
        
+         }
+     
+     }).catch(err=>{
+
+     })
+    
         }) 
         res.send({message:'success'})
     }
@@ -112,9 +120,11 @@ router.post('/updatedepartmentname', ensureAuthenticated, async function(req, re
 } );
 router.get('/addnewoccupation', ensureAuthenticated,async function (req, res) 
 {
+
 const dept = await Department.findAll({ });
     res.render('addnewoccupation',{
-        dept:dept
+        dept:dept,
+     
     });
 
 });
@@ -207,11 +217,19 @@ router.post('/addnewdepartment', ensureAuthenticated, async function(req, res)
         }
 
         Department.create(departmentData).then(department =>{
-          
-            res.render('addnewdepartment',{  training:training,deptlist:deptlist,
+          Department.findAll({}).then(dptnew =>{
+            res.render('addnewdepartment',{  training:training,deptlist:dptnew,
 
                 success_msg:'Your are successfully registered new department '
             })
+          }).catch(err =>{
+            res.render('addnewdepartment',{
+                training:training,
+ deptlist:deptlist,
+                error_msg:'Something is wrong while saving data please try later'
+            })
+          })
+            
         }).catch(error =>{
             res.render('addnewdepartment',{
                 training:training,
