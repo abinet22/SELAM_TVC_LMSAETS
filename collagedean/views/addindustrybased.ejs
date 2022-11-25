@@ -180,18 +180,17 @@ background-color: #f48d5b;;
                   <div class="tab">Program General Info:
                     <div class="form-group">
                       <label for="exampleInputUsername1">Comapny Name</label>
-                      <input type="text" class="form-control" oninput="this.className = ''" id="companyname" name="companyname" placeholder="Enter Company Name">
+                      <input type="text" class="form-control" autocomplete="off" oninput="this.className = ''" id="companyname" name="companyname" placeholder="Enter Company Name">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputUsername1">Training Short Description</label>
-                      <input type="text" class="form-control" oninput="this.className = ''" id="description" name="description" placeholder="Enter Short Training Description">
+                      <input type="text" class="form-control" autocomplete="off" oninput="this.className = ''" id="description" name="description" placeholder="Enter Short Training Description">
                     </div>
                   
-                    <div class="input-group input-group-sm">
-                      <input type="text" class="form-control"   id="batchname" name="batchname"> 
-                      <span class="input-group-append">
-                        <button type="button" class="btn btn-info btn-flat" style="background-color: #f48d5b;" type="button" onclick="generatebatchname();">Generate Batch Name</button>
-                      </span>
+                    <div class="form-group">
+                      <label>Batch Name</label>
+                      <input type="text" class="form-control" autocomplete="off" placeholder="Enter Batch Name"  id="batchname" name="batchname"> 
+                      
                     </div>
                     <script>
                       function generatebatchname()

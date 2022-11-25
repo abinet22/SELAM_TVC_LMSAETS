@@ -181,7 +181,7 @@ background-color: #f48d5b;;
                     <div class="form-group">
                       <label for="exampleInputUsername1">Training Funder NGO</label>
                    <select class="form-control" name="fundername" id="fundername" >
-                     <option>Please select funder NGO</option>
+                     <option>Please Select Program Funder Organization</option>
                      <% if(funderinfo.length >0) {%>
                       <% funderinfo.forEach(function (row){ %>
                         <option value="<%= row.funder_id %>"><%= row.funder_name %></option>
@@ -190,14 +190,14 @@ background-color: #f48d5b;;
                     </div>
                     <div class="form-group">
                       <label for="exampleInputUsername1">Training Short Description</label>
-                      <input type="text" class="form-control" oninput="this.className = ''" id="description" name="description" placeholder="Enter Short Training Description">
+                      <input type="text" autocomplete="off" class="form-control" oninput="this.className = ''" id="description" name="description" placeholder="Enter Short Training Description">
                     </div>
                   
-                    <div class="input-group input-group-sm">
-                      <input type="text" class="form-control"   id="batchname" name="batchname"> 
-                      <span class="input-group-append">
-                        <button type="button" class="btn btn-info btn-flat" style="background-color: #f48d5b;" type="button" onclick="generatebatchname();">Generate Batch Name</button>
-                      </span>
+                    <div class="form-group">
+                      <label for="exampleInputUsername1">Batch Name</label>
+                   
+                      <input type="text" autocomplete="off" class="form-control"  placeholder="Enter Batch Name" id="batchname" name="batchname"> 
+                     
                     </div>
                     <script>
                       function generatebatchname()
@@ -238,10 +238,10 @@ background-color: #f48d5b;;
                           <div class="form-group">
                             <div class="input-group">
                               <div class="input-group-prepend">
-                                <button class="btn btn-sm form-control" id="addngo" style="background-color: #f48d5b;" type="button">Add Data Needs</button>
+                                <button class="btn btn-sm form-control btn-info" id="addngo"  type="button">Add Data Needs</button>
                           
                               </div>
-                         <input type="text" class="form-control"  name="formdataneeded"  id="formdataneeded" placeholder="Please Add Form Data Needed For Registration">
+                         <input type="text" class="form-control" autocomplete="off"  name="formdataneeded"  id="formdataneeded" placeholder="Please Add Form Data Needed For Registration">
                 
                             </div>
                           </div>
@@ -252,9 +252,11 @@ background-color: #f48d5b;;
                     </div>
                 
                         <div class="row">
+                          <label>Applicant Form Data<code><button type="button" class="btn btn-sm btn-link" onclick="myFunction2()">Remove To Change</button></code><i class="input-helper"></i></label>
+                             
                           <div class="col-md-6 offset-md-3 form-check form-check-primary">
                             <ul class="" id="listngo">
-                              <label>Applicant Form Data </label>
+                             
                             </ul>
                           </div>
                         </div>
@@ -304,13 +306,13 @@ background-color: #f48d5b;;
                           <div class="form-group">
                             <div class="input-group">
                               <div class="input-group-prepend">
-                                <button class="btn btn-sm form-control" id="add" style="background-color: #f48d5b;" type="button">Add Criteria List</button>
+                                <button class="btn btn-sm form-control btn-info" id="add"  type="button">Add Criteria List</button>
                           
                               </div>
                               
                             
                              <select class="form-control" id="prenume" name="prenume">
-                        <option value="0">Please select application criterias</option>
+                        <option value="0">Please Select Applicant Selection Criterias</option>
                             <% if(criteria.length >0) {%>
                               <% criteria.forEach(function (row){ %>
                                 <option value="<%= row.criteria_name %>"><%= row.criteria_name %></option>
@@ -340,10 +342,11 @@ background-color: #f48d5b;;
                     <input type="hidden" id="addformdata" name="addformdata">
                   
                         <div class="row">
+                          <label>Applicant Criteria List<code><button type="button" class="btn btn-sm btn-link" onclick="myFunction()">Remove To Change</button></code><i class="input-helper"></i></label>
+                             
                           <div class="col-md-6 offset-md-3 form-check form-check-primary">
                             <ul class="" id="list">
-                              <label>Applicant Criteria List<code>Uncheck If You Want To Omits</code><i class="input-helper"></i></label>
-                            </ul>
+                              </ul>
                           </div>
                         </div>
              </div>
@@ -407,6 +410,7 @@ return false;
 });
  
               </script>
+                   
               <script>
                 var slider = document.getElementById("myRange");
              
@@ -421,7 +425,7 @@ output.innerHTML = this.value;
 } ;           
      var criarry = [] ;
      var criteria ={}; 
-
+     var percentt =0;
                 var criid =0 ;
                 $("#add").on("click", function(e){
                   var data = document.getElementById("prenume").value;
@@ -434,7 +438,9 @@ output.innerHTML = this.value;
                 criid ++ ;
                var criname = document.getElementById("prenume").value;
                 var percent = document.getElementById("myRange").value;
-               
+                percentt += parseInt(percent);
+                      console.log(percentt)
+                      if(percentt <= 100){
                 var checkboxvalue = criname + "_" +percent+"%";
                 criname.trim();
               // criarry.push(checkboxvalue);
@@ -448,12 +454,33 @@ output.innerHTML = this.value;
              console.log(criteria);            
 $("#list").append("<li><input type='checkbox' id="+ checkboxvalue +" class='form-check-input' checked >" + $("#prenume").val() + " " + $("#myRange").val() +"%"+"</li>");
 
-return false;
+return false;}
                }
              
 });
  
               </script>
+
+<script>
+  function myFunction() {
+    percentt =0;
+    criteria ={}; 
+    const list = document.getElementById("list");
+    while (list.hasChildNodes()) {
+      list.removeChild(list.firstChild);
+
+    }
+  }
+  function myFunction2() {
+    criteria2 ={}; 
+    criid2 = 0;
+    const list = document.getElementById("listngo");
+    while (list.hasChildNodes()) {
+      list.removeChild(list.firstChild);
+
+    }
+  }
+  </script>
               <!-- /.card -->
   
               <!-- general form elements -->

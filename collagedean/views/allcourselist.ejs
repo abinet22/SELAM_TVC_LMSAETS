@@ -6,16 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>selam</title>
 
+  
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../../plugins/fontawesome-free/css/all.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../../../dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -27,7 +28,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dean/dashboard" class="nav-link">Home</a>
+        <a href="/admin/dashboard" class="nav-link">Home</a>
       </li>
    
     </ul>
@@ -72,7 +73,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"   href="/dean/logout" role="button">
+        <a class="nav-link"   href="/admin/logout" role="button">
           Logout
         </a>
       </li>
@@ -100,7 +101,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Course List</li>
+              <li class="breadcrumb-item active">Unit of Competency List</li>
             </ol>
           </div>
         </div>
@@ -113,10 +114,10 @@
         <div class="col-md-12">
             <div class="card card-primary">
               <div class="card-header">
-                <h4 class="card-title">Course List</h4>
+                <h4 class="card-title">Unit of Competency List</h4>
               </div>
               <div class="card-body">
-               
+                <%- include ('./partials/messages') %>
                 <div class="row">
         
                   <div class="col-md-12">
@@ -124,7 +125,7 @@
                       <div class="card card-widget">
                           <div class="card-header">
                               <div class="user-block">
-                                 <span class="username">Search Filter Course List</span>
+                                 <span class="username">Search Filter UOCs List</span>
                                 </div>
                             <!-- /.user-block -->
                             <div class="card-tools">
@@ -141,12 +142,12 @@
                           <!-- /.card-header -->
                           <div class="card-body" style="display: block;">
                               
-                            <form action="/dean/course/filterbydepartment" method="post">
+                            <form action="/admin/course/filterbydepartment" method="post">
                   
                               <div class="form-group">
                                 <label class="">Filter UOCs By Occupation</label>
-                                <select class="form-control" id="dept" name="dept">
-                                  <option value="0">Please select Occupation to filter</option>
+                                <select class="form-control-sm  js-example-basic-single " style="width:100%"  id="dept" name="dept">
+                                  <option value="0">Please Select Occupation To Filter</option>
                                   <% if(department.length >0){ %>
                                     <% department.forEach(function (row){ %>
                                      <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
@@ -195,10 +196,12 @@
                      
                   </ul>
                   <div class="tab-content " id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">    <div class="row">
-                      <div class="col-md-12  grid-margin stretch-card">     <div class="card">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab"> 
+                         <div class="row">
+                      <div class="col-md-12  grid-margin stretch-card">     
+                        <div class="card">
                           <div class="card-body">
-                            <h4 class="card-title"> Level One UOCs List</h4>
+                            <h4 class="card-title"> Level One UOC List</h4>
                             <div class="row" style="display: none;">
                                 <div class="col-sm-12 col-md-6">
                                     <div class="dt-buttons btn-group flex-wrap">               
@@ -218,11 +221,14 @@
                                   <tr>
                   <th>#</th>
                                     <th>Training Occupation Name</th>
+                                 
                                     <th>Training Module Code </th>
                                     <th>Training UOC Name </th>
-                                   
-                                    <th>Training  Hours </th>
+                                    <th>Training Hours </th>
                                     <th>Training Cost </th>
+                                    <th>No Of LOs</th>
+                                  
+                                    
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -234,13 +240,22 @@
                                             <tr>
                                                 <td><%= i %></td>
                                                 <td><%= row.occupation_name %></td>
+                                                
                                                 <td><%= row.course_code %></td>
                                                 <td><%= row.course_name %></td>
+
                                                 <td><%= row.training_hours %></td>
-                                              <td><%= row.training_cost %></td>
+                                                <td><%= row.training_cost %></td>
+                                                <td >
+                                                  <% var lono =  row.nooflo %>
+                                                  <%=  row.nooflo %>
+                                               
+                                                  </td>
+                                                 
+                                             
                                               </tr>
                                          <%  })} else{}     %>
-                                     
+                                      
                                 </tbody>
                               </table>
                             </div>
@@ -252,39 +267,54 @@
                   
                     </div>
                   </div>
-                  <div class="tab-pane " id="profile" role="tabpanel" aria-labelledby="profile-tab">    <div class="row">
-                    <div class="col-md-12  grid-margin stretch-card">     <div class="card">
+                  <div class="tab-pane " id="profile" role="tabpanel" aria-labelledby="profile-tab">   
+                     <div class="row">
+                    <div class="col-md-12  grid-margin stretch-card">   
+                        <div class="card">
                         <div class="card-body">
-                          <h4 class="card-title"> Level Two UOCs List</h4>
-                           
+                          <h4 class="card-title"> Level Two UOC List</h4>
+                       
                           <div class="table-responsive" id="trainingdata">
-                            <table class="table table-hover">
+                            <table class="table table-hover" id="example2">
                               <thead>
                                 <tr>
                 <th>#</th>
-                <th>Training Occupation Name</th>
-                                    <th>Training Module Code </th>
-                                    <th>Training UOC Name </th>
-                                   
-                                    <th>Training  Hours </th>
-<th>Training Cost </th>
+                                  <th>Training Occupation Name</th>
+                               
+                                  <th>Training Module Code </th>
+                                  <th>Training UOC Name </th>
+                                  <th>Training Hours </th>
+                                  <th>Training Cost </th>
+                                  <th>No Of LOs</th>
+                               
+                                  
                                 </tr>
                               </thead>
                               <tbody>
                   
-                                <% if(course2.length >0 ) { %>
-                                    <% var i = 0 ;%>
-                                       <% course2.forEach(function (row){ %>
-                                        <% i++ %>
-                                        <tr>
-                                            <td><%= i %></td>
-                                            <td><%= row.occupation_name %></td>
-                                            <td><%= row.course_code %></td>
-                                            <td><%= row.course_name %></td>
-                                            <td><%= row.training_hours %></td>
-                                          <td><%= row.training_cost %></td>                  
-                                          </tr>
-                                     <%  })} else{}     %>
+                                  <% if(course2.length >0 ) { %>
+                                      <% var i = 0 ;%>
+                                         <% course2.forEach(function (row){ %>
+                                          <% i++ %>
+                                          <tr>
+                                              <td><%= i %></td>
+                                              <td><%= row.occupation_name %></td>
+                                              
+                                              <td><%= row.course_code %></td>
+                                              <td><%= row.course_name %></td>
+
+                                              <td><%= row.training_hours %></td>
+                                              <td><%= row.training_cost %></td>
+                                              <td>
+                                                <% var lono =  row.nooflo %>
+                                                <%=  row.nooflo %>
+                                                
+                                                </td>
+                                              
+                                           
+                                            </tr>
+                                       <%  })} else{}     %>
+                                    
                               </tbody>
                             </table>
                           </div>
@@ -299,22 +329,26 @@
                 <div class="tab-pane " id="industry" role="tabpanel" aria-labelledby="industry-tab">    <div class="row">
                   <div class="col-md-12  grid-margin stretch-card">     <div class="card">
                       <div class="card-body">
-                        <h4 class="card-title"> Level Three UOCs List</h4>
+                        <h4 class="card-title"> Level Three UOC List</h4>
                            
                         <div class="table-responsive" id="trainingdata">
-                          <table class="table table-hover">
+                          <table class="table table-hover" id="example3">
                             <thead>
                               <tr>
               <th>#</th>
-              <th>Training Occupation Name</th>
-              <th>Training Module Code </th>
-              <th>Training UOC Name </th>
-             
-              <th>Training  Hours </th>
-<th>Training Cost </th>
+                                <th>Training Occupation Name</th>
+                             
+                                <th>Training Module Code </th>
+                                <th>Training UOC Name </th>
+                                <th>Training Hours </th>
+                                <th>Training Cost </th>
+                                <th>No Of LOs</th>
+                              
+                                
                               </tr>
                             </thead>
                             <tbody>
+                
                                 <% if(course3.length >0 ) { %>
                                     <% var i = 0 ;%>
                                        <% course3.forEach(function (row){ %>
@@ -322,13 +356,22 @@
                                         <tr>
                                             <td><%= i %></td>
                                             <td><%= row.occupation_name %></td>
+                                            
                                             <td><%= row.course_code %></td>
                                             <td><%= row.course_name %></td>
+
                                             <td><%= row.training_hours %></td>
-                       <td><%= row.training_cost %></td>                  
+                                            <td><%= row.training_cost %></td>
+                                            <td>
+                                              <% var lono =  row.nooflo %>
+                                              <%=  row.nooflo %>
+                                              
+                                              </td>
+                                             
+                                         
                                           </tr>
                                      <%  })} else{}     %>
-                      
+                                  
                             </tbody>
                           </table>
                         </div>
@@ -343,22 +386,25 @@
                 <div class="tab-pane " id="level4" role="tabpanel" aria-labelledby="level4-tab">    <div class="row">
                   <div class="col-md-12  grid-margin stretch-card">     <div class="card">
                       <div class="card-body">
-                        <h4 class="card-title"> Level Four UOCs List</h4>
+                        <h4 class="card-title"> Level Four UOC List</h4>
                            
                         <div class="table-responsive" id="trainingdata">
-                          <table class="table table-hover">
+                          <table class="table table-hover" id="example4">
                             <thead>
                               <tr>
               <th>#</th>
-              <th>Training Occupation Name</th>
-              <th>Training Module Code </th>
-              <th>Training UOC Name </th>
-             
-              <th>Training  Hours </th>
-<th>Training Cost </th>
+                                <th>Training Occupation Name</th>
+                             
+                                <th>Training Module Code </th>
+                                <th>Training UOC Name </th>
+                                <th>Training Hours </th>
+                                <th>Training Cost </th>
+                                <th>No Of LOs</th>
+                              
                               </tr>
                             </thead>
                             <tbody>
+                
                                 <% if(course4.length >0 ) { %>
                                     <% var i = 0 ;%>
                                        <% course4.forEach(function (row){ %>
@@ -366,13 +412,21 @@
                                         <tr>
                                             <td><%= i %></td>
                                             <td><%= row.occupation_name %></td>
+                                            
                                             <td><%= row.course_code %></td>
                                             <td><%= row.course_name %></td>
+
                                             <td><%= row.training_hours %></td>
-                       <td><%= row.training_cost %></td>                  
+                                            <td><%= row.training_cost %></td>
+                                            <td>
+                                              <% var lono =  row.nooflo %>
+                                              <%=  row.nooflo %>
+                                              
+                                              </td>
+                                            
                                           </tr>
                                      <%  })} else{}     %>
-                      
+                                  
                             </tbody>
                           </table>
                         </div>
@@ -387,37 +441,47 @@
               <div class="tab-pane " id="level5" role="tabpanel" aria-labelledby="level5-tab">    <div class="row">
                 <div class="col-md-12  grid-margin stretch-card">     <div class="card">
                     <div class="card-body">
-                      <h4 class="card-title"> Level Five UOCs List</h4>
+                      <h4 class="card-title"> Level Five UOC List</h4>
                          
                       <div class="table-responsive" id="trainingdata">
-                        <table class="table table-hover">
+                        <table class="table table-hover" id="example5">
                           <thead>
                             <tr>
             <th>#</th>
-            <th>Training Occupation Name</th>
-            <th>Training Module Code </th>
-            <th>Training UOC Name </th>
-           
-            <th>Training  Hours </th>
-<th>Training Cost</th>
+                              <th>Training Occupation Name</th>
+                           
+                              <th>Training Module Code </th>
+                              <th>Training UOC Name </th>
+                              <th>Training Hours </th>
+                              <th>Training Cost </th>
+                              <th>No Of LOs</th>
+                             
                             </tr>
                           </thead>
                           <tbody>
-          
-                            <% if(course5.length >0 ) { %>
-                                <% var i = 0 ;%>
-                                   <% course5.forEach(function (row){ %>
-                                    <% i++ %>
-                                    <tr>
-                                        <td><%= i %></td>
-                                        <td><%= row.occupation_name %></td>
-                                        <td><%= row.course_code %></td>
-                                        <td><%= row.course_name %></td>
-                                        <td><%= row.training_hours %></td>
-                 <td><%= row.training_cost %></td>                    
-                                      </tr>
-                                 <%  })} else{}     %>
-                  
+              
+                              <% if(course5.length >0 ) { %>
+                                  <% var i = 0 ;%>
+                                     <% course5.forEach(function (row){ %>
+                                      <% i++ %>
+                                      <tr>
+                                          <td><%= i %></td>
+                                          <td><%= row.occupation_name %></td>
+                                          
+                                          <td><%= row.course_code %></td>
+                                          <td><%= row.course_name %></td>
+
+                                          <td><%= row.training_hours %></td>
+                                          <td><%= row.training_cost %></td>
+                                          <td>
+                                            <% var lono =  row.nooflo %>
+                                            <%=  row.nooflo %>
+                                            
+                                            </td>
+                                          
+                                        </tr>
+                                   <%  })} else{}     %>
+                                
                           </tbody>
                         </table>
                       </div>
@@ -436,9 +500,19 @@
               </div>
             </div>
         
-           
+  <script>
+    $(document).ready(function() {
+$('.js-example-basic-single').select2();
+});
+  </script>           
        
-                
+  <script>
+    var e=document.querySelectorAll('option')
+e.forEach(x=>{
+if(x.textContent.length>40)
+x.textContent=x.textContent.substring(0,40)+'...';
+})
+  </script>                
 
                    
 				</div>
@@ -466,43 +540,194 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables  & Plugins -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../../plugins/jszip/jszip.min.js"></script>
-<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="../../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../../../plugins/jszip/jszip.min.js"></script>
+<script src="../../../plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../../../plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
+<script src="../../../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      "responsive": false, "lengthChange": true, "autoWidth": true,"width":400,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' )
+                        .prepend(
+                            '<img src="" style="position:absolute; top:0; left:0;" />'
+                            
+                            );
+ 
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' );
+                },
+                title: function() {
+    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+   " <td > <h4>  Organization Name <br> Selam Technical And Vocational Collage <br> Level One UOC List</h4> </td> </tr> </table>"
+              
+  } ,
+
+                
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: false
+        }]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
+    $("#example2").DataTable({
+      "responsive": false, "lengthChange": true, "autoWidth": true,"width":400,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' )
+                        .prepend(
+                            '<img src="" style="position:absolute; top:0; left:0;" />'
+                            
+                            );
+ 
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' );
+                },
+                title: function() {
+    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+   " <td > <h4>  Organization Name <br> Selam Technical And Vocational Collage <br> Level Two UOC List</h4> </td> </tr> </table>"
+              
+  } ,
+
+                
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: false
+        }]
+    }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+    $("#example3").DataTable({
+      "responsive": false, "lengthChange": true, "autoWidth": true,"width":400,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' )
+                        .prepend(
+                            '<img src="" style="position:absolute; top:0; left:0;" />'
+                            
+                            );
+ 
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' );
+                },
+                title: function() {
+    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+   " <td > <h4>  Organization Name <br> Selam Technical And Vocational Collage <br> Level Three List</h4> </td> </tr> </table>"
+              
+  } ,
+
+                
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: false
+        }]
+    }).buttons().container().appendTo('#example3_wrapper .col-md-6:eq(0)');
+    $("#example4").DataTable({
+      "responsive": false, "lengthChange": true, "autoWidth": true,"width":400,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' )
+                        .prepend(
+                            '<img src="" style="position:absolute; top:0; left:0;" />'
+                            
+                            );
+ 
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' );
+                },
+                title: function() {
+    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+   " <td > <h4>  Organization Name <br> Selam Technical And Vocational Collage <br> Level Four List</h4> </td> </tr> </table>"
+              
+  } ,
+
+                
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: false
+        }]
+    }).buttons().container().appendTo('#example4_wrapper .col-md-6:eq(0)');
+    $("#example5").DataTable({
+      "responsive": false, "lengthChange": true, "autoWidth": true,"width":400,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' )
+                        .prepend(
+                            '<img src="" style="position:absolute; top:0; left:0;" />'
+                            
+                            );
+ 
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' );
+                },
+                title: function() {
+    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+   " <td > <h4>  Organization Name <br> Selam Technical And Vocational Collage <br> Level Five List</h4> </td> </tr> </table>"
+              
+  } ,
+
+                
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: false
+        }]
+    }).buttons().container().appendTo('#example5_wrapper .col-md-6:eq(0)');
+  
+  })
 </script>
+ <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 </body>
 </html>

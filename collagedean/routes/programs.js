@@ -98,7 +98,7 @@ router.post('/addnewlevelbasedprogram',ensureAuthenticated, async function(req,r
     const {trainingname,traininglevel,description,trainingtype,
         batchname,appstartdate,appenddate,trainingstartdate,trainingenddate,requirement,criteria} = req.body;
      let errors = [];   
-     const traininglist = await  LevelBasedTraining.findAll();
+     const traininglist = await  Occupation.findAll();
      const criterialist = await  AppSelectionCriteria.findAll();
     
    if(!trainingname || ! traininglevel || ! description || ! trainingtype || !
@@ -248,7 +248,7 @@ router.post('/addnewngobasedprogram',ensureAuthenticated, async function(req,res
     const {trainingname,description,trainingtype,fundername,addformdata,
         batchname,appstartdate,appenddate,trainingstartdate,trainingenddate,requirement,criteria} = req.body;
      let errors = [];   
-     const traininglist = await  LevelBasedTraining.findAll();
+     const traininglist = await  Occupation.findAll();
      const criterialist = await  AppSelectionCriteria.findAll();
      const funderinfo = await FunderInfo.findAll({});
    if(!trainingname  || ! description || ! trainingtype || !
@@ -399,7 +399,7 @@ router.post('/addnewindustrybasedprogram', ensureAuthenticated, async function(r
   const {trainingname,description,companyname,
     batchname,appstartdate,appenddate,trainingstartdate,trainingenddate,} = req.body;
  let errors = [];   
- const traininglist = await  LevelBasedTraining.findAll();
+ const traininglist = await  Occupation.findAll();
  const criterialist = await  AppSelectionCriteria.findAll();
  const funderinfo = await FunderInfo.findAll({});
 if(!trainingname  || ! description  || !

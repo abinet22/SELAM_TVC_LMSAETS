@@ -180,14 +180,14 @@ input.invalid {
                     <div class="tab">Program General Info:
                       <div class="form-group">
                         <label for="exampleInputUsername1">Training Short Description</label>
-                        <input type="text" class="form-control" oninput="this.className = ''" id="description" name="description" placeholder="Enter Short Training Description">
+                        <input type="text" class="form-control" autocomplete="off" oninput="this.className = ''" id="description" name="description" placeholder="Enter Short Training Description">
                       </div>
                     
-                      <div class="input-group input-group-sm">
-                        <input type="text" class="form-control"   id="batchname" name="batchname"> 
-                        <span class="input-group-append">
-                          <button type="button" class="btn btn-info btn-flat" style="background-color: #f48d5b;" type="button" onclick="generatebatchname();">Generate Batch Name</button>
-                        </span>
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Batch Name</label>
+                     
+                        <input type="text" class="form-control" autocomplete="off" placeholder="Please Enter Batch Name"   id="batchname" name="batchname"> 
+                        
                       </div>
                       <script>
                         function generatebatchname()
@@ -278,13 +278,13 @@ input.invalid {
                             <div class="form-group">
                               <div class="input-group">
                                 <div class="input-group-prepend">
-                                  <button class="btn btn-sm form-control" id="add" style="background-color: #f48d5b;" type="button">Add Criteria List</button>
+                                  <button class="btn btn-sm form-control btn-info" id="add"  type="button">Add Criteria List</button>
                             
                                 </div>
                                 
                               
                                <select class="form-control" id="prenume" name="prenume">
-                          <option value="0">Please select application criterias</option>
+                          <option value="0">Please Select Application Criterias</option>
                               <% if(criteria.length >0) {%>
                                 <% criteria.forEach(function (row){ %>
                                   <option value="<%= row.criteria_name %>"><%= row.criteria_name %></option>
@@ -313,10 +313,11 @@ input.invalid {
                       <input type="hidden" id="criteria" name="criteria">
                     
                           <div class="row">
+                            <label>Applicant Criteria List<code><button type="button" class="btn btn-sm btn-link" onclick="myFunction()">Remove To Change</button></code><i class="input-helper"></i></label>
+                             
                             <div class="col-md-6 offset-md-3 form-check form-check-primary">
                               <ul class="" id="list">
-                                <label>Applicant Criteria List<code>Uncheck If You Want To Omits</code><i class="input-helper"></i></label>
-                              </ul>
+                               </ul>
                             </div>
                           </div>
                </div>
@@ -358,6 +359,7 @@ output.innerHTML = this.value;
        var criteria ={}; 
 
                   var criid =0 ;
+                  var percentt =0;
                   $("#add").on("click", function(e){
                     var data = document.getElementById("prenume").value;
                  if(data == "0")
@@ -368,9 +370,12 @@ output.innerHTML = this.value;
                  {
                   criid ++ ;
                  var criname = document.getElementById("prenume").value;
-                  var percent = document.getElementById("myRange").value;
-                 
-                  var checkboxvalue = criname + "_" +percent+"%";
+                 var  percent = document.getElementById("myRange").value;
+                      percentt += parseInt(percent);
+                      console.log(percentt)
+                      if(percentt <= 100){
+                        
+                        var checkboxvalue = criname + "_" +percent+"%";
                   criname.trim();
                 // criarry.push(checkboxvalue);
                 // criteria['name'] = criname;
@@ -381,14 +386,27 @@ output.innerHTML = this.value;
                  // $('#criteria').val([criteria]);
                  $('#criteria').val( JSON.stringify(criteria) );
                console.log(criteria);            
-$("#list").append("<li><input type='checkbox' id="+ checkboxvalue +" class='form-check-input' checked >" + $("#prenume").val() + " " + $("#myRange").val() +"%"+"</li>");
+$("#list").append("<li><input type='checkbox' id="+ checkboxvalue +"  class='form-check-input' checked >" + $("#prenume").val() + " " + $("#myRange").val() +"%"+"</li>");
 
 return false;
+                      }
+                
                  }
                
 });
    
                 </script>
+                <script>
+                  function myFunction() {
+                    percentt =0;
+                    const list = document.getElementById("list");
+                    while (list.hasChildNodes()) {
+                      list.removeChild(list.firstChild);
+
+                    }
+                  }
+                  </script>
+                  
                 <!-- /.card -->
     
                 <!-- general form elements -->

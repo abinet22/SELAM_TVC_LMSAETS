@@ -64,18 +64,18 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/dean',express.static(path.join(__dirname,'./public')));
+app.use('/',express.static(path.join(__dirname,'./public')));
 // Routes
 var router = express.Router();
-app.use('/', require('./routes/index.js'));
+app.use('/dean', require('./routes/index.js'));
 //router.use(() =>{});
 //router.use('/', require('./routes/index.js'));
-app.use('/training', require('./routes/training.js'));
-app.use('/dept', require('./routes/dept.js'));
-app.use('/course', require('./routes/course.js'));
-app.use('/programs', require('./routes/programs.js'));
-app.use('/company', require('./routes/company.js'));
-app.use('/trainee', require('./routes/trainee.js'));
+app.use('/dean/training', require('./routes/training.js'));
+app.use('/dean/dept', require('./routes/dept.js'));
+app.use('/dean/course', require('./routes/course.js'));
+app.use('/dean/programs', require('./routes/programs.js'));
+app.use('/dean/company', require('./routes/company.js'));
+app.use('/dean/trainee', require('./routes/trainee.js'));
 //app.use('/trainee', require('./routes/trainee.js'));
 
 
