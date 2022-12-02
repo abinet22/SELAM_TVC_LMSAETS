@@ -104,7 +104,7 @@
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Assign Teacher To UOCs List</li>
+                <li class="breadcrumb-item active">Section List</li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -118,102 +118,64 @@
             <div class="col-md-12">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h4 class="card-title">Unit Of Competency List</h4>
+                        <h4 class="card-title">Section List</h4>
                       </div>
-                     
                   <div class="card-body">
-                  
-                   Batch Name: &nbsp; <%= batchinfo.batch_name %> <br>
-                   Training From &nbsp; <%= new Date(batchinfo.batch_from).toLocaleDateString() %>  To &nbsp; <%= new Date(batchinfo.batch_to).toLocaleDateString() %> <br>
-                   Occupation Info: &nbsp;<%= occinfo.occupation_name %><br>
-                   <%if(traininglevel){%>
-                   Level:&nbsp; <%= traininglevel%><br>
-                   <%}%>
-                   Class Info: <%= classlist.class_name %> <br>
-                   Program Type: &nbsp; <%= programtype%><br>
-                   <%- include('./partials/messages') %>
                     <div class="row">
                       <div class="col-md-12  grid-margin stretch-card">     <div class="card">
                           <div class="card-body">
-                          
+                           
+                           <div class="row">
+                         
+                           </div>
                             <fieldset id="level1">
-                            <div class="table-responsive" >
+                            <div class="table-responsive" id="trainingdata">
                               <table class="table table-hover">
                                 <thead>
                                
                                   <tr>
                   <th>#</th>
                                   
-                                    <th>Unit Of Competency </th>
-                                    <th>Module Code </th>
-                                    <th>Training Hours  </th>
-                                   
-                                    <th>UOC Start</th>
-                                    <th>UOC Finished</th>
-                                   
-                                    <th>Assign Course Teacher</th>
-                                   <th>Action To Do</th>
+                                    <th>Section Name </th>
+                                    <th>Current Section Representative </th>
+                                    <th>Action To Do</th>
                                   </tr>
                                 </thead>
                                 <tbody>
                 
                                    
-                                  <% if(courselist.length >0) {%>
+                                  <% if(classlist.length >0) {%>
                                     <% var i = 0; %>
-                                    <% courselist.forEach(function (row){ %>
-                                          <% i++; %>    
-                                          <% var course = row.course_id %>      
+                                    <% classlist.forEach(function (row){ %>
+                                          <% i++; %>          
                                           <tr>
                                             <td><%= i %></td>
-                                            <td><%= row.course_name %><br>
-                                              <code>Assigned Teacher:</code><br>
-                                              <% if(courseteacher.length > 0) {%>
-                                                <% courseteacher.forEach(function (row){ %>
-                                                 <% var xx = row.course_id %>
-                                                 <%if(xx ===course){ %>
-                                                  <label style="text-transform: uppercase;"><%= row.staff_f_name %> &nbsp; <%= row.staff_m_name %></label><br>
-                                                  <label>From:<%= new Date(row.startdate).toLocaleDateString() %> To <%= new Date(row.enddate).toLocaleDateString() %></label>
-                                                <%} })}else {}%>
+                                            <td><%= row.class_name %></td>
+                                            <td><%var assrep = row.rep_teacher_id %>
+                                              <% if(teacherlist.length >0) {%>
+                                                <% teacherlist.forEach(function (aaa){ %>
+                                               <% var stid = aaa.staff_id %>
+                                               <% if(stid===assrep) {%>
+                             <label style="text-transform: uppercase;"><%= aaa.staff_f_name %> &nbsp; <%= aaa.staff_m_name %>
+                             </label>
+                                                  <%} })}else {}%>
                                             </td>
-                                            <td><%= row.course_code %></td>
-                                            <td><%= row.training_hours %></td>
-                                            
-                                            <form action="/department/teacher/saveclassteachercourse/<%=row.course_id%>" method="post">
-                                          
-                                              <td>
-                                                <input type="hidden" name="programid" id="programid" value="<%= programid %>">
+                                           
+                                            <td>
+                                            <form action="/department/teacher/coursetoteacherlevelbased/<%=row.class_id%>" method="post">
+                                                <input type="hidden" name="programidlevel" id="programidlevel" value="<%= programidlevel %>">
                                                 <input type="hidden" name="traininglevel" id="traininglevel" value="<%= traininglevel %>">
                                                 <input type="hidden" name="programtype" id="programtype" value="<%= programtype %>">
-                                                <input type="hidden" name="dpt" id="dpt" value="<%= dpt %>">
-                                               
+                                                <input type="hidden" name="occupationname" id="occupationname" value="<%= occupationname %>">
                                              
-                                              <input class="form-control" type="hidden" id="calssname" name="classname" value="<%= classname %>">
-                                            
-                                              <div class="form-group">
-                                                <input class="form-control" type="date" id="startdate" name="startdate">
-                                              </div></td>
-                                            <td>
-                                              <div class="form-group">
-                                                <input class="form-control" type="date" id="enddate" name="enddate">
-                                              </div></td>
-                                       
-                                            <td>
-                                            
-                                              <div class="form-group">
-                                                <select class="form-control-sm js-example-basic-single " id="<%= row.course_id %>" name="teachername">
-                                                  <option value="0">Please Select Teacher Name</option>
-                                                  <% if(teacherlist.length >0) {%>
-                                                   <% teacherlist.forEach(function (aaa){ %>
-                                                     <option value="<%= aaa.staff_id %>" style="text-transform: uppercase;"><span > <%= aaa.staff_f_name %> &nbsp; <%= aaa.staff_m_name %> &nbsp; <%= aaa.staff_l_name %> </span></option>
-                                                  <% })}else {}%>
-                                                  </select>
-                                            </div>
+                     
+                                                <div class="form-group">
+                                                    <button class=" btn btn-block mb-2 btn-sm btn-link" type="submit">Assign Course To Teacher</button>
+                             
+                                                </div>
+                                            </form>
+                                          
                                            </td>
-                                           <td>
-                                            <button class="form-control btn btn-link mb-2 "   type="submit">Assign</button>
-                           
-                                           </td>
-                                          </form>
                                           </tr>
                                   
                                       <% })}else {}%>   
@@ -223,8 +185,13 @@
                               </table>
                             </div>
                             <!-- <div class="col-md-6 offset-md-3">
-                              
-                              <button class="form-control btn btn-block mb-2 btn-primary" id="addlevel1"  type="submit">Submit</button>
+                              <div class="alert  alert-dismissible fade show" role="alert" id="server" style="display: none;">
+                                <p id="servermsg"></p>
+                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                   <span aria-hidden="true">×</span>
+                                 </button>
+                               </div>
+                              <button class=" btn btn-block mb-2 btn-sm btn-primary" id="addlevel1"  type="submit">Submit</button>
                            
                           </div> -->
                           </fieldset>
@@ -237,137 +204,122 @@
                   
                     </div>
                       <div class="tab-content " id="myTabContent">
-                        
+                        <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">   
+                           
+                      </div>
                       <script>
                         $(function(){
-$(document).on('click', '#addlevel1', function(){
-var formData = $('#level1').serializeArray(),
-rs = formObj2Json(formData);
-
-var personalinfo = [];
-
-// console.log(JSON.stringify(rs, undefined, 2));
-
-personalinfo.push(rs);
-console.log(personalinfo);
-var classname = document.getElementById('classname').value;
-var programtype = document.getElementById('programtype').value;
-var traininglevel = document.getElementById('level').value;
-var batchid = document.getElementById('programid').value;
-var dpt = document.getElementById('dpt').value;
-var senddt = [];
-
-if(personalinfo.length >0)
-{
-for(var i=0 ;i < personalinfo.length ; i++)
-{
+  $(document).on('click', '#addlevel1', function(){
+  var formData = $('#level1').serializeArray(),
+  rs = formObj2Json(formData);
+  
+  var personalinfo = [];
+  
+  // console.log(JSON.stringify(rs, undefined, 2));
+  
+  personalinfo.push(rs);
+  console.log(personalinfo);
+  var programtype = document.getElementById('programtype').value;
+  var traininglevel = document.getElementById('level').value;
+  var batchid = document.getElementById('programid').value;
+  var senddt = [];
+  
+  if(personalinfo.length >0)
+  {
+  for(var i=0 ;i < personalinfo.length ; i++)
+  {
   var obj = personalinfo[i];
- // console.log(obj)
+  // console.log(obj)
   Object.getOwnPropertyNames(obj).forEach(
-function (val, idx, array) {
-var tblobj = {};
-var assignteacher = obj[val] 
-tblobj['class'] = classname ;
-tblobj['course'] = val ;
-tblobj['teacher'] = obj[val] ;
-tblobj['level'] = traininglevel;
-tblobj['programtype'] = programtype;
-tblobj['batch'] = batchid;
-tblobj['dpt'] = dpt;
-if(assignteacher != "0")
-{
-senddt.push(tblobj)
-}
-
-console.log(val + ' -> ' + obj[val]);
-// console.log(classname +'==='+ val +'==='+ obj[val])
-}
-);
-}
-}
-var tobesaveddt = JSON.stringify(senddt) ;
-console.log(tobesaveddt);
-var cls = document.getElementById('classname').value;
-if(cls == "0")
-{
-var x = document.getElementById("server");
-var msg = document.getElementById("servermsg");
-x.style.display = "block";
-x.className="alert-danger alert  alert-dismissible fade show";
-msg.innerHTML="Please select class name first"
-// setTimeout(function(){// wait for 5 secs(2)
-// location.reload(); // then reload the page.(3)
-// }, 1000); 
-}
-else if(senddt.length === 0){
+  function (val, idx, array) {
+  var tblobj = {};
+  var assignteacher = obj[val] 
+  
+  tblobj['class'] = val ;
+  tblobj['teacher'] = obj[val] ;
+  
+  if(assignteacher != "0")
+  {
+  senddt.push(tblobj)
+  }
+  
+  console.log(val + ' -> ' + obj[val]);
+  // console.log(classname +'==='+ val +'==='+ obj[val])
+  }
+  );
+  }
+  }
+  var tobesaveddt = JSON.stringify(senddt) ;
+  console.log(tobesaveddt);
+  if(senddt.length === 0){
   var x = document.getElementById("server");
-var msg = document.getElementById("servermsg");
-x.style.display = "block";
-x.className="alert-danger alert  alert-dismissible fade show";
-msg.innerHTML="Please select teacher name to assign first"
-setTimeout(function(){// wait for 5 secs(2)
-location.reload(); // then reload the page.(3)
-}, 1000); 
-}
-else{
-convertArrayToJSON(tobesaveddt);
-}
-
-//document.getElementById('extrainfo').value = rs;
-
-//  $("#myModal").modal('show');
-//   $('#rs').html(JSON.stringify(rs, undefined, 2));
-});
-
-
-});
-
-function convertArrayToJSON(tobesaveddt)
+  var msg = document.getElementById("servermsg");
+  x.style.display = "block";
+  x.className="alert-danger alert  alert-dismissible fade show";
+  msg.innerHTML="Please select teacher name to assign first"
+  setTimeout(function(){// wait for 5 secs(2)
+  location.reload(); // then reload the page.(3)
+  }, 1000); 
+  }
+  else{
+  convertArrayToJSON(tobesaveddt);
+  }
+  
+  //document.getElementById('extrainfo').value = rs;
+  
+  //  $("#myModal").modal('show');
+  //   $('#rs').html(JSON.stringify(rs, undefined, 2));
+  });
+  
+  
+  });
+  
+  function convertArrayToJSON(tobesaveddt)
     {
         var TableData;
        // TableData = $.toJSON(storeTblValues());
        TableData =  tobesaveddt ;
       //  $('#tbConvertToJSON').html('<br>JSON array: <br>' + TableData.replace(/},/g, "},<br>"));
-
-
-$.ajax({
+  
+  
+  $.ajax({
             type: "POST",
-            url: "/department/teacher/saveclassteachercourse",
+            url: "/department/teacher/saveassignclassrepresentative",
             data: "pTableData=" + TableData,    // post TableData to server script
-
+  
             success: function (data) {
               var x = document.getElementById("server");
-var msg = document.getElementById("servermsg");
-
+  var msg = document.getElementById("servermsg");
+  
               if(data.message == 'success'){ // if true (1)
-
+  
               
-x.style.display = "block";
-x.className="alert-success alert  alert-dismissible fade show";
-msg.innerHTML="You are successfully assign class teacher to course list!";
-setTimeout(function(){// wait for 5 secs(2)
-location.reload(); // then reload the page.(3)
-}, 1000); 
-}
-else{
-
-x.style.display = "block";
-x.className="alert-danger alert  alert-dismissible fade show";
-msg.innerHTML="Error while assign teacher to course list request try again!"
-setTimeout(function(){// wait for 5 secs(2)
-location.reload(); // then reload the page.(3)
-}, 1000); 
-}
+  x.style.display = "block";
+  x.className="alert-success alert  alert-dismissible fade show";
+  msg.innerHTML="You are successfully assign class teacher to course list!";
+  setTimeout(function(){// wait for 5 secs(2)
+  location.reload(); // then reload the page.(3)
+  }, 1000); 
+  }
+  else{
+  
+  x.style.display = "block";
+  x.className="alert-danger alert  alert-dismissible fade show";
+  msg.innerHTML="Error while assign teacher to course list request try again!"
+  setTimeout(function(){// wait for 5 secs(2)
+  location.reload(); // then reload the page.(3)
+  }, 1000); 
+  }
             }
         });
    
       }
-function formObj2Json(formArray) { //serialize data function
-var returnArray = {};
-for (var i = 0, len = formArray.length; i < len; i++)
-returnArray[formArray[i].name] = formArray[i].value;
-return returnArray;
-}
+  function formObj2Json(formArray) { //serialize data function
+  var returnArray = {};
+  for (var i = 0, len = formArray.length; i < len; i++)
+  returnArray[formArray[i].name] = formArray[i].value;
+  return returnArray;
+  }
                       </script>
                     
                   </div>
@@ -394,11 +346,7 @@ return returnArray;
     <footer class="main-footer">
         <%- include ('./partials/footer') %>
     </footer>
-    <script>
-      $(document).ready(function() {
-  $('.js-example-basic-single').select2();
-  });
-    </script>
+  
   <!-- ./wrapper -->
   
   <!-- REQUIRED SCRIPTS -->
@@ -416,9 +364,8 @@ return returnArray;
   <script src="../../../dist/js/demo.js"></script>
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script src="../../../dist/js/pages/dashboard3.js"></script>
+  <script src="../../plugins/toastr/toastr.min.js"></script>
   
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
   
   </body></html>
+  

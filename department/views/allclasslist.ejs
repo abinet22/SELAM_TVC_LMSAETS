@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>selam</title>
+  <title></title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -95,7 +95,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>DataTables</h1>
+            <h1>Dashboard</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -144,7 +144,7 @@
                                 <th>Class Name</th>
                               
                                 <th>Class Representative </th>
-                                <th>Show Report</th>
+                                <th>Select Course To Show Report</th>
                                
                               </tr>
                             </thead>
@@ -160,7 +160,9 @@
                                             <td><%= row.occupation_name %></td>
                                             <td><%= row.class_name %></td>
                                            
-                                            <td><%= row.staff_f_name %> &nbsp; <%= row.staff_m_name %></td>
+                                            <td>
+                                              <label style="text-transform: uppercase;"><%= row.staff_f_name %> &nbsp; <%= row.staff_m_name %>  &nbsp; <%= row.staff_l_name %></label>
+                                            </td>
                                          <td>
                                            <form action="/department/grade/showgradeforclasscourse/<%= row.class_id %>" method="post">
                                              <input type="hidden" name="programtag" value="<%= programtag %>">
@@ -168,10 +170,10 @@
                                              <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                         
                                              <div class="form-group">
-                                               <label>Select Course</label>
+                                              
                                                <select class="form-control" name="courseid">
-                                                 <option value="0">please select course</option>
-                                                 <% if(courselist.length >0){ %>
+                                                <option value="0">Please Select Course</option>
+                                                <% if(courselist.length >0){ %>
                                                   <% courselist.forEach(function (row){ %>
                                                     <option value="<%=row.course_id%>"><%= row.course_name %></option>
                                                   <%}) } else{} %>

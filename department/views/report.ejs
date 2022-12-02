@@ -116,7 +116,7 @@
       <div class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-6 col-sm-6 col-12">
+                <div class="col-md-4 col-sm-6 col-12">
                   <div class="info-box">
                     <span class="info-box-icon bg-info"><i class="fa fa-cube"></i></span>
       
@@ -129,16 +129,44 @@
                   <!-- /.info-box -->
                 </div>
                 <!-- /.col -->
-              
+                <div class="col-md-4 col-sm-6 col-12">
+                  <div class="info-box">
+                    <span class="info-box-icon bg-info"><i class="fa fa-envelope"></i></span>
+      
+                    <div class="info-box-content">
+                      <span class="info-box-text">Occupation</span>
+                      <% if(dptlevelngo.length >0){%>
+                        <% dptlevelngo.forEach(function(row){%>
+                          <ul class="nav flex-column">
+                            <li class="nav-item">
+                              <a href="#" class="nav-link">
+                                <%= row.occupation_name %> <span class="float-right badge bg-primary"><%= row.trainee %></span>
+                              </a>
+                            </li>
+                            </ul>
+                          
+                        <%})}else{}%>
+                    
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+                  <!-- /.info-box -->
+                </div>
                 <!-- /.col -->
                
-                <div class="col-md-6 col-sm-6 col-12">
+                <div class="col-md-4 col-sm-6 col-12">
                     <div class="info-box">
                       <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
-        
+                      <% var sum = 0; %>
                       <div class="info-box-content">
                         <span class="info-box-text">Trainee</span>
-                        <span class="info-box-number"><%= trainee %></span>
+                        <% if(dptlevelngo.length >0){%>
+                         
+                          <% dptlevelngo.forEach(function(row){%>
+                            <% sum += parseInt(row.trainee) %>
+                            
+                          <%})}else{}%>
+                          <span class="info-box-number"><%= sum %></span>
                       </div>
                       <!-- /.info-box-content -->
                     </div>
@@ -163,47 +191,48 @@
                       <!-- /.card-header -->
                       <div class="card-body">
                           <div class="row">
-                          
-                              <div class="col-md-6">
-                                <!-- Widget: user widget style 2 -->
-                                <div class="card card-widget widget-user-2">
-                                  <!-- Add the bg color to the header using any of the bg-* classes -->
-                                  <div class="widget-user-header bg-info">
-                                    <div class="widget-user-image">
-                                     <i class="fas fa-file"></i>
-                                    </div>
-                                    <!-- /.widget-user-image -->
-                                    <h3 class="widget-user-username"></h3>
-                                    <h5 class="widget-user-desc">Batch</h5>
+                            <div class="col-md-6">
+                              <!-- Widget: user widget style 2 -->
+                              <div class="card card-widget widget-user-2">
+                                <!-- Add the bg color to the header using any of the bg-* classes -->
+                                <div class="widget-user-header bg-info">
+                                  <div class="widget-user-image">
+                                   <i class="fas fa-file"></i>
                                   </div>
-                                  <div class="card-footer p-0">
-                                    <ul class="nav flex-column">
-                                      <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                          Total <span class="float-right badge bg-primary"><%= batch %></span>
-                                        </a>
-                                      </li>
-                                     
-                                      <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                          Level Based Trainee <span class="float-right badge bg-success"><%=lbbatch %></span>
-                                        </a>
-                                      </li>
-                                      <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                          NGO Based Trainee <span class="float-right badge bg-success"><%= nbbatch %></span>
-                                        </a>
-                                      </li>
-                                      <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                          Industry Based Trainee <span class="float-right badge bg-success"><%=ibbatch %></span>
-                                        </a>
-                                      </li>
-                                    </ul>
-                                  </div>
+                                  <!-- /.widget-user-image -->
+                                  <h3 class="widget-user-username"></h3>
+                                  <h5 class="widget-user-desc">Batch</h5>
                                 </div>
-                                <!-- /.widget-user -->
+                                <div class="card-footer p-0">
+                                  <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                      <a href="#" class="nav-link">
+                                        Total <span class="float-right badge bg-primary"><%= batch %></span>
+                                      </a>
+                                    </li>
+                                   
+                                    <li class="nav-item">
+                                      <a href="#" class="nav-link">
+                                        Level Based Trainee <span class="float-right badge bg-success"><%=lbbatch %></span>
+                                      </a>
+                                    </li>
+                                    <li class="nav-item">
+                                      <a href="#" class="nav-link">
+                                        Short Term /Project/ Based Trainee <span class="float-right badge bg-success"><%= nbbatch %></span>
+                                      </a>
+                                    </li>
+                                    <li class="nav-item">
+                                      <a href="#" class="nav-link">
+                                        Industry Based Trainee <span class="float-right badge bg-success"><%=ibbatch %></span>
+                                      </a>
+                                    </li>
+                                  </ul>
+                                </div>
                               </div>
+                              <!-- /.widget-user -->
+                            </div>
+                           
+                              
                              
                               <div class="col-md-6">
                                 <!-- Widget: user widget style 2 -->
@@ -225,18 +254,27 @@
                                         </a>
                                       </li>
                                       <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                          On Training <span class="float-right badge bg-danger"><%= ontrainee %></span>
-                                        </a>
+                                        <a href="#" class="nav-link">   On Training  <br>
+                                          <% ontrainee.forEach(function(row){ %>
+                                            <%= row.occupation_name %> <span class="float-right badge bg-success"><%= row.trainee %></span><br>
+                                
+                                          <%})%> </a>
                                       </li>
                                       <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                          Graduated Trainee <span class="float-right badge bg-success"><%= graduated %></span>
-                                        </a>
+                                        <a href="#" class="nav-link"> Graduated Trainee  <br>
+                                          <% graduated.forEach(function(row){ %>
+                                             <%= row.occupation_name %> <span class="float-right badge bg-success"><%= row.trainee %></span><br>
+                                
+                                          <%})%>
+                                                 </a>
                                       </li>
                                       <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                          Dropout Trainee <span class="float-right badge bg-danger"><%= dropout %></span>
+                                        <a href="#" class="nav-link"> Dropout Trainee  <br>
+                                          <% dropout.forEach(function(row){ %>
+                                           
+                                            <%= row.occupation_name %> <span class="float-right badge bg-success"><%= row.trainee %></span><br>
+                                
+                                          <%})%>
                                         </a>
                                       </li>
                                     

@@ -88,7 +88,7 @@ router.post('/attendancedatafromclass/(:classname)',ensureAuthenticated,async fu
 
 router.post('/showdetailsinglestudent/(:studentid)',ensureAuthenticated,async function(req,res){
   const {programtype} = req.body;
-   const dpt = await Department.findAll({});
+   const dpt = await Occupation.findAll({});
     const [absent, absentmeta] = await sequelize.query(
       "SELECT student_id,attendance_date FROM attendances  where student_id='"+req.params.studentid +"' and attendance_type='Absent'"
     );  
@@ -105,7 +105,9 @@ router.post('/showdetailsinglestudent/(:studentid)',ensureAuthenticated,async fu
     if(programtype == "level"){
     
       const [levelbased, metadatalevelbased] = await sequelize.query(
-        "select * from levelbasedtrainees where trainee_id = '"+req.params.studentid+"'"
+        "select * from levelbasedtrainees inner join occupations on "+
+        " occupations.occupation_id =levelbasedtrainees.department_id " +
+        " inner join batches on batches.batch_id = levelbasedtrainees.batch_id where trainee_id = '"+req.params.studentid+"'"
       );   
         
       res.render('showsinglestudentattendancedetail',{dpt:dpt,studentid:req.params.studentid,present:present,permission:permission,absent:absent,levelbased:levelbased,programtype:programtype , lbattendancedata:lbattendancedata})
@@ -113,7 +115,10 @@ router.post('/showdetailsinglestudent/(:studentid)',ensureAuthenticated,async fu
     }else if(programtype == "ngo"){
     
       const [ngobased, metadatangobased] = await sequelize.query(
-        "select * from ngobasedtrainees where trainee_id = '"+req.params.studentid+"'"
+        "select * from ngobasedtrainees inner join occupations on "+
+        " occupations.occupation_id =ngobasedtrainees.department_id " +
+        " inner join batches on batches.batch_id = ngobasedtrainees.batch_id where trainee_id = '"+req.params.studentid+"'"
+   
       );   
         
       res.render('showsinglestudentattendancedetail',{dpt:dpt,studentid:req.params.studentid,present:present,permission:permission,absent:absent,levelbased:ngobased,programtype:programtype , lbattendancedata:lbattendancedata})
@@ -121,10 +126,10 @@ router.post('/showdetailsinglestudent/(:studentid)',ensureAuthenticated,async fu
     }else if(programtype == "industry"){
     
       const [industrybased, metadataindustrybased] = await sequelize.query(
-        "select * from industrybasedtrainees "+
-        " inner join batches on batches.batch_id = industrybasedtrainees.batch_id "+
-         " where industrybasedtrainees.trainee_id = '"+req.params.studentid+"'"
-
+        "select * from industrybasedtrainees  inner join occupations on  "+
+        " occupations.occupation_id =industrybasedtrainees.department_id " +
+        " inner join batches on batches.batch_id = industrybasedtrainees.batch_id where trainee_id = '"+req.params.studentid+"'"
+   
         );   
         
    res.render('showsinglestudentattendancedetail',{dpt:dpt,studentid:req.params.studentid,present:present,permission:permission,absent:absent,levelbased:industrybased,programtype:programtype , lbattendancedata:lbattendancedata})

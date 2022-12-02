@@ -66,42 +66,107 @@ router.get('/assigncoursetoteacher',ensureAuthenticated,async function(req,res){
         occupation:occupation
     })
 })
-router.post('/coursetoteacherlevelbased',ensureAuthenticated,async function(req,res){
-  const{programidlevel,traininglevel,programtype,occupationname} = req.body;
-        const teacherlist = await StaffList.findAll({where:{isteacher:'Yes'}})
-        const classlist = await ClassInDept.findAll({where:{
-                              batch_id:programidlevel,
-                              department_id: occupationname,
-                              training_level:traininglevel,
-                              training_type:programtype}})
-        const courselist = await Course.findAll({where:{
-                          
-                            department_id: occupationname,
-                            training_level:traininglevel }})
-
-  res.render('courseteacher',{
-   programid:programidlevel,
+router.post('/classlistbeforecourseteacher',ensureAuthenticated,async function(req,res){
+  const{programidlevel,traininglevel,programtype,occupationname,tag} = req.body;
+        const teacherlist = await StaffList.findAll({});
+        var classlist ;
+        var courselist;
+        if(tag ==="level"){
+           classlist = await ClassInDept.findAll({where:{
+            batch_id:programidlevel,
+            department_id: occupationname,
+            training_level:traininglevel,
+            training_type:programtype}})
+ courselist = await Course.findAll({where:{
+        
+          department_id: occupationname,
+          training_level:traininglevel }})
+        }
+        else if (tag ==="ngo"){
+           classlist = await ClassInDept.findAll({where:{
+            batch_id:programidlevel,
+            department_id: occupationname,
+           
+            training_type:programtype}})
+ courselist = await Course.findAll({where:{
+        
+          department_id: occupationname,
+          }})
+        }else if(tag ==="industry"){
+           classlist = await ClassInDept.findAll({where:{
+            batch_id:programidlevel,
+            department_id: occupationname,
+           
+            training_type:programtype}})
+ courselist = await Course.findAll({where:{
+        
+          department_id: occupationname,
+          }})
+        }
+     
+        const occinfo =await Occupation.findOne({where:{occupation_id:occupationname}});
+        const batchinfo =await Batch.findOne({where:{batch_id:programidlevel}});
+  res.render('classlistbeforecourseteacher',{
+    programidlevel:programidlevel,
    teacherlist:teacherlist,
    traininglevel:traininglevel,
    programtype:programtype,
    classlist:classlist,
    courselist:courselist,
-   dpt:occupationname
+   occinfo:occinfo,
+   batchinfo:batchinfo,
+   occupationname:occupationname
+  }) 
+})
+router.post('/coursetoteacherlevelbased/(:classname)',ensureAuthenticated,async function(req,res){
+  const{programidlevel,traininglevel,programtype,occupationname} = req.body;
+        const teacherlist = await StaffList.findAll({})
+        const classlist = await ClassInDept.findOne({where:{
+                              class_id:req.params.classname,
+                              batch_id:programidlevel,
+                              department_id: occupationname,
+                              training_level:traininglevel,
+                              training_type:programtype}})
+        const courselist = await Course.findAll({where:{
+                            
+                            department_id: occupationname,
+                            training_level:traininglevel }})
+        const [courseteacher,ctmeta] = await sequelize.query(
+          "select * from courses inner join courseteacherclasses on"+
+        "  courses.course_id = courseteacherclasses.course_id inner join stafflists on "+
+        " stafflists.staff_id = courseteacherclasses.teacher_id where courses.department_id='"+ occupationname+"' and courseteacherclasses.class_id='"+req.params.classname+"' "
+        );
+        console.log(courseteacher);
+        const occinfo =await Occupation.findOne({where:{occupation_id:occupationname}});
+        const batchinfo =await Batch.findOne({where:{batch_id:programidlevel}});
+  res.render('courseteacher',{
+   programid:programidlevel,
+   classname:req.params.classname,
+   teacherlist:teacherlist,
+   traininglevel:traininglevel,
+   programtype:programtype,
+   classlist:classlist,
+   courselist:courselist,
+   occinfo:occinfo,
+   batchinfo:batchinfo,
+   dpt:occupationname,
+   courseteacher:courseteacher
   }) 
 })
 
 router.post('/coursetoteacherindustrybased',ensureAuthenticated,async function(req,res){
-  const{programid,traininglevel,programtype,occupationname} = req.body;
-        const teacherlist = await StaffList.findAll({where:{isteacher:'Yes'}})
+  const{programidlevel,programtype,occupationname} = req.body;
+        const teacherlist = await StaffList.findAll({})
         const classlist = await ClassInDept.findAll({where:{
-                              batch_id:programid,
+                              batch_id:programidlevel,
                               department_id:occupationname,
                               training_type:programtype}})
         const courselist = await IndustryCourse.findAll({where:{
-                            batch_id:programid,
+                            batch_id:programidlevel,
                             department_id:occupationname,
                              }})
-
+                             const occinfo =await Occupation.findOne({where:{occupation_id:occupationname}});
+                             const batchinfo = await Batch.findOne({where:{batch_id:programidlevel}});
   res.render('courseteacher',{
    programid:programid,
    teacherlist:teacherlist,
@@ -109,22 +174,25 @@ router.post('/coursetoteacherindustrybased',ensureAuthenticated,async function(r
  dpt:occupationname,
    programtype:programtype,
    classlist:classlist,
-   courselist:courselist
+   courselist:courselist,
+   occinfo:occinfo,
+   batchinfo:batchinfo,
   }) 
 })
 router.post('/coursetoteacherngobased',ensureAuthenticated,async function(req,res){
-  const{programid,programtype,occupationname} = req.body;
-        const teacherlist = await StaffList.findAll({where:{isteacher:'Yes'}})
+  const{programidlevel,programtype,occupationname} = req.body;
+        const teacherlist = await StaffList.findAll({})
         const classlist = await ClassInDept.findAll({where:{
-                              batch_id:programid,
+                              batch_id:programidlevel,
                               department_id:occupationname,
                            
                               training_type:programtype}})
         const courselist = await NGOCourse.findAll({where:{
-                            batch_id:programid,
+                            batch_id:programidlevel,
                             department_id:occupationname,
                             }})
-
+                            const occinfo = await Occupation.findOne({where:{occupation_id:occupationname}});
+                            const batchinfo = await Batch.findOne({where:{batch_id:programidlevel}});
   res.render('courseteacher',{
    programid:programid,
    teacherlist:teacherlist,
@@ -132,7 +200,9 @@ router.post('/coursetoteacherngobased',ensureAuthenticated,async function(req,re
 dpt:occupationname,
    programtype:programtype,
    classlist:classlist,
-   courselist:courselist
+   courselist:courselist,
+   occinfo:occinfo,
+   batchinfo:batchinfo,
   }) 
 })
 router.post('/assignclassrepresentativelevel',ensureAuthenticated,async function(req,res){
@@ -193,71 +263,130 @@ router.post('/assignclassrepresentativeindustry',ensureAuthenticated,async funct
 
   }) 
 })
-router.post('/saveclassteachercourse',ensureAuthenticated,async function(req,res){
-    const {pTableData} =req.body ;
-  
-    const copyItems = [];
-  myObj = JSON.parse(pTableData);
-  
-  for (let i = 0; i < myObj.length; i++) {
-    copyItems.push(myObj[i]);
-  }
-  console.log(copyItems);
-    if(copyItems.length >0)
-    {
-      console.log("xnnnnnnnnnnnnnnnnnnnnnnnn");
-  copyItems.forEach((item) => {
-     var classid = item.class;
-     var courseid = item.course;
-     var teacherid = item.teacher;
-     var batchid = item.batch;
-     var level = item.level;
-     var programtype = item.programtype;
-     var dpt = item.dpt;
-     
-     const courseteachercomData = {
-         course_id:courseid,
-         batch_id:batchid,
-         department_id:dpt,
-         level:level,
-         program_type:programtype,
-         teacher_id:teacherid,
-         class_id:classid
-     }
-
-     CourseTeacherClass.findOne({where:{class_id:classid,course_id:courseid,department_id:dpt,batch_id:batchid}}).then(data =>{
-      console.log("fffffffffffff");
-          if(!data)
-          {
-            CourseTeacherClass.create(courseteachercomData).then(classteachercourse =>{
-           
-            }).catch(error =>{
-              console.log(error)
-            })
-              
-          }
-        
-         else {
-            CourseTeacherClass.update({teacher_id:teacherid},{where:{class_id:classid,course_id:courseid,department_id:dpt,batch_id:batchid}})
-          }
-       
-     }).catch(error =>{
-         console.log(error)
-     })
+router.post('/saveclassteachercourse/(:courseid)',ensureAuthenticated,async function(req,res){
+    const {programid,dpt,classname,traininglevel,programtype,teachername,enddate,startdate} =req.body ;
    
-  
-  });
-  
-      res.send({message:'success'})
-  
+    let errors=[];
+     const [courseteacher,ctmeta]  = await sequelize.query(
+      "select courses.course_id,stafflists.staff_f_name,stafflists.staff_m_name,stafflists.staff_l_name from courses inner join courseteacherclasses on"+
+    "  courses.course_id = courseteacherclasses.course_id inner join stafflists on "+
+    " stafflists.staff_id = courseteacherclasses.teacher_id where courses.department_id='"+ dpt+"' and courseteacherclasses.class_id='"+classname+"'"
+    );
+     
+    const teacherlist = await StaffList.findAll({})
+    const classlist = await ClassInDept.findOne({where:{
+                          class_id:classname,
+                          batch_id:programid,
+                          department_id: dpt,
+                          training_level:traininglevel,
+                          training_type:programtype}})
+    const courselist = await Course.findAll({where:{
+                      
+                        department_id: dpt,
+                        training_level:traininglevel }})
+    const occinfo =await Occupation.findOne({where:{occupation_id:dpt}});
+    const batchinfo =await Batch.findOne({where:{batch_id:programid}});
+    if(!programid || !dpt || !classname || !teachername || !enddate || !startdate){
+      errors.push({msg:'Please Add All Required Fields'})
+    }
+    if( teachername =="0"){
+      errors.push({msg:'Please Select Teacher Name'})
+    }
+    if(errors.length >0){
+      res.render('courseteacher',{errors,
+        programid:programid,
+        classname:classname,
+        teacherlist:teacherlist,
+        traininglevel:traininglevel,
+        programtype:programtype,
+        classlist:classlist,
+        courselist:courselist,
+        occinfo:occinfo,
+        batchinfo:batchinfo,
+        dpt:dpt,
+        courseteacher:courseteacher
+      })
     }
     else{
-  
-      res.send({message:'error'})
-  
+      const courseteachercomData={
+        batch_id:programid,
+      course_id : req.params.courseid,
+      teacher_id: teachername,
+      level :traininglevel,
+      department_id :dpt,
+      class_id:classname,
+      program_type:programtype,
+      startdate:startdate,
+      enddate:enddate
+      }
+      CourseTeacherClass.findOne({where:{class_id:classname,course_id:req.params.courseid,department_id:dpt,batch_id:programid}}).then(data =>{
+        console.log("fffffffffffff");
+            if(!data)
+            {
+              CourseTeacherClass.create(courseteachercomData).then(classteachercourse =>{
+                res.render('courseteacher',{programid:programid,
+                  classname:classname,
+                  teacherlist:teacherlist,
+                  traininglevel:traininglevel,
+                  programtype:programtype,
+                  classlist:classlist,
+                  courselist:courselist,
+                  occinfo:occinfo,
+                  batchinfo:batchinfo,
+                  courseteacher:courseteacher,
+                  dpt:dpt,success_msg:"Successfully Assign Course To Teacher"})
+              }).catch(error =>{
+                res.render('courseteacher',{programid:programid,
+                  classname:classname,
+                  teacherlist:teacherlist,
+                  traininglevel:traininglevel,
+                  programtype:programtype,
+                  classlist:classlist,
+                  courseteacher:courseteacher,
+                  courselist:courselist,
+                  occinfo:occinfo,
+                  batchinfo:batchinfo,
+                  dpt:dpt,error_msg:"Error While Assign Teacher To Course"})
+   
+              })
+                
+            }
+          
+           else {
+              CourseTeacherClass.update({teacher_id:teachername},{where:{class_id:classname,course_id:req.params.courseid,department_id:dpt,batch_id:programid}}).then(assigned =>{
+                res.render('courseteacher',{programid:programid,
+                  classname:classname,
+                  teacherlist:teacherlist,
+                  traininglevel:traininglevel,
+                  programtype:programtype,
+                  classlist:classlist,
+                  courselist:courselist,
+                  occinfo:occinfo,
+                  courseteacher:courseteacher,
+                  batchinfo:batchinfo,
+                  dpt:dpt,success_msg:"Successfully Update And Assign Course To Teacher"})
+              }).catch(err =>{
+                res.render('courseteacher',{programid:programid,
+                  classname:classname,
+                  teacherlist:teacherlist,
+                  traininglevel:traininglevel,
+                  programtype:programtype,
+                  courseteacher:courseteacher,
+                  classlist:classlist,
+                  courselist:courselist,
+                  occinfo:occinfo,
+                  batchinfo:batchinfo,
+                  dpt:dpt,error_msg:"Error While Update And  Assign Teacher To Course"})
+   
+              })
+            }
+         
+       }).catch(error =>{
+           console.log(error)
+       })
+    
     }
-  
-  
+   
   })
   router.post('/saveassignclassrepresentative',ensureAuthenticated,async function(req,res){
     const {pTableData} =req.body ;

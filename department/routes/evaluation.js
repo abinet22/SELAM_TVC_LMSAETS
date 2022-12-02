@@ -159,7 +159,10 @@ const [courselist, metadata] = await sequelize.query(
   "SELECT * from courses where course_id='"+courseid+"'"
   );
 const [levelbased, metadatalevelbased] = await sequelize.query(
-"select * from levelbasedtrainees inner join levelbasedprogresses on levelbasedprogresses.class_id = levelbasedtrainees.class_id where levelbasedtrainees.class_id = '"+ req.params.classname +"' and levelbasedtrainees.trainee_id = levelbasedprogresses.student_id"
+"select * from levelbasedtrainees inner join levelbasedprogresses on levelbasedprogresses.class_id = levelbasedtrainees.class_id"+
+" where levelbasedtrainees.class_id = '"+ req.params.classname +"' and levelbasedtrainees.trainee_id = levelbasedprogresses.student_id"+
+" and  levelbasedprogresses.course_id='"+courseid+"' and  levelbasedprogresses.batch_id='"+batchid+"' and levelbasedprogresses.department_id='"+dpt+"'"+
+" and levelbasedprogresses.program_type='"+programtype+"'"
 );     
 res.render('showclassprogress',{dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype,programtag:"level"})
 
@@ -168,11 +171,13 @@ router.post('/showclassprogressngo/(:classname)',ensureAuthenticated,async funct
 
 const{level,programtype,dpt,batchid} = req.body;
 const [courselist, metadata] = await sequelize.query(
-  "SELECT ngocourses.course_name,ngocourses.course_id FROM  courseteacherclasses "+
-  "INNER JOIN ngocourses ON ngocourses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+req.params.classname+"' "
+  "SELECT  * FROM  ngocourses "+
+  " where department_id='"+dpt+"' and batch_id='"+batchid+"'"
+ 
 );
 const [levelbased, metadatalevelbased] = await sequelize.query(
-  "select * from ngobasedtrainees inner join levelbasedprogresses on levelbasedprogresses.class_id = ngobasedtrainees.class_id where ngobasedtrainees.class_id = '"+ req.params.classname +"' and ngobasedtrainees.trainee_id = levelbasedprogresses.student_id"
+  "select * from ngobasedtrainees inner join levelbasedprogresses on levelbasedprogresses.class_id = ngobasedtrainees.class_id "+
+  " where ngobasedtrainees.class_id = '"+ req.params.classname +"' and ngobasedtrainees.trainee_id = levelbasedprogresses.student_id"
 );     
 res.render('showclassprogress',{dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype,programtag:"ngo"})
 

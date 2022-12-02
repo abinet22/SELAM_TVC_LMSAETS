@@ -21,6 +21,12 @@ module.exports = (sequelize, DataTypes) => {
         },
         program_type:{
             type: DataTypes.STRING,
+        },
+        startdate:{
+            type: DataTypes.STRING,
+        },
+        enddate:{
+            type: DataTypes.STRING,
         }
        
     });

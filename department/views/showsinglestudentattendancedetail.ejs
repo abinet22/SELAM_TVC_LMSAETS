@@ -981,12 +981,7 @@
                                 <b class="d-block"><%= row.batch_name %></b>
                               </p>
                               <p class="text-sm">Occupation
-                                  <% if(dpt.length > 0){ %>
-                                       <% dpt.forEach(function (row){ %>
-                                         <% if(row.department_id == deptid){ %>
-                                            <b class="d-block"> <%= row.department_name %></b>
-                                       <% }}) %>
-                                  <%}else{} %>
+                                <b class="d-block"> <%= row.occupation_name %></b>
                               
                               </p>
                               <p class="text-sm">Program Type

@@ -148,6 +148,39 @@
                 <!-- /.card -->
               </div>
           </div>
+          <div class="row">
+            <div class="col-md-12">
+                <div class="card card-info collapsed-card" style="transition: all 0.15s ease 0s; height: inherit; width: inherit;">
+                  <div class="card-header">
+                    <h3 class="card-title">Batch Vs Occupation Vs Trainee </h3>
+    
+                    <div class="card-tools">
+                      
+                      <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                        <i class="fas fa-expand"></i>
+                      </button>
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-plus"></i>
+                      </button>
+                      <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </div>
+                    <!-- /.card-tools -->
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body" style="display: none;">
+                    <div class="card-body">
+                        <div class="chart">
+                            <canvas id="myChart2" style="min-height: 250px; height: 250px;  max-width: 100%; display: block; width: 535px;" width="535" height="250" class="chartjs-render-monitor"></canvas>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+          </div>
           <!-- /.row -->
         </div>
         <!-- /.container-fluid -->
@@ -211,6 +244,36 @@ new Chart("myChart", {
       text: "Batch Vs Trainee"
     }
   }
+});
+</script>
+<script>
+  var test = '<%- JSON.stringify(occtrainee) %>'; 
+  var data = JSON.parse(test)
+  var xValues = [];
+var yValues = [];
+  data.forEach(item =>{
+   xValues.push(item.occupation_name + "_"+ item.batch_name);
+   yValues.push(item.total)
+  });
+console.log(data)
+var barColors = ["red", "green","blue","orange","brown","red", "green","blue","orange","brown","red", "green","blue","orange","brown"];
+
+new Chart("myChart2", {
+type: "bar",
+data: {
+  labels: xValues,
+  datasets: [{
+    backgroundColor: barColors,
+    data: yValues
+  }]
+},
+options: {
+  legend: {display: false},
+  title: {
+    display: true,
+    text: "Batch Vs Occupation Vs Trainee"
+  }
+}
 });
 </script>
   </body></html>

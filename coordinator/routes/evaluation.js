@@ -124,8 +124,7 @@ router.post('/showclassevaluationngo/(:classname)',ensureAuthenticated,async fun
 
 const{level,programtype,dpt,batchid} = req.body;
 const [courselist, metadata] = await sequelize.query(
-    "SELECT ngocourses.course_name,ngocourses.course_id FROM  courseteacherclasses "+
-    "INNER JOIN ngocourses ON ngocourses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+req.params.classname+"' "
+  "SELECT * from ngocourses where batch_id='"+batchid+"'"
   );
   const [levelbased, metadatalevelbased] = await sequelize.query(
     "select * from ngobasedtrainees inner join studentmarklistlevelbaseds on studentmarklistlevelbaseds.class_id = ngobasedtrainees.class_id where ngobasedtrainees.class_id = '"+ req.params.classname +"' and ngobasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id"
@@ -137,8 +136,7 @@ router.post('/showclassevaluationindustry/(:classname)',ensureAuthenticated,asyn
 
   const{level,programtype,dpt,batchid} = req.body;
   const [courselist, metadata] = await sequelize.query(
-      "SELECT industrycourses.course_name,industrycourses.course_id FROM  courseteacherclasses "+
-      "INNER JOIN industrycourses ON industrycourses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+req.params.classname+"' "
+    "SELECT * from industrycourses where batch_id='"+batchid+"'"
     );
     const [levelbased, metadatalevelbased] = await sequelize.query(
       "select * from industrybasedtrainees inner join studentmarklistlevelbaseds on studentmarklistlevelbaseds.class_id = industrybasedtrainees.class_id where industrybasedtrainees.class_id = '"+ req.params.classname +"' and industrybasedtrainees.student_unique_id = studentmarklistlevelbaseds.student_id"
@@ -167,9 +165,8 @@ router.post('/showclassprogressngo/(:classname)',ensureAuthenticated,async funct
 
 const{level,programtype,dpt,batchid} = req.body;
 const [courselist, metadata] = await sequelize.query(
-  "SELECT ngocourses.course_name,ngocourses.course_id FROM  courseteacherclasses "+
-  "INNER JOIN ngocourses ON ngocourses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+req.params.classname+"' "
-);
+  "SELECT * from ngocourses where batch_id='"+batchid+"'"
+  );
 const [levelbased, metadatalevelbased] = await sequelize.query(
   "select * from ngobasedtrainees inner join levelbasedprogresses on levelbasedprogresses.class_id = ngobasedtrainees.class_id where ngobasedtrainees.class_id = '"+ req.params.classname +"' and ngobasedtrainees.trainee_id = levelbasedprogresses.student_id"
 );     
@@ -180,8 +177,7 @@ router.post('/showclassprogressindustry/(:classname)',ensureAuthenticated,async 
 
 const{level,programtype,dpt,batchid} = req.body;
 const [courselist, metadata] = await sequelize.query(
-    "SELECT industrycourses.course_name,industrycourses.course_id FROM  courseteacherclasses "+
-    "INNER JOIN industrycourses ON industrycourses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+req.params.classname+"' "
+  "SELECT * from industrycourses where batch_id='"+batchid+"'"
   );
   const [levelbased, metadatalevelbased] = await sequelize.query(
     "select * from industrybasedtrainees inner join levelbasedprogresses on levelbasedprogresses.class_id = industrybasedtrainees.class_id where industrybasedtrainees.class_id = '"+ req.params.classname +"' and industrybasedtrainees.trainee_id = levelbasedprogresses.student_id"
