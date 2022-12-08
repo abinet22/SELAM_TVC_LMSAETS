@@ -25,64 +25,8 @@
   <body class="sidebar-mini sidebar-closed sidebar-collapse" style="height: auto;">
   <div class="wrapper">
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-      <!-- Left navbar links -->
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-          <a href="/dashboard" class="nav-link">Home</a>
-        </li>
-     
-      </ul>
-  
-      <!-- Right navbar links -->
-      <ul class="navbar-nav ml-auto">
-        <!-- Navbar Search -->
-       
-  
-        <!-- Messages Dropdown Menu -->
-    
-        <!-- Notifications Dropdown Menu -->
-        <li class="nav-item dropdown">
-          <a class="nav-link" data-toggle="dropdown" href="#">
-            <i class="far fa-bell"></i>
-            <span class="badge badge-warning navbar-badge">15</span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <span class="dropdown-item dropdown-header">15 Notifications</span>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-envelope mr-2"></i> 4 new messages
-              <span class="float-right text-muted text-sm">3 mins</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-users mr-2"></i> 8 friend requests
-              <span class="float-right text-muted text-sm">12 hours</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-file mr-2"></i> 3 new reports
-              <span class="float-right text-muted text-sm">2 days</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-            <i class="fas fa-expand-arrows-alt"></i>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link"   href="/department/logout" role="button">
-            Logout
-          </a>
-        </li>
-      </ul>
-    </nav>
+ 
+    <%- include('./partials/top') %>
     <!-- /.navbar -->
   
     <!-- Main Sidebar Container -->
@@ -141,7 +85,7 @@
                             <input type="hidden" name="programtag" value="level">
                             <div class="form-group">
                                 <label>Select Level Based Program</label>
-                                <select class="form-control " name="programid"  id="programidlevel">
+                                <select style="width: 100%;"  class="form-control-sm js-example-basic-single " name="programid"  id="programid">
                                  <option value="0">Please Select Program/Batch Name</option>
                                  <% if(levelbased.length >0) {%>
                                     <% levelbased.forEach(function (row){ %>
@@ -152,7 +96,7 @@
                             </div>
                             <div class="form-group">
                               <label>Select Occupation </label>
-                              <select class="form-control " name="occupationname"  id="occupationname">
+                              <select style="width: 100%;"  class="form-control-sm js-example-basic-single " name="occupationname"  id="occupationname">
                                <option value="0">Please Select Occupation Name</option>
                                <% if(occupation.length >0) {%>
                                   <% occupation.forEach(function (row){ %>
@@ -182,11 +126,11 @@
                            
                         </div>
                         <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
-                            <form action="/department/grade/searchgrade" method="post">
+                            <form action="/department/grade/searchgraden" method="post">
                                 <input type="hidden" name="programtag" value="ngo">
                                 <div class="form-group">
                                     <label>Select Short Term/Project Based/ Program</label>
-                                    <select class="form-control " name="programid" id="programidngo">
+                                    <select style="width: 100%;"  class="form-control-sm js-example-basic-single " name="programidn" id="programidn">
                                      <option value="0">Please Select Program/Batch Name</option>
                                      <% if(ngobased.length >0) {%>
                                         <% ngobased.forEach(function (row){ %>
@@ -197,7 +141,7 @@
                                 </div>
                                 <div class="form-group">
                                   <label>Select Occupation </label>
-                                  <select class="form-control " name="occupationname"  id="occupationname">
+                                  <select style="width: 100%;"  class="form-control-sm js-example-basic-single " name="occupationnamen"  id="occupationnamen">
                                    <option value="0">Please Select Occupation Name</option>
                                    <% if(occupation.length >0) {%>
                                       <% occupation.forEach(function (row){ %>
@@ -213,11 +157,11 @@
                                 </form>
                           </div>
                           <div class="tab-pane fade" id="vert-tabs-profile1" role="tabpanel" aria-labelledby="vert-tabs-profile1-tab">
-                            <form action="/department/grade/searchgrade" method="post">
+                            <form action="/department/grade/searchgradei" method="post">
                                 <input type="hidden" name="programtag" value="industry">
                                 <div class="form-group">
                                     <label>Select Industry Based Program</label>
-                                    <select class="form-control " name="programid" id="programid">
+                                    <select style="width: 100%;"  class="form-control-sm js-example-basic-single " name="programidi" id="programidi">
                                      <option value="0">Please Select Program/Batch Name</option>
                                      <% if(industrybased.length >0) {%>
                                         <% industrybased.forEach(function (row){ %>
@@ -228,7 +172,7 @@
                                 </div>
                                 <div class="form-group">
                                   <label>Select Occupation </label>
-                                  <select class="form-control " name="occupationname"  id="occupationname">
+                                  <select style="width: 100%;"  class="form-control-sm js-example-basic-single " name="occupationnamei"  id="occupationnamei">
                                    <option value="0">Please Select Occupation Name</option>
                                    <% if(occupation.length >0) {%>
                                       <% occupation.forEach(function (row){ %>
@@ -286,6 +230,15 @@
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script src="../../../dist/js/pages/dashboard3.js"></script>
   <script src="../../plugins/toastr/toastr.min.js"></script>
-  
+  <script>
+    $(document).ready(function() {
+  $('.js-example-basic-single').select2();
+  });
+  </script>
+    
+     
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
   
   </body></html>

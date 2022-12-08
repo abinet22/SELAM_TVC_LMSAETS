@@ -76,4 +76,6 @@ db.attendances = Attendance;
 db.levelbasedprogresses = LevelBasedProgress;
 db.industrybasedprograms = require('./IndustryBasedProgram.js')(sequelize,Sequelize);
 db.jbsstudentdatas = require('./JBSStudentData.js')(sequelize,Sequelize);
+db.employementhistories = require('./EmployeementHistory.js')(sequelize,Sequelize);
+
 module.exports = db;

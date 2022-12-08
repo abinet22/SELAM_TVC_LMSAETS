@@ -20,141 +20,7 @@
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="../../index3.html" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
-    </ul>
-
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-      <!-- Navbar Search -->
-      <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
-        <div class="navbar-search-block">
-          <form class="form-inline">
-            <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
-                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </li>
-
-      <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="../../dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="../../dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  John Pierce
-                  <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">I got your message bro</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="../../dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Nora Silvester
-                  <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">The subject goes here</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-        </div>
-      </li>
-      <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
-        </a>
-      </li>
-    </ul>
-  </nav>
+  <%- include('./partials/top') %>
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
@@ -177,7 +43,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Student Progress List</li>
+              <li class="breadcrumb-item active">Trainee Evaluation</li>
             </ol>
           </div>
         </div>
@@ -192,7 +58,7 @@
                 <div class="col-md-12">
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h4 class="card-title">Student Evaluation List</h4>
+                            <h4 class="card-title">Student Evaluation Report</h4>
                         </div>
                       <div class="card-body">
                         <%- include ('./partials/messages') %>
@@ -238,21 +104,19 @@
                                          <div class="">
                                           
                                            <div class="table-responsive" >
-                                               <table aria-describedby="example1_info" role="grid" class="table table-bordered table-striped dataTable dtr-inline" id="example1">
+                                               <table aria-describedby="example1_info" role="grid" class="table table-sm table-bordered table-striped dataTable dtr-inline" id="example1">
                                                  <thead>
                                                    <tr>
-                                   <th>#</th>
-                                   <th>Student ID</th>
-                                                     <th>Full Name</th>
+                                   <th><small>#</small></th>
+                                   <th><small>Student ID</small></th>
+                                                     <th><small>Full Name</small></th>
                                                  
-                                                     <th>UOCs Name</th>
+                                                     <th><small>Course Name</small></th>
                
-                                                     <th> Theoretical Evaluation</th>
-                                                     <th> Practical Evaluation</th>
-                                                     <th> Internship Evaluation</th>
-                                                     <th> Institutional Assessment</th>
-                                                     <th> Industry Assessment</th>
-                                                     <th> Total Result</th>
+                                  
+                                                     <th> <small>Institutional Assessment</small></th>
+                                                     <th> <small>Industry Assessment</small></th>
+                                                     <th> <small>Total Result</small></th>
                                                    </tr>
                                                  </thead>
                                                  <tbody>
@@ -270,159 +134,25 @@
                                                        <% var contactself = name.firstname +"/ "+contact.phoneNumber_1  %>
                                                        <% var contactemergency = contact.emergencyname +"/ "+contact.emergencyphone  %>
                                                        <tr>
-                                                           <td><%= y %></td>
-                                                           <td><%= row.student_unique_id %></td>
-                                                           <td ><%= fullname %></td>
+                                                           <td><small><%= y %> </small> </td>
+                                                           <td> <small><span style="text-transform: uppercase;"><%= row.student_unique_id %></span></small></td>
+                                                           <td > <small><span style="text-transform: uppercase;"><%= fullname %></span></small></td>
                                                          
                                                            
-                                                           <td><% var course = row.course_id %>
+                                                           <td><% var courseid = row.course_id %>
                                                            
                                                                <% if(courselist.length >0) {%>
-                                                                   <% courselist.forEach(function (row){ %>
-                                                                       <% var coursename = row.course_id %>
-                                                                 <%= row.course_name %>
-                                                                  <% })}else {}%>
+                                                                   <% courselist.forEach(function (rowc){ %>
+                                                                   
+                                                                       <% var coursename = rowc.course_id %>
+                                                                  <% if( coursename === courseid) { %>
+                                                                 <small>  <%= rowc.course_name %></small>
+                                                                  <% }})}else {}%>
                                                            
-                                                           
-                                                           </td>
-                                                        
-                                                              
-                                                               <%
-                                                               var theory = 0;
-                                                               var practice =  0;
-                                                               var intern =  0;
-                                                               
-                                                               var te= [];
-                                                              var x =[];
-                                                              var z= [];
-                                                              var objs = row.theroretical_evaluation;
-                                                              if(typeof objs === 'object' && objs !== null)
-                                                              {
-                                                                  objs = JSON.parse(JSON.stringify(row.theroretical_evaluation));
-                                                              }
-                                                              else{
-                                                                  objs = "";
-                                                              }
-                                                              te.push(objs);
-                                                              te.forEach(obj => {
-                                                                Object.entries(obj).forEach(([key, value]) => {
-                                                                   var key  = key;
-                                                                   var value =value;
-                                                                   x.push(key);
-                                                                   z.push(value);
-                                                                   theory += parseFloat(value);
-                                                                });
-                                                              
-                                                            });%>
-                                                            <%
-                                                            var pe= [];
-                                                           var xp =[];
-                                                           var zp = [];
-                                                           var objsp = row.practical_evaluation;
-                                                           if(typeof objsp === 'object' && objsp !== null)
-                                                           {
-                                                               objsp = JSON.parse(JSON.stringify(row.practical_evaluation));
-                                                           }
-                                                           else{
-                                                               objsp = "";
-                                                           }
-                                                           pe.push(objsp);
-                                                           pe.forEach(obj => {
-                                                             Object.entries(obj).forEach(([key, value]) => {
-                                                                var key  = key;
-                                                                var value =value;
-                                                                xp.push(key);
-                                                                zp.push(value);
-                                                                practice += parseFloat(value);
-                                                             });
-                                                           
-                                                         });%>
-                                                         <%
-                                                         var ie= [];
-                                                        var xi =[];
-                                                        var zi = [];
-                                                        var objsi =row.industry_evaluation;
-                                                        if(typeof objsi === 'object' && objsi !== null)
-                                                        {
-                                                            objsi = JSON.parse(JSON.stringify(row.industry_evaluation));
-                                                        }
-                                                        else{
-                                                            objsi = "";
-                                                        }
-                                                       
-                                                        ie.push(objsi);
-                                                        ie.forEach(obj => {
-                                                          Object.entries(obj).forEach(([key, value]) => {
-                                                             var key  = key;
-                                                             var value =value;
-                                                             xi.push(key);
-                                                             zi.push(value);
-                                                             intern += parseFloat(value);
-                                                          });
-                                                        
-                                                      });%>
-                                                      
-                                                          
-                                                           <td>
-                                                            <% for(var i= 0 ; i < x.length ; i++ ) { %>
-                                                                <% var mrk =  z[i] %>
-                                                                <% var lo =  x[i] %>
-                                                                <% var mrkp =  z[i]+"%" %>
-                                                                <% if( mrk < 18 ){ %>
-                                                                 
-                                                               <% }else if(mrk >= 18 && mrk < 100){ %>
-                                                            
-                                                               <% }else{} %>
-                                                            
-                                                                <% } %>
-                                                          
-                                                                <p>Average Point:<code><% var te= theory/x.length %> <%= te.toFixed(2) %></code></p>
-                                                           </td>
                                                          
-                                                           <td>
-                                                            <% for(var i= 0 ; i < xp.length ; i++ ) { %>
-                                                                <% var mrk =  zp[i] %>
-                                                                <% var mrkp =  zp[i]+"%" %>
-                                                                <% var lop = xp[i] %>
-                                                                <% if( mrk < 32 ){ %>
-                                                                
-                                                               <% }else if(mrk >= 32 && mrk < 100){ %>
-                                                           
-                                                               <% }else{} %>
-                                                            
-                                                                <% } %>
-                                                                <p>Average Point:<code><% var pe= practice/xp.length %>  <%= pe.toFixed(2) %></code></p>
-                                                           </td>
-                                                          
-                                                           <td>
-                                                            <% for(var i= 0 ; i < xi.length ; i++ ) { %>
-                                                                <% var mrk =  zi[i] %>
-                                                                <% var loi = xi[i] %>
-                                                                <% var mrkp =  zi[i]+"%" %>
-                                                                <% if( mrk < 24 ){ %>
-                                                                 
-                                                               <% }else if(mrk >= 24 && mrk < 100){ %>
-                                                               
-                                                               <% }else{} %>
-                                                            
-                                                                <% } %>
-                                                                <p>Average Point:<code><% var ie= intern/xi.length %> <%= ie.toFixed(2) %></code></p>
-                                                           </td>
-                                                           <td>
-                                                             
-                                                               <% var institutional = te + pe;%>
-                                                               <%= institutional.toFixed(2) %>
-                                                             </td>
-                                                             <td>
-                                                             
-                                                              <% var industry = ie.toFixed(2)  ;%>
-                                                              <%= industry %>
-                                                            </td>
-                                                            <td>
-                                                             
-                                                              <% var total = pe + ie + te ;%>
-                                                              <%= total.toFixed(2) %>
-                                                            </td>
+                                                          <td><small><%= row.institutional_total %></small></td>
+                                                          <td><small><%= row.industry_total %></small></td>
+                                                          <td><small><%= row.total_result %></small></td>
                                                         
                
                                                        
@@ -464,136 +194,6 @@
                         </div>
               </div>
           
-          </div>
-          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Send Evaluation To Department  </h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div class="col-lg-12 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Student List</h4>
-                        </div>
-                      <div class="card-body">
-                       
-                        <p class="card-description">
-                          </p><div class="form-group">
-                            <label>Please Select Course Name First</label>
-                            <select class="form-control" id="coursename" name="coursename">
-                              <option value="0">Please select course name</option>
-                              <% if(courselist.length >0) {%>
-                                <% courselist.forEach(function (row){ %>
-                                  <option value="<%= row.course_id %>"><%= row.course_name %></option>
-                               <% })}else {}%>
-                            </select>
-                            <input type="hidden" id="classid" name="classid" value="<%= classid %>">
-                            <input type="hidden" id="level" name="level" value="<%= level %>">
-                            <input type="hidden" id="programtype" name="programtype" value="<%= programtype %>">
-                            <input type="hidden" id="dpt" name="dpt" value="<%= dpt %>">
-                            <input type="hidden" id="batchid" name="batchid" value="<%= batchid %>">
-                           
-                        </div>
-                        <p></p>
-                        <fieldset id="studentlist">
-                          <div class="table-responsive">
-                            <table class="table  table-responsive">
-                              <thead>
-                                <tr>
-                             
-                                  <th> # </th>
-                                  <th> Trainee ID </th>
-                                  <th> Full Name </th>
-                                  <th> Theoretical Evaluation</th>
-                                  <th> Practical Evaluation</th>
-                                  <th> Internship Evaluation</th>
-                                  <th> Total Evaluation</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <% if(levelbased.length >0 ) { %>
-                                    <% var i = 0 ;%>
-                                       <% levelbased.forEach(function (row){ %>
-                                      <% i++ %>
-                                        <tr>
-                                    
-                                            <% var name = JSON.parse(JSON.stringify(row.personal_info)); %>
-                                            <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
-                                         
-                                            <td><%= i %></td>
-                                            <td><%= row.student_unique_id %></td>
-                                            <td><%= fullname %></td>
-                                            <%var theory =  parseFloat(row.theroretical_evaluation) %>
-                                                               <%var practice =  parseFloat(row.practical_evaluation) %>
-                                                               <%var intern =  parseFloat(row.field_evaluation) %>
-                                                               <% 
-                                                               if(!isNaN(practice)){
-                                                                 practice = practice
-                                                               }
-                                                               else{
-                                                                 practice =0;
-                                                               }
-                                                               if(!isNaN(theory)){
-                                                                   theory =theory
-                                                                 }
-                                                                 else{
-                                                                   theory =0;
-                                                                 }
-                                                                 if(!isNaN(intern)){
-                                                                   intern =intern
-                                                                 }
-                                                                 else{
-                                                                   intern =0;
-                                                                 }
-                                                               
-                                                               %>
-                                                       
-                                                           <td>
-                                                               <%= theory %>
-                                                            
-                                                           </td>
-                                                         
-                                                           <td>
-                                                               <%= practice %>
-                                                           </td>
-                                                          
-                                                           <td>
-                                                             <%= intern %>
-                                                           </td>
-                                                           <td>
-                                                             
-                                                               <% var total = theory + practice + intern ;%>
-                                                               <%= total %>
-                                                             </td>
-                                          </tr>
-
-                                        <% })}else{} %>
-                                  
-                                  
-                              </tbody>
-                            </table>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-6 offset-md-3  mt-2">
-                              <button type="submit" id="addevaluation" class="btn btn-block btn-sm form-control btn-primary">Submit</button>
-                            </div>
-                          </div>
-                        </fieldset>
-                       
-                      
-                      </div>
-                    </div>
-                  </div>
-               
-                </div>
-               
-              </div>
-            </div>
           </div>
          
         <!-- /.row -->
@@ -661,7 +261,7 @@ TableData =  tobesaveddt ;
 
 $.ajax({
 type: "POST",
-url: "/evaluation/updatestatussenttodepartment",
+url: "/teacher/evaluation/updatestatussenttodepartment",
 data: "pTableData=" + TableData,    // post TableData to server script
 
 success: function (data) {
@@ -732,44 +332,54 @@ return returnArray;
 <!-- AdminLTE App -->
 <script src="../../../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../../../../dist/js/demo.js"></script>
+<script src="../../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": false, "lengthChange": true, "autoWidth": true,"width":400,
-      "buttons": ["copy", "csv", "excel", "pdf",  {
-                extend: 'print',
-                customize: function ( win ) {
-                    $(win.document.body)
-                        .css( 'font-size', '10pt' )
-                        .prepend(
-                            '<img src="" style="position:absolute; top:0; left:0;" />'
-                            
-                            );
- 
-                    $(win.document.body).find( 'table' )
-                        .addClass( 'compact' )
-                        .css( 'font-size', 'inherit' );
-                },
-                title: function() {
-    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
-   " <td > <h4>  Organization Name <br> Selam Technical And Vocational Collage <br>  Student Evaluation Report List</h4> </td> </tr> </table>"
-              
-  } ,
+  var test = '<%- JSON.stringify(addinfo) %>'; 
+  var test2 = '<%- JSON.stringify(coursename) %>'; 
+ var data = JSON.parse(test)
+var course = JSON.parse(test2)
+ var  batchname,departmentname,occupationname,classname,coursename ;
+ data.forEach(item =>{
+  batchname = item.batch_name;
+  departmentname = item.department_name;
+  occupationname = item.occupation_name;
+  classname = item.class_name;
+ });
+ $(function () {
+   $("#example1").DataTable({
+     "responsive": false, "lengthChange": true, "autoWidth": true,"width":400,
+     "buttons": ["copy", "csv", "excel", "pdf",  {
+               extend: 'print',
+               customize: function ( win ) {
+                   $(win.document.body)
+                       .css( 'font-size', '10pt' )
+                       .prepend(
+                           '<img src="" style="position:absolute; top:0; left:0;" />'
+                           
+                           );
 
-                
-                exportOptions: {
-                    columns: ':visible'
-                }
-            }, "colvis"],
-            columnDefs: [ {
-            targets: -1,
-            visible: true
-        }]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    
-  });
+                   $(win.document.body).find( 'table' )
+                       .addClass( 'compact' )
+                       .css( 'font-size', 'inherit' );
+               },
+               title: function() {
+   return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+     " <td > <h4> Selam David Roeschli Technical And Vocational College  </h4> <h6><small><br>Batch "+batchname+"<br>Department "+departmentname+"<br> Occupation"+occupationname+"<br>UOC Name: "+classname+"<br>"+course.course_name+" </small><br> Trainee Evaluation Report</h6> </td> </tr> </table>"
+                  
+ } ,
+
+               
+               exportOptions: {
+                   columns: ':visible'
+               }
+           }, "colvis"],
+           columnDefs: [ {
+           targets: -1,
+           visible: true
+       }]
+   }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+ });
 </script>
 </body>
 </html>

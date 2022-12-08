@@ -48,7 +48,7 @@
         <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" href="#">
             <i class="far fa-bell"></i>
-            <span class="badge badge-warning navbar-badge">15</span>
+            <span class="badge badge-warning navbar-badge">0</span>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             <span class="dropdown-item dropdown-header">15 Notifications</span>
@@ -135,6 +135,7 @@
                       <div class="tab-content" id="vert-tabs-tabContent">
                         <div class="tab-pane text-left fade" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
                           <form action="/registrardataencoder/trainee/selecttraineeebyidtosendcoc" method="post">
+                            <input type="hidden" name="programtag" value="level">
                             <div class="form-group">
                                 <label>Select Level Based Program</label>
                                 <select class="form-control " name="programidbatch"  id="batchid">
@@ -148,7 +149,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Select Occupation</label>
-                                <select class="form-control " name="dept" id="deptid">
+                                <select class="form-control-sm js-example-basic-single " style="width:100%" name="dept" id="deptid">
                                  <option value="0">Please Select Occupation Name</option>
                                  <% if(department.length >0) {%>
                                     <% department.forEach(function (row){ %>
@@ -281,6 +282,16 @@
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script src="../../../dist/js/pages/dashboard3.js"></script>
   <script src="../../plugins/toastr/toastr.min.js"></script>
+  <script>
+    $(document).ready(function() {
+  $('.js-example-basic-single').select2();
+  });
+  </script>
   
+  
+     
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
   
   </body></html>

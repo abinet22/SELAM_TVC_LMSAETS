@@ -11,8 +11,8 @@
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../../dist/css/adminlte.min.css">
-
-</head>
+<style type="text/css">/* Chart.js */
+@keyframes chartjs-render-animation{from{opacity:.99}to{opacity:1}}.chartjs-render-monitor{animation:chartjs-render-animation 1ms}.chartjs-size-monitor,.chartjs-size-monitor-expand,.chartjs-size-monitor-shrink{position:absolute;direction:ltr;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1}.chartjs-size-monitor-expand>div{position:absolute;width:1000000px;height:1000000px;left:0;top:0}.chartjs-size-monitor-shrink>div{position:absolute;width:200%;height:200%;left:0;top:0}</style></head>
 <!--
 `body` tag options:
 
@@ -25,64 +25,7 @@
 <body class="sidebar-mini sidebar-closed sidebar-collapse" style="height: auto;">
 <div class="wrapper">
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="/dashboard" class="nav-link">Home</a>
-      </li>
-   
-    </ul>
-
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-      <!-- Navbar Search -->
-     
-
-      <!-- Messages Dropdown Menu -->
-  
-      <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link"   href="/logout" role="button">
-          Logout
-        </a>
-      </li>
-    </ul>
-  </nav>
+  <%- include('./partials/top') %>
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
@@ -104,7 +47,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Report</li>
+              <li class="breadcrumb-item active">OutCome In Number Report</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -115,188 +58,294 @@
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
-          <div class="row">
-              <div class="col-md-4 col-sm-6 col-12">
-                <div class="info-box">
-                  <span class="info-box-icon bg-info"><i class="fa fa-cube"></i></span>
-    
-                  <div class="info-box-content">
-                    <span class="info-box-text">Batch</span>
-                    <span class="info-box-number"><%= batch %></span>
+        
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h4 class="card-title">Outcome In Number Report</h4>
+          </div>
+          <div class="card-body">
+            <div class="row" style="display: none;">
+              <div class="col-sm-12 col-md-6">
+                  <div class="dt-buttons btn-group flex-wrap">               
+              <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Copy</span></button> 
+              <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>CSV</span></button> 
+              <button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Excel</span></button> 
+              <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>PDF</span></button>
+               <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="example1" type="button"><span>Print</span></button> <div class="btn-group">
+                   <button class="btn btn-secondary buttons-collection dropdown-toggle buttons-colvis" tabindex="0" aria-controls="example1" type="button" aria-haspopup="true" aria-expanded="false"><span>Column visibility</span></button></div> </div></div>
+                   
+                   <div class="col-sm-12 col-md-6"><div id="example1_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1"></label></div></div>
                   </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-              </div>
-              <!-- /.col -->
-            
-              <!-- /.col -->
-              <div class="col-md-4 col-sm-6 col-12">
-                <div class="info-box">
-                  <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
-    
-                  <div class="info-box-content">
-                    <span class="info-box-text">Department</span>
-                    <span class="info-box-number"><%= dpt %></span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-              </div>
-              <div class="col-md-4 col-sm-6 col-12">
-                  <div class="info-box">
-                    <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
-      
-                    <div class="info-box-content">
-                      <span class="info-box-text">Trainee</span>
-                      <span class="info-box-number"><%= trainee %></span>
-                    </div>
-                    <!-- /.info-box-content -->
-                  </div>
-                  <!-- /.info-box -->
-                </div>
-              <!-- /.col -->
-             
-              <!-- /.col -->
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                  <div class="card card-info shadow-lg">
-                    <div class="card-header">
-                      <h3 class="card-title">All Report</h3>
-      
-                      <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i>
-                        </button>
-                      </div>
-                      <!-- /.card-tools -->
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <div class="row">
+            <div class="table-responsive" id="costtable">
+              <table aria-describedby="example1_info" role="grid" class="table table-bordered table-striped dataTable dtr-inline" id="example1">
+              
+                <thead>
+                  <tr>
+                    <th>
+                      #
+                    </th>
+                    <th>
+                     Outcome Category
+                    </th>
+                    <th>
+                     Sex
+                     </th>
+                    <th>
+                      Total Number
+                    </th>
+                    <th>
+                      Percentage
+                    </th>
+                    <th>
+                      Progress
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (graduated.length >0){ %>
+                            
+                    <% graduated.forEach(function(row){ %>
+                
+                      <tr>
+                        <td class="py-1">
+                          1
+                        </td>
+                        <td>
+                          Graduated
+                        </td>
+                        <td>
+                         <label style="text-transform: capitalize;">
+                          <%= row.sex %>
+                        </label> 
+                         
+                        </td>
+                        <td>
+                          <%= row.gradno %>
+                         
+                        </td>
+                        <td>
+                          <% var percent; %>
+                          <% var Total; %>
+                          <% var gradno = parseInt(row.gradno); %>
                         
-                            <div class="col-md-4">
-                              <!-- Widget: user widget style 2 -->
-                              <div class="card card-widget widget-user-2">
-                                <!-- Add the bg color to the header using any of the bg-* classes -->
-                                <div class="widget-user-header bg-info">
-                                  <div class="widget-user-image">
-                                   <i class="fas fa-file"></i>
-                                  </div>
-                                  <!-- /.widget-user-image -->
-                                  <h3 class="widget-user-username"></h3>
-                                  <h5 class="widget-user-desc">Batch</h5>
-                                </div>
-                                <div class="card-footer p-0">
-                                  <ul class="nav flex-column">
-                                    <li class="nav-item">
-                                      <a href="#" class="nav-link">
-                                        Total <span class="float-right badge bg-primary"><%= batch %></span>
-                                      </a>
-                                    </li>
-                                   
-                                    <li class="nav-item">
-                                      <a href="#" class="nav-link">
-                                        Level Based Trainee <span class="float-right badge bg-success"><%=lbbatch %></span>
-                                      </a>
-                                    </li>
-                                    <li class="nav-item">
-                                      <a href="#" class="nav-link">
-                                        NGO Based Trainee <span class="float-right badge bg-success"><%= nbbatch %></span>
-                                      </a>
-                                    </li>
-                                    <li class="nav-item">
-                                      <a href="#" class="nav-link">
-                                        Industry Based Trainee <span class="float-right badge bg-success"><%=ibbatch %></span>
-                                      </a>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-                              <!-- /.widget-user -->
-                            </div>
-                            <div class="col-md-4">
-                              <!-- Widget: user widget style 2 -->
-                              <div class="card card-widget widget-user-2">
-                                <!-- Add the bg color to the header using any of the bg-* classes -->
-                                <div class="widget-user-header bg-warning">
-                                  <div class="widget-user-image">
-                                   <i class="fas fa-file"></i>
-                                  </div>
-                                  <!-- /.widget-user-image -->
-                                  <h3 class="widget-user-username"></h3>
-                                  <h5 class="widget-user-desc">Department</h5>
-                                </div>
-                                <div class="card-footer p-0">
-                                  <ul class="nav flex-column">
-                                    <li class="nav-item">
-                                      <a href="#" class="nav-link">
-                                        Total <span class="float-right badge bg-primary"><%= dpt %></span>
-                                      </a>
-                                    </li>
-                                   <% if(deptcat.length >0){ %>
-                                      <% deptcat.forEach(function (row){ %>
-                                      <li class="nav-item">
-                                          <a href="#" class="nav-link">
-                                            <%= row.department_name %> <span class="float-right badge bg-success"><%= row.total %></span>
-                                          </a>
-                                        </li>
-                                   <%})} else{}%>
-                                   
-                                  
-                                  </ul>
-                                </div>
-                              </div>
-                              <!-- /.widget-user -->
-                            </div>
-                            <div class="col-md-4">
-                              <!-- Widget: user widget style 2 -->
-                              <div class="card card-widget widget-user-2">
-                                <!-- Add the bg color to the header using any of the bg-* classes -->
-                                <div class="widget-user-header bg-success">
-                                  <div class="widget-user-image">
-                                   <i class="fas fa-file"></i>
-                                  </div>
-                                  <!-- /.widget-user-image -->
-                                  <h3 class="widget-user-username"></h3>
-                                  <h5 class="widget-user-desc">Trainee</h5>
-                                </div>
-                                <div class="card-footer p-0">
-                                  <ul class="nav flex-column">
-                                    <li class="nav-item">
-                                      <a href="#" class="nav-link">
-                                        Total <span class="float-right badge bg-primary"><%= trainee %></span>
-                                      </a>
-                                    </li>
-                                    <li class="nav-item">
-                                      <a href="#" class="nav-link">
-                                        On Training <span class="float-right badge bg-danger"><%= ontrainee %></span>
-                                      </a>
-                                    </li>
-                                    <li class="nav-item">
-                                      <a href="#" class="nav-link">
-                                        Graduated Trainee <span class="float-right badge bg-success"><%= graduated %></span>
-                                      </a>
-                                    </li>
-                                    <li class="nav-item">
-                                      <a href="#" class="nav-link">
-                                        Dropout Trainee <span class="float-right badge bg-danger"><%= dropout %></span>
-                                      </a>
-                                    </li>
-                                  
-                                  </ul>
-                                </div>
-                              </div>
-                              <!-- /.widget-user -->
-                            </div>
-                        </div>
-                     
-                    </div>
-                    <!-- /.card-body -->
-                  </div>
-                  <!-- /.card -->
-                </div>
+                          
+                        <%  percent = ((gradno/counttotal )* 100).toFixed(2); %>
+                        <%= percent %>
+                          
+                        </td>
+                        <td>
+                          <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: <%= percent %>" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div> 
+                        </td>
+                      </tr>
+                      <% })} else { %>
+        
+                <%  } %>
+                <% if (continuedstudy.length >0){ %>
+                            
+                  <% continuedstudy.forEach(function(row){ %>
+              
+                    <tr>
+                      <td class="py-1">
+                        2
+                      </td>
+                      <td>
+                        Continued Study
+                      </td>
+                      <td>
+                        <%= row.sex %>
+                       
+                      </td>
+                      <td>
+                        <%= row.studyno %>
+                       
+                      </td>
+                      <td>
+                        <% var percent; %>
+                        <% var Total; %>
+                        <% var gradno = parseInt(row.studyno); %>
+                      
+                        
+                      <%  percent = ((gradno/counttotal )* 100).toFixed(2); %>
+                      <%= percent %>
+                        
+                      </td>
+                      <td>
+                        <div class="progress">
+                          <div class="progress-bar bg-success" role="progressbar" style="width: <%= percent %>" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div> 
+                      </td>
+                    </tr>
+                    <% })} else { %>
+      
+              <%  } %>
+               
+             
+            <% if (employedself.length >0){ %>
+                            
+              <% employedself.forEach(function(row){ %>
+          
+                <tr>
+                  <td class="py-1">
+                    3
+                  </td>
+                  <td>
+                 Self Employeed
+                  </td>
+                  <td>
+                    <%= row.sex %>
+                   
+                  </td>
+                  <td>
+                    <%= row.selfno %>
+                   
+                  </td>
+                  <td>
+                    <% var percent; %>
+                    <% var Total; %>
+                    <% var gradno = parseInt(row.selfno); %>
+                  
+                    
+                  <%  percent = ((gradno/counttotal )* 100).toFixed(2); %>
+                  <%= percent %>
+                    
+                  </td>
+                  <td>
+                    <div class="progress">
+                      <div class="progress-bar bg-success" role="progressbar" style="width: <%= percent %>" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div> 
+                  </td>
+                </tr>
+                <% })} else { %>
+  
+          <%  } %>
+
+          <% if (employedsixmonths.length >0){ %>
+                            
+            <% employedsixmonths.forEach(function(row){ %>
+        
+              <tr>
+                <td class="py-1">
+                  4
+                </td>
+                <td>
+                  Employed In Six Months
+                </td>
+                <td>
+                  <%= row.sex %>
+                 
+                </td>
+                <td>
+                  <%= row.empno %>
+                 
+                </td>
+                <td>
+                  <% var percent; %>
+                          <% var Total; %>
+                          <% var gradno = parseInt(row.empno); %>
+                        
+                          
+                        <%  percent = ((gradno/counttotal )* 100).toFixed(2); %>
+                        <%= percent %>
+                  
+                </td>
+                <td>
+                  <div class="progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: <%= percent %>" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div> 
+                </td>
+              </tr>
+              <% })} else { %>
+
+        <%  } %>
+        <% if (employedinfl.length >0){ %>
+                            
+          <% employedinfl.forEach(function(row){ %>
+      
+            <tr>
+              <td class="py-1">
+                5
+              </td>
+              <td>
+                Employed In Fair Labor Conditions
+              </td>
+              <td>
+                <%= row.sex %>
+               
+              </td>
+              <td>
+                <%= row.fino %>
+               
+              </td>
+              <td>
+                <% var percent; %>
+                <% var Total; %>
+                <% var gradno = parseInt(row.fino); %>
+              
+                
+              <%  percent = ((gradno/counttotal )* 100).toFixed(2); %>
+              <%= percent %>
+                
+              </td>
+              <td>
+                <div class="progress">
+                  <div class="progress-bar bg-success" role="progressbar" style="width: <%= percent %>" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div> 
+              </td>
+            </tr>
+            <% })} else { %>
+
+      <%  } %>
+         
+      <% if (placedinapp.length >0){ %>
+                            
+        <% placedinapp.forEach(function(row){ %>
+    
+          <tr>
+            <td class="py-1">
+              6
+            </td>
+            <td>
+              Placed In Apprenticeship/OJT
+            </td>
+            <td>
+            <label style="text-transform: uppercase;"> 
+              <%= row.sex %>
+            </label> 
+             
+            </td>
+            <td>
+              <%= row.appno %>
+             
+            </td>
+            <td>
+              <% var percent; %>
+              <% var Total; %>
+              <% var gradno = parseInt(row.appno); %>
+            
+              
+            <%  percent = ((gradno/counttotal )* 100).toFixed(2); %>
+            <%= percent %>
+              
+            </td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="width: <%= percent %>" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div> 
+            </td>
+          </tr>
+          <% })} else { %>
+
+    <%  } %>
+       
+                </tbody>
+              </table>
             </div>
+          </div>
+        </div>
+      </div>
         <!-- /.row -->
       </div>
       <!-- /.container-fluid -->
@@ -312,25 +361,63 @@
   <footer class="main-footer">
       <%- include ('./partials/footer') %>
   </footer>
-
-<!-- ./wrapper -->
-
-<!-- REQUIRED SCRIPTS -->
-
-<!-- jQuery -->
-<script src="../../../plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap -->
-<script src="../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE -->
-<script src="../../../dist/js/adminlte.js"></script>
-
-<!-- OPTIONAL SCRIPTS -->
-<script src="../../../plugins/chart.js/Chart.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../../../dist/js/demo.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="../../../dist/js/pages/dashboard3.js"></script>
-<script src="../../plugins/toastr/toastr.min.js"></script>
-
+	
+   
+  <script src="../../plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- DataTables  & Plugins -->
+  <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+  <script src="../../plugins/jszip/jszip.min.js"></script>
+  <script src="../../plugins/pdfmake/pdfmake.min.js"></script>
+  <script src="../../plugins/pdfmake/vfs_fonts.js"></script>
+  <script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+  <script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+  <script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="../../dist/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="../../dist/js/demo.js"></script>
+  <script>
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": false, "lengthChange": true, "autoWidth": true,"width":400,
+        "buttons": ["copy", "csv", "excel", "pdf",  {
+                  extend: 'print',
+                  customize: function ( win ) {
+                      $(win.document.body)
+                          .css( 'font-size', '10pt' )
+                          .prepend(
+                              '<img src="" style="position:absolute; top:0; left:0;" />'
+                              
+                              );
+   
+                      $(win.document.body).find( 'table' )
+                          .addClass( 'compact' )
+                          .css( 'font-size', 'inherit' );
+                  },
+                  title: function() {
+      return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+     " <td > <h4>  Organization Name <br> Selam David Roeschli Technical And Vocational College <br>  Outcome Data On JBS</h4> </td> </tr> </table>"
+                
+    } ,
+  
+                  
+                  exportOptions: {
+                      columns: ':visible'
+                  }
+              }, "colvis"],
+              columnDefs: [ {
+              targets: -1,
+              visible: true
+          }]
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+  </script>
 
 </body></html>

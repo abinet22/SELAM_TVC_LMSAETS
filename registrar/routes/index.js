@@ -15,6 +15,7 @@ const IndustryBasedTrainee = db.industrybasedtrainees;
 const AppSelectionCriteria = db.appselectioncriterias;
 const NewApplicant = db.newapplicants;
 const FunderInfo = db.funderinfo;
+const Occupation =db.occupations;
 const sequelize = db.sequelize ;
 const { Op } = require("sequelize");
 const bcrypt = require('bcryptjs');
@@ -42,27 +43,32 @@ router.get('/logout', (req, res) => {
     res.redirect('/registrar/login');
 });
 router.get('/createdataencoder',async function(req, res)  {
-    const stafflist = await StaffList.findAll({where:{isteacher:"No"}});
+    const stafflist = await StaffList.findAll({});
   res.render('createdataencoder',{stafflist:stafflist})
 });
 router.get('/alldataencoderlist',ensureAuthenticated,async function(req,res){
-    const userlist = await User.findAll({where:{userroll:"REGISTRAR_DATA_ENCODER"}});
+    const [userlist,usermeata] = await sequelize.query(
+      " select * from users inner join stafflists on"+
+      " stafflists.staff_id = users.fullname"+
+      " where users.userroll='REGISTRAR_DATA_ENCODER' "
+    )
+  
     res.render('alldataencoderlist',{userlist:userlist})
 })
 router.post('/addnewregistrardataencoder', ensureAuthenticated,async function (req, res, next) {
 
     const {userroll,staffmember,username,password,repassword} = req.body;
-    const stafflist = await StaffList.findAll({where:{isteacher:"No"}});
+    const stafflist = await StaffList.findAll({});
      let errors =[];
    if(userroll =="0" || staffmember =="0" || !username || !password || !repassword){
-       errors.push({msg:'please enter all required field values'})
+       errors.push({msg:'Please enter all required field values'})
    }
    if( password != repassword){
-    errors.push({msg:'please retype password'})
+    errors.push({msg:'Please retype password'})
    }
     if (errors.length > 0) {
         res.render('createdataencoder', {
-            error_msg:'Please enter all the required fields',
+           errors,
             stafflist:stafflist,
                  });
     } else {
@@ -102,12 +108,12 @@ router.post('/addnewregistrardataencoder', ensureAuthenticated,async function (r
                     }); // 
                 } else {
                     res.render('createdataencoder',{stafflist:stafflist,
-                        error_msg:'please change username user name already registered'})
+                        error_msg:'Please change user name user name already registered'})
                          
                 }
             }).catch(err => {
                 res.render('createdataencoder',{stafflist:stafflist,
-                    error_msg:'cant create data encoder credential please try later'})
+                    error_msg:'Cant create data encoder credential please try later'})
                       
             }); // end of then catch for findOne method 
     
@@ -118,7 +124,11 @@ router.post('/addnewregistrardataencoder', ensureAuthenticated,async function (r
    
   });
   router.post('/diactivatesystemuser/(:userid)',ensureAuthenticated,async function(req,res){
-    const userlist = await User.findAll({where:{userroll:"REGISTRAR_DATA_ENCODER"}});
+    const [userlist,usermeata] = await sequelize.query(
+      " select * from users inner join stafflists on"+
+      " stafflists.staff_id = users.fullname"+
+      " where users.userroll='REGISTRAR_DATA_ENCODER' "
+    )
     User.update({isactive:"No"},{where:{userid:req.params.userid}}).then(user =>{
         res.render('alldataencoderlist',{userlist:userlist,success_msg:'User status updated'})
         
@@ -129,7 +139,11 @@ router.post('/addnewregistrardataencoder', ensureAuthenticated,async function (r
     
     });
   router.post('/activatesystemuser/(:userid)',ensureAuthenticated,async function(req,res){
-    const userlist = await User.findAll({where:{userroll:"REGISTRAR_DATA_ENCODER"}});
+    const [userlist,usermeata] = await sequelize.query(
+      " select * from users inner join stafflists on"+
+      " stafflists.staff_id = users.fullname"+
+      " where users.userroll='REGISTRAR_DATA_ENCODER' "
+    )
     User.update({isactive:"Yes"},{where:{userid:req.params.userid}}).then(user =>{
        
         res.render('alldataencoderlist',{userlist:userlist,success_msg:'User status updated'})
@@ -142,40 +156,146 @@ router.post('/addnewregistrardataencoder', ensureAuthenticated,async function (r
       });
       router.get('/statistics',ensureAuthenticated,async function(req, res)  {
         const [traineebatch, classevalmeta] = await sequelize.query(
-            "SELECT batches.batch_name,count(levelbasedtrainees.trainee_id) as total FROM levelbasedtrainees inner join batches on batches.batch_id=levelbasedtrainees.batch_id group by batches.batch_name  "
+        "  select batches.batch_name,sum(total)as total from ( SELECT batches.batch_name,count(levelbasedtrainees.trainee_id) as total FROM levelbasedtrainees "+
+        "  inner join batches on batches.batch_id=levelbasedtrainees.batch_id "+
+        "inner join occupations on levelbasedtrainees.department_id = occupations.occupation_id"+
+         
+        " group by batches.batch_name  union"+
+        "  SELECT batches.batch_name,count(ngobasedtrainees.trainee_id) as total FROM ngobasedtrainees "+
+        "  inner join batches on batches.batch_id=ngobasedtrainees.batch_id "+
+        "inner join occupations on ngobasedtrainees.department_id = occupations.occupation_id"+
+        
+        " group by batches.batch_name union  "+
+    "       SELECT batches.batch_name,count(industrybasedtrainees.trainee_id) as total FROM industrybasedtrainees "+
+        "  inner join batches on batches.batch_id=industrybasedtrainees.batch_id "+
+        "inner join occupations on industrybasedtrainees.department_id = occupations.occupation_id"+
+       
+        " group by batches.batch_name  ) batches "+
+         " group by batches.batch_name"
+             
           );
+          const [occtrainee, occtraineebatch] = await sequelize.query(
+    
+      " select  batches.batch_name,occupation_name,sum(total)as total from ( "+
+        " SELECT batches.batch_name,occupation_name,count(levelbasedtrainees.trainee_id) as total FROM levelbasedtrainees "+
+        "  inner join batches on batches.batch_id=levelbasedtrainees.batch_id "+
+       "   inner join occupations on levelbasedtrainees.department_id = occupations.occupation_id"+
+  
+        "   group by batches.batch_name, occupation_name union"+
+          "  SELECT batches.batch_name ,occupation_name,count(ngobasedtrainees.trainee_id) as total FROM ngobasedtrainees "+
+    "        inner join batches on batches.batch_id=ngobasedtrainees.batch_id "+
+        "  inner join occupations on ngobasedtrainees.department_id = occupations.occupation_id"+
+   
+         "  group by batches.batch_name,occupation_name union  "+
+         " SELECT batches.batch_name ,occupation_name,count(industrybasedtrainees.trainee_id) as total FROM"+ 
+      " industrybasedtrainees "+
+          " inner join batches on batches.batch_id=industrybasedtrainees.batch_id "+
+        " inner join occupations on industrybasedtrainees.department_id = occupations.occupation_id"+
+       
+         " group by batches.batch_name ,occupation_name ) batches "+
+         " group by  batches.batch_name ,occupation_name"
+          )
         res.render('statistics',{
-            traineebatch:traineebatch
+            traineebatch:traineebatch,
+            occtrainee:occtrainee
         })
     });
-
-router.get('/report',ensureAuthenticated,async function(req,res){
-   
-  const batch = await Batch.count();
-  const lbbatch = await LevelBasedProgram.count();
-  const ibbatch = await IndustryBasedProgram.count();
-  const nbbatch = await NGOBasedProgram.count();
-  const dpt = await Department.count();
-  const [deptcat, deptcatmeta] = await sequelize.query(
- "SELECT departments.department_name,count(levelbasedtrainees.department_id) as total FROM levelbasedtrainees inner join departments" +
-"  on departments.department_id = levelbasedtrainees.department_id group by department_name");
-  const trainee = await LevelBasedTrainee.count({});
-  const graduated = await LevelBasedTrainee.count({where:{is_graduated:"Yes"}});
-  const ontrainee = await LevelBasedTrainee.count({where:{is_graduated:"No"}});
-  const dropout = await LevelBasedTrainee.count({where:{is_graduated:"No",is_dropout:"Yes"}});
-res.render('report',{batch:batch,
- lbbatch:lbbatch,
- nbbatch:nbbatch,
- ibbatch,ibbatch,
- dpt:dpt,
- deptcat,deptcat,
- trainee:trainee,
- graduated:graduated,
- dropout:dropout,
- ontrainee:ontrainee
-
-})
-})
+    
+    router.get('/report',ensureAuthenticated,async function(req,res){
+       
+          const batch = await Batch.count();
+          const lbbatch = await LevelBasedProgram.count();
+          const ibbatch = await IndustryBasedProgram.count();
+          const nbbatch = await NGOBasedProgram.count();
+          const dpt = await Department.count();
+          const occcupation = await Occupation.findAll({where:{department_id:req.user.department}})
+          const [deptcat, deptcatmeta] = await sequelize.query(
+         "SELECT departments.department_name,count(levelbasedtrainees.department_id) as total FROM levelbasedtrainees inner join departments" +
+       "  on departments.department_id = levelbasedtrainees.department_id group by department_name");
+       const [graduated, gradmeta] = await sequelize.query(
+        " select  occupation_id,occupation_name, sum(trainee) as trainee from("+
+        "   select occupation_id,occupation_name,count(*) as trainee from levelbasedtrainees "+
+         "  inner join occupations on levelbasedtrainees.department_id = occupations.occupation_id"+
+      " where levelbasedtrainees.is_graduated='Yes' "+
+         "    group by occupation_id,occupation_name union"+
+        "   select occupation_id,occupation_name,count(*) as trainee from ngobasedtrainees"+
+         "  inner join occupations on ngobasedtrainees.department_id = occupations.occupation_id"+
+        " where ngobasedtrainees.is_graduated='Yes' " +
+         "   group by occupation_id,occupation_name union"+
+         "  select occupation_id,occupation_name, count(*) as trainee from industrybasedtrainees"+
+         "  inner join occupations on industrybasedtrainees.department_id = occupations.occupation_id"+
+         " where industrybasedtrainees.is_graduated='Yes' "+
+         "    group by occupation_id,occupation_name ) occupations "+
+          " group by  occupation_id ,occupation_name"
+       );
+       const [ontrainee, ontraineemeta] = await sequelize.query(
+        " select  occupation_id,occupation_name, sum(trainee) as trainee from("+
+        "   select occupation_id,occupation_name,count(*) as trainee from levelbasedtrainees "+
+         "  inner join occupations on levelbasedtrainees.department_id = occupations.occupation_id"+
+      " where levelbasedtrainees.is_graduated='No' "+
+         "    group by occupation_id,occupation_name union"+
+        "   select occupation_id,occupation_name,count(*) as trainee from ngobasedtrainees"+
+         "  inner join occupations on ngobasedtrainees.department_id = occupations.occupation_id"+
+        " where ngobasedtrainees.is_graduated='No' " +
+         "   group by occupation_id,occupation_name union"+
+         "  select occupation_id,occupation_name, count(*) as trainee from industrybasedtrainees"+
+         "  inner join occupations on industrybasedtrainees.department_id = occupations.occupation_id"+
+         " where industrybasedtrainees.is_graduated='No' "+
+         "    group by occupation_id,occupation_name ) occupations "+
+          " group by  occupation_id ,occupation_name"
+       );
+       const [dropout, dropoutmeta] = await sequelize.query(
+        " select  occupation_id,occupation_name, sum(trainee) as trainee from("+
+        "   select occupation_id,occupation_name,count(*) as trainee from levelbasedtrainees "+
+         "  inner join occupations on levelbasedtrainees.department_id = occupations.occupation_id"+
+      " where levelbasedtrainees.is_graduated='No'  and levelbasedtrainees.is_dropout='Yes'"+
+         "    group by occupation_id,occupation_name union"+
+        "   select occupation_id,occupation_name,count(*) as trainee from ngobasedtrainees"+
+         "  inner join occupations on ngobasedtrainees.department_id = occupations.occupation_id"+
+        " where ngobasedtrainees.is_graduated='No' and ngobasedtrainees.is_dropout='Yes'" +
+         "   group by occupation_id,occupation_name union"+
+         "  select occupation_id,occupation_name, count(*) as trainee from industrybasedtrainees"+
+         "  inner join occupations on industrybasedtrainees.department_id = occupations.occupation_id"+
+         " where industrybasedtrainees.is_graduated='No'  and industrybasedtrainees.is_dropout='Yes'"+
+         "    group by occupation_id,occupation_name ) occupations "+
+          " group by  occupation_id ,occupation_name"
+       );
+          const [dptlevelngo, dptlevelnogometa] = await sequelize.query(
+           " select  occupation_id,occupation_name, sum(trainee) as trainee from("+
+           "   select occupation_id,occupation_name,count(*) as trainee from levelbasedtrainees "+
+            "  inner join occupations on levelbasedtrainees.department_id = occupations.occupation_id"+
+         
+            "    group by occupation_id,occupation_name union"+
+           "   select occupation_id,occupation_name,count(*) as trainee from ngobasedtrainees"+
+            "  inner join occupations on ngobasedtrainees.department_id = occupations.occupation_id"+
+           
+            "   group by occupation_id,occupation_name union"+
+            "  select occupation_id,occupation_name, count(*) as trainee from industrybasedtrainees"+
+            "  inner join occupations on industrybasedtrainees.department_id = occupations.occupation_id"+
+            
+            "    group by occupation_id,occupation_name ) occupations "+
+             " group by  occupation_id ,occupation_name"
+          );
+          const trainee = await LevelBasedTrainee.count({});
+       //   const graduated = await LevelBasedTrainee.count({where:{is_graduated:"Yes"}});
+       //   const ontrainee = await LevelBasedTrainee.count({where:{is_graduated:"No"}});
+         // const dropout = await LevelBasedTrainee.count({where:{is_graduated:"No",is_dropout:"Yes"}});
+       res.render('report',{batch:batch,
+         lbbatch:lbbatch,
+         nbbatch:nbbatch,
+         ibbatch,ibbatch,
+         occcupation:occcupation,
+         
+         dpt:dpt,
+         dptlevelngo:dptlevelngo,
+         deptcat,deptcat,
+         trainee:trainee,
+         graduated:graduated,
+         dropout:dropout,
+         ontrainee:ontrainee
+    
+        })
+    })
 router.get('/searchsinglestudentdata',ensureAuthenticated,async function(req,res){
   
   res.render('searchsingleuserdata')

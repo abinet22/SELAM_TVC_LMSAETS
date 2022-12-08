@@ -57,7 +57,7 @@
                   <td></td>
                   <td colspan="3">
                     <h5> <small class="">Office Of Registrar</small>
-                      <small class="">Trainee Transcript</small></h5>
+                      <small class="">Student Transcript</small></h5>
                   </td>
                 
                   <td>
@@ -131,11 +131,11 @@
                                       <span class="display-26 text-secondary me-2 font-weight-600">Sector:<%= row.sector_name %></span>
                                   
                                   <span class="display-26 text-secondary me-2 font-weight-600">Department:<%= row.department_name %></span> 
-                                  
+                                  <span class="display-26 text-secondary me-2 font-weight-600">Occupation:<%= row.occupation_name %></span>  </li>
+                             
                                    <% })}else {}%>
-                                 
-                                  <span class="display-26 text-secondary me-2 font-weight-600">Occupation:<%= department.occupation_name %></span><span class="display-26 text-secondary me-2 font-weight-600">Level:<%=row.current_level %> </span>  </li>
-                                <li class="mb-1 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Program:<%= row.admission_type %></span> </li>
+                                   <span class="display-26 text-secondary me-2 font-weight-600">Level:<%=row.current_level %> </span>
+                                 <li class="mb-1 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Admission Type:<%= row.admission_type %></span> </li>
                                
                                
                             </ul>
@@ -284,13 +284,13 @@
           
           <a type="button " class="btn-block btn-sm btn no-print" style="background-color: aqua;" onclick="printDiv('tobebilled')"><i class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print Grade Report</a>
          <% if( programtag == "ngo"){ %>
-          <a type="button " class="btn-block btn-sm btn no-print" style="background-color: aqua;" href="/trainee/managengobased"> Go Back</a>
+          <a type="button " class="btn-block btn-sm btn no-print" style="background-color: aqua;" href="/registrardataencoder/trainee/managengobased"> Go Back</a>
        
           <% }else if(programtag == "level"){ %>
-            <a type="button " class="btn-block btn-sm btn no-print" style="background-color: aqua;" href="/trainee/managelevelbased"> Go Back</a>
+            <a type="button " class="btn-block btn-sm btn no-print" style="background-color: aqua;" href="/registrardataencoder/trainee/managelevelbased"> Go Back</a>
        
             <% }else if(programtag == "industry"){ %>
-              <a type="button " class="btn-block btn-sm btn no-print" style="background-color: aqua;" href="/trainee/manageindustrybased"> Go Back</a>
+              <a type="button " class="btn-block btn-sm btn no-print" style="background-color: aqua;" href="/registrardataencoder/trainee/manageindustrybased"> Go Back</a>
        
               <% } %>
         

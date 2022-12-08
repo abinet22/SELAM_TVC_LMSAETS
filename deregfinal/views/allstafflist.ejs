@@ -10,13 +10,13 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../../../plugins/fontawesome-free/css/all.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../../../../dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -90,12 +90,13 @@
     <section class="content">
       <div class="container-fluid">
         <div class="col-md-12  grid-margin stretch-card">    
-          <div class="card">
-         <div class="card-body">
-         <div class="card-header bg-primary">
+          <div class="card card-primary">
+            <div class="card-header ">
 
-           <h4 class="card-title"> All Staff List</h4>
-          </div>
+              <h4 class="card-title"> All Staff List</h4>
+             </div>
+         <div class="card-body">
+         <%- include('./partials/messages') %>
            <div class="row" style="display: none;">
                <div class="col-sm-12 col-md-6">
                    <div class="dt-buttons btn-group flex-wrap">               
@@ -119,8 +120,11 @@
                    <th>Full Address</th>
                  
                    <th>Contact </th>
-                   <th>Is_Active</th>
-                   <th>Action To Do</th>
+                   <th>Is Active ?</th>
+                   <th>Update Option</th>
+                   <th></th>
+                   <th></th>
+                   <th></th>
                  </tr>
                </thead>
                <tbody>
@@ -131,68 +135,56 @@
                            <% i++ %>
                            <tr>
                                <td><%= i %></td>
-                               <td><%= row.staff_f_name +" "+ row.staff_m_name+ " " +row.staff_l_name%></td>
+                               <td>
+                                 <label style="text-transform: uppercase;"><%= row.staff_f_name +" "+ row.staff_m_name+ " " +row.staff_l_name%></label>
+                               </td>
                                <td><%= row.isteacher %></td>
                                <td><%= row.region +" " +row.zone +" "+row.woreda +" "+row.hno %></td>
                               
                                <td><%= row.mobileno %></td>
                                <td>
-                                <div class="row">
+                              
                                   <% if(row.is_active =="Yes"){%>
-                                    <div class="col-md-6">
-                                    
-                                      <form action="/registrardataencoder/diactivatestaffaccess/<%= row.staff_id %>" method="post">
-                                        <button type="type" class="btn btn-outline-danger btn-icon-text">
-                                          <i class="mdi mdi-key-remove"></i>                                                        
-                                              Diactivate Staff Access
-                                            </button>
-                                      </form>
-                                 
+                               <label class="btn-success"> Active Staff Memeber</label>     
                                    
-                                  </div>
                                   <%}else{ %>
-                                    <div class="col-md-6">
-                                    
-                                      <form action="/registrardataencoder/activatestaffacesss/<%= row.staff_id %>" method="post">
-                                        <button type="type" class="btn btn-outline-success btn-icon-text">
-                                          <i class="mdi mdi-key-remove"></i>                                                        
-                                              Activate Staff Access
-                                            </button>
-                                      </form>
-                                 
-                                   
-                                  </div>
+                                    <label class="btn-danger">    Not Active Staff Memeber</label>
                                   <%}%>
                                  
-                   
-                                  
-                                </div>
                               </td>
                                <td>
-                                <form action="/registrardataencoder/updatestaffinfo/<%= row.staff_id %>" method="post">
+                                <form action="/registrardataencoder/staff/updatestaffinfo/<%= row.staff_id %>" method="post">
                                   <div class="form-group">
                                     <select class="form-control" name="updateoption">
                                       <option value="0">Please Select Update Option</option>
-                                      <option value="address">Contact Address</option>
+                                    
                                       <option value="phone">Contact Phone</option>
                                     </select>
                                   </div>
-                                  <input class="form-control" name="updatevalue" placeholder="Update Value">
-                                  <button type="type" class="btn btn-sm btn-primary btn-block">
-                                    <i class="mdi mdi-key-remove"></i>                                                        
-                                        Activate Staff Access
-                                      </button>
-                                </form>
-                                
-                                <form action="/registrardataencoder/deletestaffinfo/<%= row.staff_id %>" method="post">
-                                 <button type="type" class="btn btn-sm btn-danger btn-block">
-                                    <i class="fa fa-trash"></i>                                                        
-                                       Delete
-                                      </button>
-                                </form>
+                              
+                              
 
                                </td>
-                            
+                             <td>
+                              <input class="form-control" name="updatevalue" placeholder="Update Value">
+
+                             </td>
+                             <td>
+                              <button type="type" class="btn btn-sm btn-link">
+                                <i class="mdi mdi-key-remove"></i>                                                        
+                                    Update
+                                  </button>
+                            </form>
+                           
+                             </td>
+                             <td>
+                              <form  action="/registrardataencoder/staff/removestaff/<%= row.staff_id %>" method="post">
+                                <button type="type" class="btn btn-sm btn-link">
+                                  <i class="fa fa-trash"></i>                                                        
+                                      
+                                    </button>
+                              </form>
+                             </td>
                              </tr>
                         <%  })} else{}     %>
                     
@@ -226,42 +218,61 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables  & Plugins -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../../plugins/jszip/jszip.min.js"></script>
-<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="../../../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../../../../plugins/jszip/jszip.min.js"></script>
+<script src="../../../../plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../../../../plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
+<script src="../../../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
+<script src="../../../../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      "responsive": false, "lengthChange": true, "autoWidth": false  ,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' )
+                        .prepend(
+                            '<img src="" style="position:absolute; top:0; left:0;" />'
+                            
+                            );
+ 
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' );
+                },
+                title: function() {
+    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+   " <td > <h4>  Organization Name <br> Selam Technical And Vocational Collage <br> Staff Member List</h4> </td> </tr> </table>"
+              
+  } ,
+
+                
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: true
+        }]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
   });
 </script>
 </body>

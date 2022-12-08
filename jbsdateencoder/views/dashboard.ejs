@@ -32,7 +32,7 @@
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="/dashboard" class="nav-link">Home</a>
+          <a href="/jbsdataencoder/dashboard" class="nav-link">Home</a>
         </li>
      
       </ul>
@@ -48,7 +48,7 @@
         <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" href="#">
             <i class="far fa-bell"></i>
-            <span class="badge badge-warning navbar-badge">15</span>
+            <span class="badge badge-warning navbar-badge">0</span>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             <span class="dropdown-item dropdown-header">15 Notifications</span>
@@ -77,7 +77,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link"   href="/logout" role="button">
+          <a class="nav-link"   href="/jbsdataencoder/logout" role="button">
             Logout
           </a>
         </li>
@@ -116,45 +116,69 @@
       <div class="content">
         <div class="container-fluid">
           <div class="col-sm-12 flex-column d-flex stretch-card">
+           
             <div class="row">
-              <div class="col-lg-3 d-flex grid-margin stretch-card">
-                <div class="card sale-visit-statistics-border">
-                  <div class="card-body">
-                    <h2 class="text-dark mb-2 font-weight-bold">3479</h2>
-                    <h4 class="card-title mb-2">Total Added JBS List</h4>
-                    <small class="text-muted">This Year</small>
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <h3><%= lyjbsdata %></h3>
+    
+                    <p>Last Year Registrations</p>
                   </div>
-                </div>
-              </div>
-              
-              <div class="col-lg-3 d-flex grid-margin stretch-card">
-                <div class="card sale-visit-statistics-border">
-                  <div class="card-body">
-                    <h2 class="text-dark mb-2 font-weight-bold">3479</h2>
-                    <h4 class="card-title mb-2">Total Added JBS List</h4>
-                    <small class="text-muted">Last Year</small>
+                  <div class="icon">
+                    <i class="ion ion-person-add"></i>
                   </div>
-                </div>
+               </div>
               </div>
-              <div class="col-lg-3 d-flex grid-margin stretch-card">
-                <div class="card sale-visit-statistics-border">
-                  <div class="card-body">
-                    <h2 class="text-dark mb-2 font-weight-bold">$3479</h2>
-                    <h4 class="card-title mb-2">Income Increase</h4>
-                    <small class="text-muted">From Last Year</small>
+              <!-- ./col -->
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                  <div class="inner">
+                    <h3><%= tyjbsdata %></h3>
+    
+                    <p>This Year Registrations</p>
                   </div>
-                </div>
-              </div>
-              <div class="col-lg-3 d-flex grid-margin stretch-card">
-                <div class="card sale-visit-statistics-border">
-                  <div class="card-body">
-                    <h2 class="text-dark mb-2 font-weight-bold">$3479</h2>
-                    <h4 class="card-title mb-2">Income Increase</h4>
-                    <small class="text-muted">From Last Month</small>
+                  <div class="icon">
+                    <i class="ion ion-person-add"></i>
                   </div>
-                </div>
+               </div>
               </div>
+              <!-- ./col -->
              
+              <!-- ./col -->
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                  <div class="inner">
+                    <h3><%if(lyjbsdata =0){%>
+                     <%= tyjbsdata * 100 /lyjbsdata  %> %
+                    <%} else{%>
+                      <%= tyjbsdata * 100 /1 %> %
+                    <%}%></h3>
+    
+                    <p> Increase In Percentage From Last Year</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                  </div>
+               </div>
+              </div>
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                  <div class="inner">
+                    <h3><%= total %></h3>
+    
+                    <p>Total On JBS DB </p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                  </div>
+                   </div>
+              </div>
+              <!-- ./col -->
             </div>
             
           </div>

@@ -65,14 +65,15 @@ app.use(function(req, res, next) {
 });
 
 app.use(express.static(path.join(__dirname,'./public')));
-// Routes
+// Routes registrar
 app.use('/', require('./routes/index.js'));
 app.use('/programs', require('./routes/programs.js'));
 app.use('/company', require('./routes/company.js'));
 app.use('/trainee', require('./routes/trainee.js'));
 app.use('/applicant',require('./routes/applicant.js'));
-app.use('/registration',require('./routes/registration.js'));
+
 app.use('/staff',require('./routes/staff.js'));
+app.use('/course',require('./routes/course.js'));
 
 app.use('/classmanage',require('./routes/classmanage.js'));
 

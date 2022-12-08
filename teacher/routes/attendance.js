@@ -63,6 +63,13 @@ router.post('/attendancedatafromclass/(:classname)',ensureAuthenticated,async fu
     "SELECT student_id,count(student_id) as total,sum(attendance_type='Absent') as absent,sum(attendance_type='Present') as present,sum(attendance_type='Permission')as permission  FROM attendances  where class_id='"+req.params.classname +"' group by student_id "
 
   ); 
+  const [addinfo,addinfometa] = await sequelize.query(
+    " select * from classindepts "+
+" inner join batches on batches.batch_id = classindepts.batch_id "+
+" inner join occupations on occupation_id = classindepts.department_id "+
+" inner join departments on departments.department_id = occupations.department_id "+
+" where classindepts.class_id='"+req.params.classname+"'"
+  ); 
   if(programtypeb == "level"){
     const [courselist, metadata] = await sequelize.query(
       "SELECT courses.course_name,courses.course_id FROM  courseteacherclasses "+
@@ -72,7 +79,7 @@ router.post('/attendancedatafromclass/(:classname)',ensureAuthenticated,async fu
       "select * from levelbasedtrainees where class_id = '"+req.params.classname+"'"
     );   
       
- res.render('attendancedataforclassselected',{present:present,permission:permission,absent:absent,dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtypeb , lbattendancedata:lbattendancedata})
+ res.render('attendancedataforclassselected',{addinfo:addinfo ,present:present,permission:permission,absent:absent,dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtypeb , lbattendancedata:lbattendancedata})
 
   }else if(programtypeb == "ngo"){
     const [courselistngo, metadatango] = await sequelize.query(
@@ -83,7 +90,7 @@ router.post('/attendancedatafromclass/(:classname)',ensureAuthenticated,async fu
       "select * from ngobasedtrainees where class_id = '"+req.params.classname+"'"
     );   
       
- res.render('attendancedataforclassselected',{present:present,permission:permission,absent:absent,dpt:dpt,batchid:batchid,levelbased:ngobased,courselist:courselistngo,classid:req.params.classname,level:level,programtype:programtypeb , lbattendancedata:lbattendancedata})
+ res.render('attendancedataforclassselected',{addinfo:addinfo ,present:present,permission:permission,absent:absent,dpt:dpt,batchid:batchid,levelbased:ngobased,courselist:courselistngo,classid:req.params.classname,level:level,programtype:programtypeb , lbattendancedata:lbattendancedata})
 
   }else if(programtypeb == "industry"){
     const [courselistind, metadataind] = await sequelize.query(
@@ -94,7 +101,7 @@ router.post('/attendancedatafromclass/(:classname)',ensureAuthenticated,async fu
       "select * from industrybasedtrainees where class_id = '"+req.params.classname+"'"
     );   
       
- res.render('attendancedataforclassselected',{present:present,permission:permission,absent:absent,dpt:dpt,batchid:batchid,levelbased:industrybased,courselist:courselistind,classid:req.params.classname,level:level,programtype:programtypeb , lbattendancedata:lbattendancedata})
+ res.render('attendancedataforclassselected',{addinfo:addinfo ,present:present,permission:permission,absent:absent,dpt:dpt,batchid:batchid,levelbased:industrybased,courselist:courselistind,classid:req.params.classname,level:level,programtype:programtypeb , lbattendancedata:lbattendancedata})
 
   } 
  
@@ -117,7 +124,13 @@ router.post('/takeattendance/(:classname)',ensureAuthenticated,async function(re
       "SELECT student_id,sum(attendance_type='Absent') as absent,sum(attendance_type='Present') as present,sum(attendance_type='Permission')as permission  FROM attendances  where class_id='"+req.params.classname +"' group by student_id "
 
     ); 
-
+    const [addinfo,addinfometa] = await sequelize.query(
+      " select * from classindepts "+
+" inner join batches on batches.batch_id = classindepts.batch_id "+
+" inner join occupations on occupation_id = classindepts.department_id "+
+" inner join departments on departments.department_id = occupations.department_id "+
+" where classindepts.class_id='"+req.params.classname+"'"
+    ); 
     if(programtypeb == "level"){
       const [courselist, metadata] = await sequelize.query(
         "SELECT courses.course_name,courses.course_id FROM  courseteacherclasses "+
@@ -127,7 +140,7 @@ router.post('/takeattendance/(:classname)',ensureAuthenticated,async function(re
         "select * from levelbasedtrainees where class_id = '"+req.params.classname+"'"
       );   
         
-   res.render('myattendanceclassstudentlist',{present:present,permission:permission,absent:absent,dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtypeb , lbattendancedata:lbattendancedata})
+   res.render('myattendanceclassstudentlist',{addinfo:addinfo, present:present,permission:permission,absent:absent,dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtypeb , lbattendancedata:lbattendancedata})
 
     }else if(programtypeb == "ngo"){
       const [courselistngo, metadatango] = await sequelize.query(
@@ -138,7 +151,7 @@ router.post('/takeattendance/(:classname)',ensureAuthenticated,async function(re
         "select * from ngobasedtrainees where class_id = '"+req.params.classname+"'"
       );   
         
-   res.render('myattendanceclassstudentlist',{present:present,permission:permission,absent:absent,dpt:dpt,batchid:batchid,levelbased:ngobased,courselist:courselistngo,classid:req.params.classname,level:level,programtype:programtypeb , lbattendancedata:lbattendancedata})
+   res.render('myattendanceclassstudentlist',{addinfo:addinfo,present:present,permission:permission,absent:absent,dpt:dpt,batchid:batchid,levelbased:ngobased,courselist:courselistngo,classid:req.params.classname,level:level,programtype:programtypeb , lbattendancedata:lbattendancedata})
 
     }else if(programtypeb == "industry"){
       const [courselistind, metadataind] = await sequelize.query(
@@ -149,7 +162,7 @@ router.post('/takeattendance/(:classname)',ensureAuthenticated,async function(re
         "select * from industrybasedtrainees where class_id = '"+req.params.classname+"'"
       );   
         
-   res.render('myattendanceclassstudentlist',{present:present,permission:permission,absent:absent,dpt:dpt,batchid:batchid,levelbased:industrybased,courselist:courselistind,classid:req.params.classname,level:level,programtype:programtypeb , lbattendancedata:lbattendancedata})
+   res.render('myattendanceclassstudentlist',{addinfo:addinfo,present:present,permission:permission,absent:absent,dpt:dpt,batchid:batchid,levelbased:industrybased,courselist:courselistind,classid:req.params.classname,level:level,programtype:programtypeb , lbattendancedata:lbattendancedata})
 
     }
    

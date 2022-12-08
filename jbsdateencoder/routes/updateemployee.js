@@ -106,40 +106,52 @@ router.post('/employeecompany/(:employeeid)',ensureAuthenticated,async function(
   const batchlist = await Batch.findAll({});
   const companylist = await Company.findAll({});
 
- 
-  JBSStudentData.findOne({where:{trainee_id:req.params.employeeid}}).then(employee =>{
-  if(!employee){
+  if(!companyname || companyname==="0"){
     res.render('updateemployeeinfo',{
       levelbased:levelbased,
       department:department,
       classlist:classlist,
       batchlist:batchlist,
-      companylist:companylist
+      companylist:companylist,
+      error_msg:'Please Select Company First'
     })
   }else{
-    const employeehistoryData ={
-      batch_id:employee.batch_id,
-      trainee_id: req.params.employeeid,
-      student_unique_id:employee.student_unique_id,
-      company:companyname,
-      update_by:req.user.username,
-      update_type:"Company_Info",
-      message: "Update employee company "+ companyname
-    };
-    EmployeementHistory.create(employeehistoryData).then(history =>{
-      res.render('updateemployeeinfo',{
-        levelbased:levelbased,
-        department:department,
-        classlist:classlist,
-        batchlist:batchlist,
-        companylist:companylist,
-        success_msg:"Successfully update employee data"
+    JBSStudentData.findOne({where:{trainee_id:req.params.employeeid}}).then(employee =>{
+      if(!employee){
+        res.render('updateemployeeinfo',{
+          levelbased:levelbased,
+          department:department,
+          classlist:classlist,
+          batchlist:batchlist,
+          companylist:companylist
+        })
+      }else{
+        const employeehistoryData ={
+          batch_id:employee.batch_id,
+          trainee_id: req.params.employeeid,
+          student_unique_id:employee.student_unique_id,
+          company:companyname,
+          update_by:req.user.username,
+          update_type:"Company_Info",
+          message: "Update Employee New Employeer Company "+ companyname
+        };
+        EmployeementHistory.create(employeehistoryData).then(history =>{
+          res.render('updateemployeeinfo',{
+            levelbased:levelbased,
+            department:department,
+            classlist:classlist,
+            batchlist:batchlist,
+            companylist:companylist,
+            success_msg:"Successfully Update Employee Employeer Company"
+          })
+        })
+       
+      }
+    
       })
-    })
-   
   }
-
-  })
+ 
+ 
 
 })
 
@@ -174,7 +186,7 @@ router.post('/employeeincome/(:employeeid)',ensureAuthenticated,async function(r
       company:companyname,
       update_by:req.user.username,
       update_type:"Income_Increase",
-      message: "Update employee income data "+ companyname +" "+ income,
+      message: "Update Employee New Income: "+ companyname +" "+ income,
       income_increase:income
     };
     EmployeementHistory.create(employeehistoryData).then(history =>{
@@ -184,7 +196,7 @@ router.post('/employeeincome/(:employeeid)',ensureAuthenticated,async function(r
         classlist:classlist,
         batchlist:batchlist,
         companylist:companylist,
-        success_msg:"Successfully update employee income data"
+        success_msg:"Successfully Update Employee New Income"
       })
     })
    
@@ -211,7 +223,7 @@ router.post('/jobsiteinformation/(:employeeid)',ensureAuthenticated,async functi
       classlist:classlist,
       batchlist:batchlist,
       companylist:companylist,
-      error_msg:"please select info type first"
+      error_msg:"Please Select Update Option Info First"
     })
   }
   JBSStudentData.findOne({where:{trainee_id:req.params.employeeid}}).then(employee =>{
@@ -230,8 +242,8 @@ router.post('/jobsiteinformation/(:employeeid)',ensureAuthenticated,async functi
       student_unique_id:employee.student_unique_id,
       company:companyname,
       update_by:req.user.username,
-      update_type:"Job_Site_Info",
-      message: "Update employee jobsiteinformation " +infotype+" "+ companyname +" "+ info
+      update_type:"Job_Site"+ infotype,
+      message: "Update Employee Job Site Information: Job_Site " +infotype+" To The Following Company: "+ companyname +":- "+ info
     };
     EmployeementHistory.create(employeehistoryData).then(history =>{
       res.render('updatejobsiteinfo',{
@@ -240,7 +252,7 @@ router.post('/jobsiteinformation/(:employeeid)',ensureAuthenticated,async functi
         classlist:classlist,
         batchlist:batchlist,
         companylist:companylist,
-        success_msg:"Successfully update job site information data"
+        success_msg:"Successfully Update Job Site Job Site Information"
       })
     })
    

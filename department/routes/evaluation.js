@@ -115,23 +115,45 @@ const{level,programtype,dpt,batchid,courseid} = req.body;
 const [courselist, metadata] = await sequelize.query(
   "SELECT * from courses where course_id='"+courseid+"'"
   );
-const [levelbased, metadatalevelbased] = await sequelize.query(
-  "select * from levelbasedtrainees inner join studentmarklistlevelbaseds on studentmarklistlevelbaseds.class_id = levelbasedtrainees.class_id where levelbasedtrainees.class_id = '"+ req.params.classname +"' and levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id"
-);     
-res.render('showclassevaluation',{dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype})
+  const [levelbased, metadatalevelbased] = await sequelize.query(
+    "select * from levelbasedtrainees inner join studentmarklistlevelbaseds on"+
+  "  studentmarklistlevelbaseds.student_id = levelbasedtrainees.trainee_id"+
+  "  where levelbasedtrainees.class_id = '"+ req.params.classname +"' and"+
+  " levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id and "+
+  " studentmarklistlevelbaseds.course_id = '"+courseid+"' and "+
+  " studentmarklistlevelbaseds.department_id = '"+dpt+"'"
+  
+  );  
+const  coursename = await Course.findOne({where:{course_id:courseid}});
+const [addinfo,addinfometa] = await sequelize.query(
+  " select * from classindepts "+
+" inner join batches on batches.batch_id = classindepts.batch_id "+
+" inner join occupations on occupation_id = classindepts.department_id "+
+" inner join departments on departments.department_id = occupations.department_id "+
+" where classindepts.class_id='"+req.params.classname+"'"
+);    
+res.render('showclassevaluation',{coursename:coursename,addinfo:addinfo,dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype})
 
 });
 router.post('/showclassevaluationngo/(:classname)',ensureAuthenticated,async function(req,res){
 
-const{level,programtype,dpt,batchid} = req.body;
+const{level,programtype,dpt,batchid,courseid} = req.body;
 const [courselist, metadata] = await sequelize.query(
     "SELECT ngocourses.course_name,ngocourses.course_id FROM  courseteacherclasses "+
-    "INNER JOIN ngocourses ON ngocourses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+req.params.classname+"' "
+    "INNER JOIN ngocourses ON ngocourses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"'  and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+req.params.classname+"' "
   );
+  const  coursename = await Course.findOne({where:{course_id:courseid}});
   const [levelbased, metadatalevelbased] = await sequelize.query(
     "select * from ngobasedtrainees inner join studentmarklistlevelbaseds on studentmarklistlevelbaseds.class_id = ngobasedtrainees.class_id where ngobasedtrainees.class_id = '"+ req.params.classname +"' and ngobasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id"
-  );     
-  res.render('showclassevaluation',{dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype})
+  );  
+  const [addinfo,addinfometa] = await sequelize.query(
+    " select * from classindepts "+
+" inner join batches on batches.batch_id = classindepts.batch_id "+
+" inner join occupations on occupation_id = classindepts.department_id "+
+" inner join departments on departments.department_id = occupations.department_id "+
+" where classindepts.class_id='"+req.params.classname+"'"
+  );    
+  res.render('showclassevaluation',{coursename:coursename, addinfo:addinfo,dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype})
 
 });
 router.post('/showclassevaluationindustry/(:classname)',ensureAuthenticated,async function(req,res){
@@ -139,15 +161,23 @@ router.post('/showclassevaluationindustry/(:classname)',ensureAuthenticated,asyn
   const{level,programtype,dpt,batchid} = req.body;
   const [courselist, metadata] = await sequelize.query(
       "SELECT industrycourses.course_name,industrycourses.course_id FROM  courseteacherclasses "+
-      "INNER JOIN industrycourses ON industrycourses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+req.params.classname+"' "
+      "INNER JOIN industrycourses ON industrycourses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"'  and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+req.params.classname+"' "
     );
+    const  coursename = await Course.findOne({where:{course_id:courseid}});
+    const [addinfo,addinfometa] = await sequelize.query(
+      " select * from classindepts "+
+" inner join batches on batches.batch_id = classindepts.batch_id "+
+" inner join occupations on occupation_id = classindepts.department_id "+
+" inner join departments on departments.department_id = occupations.department_id "+
+" where classindepts.class_id='"+req.params.classname+"'"
+    ); 
     const [levelbased, metadatalevelbased] = await sequelize.query(
       "select * from industrybasedtrainees inner join studentmarklistlevelbaseds on studentmarklistlevelbaseds.class_id = industrybasedtrainees.class_id where industrybasedtrainees.class_id = '"+ req.params.classname +"' and industrybasedtrainees.student_unique_id = studentmarklistlevelbaseds.student_id"
     );   
     console.log("yyyyyyyyyyyyyyyyyyyyyyyy")  
     console.log(levelbased)
     console.log(courselist)
-    res.render('showclassevaluation',{dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype})
+    res.render('showclassevaluation',{coursename:coursename,addinfo:addinfo,dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype})
 
   });
 
@@ -158,41 +188,63 @@ const{level,programtype,dpt,batchid,courseid} = req.body;
 const [courselist, metadata] = await sequelize.query(
   "SELECT * from courses where course_id='"+courseid+"'"
   );
+  const [addinfo,addinfometa] = await sequelize.query(
+    " select * from classindepts "+
+" inner join batches on batches.batch_id = classindepts.batch_id "+
+" inner join occupations on occupation_id = classindepts.department_id "+
+" inner join departments on departments.department_id = occupations.department_id "+
+" where classindepts.class_id='"+req.params.classname+"'"
+  ); 
 const [levelbased, metadatalevelbased] = await sequelize.query(
 "select * from levelbasedtrainees inner join levelbasedprogresses on levelbasedprogresses.class_id = levelbasedtrainees.class_id"+
 " where levelbasedtrainees.class_id = '"+ req.params.classname +"' and levelbasedtrainees.trainee_id = levelbasedprogresses.student_id"+
 " and  levelbasedprogresses.course_id='"+courseid+"' and  levelbasedprogresses.batch_id='"+batchid+"' and levelbasedprogresses.department_id='"+dpt+"'"+
 " and levelbasedprogresses.program_type='"+programtype+"'"
 );     
-res.render('showclassprogress',{dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype,programtag:"level"})
+res.render('showclassprogress',{addinfo:addinfo,dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype,programtag:"level"})
 
 })
 router.post('/showclassprogressngo/(:classname)',ensureAuthenticated,async function(req,res){
 
-const{level,programtype,dpt,batchid} = req.body;
+const{level,programtype,dpt,batchid,courseid} = req.body;
 const [courselist, metadata] = await sequelize.query(
   "SELECT  * FROM  ngocourses "+
-  " where department_id='"+dpt+"' and batch_id='"+batchid+"'"
+  " where department_id='"+dpt+"' and batch_id='"+batchid+"' and course_id='"+courseid+"'"
  
 );
+const [addinfo,addinfometa] = await sequelize.query(
+  " select * from classindepts "+
+" inner join batches on batches.batch_id = classindepts.batch_id "+
+" inner join occupations on occupation_id = classindepts.department_id "+
+" inner join departments on departments.department_id = occupations.department_id "+
+" where classindepts.class_id='"+req.params.classname+"'"
+); 
 const [levelbased, metadatalevelbased] = await sequelize.query(
   "select * from ngobasedtrainees inner join levelbasedprogresses on levelbasedprogresses.class_id = ngobasedtrainees.class_id "+
   " where ngobasedtrainees.class_id = '"+ req.params.classname +"' and ngobasedtrainees.trainee_id = levelbasedprogresses.student_id"
 );     
-res.render('showclassprogress',{dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype,programtag:"ngo"})
+res.render('showclassprogress',{addinfo:addinfo,dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype,programtag:"ngo"})
 
 })
 router.post('/showclassprogressindustry/(:classname)',ensureAuthenticated,async function(req,res){
 
-const{level,programtype,dpt,batchid} = req.body;
+const{level,programtype,dpt,batchid,courseid} = req.body;
 const [courselist, metadata] = await sequelize.query(
-    "SELECT industrycourses.course_name,industrycourses.course_id FROM  courseteacherclasses "+
-    "INNER JOIN industrycourses ON industrycourses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+req.params.classname+"' "
-  );
+    "SELECT * from industrycourses "+
+    " where department_id='"+dpt+"' and batch_id='"+batchid+"' and course_id='"+courseid+"'"
+ 
+    );
   const [levelbased, metadatalevelbased] = await sequelize.query(
     "select * from industrybasedtrainees inner join levelbasedprogresses on levelbasedprogresses.class_id = industrybasedtrainees.class_id where industrybasedtrainees.class_id = '"+ req.params.classname +"' and industrybasedtrainees.trainee_id = levelbasedprogresses.student_id"
+  ); 
+  const [addinfo,addinfometa] = await sequelize.query(
+    " select * from classindepts "+
+" inner join batches on batches.batch_id = classindepts.batch_id "+
+" inner join occupations on occupation_id = classindepts.department_id "+
+" inner join departments on departments.department_id = occupations.department_id "+
+" where classindepts.class_id='"+req.params.classname+"'"
   );     
-  res.render('showclassprogress',{dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype,programtag:"industry"})
+  res.render('showclassprogress',{addinfo:addinfo, dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype,programtag:"industry"})
 
 })
 

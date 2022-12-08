@@ -172,7 +172,7 @@ router.post('/addnewlevelbasedprogram',ensureAuthenticated, async function(req,r
         batch_name:batchname,
         batch_from:trainingstartdate,
         batch_to:trainingenddate,
-        program_type: "level",
+        program_type: "Level_Based",
         is_current: "Yes"
     }
      const levelbasedprogramData = {
@@ -312,7 +312,7 @@ router.post('/addnewngobasedprogram',ensureAuthenticated, async function(req,res
         batch_name:batchname,
         batch_from:trainingstartdate,
         batch_to:trainingenddate,
-        program_type: "ngo",
+        program_type: "Project_Based",
         is_current: "Yes"
     }
      const ngobasedprogramData = {
@@ -452,7 +452,7 @@ const v1options = {
     batch_name:batchname,
     batch_from:trainingstartdate,
     batch_to:trainingenddate,
-    program_type: "industry",
+    program_type: "Industry_Based",
     is_current: "Yes"
 }
  const ngobasedprogramData = {

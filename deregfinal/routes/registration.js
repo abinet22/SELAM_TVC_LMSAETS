@@ -21,6 +21,7 @@ const passport = require('passport');
 const { v4: uuidv4 } = require('uuid');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 const uploadFile = require('../middleware/upload.js');
+const Batch = db.batches;
 const NGOBasedTrainee = db.ngobasedtrainees;
 const Occupation = db.occupations;
 const NGOCourse = db.ngocourses;
@@ -86,7 +87,9 @@ router.post('/searchapplicantbyidtoregister',ensureAuthenticated,async function(
   const{programidlevel,applicantid} = req.body;
   const applicant = await NewApplicant.findOne({where:{application_id:programidlevel,applicant_id:applicantid,is_selected:"Yes"}});
   if(applicant){
-    const department = await Occupation.findOne({where:{occupation_id:applicant.selected_department}})
+    const batchinfo = await Batch.findOne({where:{batch_id:programidlevel}})
+    const [department,deptmeta] = await sequelize.query("select * from occupations inner join departments "+
+    "on occupations.department_id =departments.department_id where occupations.occupation_id='"+applicant.selected_department+"'");
     const courselist = await Course.findAll({where:{department_id:applicant.selected_department,training_level:applicant.choice_level}})
     const classlist = await ClassInDept.findAll({where:{batch_id:programidlevel,department_id:applicant.selected_department,training_level:applicant.choice_level,training_type:applicant.choice_program_type}})
     res.render('registersingleapplicant',{
@@ -95,6 +98,7 @@ router.post('/searchapplicantbyidtoregister',ensureAuthenticated,async function(
         department:department,
         courselist:courselist,
         programidlevel:programidlevel,
+        batchinfo:batchinfo,
         programtag:"level"
     });
   }
@@ -116,7 +120,9 @@ router.post('/searchapplicantbyidtoregisterngo',ensureAuthenticated,async functi
   const{programidlevel,applicantid} = req.body;
   const applicant = await NewApplicant.findOne({where:{application_id:programidlevel,applicant_id:applicantid,is_selected:"Yes"}});
   if(applicant){
-    const department = await Occupation.findOne({where:{occupation_id:applicant.selected_department}})
+    const batchinfo = await Batch.findOne({where:{batch_id:programidlevel}})
+    const [department,deptmeta] = await sequelize.query("select * from occupations inner join departments "+
+    "on occupations.department_id =departments.department_id where occupations.occupation_id='"+applicant.selected_department+"'");
     const courselist = await NGOCourse.findAll({where:{department_id:applicant.selected_department,batch_id:programidlevel}})
     const classlist = await ClassInDept.findAll({where:{batch_id:programidlevel,department_id:applicant.selected_department}})
     res.render('registersingleapplicantngo',{
@@ -124,6 +130,7 @@ router.post('/searchapplicantbyidtoregisterngo',ensureAuthenticated,async functi
         classlist:classlist,
         department:department,
         courselist:courselist,
+        batchinfo:batchinfo,
         programidlevel:programidlevel,
         programtag:"ngo"
     });
@@ -146,12 +153,15 @@ router.post('/searchapplicantbyidtoregisterindustry',ensureAuthenticated,async f
   const{programidlevel,applicantid} = req.body;
   const applicant = await NewApplicant.findOne({where:{application_id:programidlevel,applicant_id:applicantid,is_selected:"Yes"}});
   if(applicant){
-    const department = await Department.findOne({where:{department_id:applicant.selected_department}})
+    const batchinfo = await Batch.findOne({where:{batch_id:programidlevel}})
+    const [department,deptmeta] = await sequelize.query("select * from occupations inner join departments "+
+    "on occupations.department_id =departments.department_id where occupations.occupation_id='"+applicant.selected_department+"'");
     const courselist = await IndustryCourse.findAll({where:{department_id:applicant.selected_department,batch_id:programidlevel}})
     const classlist = await ClassInDept.findAll({where:{batch_id:programidlevel,department_id:applicant.selected_department}})
     res.render('registersingleapplicantindustry',{
         applicant:applicant,
         classlist:classlist,
+        batchinfo:batchinfo,
         department:department,
         courselist:courselist,
         programidlevel:programidlevel,
@@ -176,11 +186,27 @@ router.post('/registernewtrainee/(:programidlevel)/(:applicantid)',uploadFile.si
     
     const{classname,traineeid} = req.body;
     const department = await Occupation.findAll({});
+    const [levelbased, metalevelbaseddata] = await sequelize.query(
+      "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id where levelbasedprograms.is_open='Yes' and levelbasedprograms.is_confirm='Yes'"
+    );
+    let errors = [];
     if(!req.file){
-console.log("No File!")
+      errors.push({msg:"Please Upload Trainee Photo"})
     }
-
-
+   if(!traineeid ){
+     errors.push({msg:"Please Enter Trainee ID"})
+   }
+   if(! classname){
+    errors.push({msg:"Please Select Class Name And Assign Trainee Class"})
+  } 
+  if(errors.length>0){
+    res.render('searchselectedapplicanttoregister',{
+ 
+      levelbased:levelbased,
+       ngobased:department,
+       errors
+   })
+  }else{
     const applicant = await NewApplicant.findOne({where:{application_id:req.params.programidlevel,applicant_id:req.params.applicantid,is_selected:"Yes"}});
     if(!applicant){
      
@@ -268,24 +294,52 @@ application_id:req.params.programidlevel}}).then(app =>{
                  
         
                 }).catch(error =>{
-                    console.log(error)
+                  res.render('searchselectedapplicanttoregister',{
+ 
+                    levelbased:levelbased,
+                     ngobased:department,
+                     error_msg:'Error While Updating Applicant Data'
+                 })
                 })
             }
         }).catch(error=>{
-            console.log(error)
+          res.render('searchselectedapplicanttoregister',{
+ 
+            levelbased:levelbased,
+             ngobased:department,
+             error_msg:'Error While Registering Trainee Please Try Later'
+         })
         })
         
          }
+  }
+
+ 
  
   });
 router.post('/registernewtraineengo/(:programidlevel)/(:applicantid)',uploadFile.single("traineephoto"),ensureAuthenticated,async function(req,res){
     
     const{classname,traineeid} = req.body;
 
+   
+    let errors = [];
     if(!req.file){
-console.log("No File!")
+      errors.push({msg:"Please Upload Trainee Photo"})
     }
-
+   if(!traineeid ){
+     errors.push({msg:"Please Enter Trainee ID"})
+   }
+   if(! classname){
+    errors.push({msg:"Please Select Class Name And Assign Trainee Class"})
+  } 
+  if(errors.length>0){
+    res.render('searchselectedapplicanttoregister',{
+ 
+      levelbased:levelbased,
+       ngobased:department,
+       errors
+   })
+  }else{
 
     const applicant = await NewApplicant.findOne({where:{application_id:req.params.programidlevel,
 applicant_id:req.params.applicantid,is_selected:"Yes"}});
@@ -377,16 +431,30 @@ req.params.programidlevel+"/"+req.params.applicantid +""); })
         })
         
          }
-  
+        }
   });
 router.post('/registernewtraineeindustry/(:programidlevel)/(:applicantid)',uploadFile.single("traineephoto"),ensureAuthenticated,async function(req,res){
     
     const{classname,traineeid} = req.body;
 
+    let errors = [];
     if(!req.file){
-console.log("No File!")
+      errors.push({msg:"Please Upload Trainee Photo"})
     }
-
+   if(!traineeid ){
+     errors.push({msg:"Please Enter Trainee ID"})
+   }
+   if(! classname){
+    errors.push({msg:"Please Select Class Name And Assign Trainee Class"})
+  } 
+  if(errors.length>0){
+    res.render('searchselectedapplicanttoregister',{
+ 
+      levelbased:levelbased,
+       ngobased:department,
+       errors
+   })
+  }else{
 
     const applicant = await NewApplicant.findOne({where:{application_id:req.params.programidlevel,applicant_id:req.params.applicantid,is_selected:"Yes"}});
     if(!applicant){
@@ -479,7 +547,7 @@ req.params.programidlevel+"/"+req.params.applicantid +"");
         })
         
          }
-  
+        }
   });
 
 
@@ -490,12 +558,16 @@ router.get('/printslipngobased/(:batchid)/(:applicantid)',ensureAuthenticated,as
     //const{programidlevel,applicantid} = req.body;
   const applicant = await NGOBasedTrainee.findOne({where:{batch_id:req.params.batchid,applicant_id:req.params.applicantid}});
   if(applicant){
-    const department = await Occupation.findOne({where:{occupation_id:applicant.department_id}})
+    const batchinfo = await Batch.findOne({where:{batch_id:req.params.batchid}})
+    const [department,deptmeta] = await sequelize.query("select * from occupations inner join departments "+
+    "on occupations.department_id =departments.department_id where occupations.occupation_id='"+applicant.department_id+"'");
+  
     const courselist = await NGOCourse.findAll({where:{department_id:applicant.department_id,batch_id:applicant.batch_id}})
     const classlist = await ClassInDept.findOne({where:{batch_id:req.params.batchid,
 department_id:applicant.department_id,training_type:applicant.admission_type}})
     res.render('printregisterationslip',{
         applicant:applicant,
+        batchinfo:batchinfo,
         classlist:classlist,
         department:department,
         courselist:courselist,
@@ -509,13 +581,16 @@ router.get('/printslipindustrybased/(:batchid)/(:applicantid)',ensureAuthenticat
   //const{programidlevel,applicantid} = req.body;
 const applicant = await IndustryBasedTrainee.findOne({where:{batch_id:req.params.batchid,applicant_id:req.params.applicantid}});
 if(applicant){
-  const department = await Occupation.findOne({where:{occupation_id:applicant.department_id}})
-  const courselist = await IndustryCourse.findAll({where:{department_id:applicant.department_id,batch_id:applicant.batch_id}})
+  const batchinfo = await Batch.findOne({where:{batch_id:req.params.batchid}})
+  const [department,deptmeta] = await sequelize.query("select * from occupations inner join departments "+
+  "on occupations.department_id =departments.department_id where occupations.occupation_id='"+applicant.department_id+"'");
+const courselist = await IndustryCourse.findAll({where:{department_id:applicant.department_id,batch_id:applicant.batch_id}})
   const classlist = await ClassInDept.findOne({where:{batch_id:req.params.batchid,department_id:applicant.department_id,training_type:applicant.admission_type}})
   res.render('printregisterationslip',{
       applicant:applicant,
       classlist:classlist,
       department:department,
+      batchinfo:batchinfo,
       courselist:courselist,
       programidlevel:req.params.batchid,
       programtag:"industry"
@@ -527,7 +602,10 @@ router.get('/printslip/(:batchid)/(:applicantid)',ensureAuthenticated,async func
     //const{programidlevel,applicantid} = req.body;
   const applicant = await LevelBasedTrainee.findOne({where:{batch_id:req.params.batchid,applicant_id:req.params.applicantid}});
   if(applicant){
-    const department = await Occupation.findOne({where:{occupation_id:applicant.department_id}})
+    const batchinfo = await Batch.findOne({where:{batch_id:req.params.batchid}})
+    const [department,deptmeta] = await sequelize.query("select * from occupations inner join departments "+
+    "on occupations.department_id =departments.department_id where occupations.occupation_id='"+applicant.department_id+"'");
+  
     const courselist = await Course.findAll({where:{department_id:applicant.department_id,training_level:applicant.entry_level}})
     const classlist = await ClassInDept.findOne({where:{batch_id:req.params.batchid,department_id:applicant.department_id,training_level:applicant.entry_level,training_type:applicant.admission_type}})
     res.render('printregisterationslip',{
@@ -535,6 +613,7 @@ router.get('/printslip/(:batchid)/(:applicantid)',ensureAuthenticated,async func
         classlist:classlist,
         department:department,
         courselist:courselist,
+        batchinfo:batchinfo,
         programidlevel:req.params.batchid,
         programtag:"level"
     });
@@ -545,13 +624,17 @@ router.get('/printslipcontinuestudy/(:batchid)/(:applicantid)',ensureAuthenticat
   //const{programidlevel,applicantid} = req.body;
 const applicant = await LevelBasedTrainee.findOne({where:{batch_id:req.params.batchid,student_unique_id:req.params.applicantid}});
 if(applicant){
-  const department = await Department.findOne({where:{department_id:applicant.department_id}})
-  const courselist = await Course.findAll({where:{department_id:applicant.department_id,training_level:applicant.current_level}})
+  const batchinfo = await Batch.findOne({where:{batch_id:req.params.batchid}})
+  const [department,deptmeta] = await sequelize.query("select * from occupations inner join departments "+
+  "on occupations.department_id =departments.department_id where occupations.occupation_id='"+applicant.department_id+"'");
+
+ const courselist = await Course.findAll({where:{department_id:applicant.department_id,training_level:applicant.current_level}})
   const classlist = await ClassInDept.findOne({where:{batch_id:req.params.batchid,department_id:applicant.department_id,training_level:applicant.current_level,training_type:applicant.admission_type}})
   res.render('printregisterationslip',{
       applicant:applicant,
       classlist:classlist,
       department:department,
+      batchinfo:batchinfo,
       courselist:courselist,
       programidlevel:req.params.batchid,
       programtag:"level"
@@ -587,19 +670,19 @@ router.post('/selectallbybatchidtoregister',ensureAuthenticated,async function(r
 });
 router.post('/selectallbybatchidtoregisterngo',ensureAuthenticated,async function(req,res){
 
-  const{programidbatch,dept} = req.body;
+  const{programidbatch,deptt} = req.body;
   const department = await Occupation.findAll({});
   const [levelbased, metalevelbaseddata] = await sequelize.query(
     "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open='Yes'  and ngobasedprograms.is_confirm ='Yes'"
   );
  const [allapplicants, metalngobaseddata] = await sequelize.query(
     "SELECT * FROM newapplicants INNER JOIN occupations ON newapplicants.selected_department = occupations.occupation_id "+
-"  where application_id='"+programidbatch+"' and selected_department='"+dept+"' and is_selected= 'Yes' "+
-" and selected_class =''"
+"  where application_id='"+programidbatch+"' and selected_department='"+deptt+"' and is_selected= 'Yes' "
+
   ); 
 
 
-  NewApplicant.findAll({where:{application_id:programidbatch,selected_department:dept,is_selected:"Yes"}}).then(applicant =>{
+  NewApplicant.findAll({where:{application_id:programidbatch,selected_department:deptt,is_selected:"Yes"}}).then(applicant =>{
 
     res.render('registerinbatchngo',{applicantlist:allapplicants,  programtag:"ngo"})
   }).catch(error =>{
@@ -660,7 +743,7 @@ router.get('/graduatedtraineetojbsdb',async function(req,res){
 
 router.post('/registerindustrybasedtraineewithoutapplication',ensureAuthenticated,async function(req,res){
   const {programid,dept} = req.body;
-  const department  = await Department.findAll({});
+  const department  = await Occupation.findAll({});
   const classlist  = await ClassInDept.findAll({where:{batch_id:programid,department_id:dept}});
   let errors = []
   if(programid=="0"){
@@ -877,14 +960,19 @@ res.render('searchselectedapplicantcontinuestudy',{
 
 })
 router.post('/searchexistedtraineedata',ensureAuthenticated,async function(req,res){
-  const {batchid,traineeid,deptid,level,newlevel,addmissiontype,batchidnew} = req.body;
-  const departmentone = await Occupation.findAll({where:{department_id:deptid}});
-  const department = await Occupation.findAll({});
+  const {batchid,traineeid,deptid,level,newlevel,addmissiontype,batchidnew,newdeptid} = req.body;
+ 
+  const batchinfo = await Batch.findOne({where:{batch_id:batchid}})
+  const [departmentone,deptmeta] = await sequelize.query("select * from occupations inner join departments "+
+  "on occupations.department_id =departments.department_id where occupations.occupation_id='"+newdeptid+"'");
+  const [department,dedeptmeta] = await sequelize.query("select * from occupations inner join departments "+
+  "on occupations.department_id =departments.department_id where occupations.occupation_id='"+deptid+"'");
+
   const [classlist, metaclasslist] = await sequelize.query(
-    "SELECT * FROM classindepts where department_id='"+deptid+"' and batch_id='"+batchidnew+"' and training_level='"+newlevel+"'"
+    "SELECT * FROM classindepts where department_id='"+newdeptid+"' and batch_id='"+batchidnew+"' and training_level='"+newlevel+"'"
   );
   const [courselist, metacourselist] = await sequelize.query(
-    "SELECT * FROM courses where department_id='"+deptid+"'  and training_level='"+newlevel+"'"
+    "SELECT * FROM courses where department_id='"+newdeptid+"'  and training_level='"+newlevel+"'"
   );
   
   const [levelbased, metalevelbaseddata] = await sequelize.query(
@@ -902,9 +990,13 @@ router.post('/searchexistedtraineedata',ensureAuthenticated,async function(req,r
       res.render('registerexistedtraineecountinuestudy',{
         applicant:applicant,
         classlist:classlist,
-        department:departmentone,
+        department:department,
+        departmentone:departmentone,
         newlevel:newlevel,
+        newdeptid:newdeptid,
+        deptid:deptid,
         level:level,
+        batchinfo:batchinfo,
         admissiontype:addmissiontype,
         batchid:batchid,
         batchidnew:batchidnew,
@@ -919,12 +1011,49 @@ router.post('/searchexistedtraineedata',ensureAuthenticated,async function(req,r
 
 })
 router.post('/registercontinuestudy',ensureAuthenticated,async function(req,res){
-  const {batchid,batchidnew,traineeid,deptid,level,newlevel,admissiontype,classname} = req.body;
+  const {batchid,batchidnew,newdeptid,traineeid,deptid,level,newlevel,admissiontype,classname} = req.body;
 
-  const department = await Occupation.findAll({});
+  const batchinfo = await Batch.findOne({where:{batch_id:batchid}});
+  
+  const [departmentone,deptmeta] = await sequelize.query("select * from occupations inner join departments "+
+  "on occupations.department_id =departments.department_id where occupations.occupation_id='"+newdeptid+"'");
+  
+  const [department,dedeptmeta] = await sequelize.query("select * from occupations inner join departments "+
+  "on occupations.department_id =departments.department_id where occupations.occupation_id='"+deptid+"'");
+
+  const [classlist, metaclasslist] = await sequelize.query(
+    "SELECT * FROM classindepts where department_id='"+newdeptid+"' and batch_id='"+batchidnew+"' and training_level='"+newlevel+"'"
+  );
+  const [courselist, metacourselist] = await sequelize.query(
+    "SELECT * FROM courses where department_id='"+newdeptid+"'  and training_level='"+newlevel+"'"
+  );
   const [levelbased, metalevelbaseddata] = await sequelize.query(
     "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id where levelbasedprograms.is_open='Yes'  and levelbasedprograms.is_confirm ='Yes'"
   );
+  const applicantold = await LevelBasedTrainee.findOne({where:{batch_id:batchid,student_unique_id:traineeid,department_id:deptid,current_level:level,is_graduated:'Yes'}});
+   
+  if(!classname || classname=="0"){
+    res.render('registerexistedtraineecountinuestudy',{
+      applicant:applicantold,
+      classlist:classlist,
+      department:department,
+      departmentone:departmentone,
+      newlevel:newlevel,
+      newdeptid:newdeptid,
+      deptid:deptid,
+      level:level,
+      batchinfo:batchinfo,
+      admissiontype:admissiontype,
+      batchid:batchid,
+      batchidnew:batchidnew,
+      programtag:"level",
+      traineeid:traineeid,
+      courselist:courselist,
+      error_msg:'Please Select And Assign Class Name'
+    
+  })
+  }
+  else{
     const applicant = await LevelBasedTrainee.findOne({where:{batch_id:batchid,student_unique_id:traineeid,department_id:deptid,current_level:level}});
     if(!applicant){
      
@@ -934,7 +1063,7 @@ router.post('/registercontinuestudy',ensureAuthenticated,async function(req,res)
         error_msg:'Cant find registerd trainee with this ID please try again'
     })
     }else{
-        const department = await Department.findAll({});
+      
           const [levelbased, metalevelbaseddata] = await sequelize.query(
             "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id where levelbasedprograms.is_open='Yes'"
           );
@@ -966,7 +1095,7 @@ router.post('/registercontinuestudy',ensureAuthenticated,async function(req,res)
             grade10_leaving: applicant.grade10_leaving,
             grade12_leaving: applicant.grade12_leaving,
             apptitude_result: applicant.apptitude_result,
-            department_id: applicant.department_id,
+            department_id: newdeptid,
             admission_type:admissiontype,
             class_id: classname,
             entry_level: applicant.entry_level,
@@ -980,12 +1109,12 @@ router.post('/registercontinuestudy',ensureAuthenticated,async function(req,res)
             payment_info:applicant.payment_info
             
         }
-        LevelBasedTrainee.findOne({where:{batch_id:batchid,student_unique_id:traineeid,current_level:newlevel}}).then(regtrainee =>{
+        LevelBasedTrainee.findOne({where:{batch_id:batchidnew,student_unique_id:traineeid,current_level:newlevel}}).then(regtrainee =>{
             if(regtrainee)
             {
                 res.render('searchselectedapplicantcontinuestudy',{
                     levelbased:levelbased,
-                    ngobased:department,
+                    department:department,
                     error_msg:'Trainee with this application ID already registered'
                 })
             }
@@ -995,14 +1124,24 @@ router.post('/registercontinuestudy',ensureAuthenticated,async function(req,res)
                   res.redirect("/registration/printslipcontinuestudy/"+batchidnew+"/"+traineeid +"");
         
                 }).catch(error =>{
-                    console.log(error)
+                  res.render('searchselectedapplicantcontinuestudy',{
+                    levelbased:levelbased,
+                    department:department,
+                    error_msg:'Error While Registering This Trainee '
+                })
                 })
             }
         }).catch(error=>{
-            console.log(error)
+          res.render('searchselectedapplicantcontinuestudy',{
+            levelbased:levelbased,
+            department:department,
+            error_msg:'Error While Finding Existed  Trainee Data'
+        })
         })
         
          }
+  }
+   
 
 
 })

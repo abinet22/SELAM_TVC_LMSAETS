@@ -118,6 +118,110 @@ router.post('/classlistbeforecourseteacher',ensureAuthenticated,async function(r
    occupationname:occupationname
   }) 
 })
+router.post('/classlistbeforecourseteachern',ensureAuthenticated,async function(req,res){
+  const{programidleveln,traininglevel,programtype,occupationnamen,tag} = req.body;
+        const teacherlist = await StaffList.findAll({});
+        var classlist ;
+        var courselist;
+        if(tag ==="level"){
+           classlist = await ClassInDept.findAll({where:{
+            batch_id:programidleveln,
+            department_id: occupationnamen,
+            training_level:traininglevel,
+            training_type:programtype}})
+ courselist = await Course.findAll({where:{
+        
+          department_id: occupationname,
+          training_level:traininglevel }})
+        }
+        else if (tag ==="ngo"){
+           classlist = await ClassInDept.findAll({where:{
+            batch_id:programidleveln,
+            department_id: occupationnamen,
+           
+            training_type:programtype}})
+ courselist = await Course.findAll({where:{
+        
+          department_id: occupationname,
+          }})
+        }else if(tag ==="industry"){
+           classlist = await ClassInDept.findAll({where:{
+            batch_id:programidleveln,
+            department_id: occupationnamen,
+           
+            training_type:programtype}})
+ courselist = await Course.findAll({where:{
+        
+          department_id: occupationnamen,
+          }})
+        }
+     
+        const occinfo =await Occupation.findOne({where:{occupation_id:occupationnamen}});
+        const batchinfo =await Batch.findOne({where:{batch_id:programidleveln}});
+  res.render('classlistbeforecourseteacher',{
+    programidlevel:programidleveln,
+   teacherlist:teacherlist,
+   traininglevel:traininglevel,
+   programtype:programtype,
+   classlist:classlist,
+   courselist:courselist,
+   occinfo:occinfo,
+   batchinfo:batchinfo,
+   occupationname:occupationnamen
+  }) 
+})
+router.post('/classlistbeforecourseteacheri',ensureAuthenticated,async function(req,res){
+  const{programidleveli,traininglevel,programtype,occupationnamei,tag} = req.body;
+        const teacherlist = await StaffList.findAll({});
+        var classlist ;
+        var courselist;
+        if(tag ==="level"){
+           classlist = await ClassInDept.findAll({where:{
+            batch_id:programidleveli,
+            department_id: occupationnamei,
+            training_level:traininglevel,
+            training_type:programtype}})
+ courselist = await Course.findAll({where:{
+        
+          department_id: occupationname,
+          training_level:traininglevel }})
+        }
+        else if (tag ==="ngo"){
+           classlist = await ClassInDept.findAll({where:{
+            batch_id:programidleveli,
+            department_id: occupationnamei,
+           
+            training_type:programtype}})
+ courselist = await Course.findAll({where:{
+        
+          department_id: occupationnamei,
+          }})
+        }else if(tag ==="industry"){
+           classlist = await ClassInDept.findAll({where:{
+            batch_id:programidleveli,
+            department_id: occupationnamei,
+           
+            training_type:programtype}})
+ courselist = await Course.findAll({where:{
+        
+          department_id: occupationnamei,
+          }})
+        }
+     
+        const occinfo =await Occupation.findOne({where:{occupation_id:occupationnamei}});
+        const batchinfo =await Batch.findOne({where:{batch_id:programidleveli}});
+  res.render('classlistbeforecourseteacher',{
+    programidlevel:programidleveli,
+   teacherlist:teacherlist,
+   traininglevel:traininglevel,
+   programtype:programtype,
+   classlist:classlist,
+   courselist:courselist,
+   occinfo:occinfo,
+   batchinfo:batchinfo,
+   occupationname:occupationnamei
+  }) 
+})
 router.post('/coursetoteacherlevelbased/(:classname)',ensureAuthenticated,async function(req,res){
   const{programidlevel,traininglevel,programtype,occupationname} = req.body;
         const teacherlist = await StaffList.findAll({})
@@ -214,29 +318,36 @@ router.post('/assignclassrepresentativelevel',ensureAuthenticated,async function
                               training_level:traininglevel,
                               training_type:programtype}})
        
-
+                              const [occcdpt,om] = await sequelize.query(
+                                "select * from occupations inner join departments on departments.department_id=occupations.department_id"+
+                                " where departments.department_id='"+req.user.department +"'"
+                              )
   res.render('classrepresentative',{
    programid:programidlevel,
    teacherlist:teacherlist,
    traininglevel:traininglevel,
    programtype:programtype,
    classlist:classlist,
-
+ occcdpt:occcdpt
   }) 
 })
 
 router.post('/assignclassrepresentativengo',ensureAuthenticated,async function(req,res){
-  const{programid,traininglevel,programtype,occupationname} = req.body;
+  const{programidn,traininglevel,programtype,occupationnamen} = req.body;
         const teacherlist = await StaffList.findAll({where:{isteacher:'Yes'}})
         const classlist = await ClassInDept.findAll({where:{
-                              batch_id:programid,
-                              department_id: occupationname,
+                              batch_id:programidn,
+                              department_id: occupationnamen,
                             
                               training_type:programtype}})
-       
+       const [occcdpt,om] = await sequelize.query(
+         "select * from occupations inner join departments on departments.department_id=occupations.department_id"+
+         " where departments.department_id='"+req.user.department +"'"
+       )
 
   res.render('classrepresentative',{
-   programid:programid,
+   programid:programidn,
+   occcdpt:occcdpt,
    teacherlist:teacherlist,
    traininglevel:'',
    programtype:programtype,
@@ -245,22 +356,25 @@ router.post('/assignclassrepresentativengo',ensureAuthenticated,async function(r
   }) 
 })
 router.post('/assignclassrepresentativeindustry',ensureAuthenticated,async function(req,res){
-  const{programid,traininglevel,programtype,occupationname} = req.body;
+  const{programidi,traininglevel,programtype,occupationnamei} = req.body;
         const teacherlist = await StaffList.findAll({where:{isteacher:'Yes'}})
         const classlist = await ClassInDept.findAll({where:{
-                              batch_id:programid,
-                              department_id: occupationname,
+                              batch_id:programidi,
+                              department_id: occupationnamei,
                            
                               training_type:programtype}})
        
-
+                              const [occcdpt,om] = await sequelize.query(
+                                "select * from occupations inner join departments on departments.department_id=occupations.department_id"+
+                                " where departments.department_id='"+req.user.department +"'"
+                              )
   res.render('classrepresentative',{
-   programid:programid,
+   programid:programidi,
    teacherlist:teacherlist,
    traininglevel:'',
    programtype:programtype,
    classlist:classlist,
-
+ occcdpt:occcdpt
   }) 
 })
 router.post('/saveclassteachercourse/(:courseid)',ensureAuthenticated,async function(req,res){

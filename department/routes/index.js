@@ -39,7 +39,7 @@ router.post('/login', (req, res, next) => {
 router.get('/logout', (req, res) => {
     req.logout();
     req.flash('success_msg', 'You are logged out');
-    res.redirect('/login');
+    res.redirect('/department/login');
 });
 
 router.get('/statistics',ensureAuthenticated,async function(req, res)  {

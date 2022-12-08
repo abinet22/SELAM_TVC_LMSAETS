@@ -1,8 +1,9 @@
+                                                        
 module.exports = {
   HOST: "localhost",
-  USER: "admin",
+  USER: "selamdbuser",
   PASSWORD: "R1445o123/",
-  DB: "selamlmsets",
+  DB: "selamtvcdb",
   dialect: "mysql",
   pool: {
     max: 5,

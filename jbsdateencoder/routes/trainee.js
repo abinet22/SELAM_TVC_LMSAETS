@@ -36,10 +36,20 @@ res.render('alljbstraineelist',{
 })
 })
 router.post('/seetraineejbshistory/(:traineeid)',ensureAuthenticated,async function(req,res){
-    const levelbased = await EmployeementHistory.findAll({where:{trainee_id:req.params.traineeid}});
-
+    const emphistory = await EmployeementHistory.findAll({where:{trainee_id:req.params.traineeid}});
+    const student   =await  JBSStudentData.findOne({where:{trainee_id:req.params.traineeid}});
+    const batch = await Batch.findOne({where:{batch_id:student.batch_id}});
+    const [department,dptmeta] = await sequelize.query(
+        " select * from occupations inner join departments on"+
+         " departments.department_id=occupations.department_id inner join sectorlists on"+
+         " sectorlists.sector_id = departments.training_id where occupations.occupation_id='"+student.department_id+"' "
+      )
 res.render('singlestudentjbshistory',{
-    levelbased:levelbased,
+    emphistory:emphistory,
+    batch:batch,
+    department:department,
+    student:student
+
     
 })
 })

@@ -29,7 +29,7 @@ const Occupation = db.occupations;
 router.post('/allgraduatelevelbaseddatabydepartment',ensureAuthenticated,async function(req,res){
   const {batchid,deptid,level} = req.body;
       const [levelbased, metalevelbaseddata] = await sequelize.query(
-        "SELECT * FROM levelbasedtrainees where is_graduated='Yes' "+
+        "SELECT * FROM levelbasedtrainees where is_graduated='Yes' and is_pass_coc='PASS'"+
         " and batch_id ='"+batchid+"'"+
         " and department_id ='"+deptid+"'"+
         " and current_level= '"+level+"'"
@@ -149,8 +149,8 @@ router.post('/sendgraduatedstudentlisttojbsdb',ensureAuthenticated,async functio
              applicant = await IndustryBasedTrainee.findOne({where:{batch_id:batch,trainee_id:student}});
           
            }
-           var name = JSON.parse(applicant.personal_info);
-           var address = JSON.parse(applicant.contact_info);
+           var name = JSON.parse(JSON.stringify(applicant.personal_info));
+           var address = JSON.parse(JSON.stringify(applicant.contact_info));
            var birthday = new Date(name.birthday).toLocaleDateString();
            var ageval = new Date(new Date() - new Date(birthday)).getFullYear() - 1970;
            const newtraineetojbs = {
@@ -194,11 +194,20 @@ router.post('/sendgraduatedstudentlisttojbsdb',ensureAuthenticated,async functio
         }
         JBSStudentData.findOne({where:{trainee_id:student}}).then(traineE =>{
             if(traineE){
-
-            }
+                }
             else{
                 JBSStudentData.create(newtraineetojbs);
-            }
+                if(programtag =="level"){
+                  LevelBasedTrainee.update({is_send_to_jbs:'Yes'},{where:{trainee_id:applicant.trainee_id}})
+    
+                }else if(programtag =="ngo"){
+                  NGOBasedTrainee.update({is_send_to_jbs:'Yes'},{where:{trainee_id:applicant.trainee_id}})
+    
+                }else if (programtag == "industry"){
+                  IndustryBasedTrainee.update({is_send_to_jbs:'Yes'},{where:{trainee_id:applicant.trainee_id}})
+    
+                }
+                      }
         })
        
         }

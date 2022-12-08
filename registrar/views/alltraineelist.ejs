@@ -1,0 +1,224 @@
+<html lang="en" style="height: auto;"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SELAM_TVC</title>
+  
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../../dist/css/adminlte.min.css">
+  <style type="text/css">/* Chart.js */
+  @keyframes chartjs-render-animation{from{opacity:.99}to{opacity:1}}.chartjs-render-monitor{animation:chartjs-render-animation 1ms}.chartjs-size-monitor,.chartjs-size-monitor-expand,.chartjs-size-monitor-shrink{position:absolute;direction:ltr;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1}.chartjs-size-monitor-expand>div{position:absolute;width:1000000px;height:1000000px;left:0;top:0}.chartjs-size-monitor-shrink>div{position:absolute;width:200%;height:200%;left:0;top:0}</style></head>
+  <!--
+  `body` tag options:
+  
+    Apply one or more of the following classes to to the body tag
+    to get the desired effect
+  
+    * sidebar-collapse
+    * sidebar-mini
+  -->
+  <body class="sidebar-mini sidebar-closed sidebar-collapse" style="height: auto;">
+  <div class="wrapper">
+    <!-- Navbar -->
+    <%- include('./partials/top') %>
+    <!-- /.navbar -->
+  
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar  elevation-4">
+      <!-- Brand Logo -->
+      <%- include('./partials/sidebar') %>
+      <!-- /.sidebar -->
+    </aside>
+  
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" style="min-height: 2128.12px;">
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">Dashboard</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Search Applicants</li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+  
+      <!-- Main content -->
+      <div class="content">
+        <div class="container-fluid">
+            <div class="card card-primary ">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <i class="fas fa-edit"></i>
+                   Select Batch Program And Occupation To List All Applicants
+                  </h3>
+                </div>
+                <div class="card-body">
+                  <h4>Program</h4>
+                  <div class="row">
+                    <div class="col-5 col-sm-3">
+                      <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="false">Level Based</a>
+                        <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Short Term/Project/ Based</a>
+                        <a class="nav-link" id="vert-tabs-profilei-tab" data-toggle="pill" href="#vert-tabs-profilei" role="tab" aria-controls="vert-tabs-profilei" aria-selected="false">Industry  Based</a>
+                       
+                    </div>
+                    </div>
+                    <div class="col-7 col-sm-9">
+                      <div class="tab-content" id="vert-tabs-tabContent">
+                        <div class="tab-pane text-left fade" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
+                          <form action="/registrar/trainee/alllevelbasedtrainee" method="post">
+                            <div class="form-group">
+                                <label>Select Level Based Program</label>
+                                <select  style="width: 100%;" class="form-control-sm js-example-basic-single " name="programidlevel"  id="programidlevel">
+                                 <option value="0">Please Select Program/Batch Name</option>
+                                 <% if(levelbased.length >0) {%>
+                                    <% levelbased.forEach(function (row){ %>
+                                      <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
+                                   <% })}else {}%>
+                                </select>
+                              
+                            </div>
+                            <div class="form-group">
+                                <label>Select Select Occupation</label>
+                                <select  style="width: 100%;" class="form-control-sm js-example-basic-single " name="occlevel" id="occlevel">
+                                 <option value="0">Please Select Occupation Name</option>
+                                 <% if(department.length >0) {%>
+                                    <% department.forEach(function (row){ %>
+                                      <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                   <% })}else {}%>
+                                </select>
+                              
+                            </div>
+                            <div class="col-md-6 offset-md-3">
+                                <button type="submit" class="btn btn-block btn-sm btn-primary">Submit</button>
+                     
+                            </div>  
+                        </form>
+                           
+                        </div>
+                        <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
+                            <form action="/registrar/trainee/allngobasedtrainee" method="post">
+                                <div class="form-group">
+                                    <label>Select Short Term Project Based Program</label>
+                                    <select  style="width: 100%;" class="form-control-sm js-example-basic-single " name="programidngo" id="programidngo">
+                                     <option value="0">Please Select Program/Batch Name</option>
+                                     <% if(ngobased.length >0) {%>
+                                        <% ngobased.forEach(function (row){ %>
+                                          <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
+                                       <% })}else {}%>
+                                    </select>
+                                  
+                                </div>
+                                <div class="form-group">
+                                    <label>Select Select Occupation</label>
+                                    <select  style="width: 100%;" class="form-control-sm js-example-basic-single " name="occngo" id="occngo">
+                                     <option value="0">Please Select Occupation Name</option>
+                                     <% if(department.length >0) {%>
+                                        <% department.forEach(function (row){ %>
+                                          <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                       <% })}else {}%>
+                                    </select>
+                                  
+                                </div>
+                                <div class="col-md-6 offset-md-3">
+                                    <button type="submit" class="btn btn-block btn-sm btn-primary">Submit</button>
+                         
+                                </div>
+                                </form>
+                          </div>
+                          <div class="tab-pane fade" id="vert-tabs-profilei" role="tabpanel" aria-labelledby="vert-tabs-profilei-tab">
+                            <form action="/registrar/trainee/allindustrybasedtrainee" method="post">
+                                <div class="form-group">
+                                    <label>Select Industry Based Program</label>
+                                    <select  style="width: 100%;" class="form-control-sm js-example-basic-single " name="programidind" id="programidind">
+                                     <option value="0">Please Select Program/Batch Name</option>
+                                     <% if(industrybased.length >0) {%>
+                                        <% industrybased.forEach(function (row){ %>
+                                          <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
+                                       <% })}else {}%>
+                                    </select>
+                                  
+                                </div>
+                                <div class="form-group">
+                                    <label>Select Select Occupation</label>
+                                    <select  style="width: 100%;" class="form-control-sm js-example-basic-single " name="occind" id="occind">
+                                     <option value="0">Please Select Occupation Name</option>
+                                     <% if(department.length >0) {%>
+                                        <% department.forEach(function (row){ %>
+                                          <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                       <% })}else {}%>
+                                    </select>
+                                  
+                                </div>
+                                <div class="col-md-6 offset-md-3">
+                                    <button type="submit" class="btn btn-block btn-sm btn-primary">Submit</button>
+                         
+                                </div>
+                                </form>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                 
+                </div>
+                <!-- /.card -->
+              </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+  
+    <!-- Control Sidebar -->
+  <!-- /.control-sidebar -->
+  
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <%- include ('./partials/footer') %>
+    </footer>
+ 
+  <!-- ./wrapper -->
+  
+  <!-- REQUIRED SCRIPTS -->
+  
+  <!-- jQuery -->
+  <script src="../../../plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE -->
+  <script src="../../../dist/js/adminlte.js"></script>
+  <script src="../../plugins/select2/js/select2.full.min.js"></script>
+  <!-- OPTIONAL SCRIPTS -->
+  <script src="../../../plugins/chart.js/Chart.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="../../../dist/js/demo.js"></script>
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  <script src="../../../dist/js/pages/dashboard3.js"></script>
+  <script src="../../plugins/toastr/toastr.min.js"></script>
+  
+  <script>
+    $(document).ready(function() {
+  $('.js-example-basic-single').select2();
+  });
+  </script>
+    
+     
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+  </body></html>

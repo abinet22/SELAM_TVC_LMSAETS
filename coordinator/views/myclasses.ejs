@@ -20,64 +20,7 @@
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="/coordinator/dashboard" class="nav-link">Home</a>
-      </li>
-   
-    </ul>
-
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-      <!-- Navbar Search -->
-     
-
-      <!-- Messages Dropdown Menu -->
-  
-      <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link"   href="/coordinator/logout" role="button">
-          Logout
-        </a>
-      </li>
-    </ul>
-  </nav>
+  <%- include('./partials/top') %>
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
@@ -133,17 +76,17 @@
                                <div class="col-sm-12 col-md-6"><div id="example1_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1"></label></div></div>
                               </div>
                       <div class="table-responsive" id="trainingdata">
-                          <table aria-describedby="example1_info" role="grid" class="table table-bordered table-striped dataTable dtr-inline" id="example1">
+                          <table aria-describedby="example1_info" role="grid" class="table table-sm table-bordered table-striped dataTable dtr-inline" id="example1">
                                   
                           <thead>
                             <tr>
-            <th>#</th>
+                              <th><small>#</small></th>
           
-                              <th>Section Name</th>
-                            <th> Training Level</th>
-                             <th> Training Type</th>
-                             <th> Progress</th>
-                             <th> Evaluation </th>
+                              <th><small>Training Section Name</small></th>
+                            <th> <small>Training Level</small></th>
+                             <th> <small>Training Type</small></th>
+                             <th> <small>Progress</small></th>
+                             <th> <small>Evaluation</small> </th>
                             </tr>
                           </thead>
                           <tbody>
@@ -153,12 +96,12 @@
                                      <% classlist.forEach(function (row){ %>
                                       <% i++ %>
                                       <tr>
-                                          <td><%= i %></td>
+                                        <td><small><%= i %> </small> </td>
                                        
-                                          <td><%= row.class_name %></td>
+                                          <td><small><%= row.class_name %> </small> </td>
                                          
-                                          <td><%= row.training_level %></td>
-                                          <td><%= row.training_type %></td>
+                                          <td><small><%= row.training_level %> </small> </td>
+                                          <td><small> <%= row.training_type %></small> </td>
                                        
                                           <td>
                                             <% if(programtag =="level" ){ %>
@@ -168,9 +111,9 @@
                                                 <input type="hidden" name="dpt" value="<%= row.department_id %>">
                                                 <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                                 <div class="form-group">
-                                                  <label>Select Course</label>
-                                                  <select class="form-control" name="courseid">
-                                                    <option value="0">please select course</option>
+                                               
+                                                  <select class="form-control form-control-sm" name="courseid">
+                                                    <option value="0">Please Select Course</option>
                                                     <% if(course.length > 0 ){ %>
                                                       <% course.forEach(function (row){ %>
                                                       <% var cls = row.class_id %>
@@ -182,7 +125,7 @@
                                                   </select>
                                                 </div>
                                                  <div class="form-group">
-                                                     <button class="btn btn-block btn-primary btn-sm">Show Progres</button>
+                                                     <button class="btn btn-block btn-outline-primary btn-xs">Show Progres</button>
                                                  </div>
                                                </form>
                                              <% } else if(programtag =="ngo"){ %>
@@ -192,9 +135,9 @@
                                                 <input type="hidden" name="dpt" value="<%= row.department_id %>">
                                                 <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                                 <div class="form-group">
-                                                  <label>Select Course</label>
-                                                  <select class="form-control" name="courseid">
-                                                    <option value="0">please select course</option>
+                                                
+                                                  <selectclass="form-control form-control-sm" name="courseid">
+                                                    <option value="0">Please Select Course</option>
                                                     <% if(course.length > 0 ){ %>
                                                       <% course.forEach(function (row){ %>
                                                       <% var cls = row.class_id %>
@@ -207,7 +150,7 @@
                                                   </select>
                                                 </div>
                                                  <div class="form-group">
-                                                     <button class="btn btn-block btn-primary btn-sm">Show Progres</button>
+                                                     <button class="btn btn-block btn-outline-primary btn-xs">Show Progres</button>
                                                  </div>
                                                </form>
                                            <%  }else if(programtag =="industry") { %>
@@ -217,9 +160,9 @@
                                               <input type="hidden" name="dpt" value="<%= row.department_id %>">
                                               <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                               <div class="form-group">
-                                                <label>Select Course</label>
-                                                <select class="form-control" name="courseid">
-                                                  <option value="0">please select course</option>
+                                                
+                                                <select class="form-control form-control-sm" name="courseid">
+                                                  <option value="0">Please Select Course</option>
                                                   <% if(course.length > 0 ){ %>
                                                     <% course.forEach(function (row){ %>
                                                     <% var cls = row.class_id %>
@@ -231,7 +174,7 @@
                                                 </select>
                                               </div>
                                                <div class="form-group">
-                                                   <button class="btn btn-block btn-primary btn-sm">Show Progres</button>
+                                                   <button class="btn btn-block btn-outline-primary btn-xs">Show Progres</button>
                                                </div>
                                              </form>
                                             <%} %>
@@ -247,9 +190,9 @@
                                                 <input type="hidden" name="dpt" value="<%= row.department_id %>">
                                                 <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                                 <div class="form-group">
-                                                  <label>Select Course</label>
-                                                  <select class="form-control" name="courseid">
-                                                    <option value="0">please select course</option>
+                                                  
+                                                  <select class="form-control form-control-sm" name="courseid">
+                                                    <option value="0">Please Select Course</option>
                                                     <% if(course.length > 0 ){ %>
                                                       <% course.forEach(function (row){ %>
                                                       <% var cls = row.class_id %>
@@ -261,7 +204,7 @@
                                                   </select>
                                                 </div>
                                                  <div class="form-group">
-                                                     <button class="btn btn-block btn-primary btn-sm">Show Evaluation</button>
+                                                     <button class="btn btn-block btn-outline-primary btn-xs">Show Evaluation</button>
                                                  </div>
                                                </form>
                                               
@@ -272,9 +215,9 @@
                                                 <input type="hidden" name="dpt" value="<%= row.department_id %>">
                                                 <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                                 <div class="form-group">
-                                                  <label>Select Course</label>
-                                                  <select class="form-control" name="courseid">
-                                                    <option value="0">please select course</option>
+                                                 
+                                                  <select class="form-control form-control-sm" name="courseid">
+                                                    <option value="0">Please Select Course</option>
                                                     <% if(course.length > 0 ){ %>
                                                       <% course.forEach(function (row){ %>
                                                       <% var cls = row.class_id %>
@@ -286,7 +229,7 @@
                                                   </select>
                                                 </div>
                                                  <div class="form-group">
-                                                     <button class="btn btn-block btn-primary btn-sm">Show Evaluation</button>
+                                                     <button class="btn btn-block btn-outline-primary btn-xs">Show Evaluation</button>
                                                  </div>
                                                </form>
                                            <%  }else if(programtag =="industry") { %>
@@ -296,9 +239,9 @@
                                               <input type="hidden" name="dpt" value="<%= row.department_id %>">
                                               <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                               <div class="form-group">
-                                                <label>Select Course</label>
-                                                <select class="form-control" name="courseid">
-                                                  <option value="0">please select course</option>
+                                               
+                                                <select class="form-control form-control-sm" name="courseid">
+                                                  <option value="0">Please Select Course</option>
                                                   <% if(course.length > 0 ){ %>
                                                     <% course.forEach(function (row){ %>
                                                     <% var cls = row.class_id %>
@@ -310,7 +253,7 @@
                                                 </select>
                                               </div>
                                                <div class="form-group">
-                                                   <button class="btn btn-block btn-primary btn-sm">Show Evaluation</button>
+                                                   <button class="btn btn-block btn-outline-primary btn-xs">Show Evaluation</button>
                                                </div>
                                              </form>
                                             <% } %>

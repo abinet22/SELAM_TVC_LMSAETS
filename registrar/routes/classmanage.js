@@ -20,98 +20,11 @@ const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 const Occupation = db.occupations;
 const SectorList = db.sectorlists;
 
-router.get('/addnewclass',ensureAuthenticated, async function(req,res){
-    const [ngobased, metangobaseddata] = await sequelize.query(
-        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
-      );
-      const [levelbased, metalevelbaseddata] = await sequelize.query(
-        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
-      );
-    const department = await Occupation.findAll({});
-    res.render('addnewclass',{
-        department:department,
-        levelbased:levelbased,
-        ngobased:ngobased
-    })
 
-})
-
-router.post('/addnewclasslevelbased',ensureAuthenticated,async function(req,res){
-    const{batchid,programtype,deptid,level,criteriango} = req.body;
-    const [ngobased, metangobaseddata] = await sequelize.query(
-        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
-      );
-      const [levelbased, metalevelbaseddata] = await sequelize.query(
-        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
-      );
-    const department = await Occupation.findAll({});
-    console.log (criteriango);
-    let errors = [];
-    if(batchid =="0" || programtype =="0" || deptid=="0" ||level=="0"){
-  errors.push({msg:'please select required fileds'})
-    }
-    if(errors.length >0 ){
-        res.render('addnewclass',{
-            department:department,
-            levelbased:levelbased,
-            ngobased:ngobased,
-            error_msg:'Please select all required fields'
-        })
-    }
-    else{
-        var classname = JSON.parse(criteriango)
-        if(criteriango.length >0){
-          for(var i = 0; i < classname.length ; i++)
-          {
-            const v1options = {
-              node: [0x01, 0x23],
-              clockseq: 0x1234,
-              msecs: new Date('2011-11-01').getTime(),
-              nsecs: 5678,
-            };
-            classid = uuidv4(v1options);
-            var clsnm = classname[i];
-            var classData = {
-                class_id:classid,
-                batch_id:batchid,
-                training_type:programtype,
-                training_level:level,
-                department_id:deptid,
-                class_name:clsnm};
-         
-            ClassInDept.create(classData).then(classdt =>{
-                if(!classdt){
-    
-                }
-            }).catch(error =>{
-    
-            })
-      
-      
-          }
-          
-          res.render('addnewclass',{
-            department:department,
-            levelbased:levelbased,
-            ngobased:ngobased,
-            success_msg:'You are successfully create new classes'
-        })
-        }
-        else{
-            res.render('addnewclass',{
-                department:department,
-                levelbased:levelbased,
-                ngobased:ngobased,
-                error_msg:'Please create class names before submit the form'
-            })
-        }
-    }
-   
-  
-})
 router.get('/allclasslist',ensureAuthenticated,async function(req,res){
     const [classlist, metadata] = await sequelize.query(
-        "SELECT * FROM classindepts INNER JOIN occupations ON occupations.occupation_id = classindepts.department_id inner join batches on classindepts.batch_id = batches.batch_id"
+        "SELECT * FROM classindepts INNER JOIN occupations ON occupations.occupation_id = classindepts.department_id inner join batches on classindepts.batch_id = batches.batch_id"+
+        " inner join departments on departments.department_id = occupations.department_id"
       );
       const batches = await Batch.findAll({});
       const department = await Occupation.findAll({});
@@ -127,7 +40,9 @@ router.post('/filterclasslistbydepartmentandbatch',ensureAuthenticated,async fun
     const batches = await Batch.findAll({});
     const department = await Occupation.findAll({});
     const [classlist, metadata] = await sequelize.query(
-        "SELECT * FROM classindepts  INNER JOIN departments ON departments.department_id = classindepts.department_id inner join batches on classindepts.batch_id = batches.batch_id"+
+        "SELECT * FROM classindepts  INNER JOIN occupations ON "+ 
+        " occupations.occupation_id = classindepts.department_id inner join batches on classindepts.batch_id = batches.batch_id"+
+        " inner join departments on departments.department_id = occupations.department_id"+
         " where classindepts.batch_id='"+batch+"' and classindepts.department_id ='"+dept+"'"
       );
       res.render('allclasslist',{

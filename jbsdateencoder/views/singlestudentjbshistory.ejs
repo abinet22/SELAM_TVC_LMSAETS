@@ -9,13 +9,13 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../../../plugins/fontawesome-free/css/all.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../../../../dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -72,9 +72,9 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"   href="/logout" role="button">
+        <a class="nav-link" href="/jbsdataencoder/logout" role="button">
           Logout
-        </a>
+             </a>
       </li>
     </ul>
   </nav>
@@ -100,7 +100,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Student Grade Report</li>
+              <li class="breadcrumb-item active">Single Employee Employeement History Report</li>
             </ol>
           </div>
         </div>
@@ -113,7 +113,7 @@
         <div class="col-md-12">
             <div class="card card-primary">
               <div class="card-header">
-                <h4 class="card-title">Student Grade Report</h4>
+                <h4 class="card-title">Employee JBS History Record</h4>
               </div>
               <div class="card-body">
                 <%- include ('./partials/messages') %>
@@ -124,93 +124,30 @@
                     </button>
                   </div>
                 
-                <div class="row mb-2">
-             <div class="col-md-4">
-              <form action="/trainee/updatestudentdatagraduated" method="post">
-                <div class="form-group">
-                    <input type="hidden" name="programtag" id="programtag" value="<%= programtag %>">
-                    <input type="hidden" name="traineeid" id="traineeid" value="<%= traineeid %>">  
-                    <input type="hidden" name="level" id="level" value="<%= level %>">  
-                    <input type="hidden" name="batchid" id="batchid" value="<%= batchid %>">  
-                    <input type="hidden" name="deptid" id="deptid" value="<%= deptid %>">  
-                 
-                  </div>
-                  <button type="submit" class="btn btn-primary btn-block btn-sm" >
-                   Update Student (Graduated)
-                   </button> 
-             </form>
-             </div>
-             <div class="col-md-4">
-                 <form action="/trainee/printgraduatescertificate" method="post">
-                    <div class="form-group">
-                        <input type="hidden" name="programtag" value="<%= programtag %>">
-                        <input type="hidden" name="traineeid" value="<%= traineeid %>">  
-                        <input type="hidden" name="level" value="<%= level %>">  
-                        <input type="hidden" name="programidbatch" value="<%= batchid %>">  
-                        <input type="hidden" name="dept" value="<%= deptid %>">  
-                     
-                      </div>
-                      <button type="submit" class="btn btn-primary btn-block btn-sm" data-toggle="modal" data-target="#exampleModal">
-                        Print Certificate 
-                       </button> 
-                 </form>
              
-            </div>
-            <div class="col-md-4">
-             
-                <form action="/trainee/printgraduatesgradereport" method="post">
-                    <div class="form-group">
-                        <input type="hidden" name="programtag" value="<%= programtag %>">
-                        <input type="hidden" name="traineeid" value="<%= traineeid %>">  
-                        <input type="hidden" name="level" value="<%= level %>">  
-                        <input type="hidden" name="programidbatch" value="<%= batchid %>">  
-                        <input type="hidden" name="dept" value="<%= deptid %>">  
-                     
-                      </div>
-                      <button type="submit" class="btn btn-primary btn-block btn-sm" >
-                        Print Grade Report 
-                       </button> 
-                 </form>
-            </div>
-           
-             </div>
              <div class="row">
                 <div class="col-md-12">
                     
                     <div class="callout callout-success">
                         <div class="row">
-                            <% if(marklist.length >0 ) { %>
-                                <% var i = 0 ;%>
-                                   <% marklist.forEach(function (row){ %>
-                                    <% var name = JSON.parse(JSON.stringify(row.personal_info)) %>
+                            <% if(student ) { %>
+                          
                              
                             <div class="col-lg-12 ">
                                 <div class="">
                                     <div class=" p-1-9 p-sm-2-3 p-md-6 p-lg-7">
                                         <div class="row align-items-center">
-                                            <div class="col-lg-6 mb-4 mb-lg-0">
-                                                <%  dataphotos = 	'data:image/png;base64,' + new Buffer(row.applicant_photo, 'binary').toString('base64')
-                                                %>
-                                                <img class="img-fluid" id="appphoto"  src="<%= dataphotos %>" height="250px" width="250px" alt="User profile picture">
-                     
-                                            </div>
+                                           
                                             <div class="col-lg-6 px-xl-10">
                                                 <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 " style="width: 100%;">
-                                                    <h3 class="h2 text-white mb-0">Name: &nbsp;<%= name.firstname  %>&nbsp;<%= name.middlename  %></h3>
+                                                    <h3 class="h2 text-white mb-0">Name:<%= student.full_name  %></h3>
                                               
                                                 </div>
                                                 <ul class="list-unstyled mb-1-9">
-                                                    <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Sex:<%var gen =  name.gender %><%= gen=="m"?"Male":"Female" %></span> </li>
-                                                    <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Birth Date:</span> <%= name.birthday %></li>
-                                                    <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Age:</span> <% 
-                                                       var birthday = name.birthday
-                                                  
-                                                            var ageDifMs = Date.now() - new Date(birthday);
-                                                            var ageDate = new Date(ageDifMs); 
-                                                            var ageis =  Math.abs(ageDate.getUTCFullYear() - 1970);
-                                                          
-                                                        %> <%= ageis   %></li>
-                                                    <li class="display-28"><span class="display-26 text-secondary me-2 font-weight-600">ID No:</span> <%= row.student_unique_id %></li>
+                                                    <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600" style="text-transform:uppercase;">Sex:<%= student.sex %></span> </li>
+                                                    <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Birth Date:</span> <%= student.birthdate %></li>
+                                                    <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Age:</span> <%= student.age  %></li>
+                                                    <li class="display-28"><span class="display-26 text-secondary me-2 font-weight-600">ID No:</span> <%= student.student_unique_id %></li>
                                                 </ul>
                                                
                                             </div>
@@ -218,15 +155,20 @@
                                     </div>
                                 </div>
                                 <ul class="social-icon-style1 list-unstyled mb-0 ps-0">
-                                    <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Year Of Entry:<%= batch.batch_from %></span><span class="display-26 text-secondary me-2 font-weight-600">Year Of Graduation:<% var dt =  new Date() %><%= dt.toLocaleString() %></span>  </li>
-                                    <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Sector:Manufucturing</span> <span class="display-26 text-secondary me-2 font-weight-600">Sub Sector:Wood Work</span> <span class="display-26 text-secondary me-2 font-weight-600">Occupation:<%= department.department_name %></span><span class="display-26 text-secondary me-2 font-weight-600">Level:</span>  </li>
-                                    <li class="mb-1 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Program:<%= row.admission_type %></span> </li>
+                                    <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Year Of Entry:<%= new Date(batch.batch_from).getFullYear() %></span><span class="display-26 text-secondary me-2 font-weight-600">Year Of Graduation:<% var dt =  new Date(batch.batch_to) %><%= dt.getFullYear() %></span>  </li>
+                                    <% department.forEach(function(row){%>
+                                      <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Sector:<%= row.sector_name %></span><br>
+                                        <span class="display-26 text-secondary me-2 font-weight-600">Department :<%= row.department_name %></span> <br>
+                                       <span class="display-26 text-secondary me-2 font-weight-600">Occupation:<%= row.occupation_name %></span> <br>
+                                       
+                                  <%  })%>
+                                    <li class="mb-1 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Program:<%= student.admission_type %></span> </li>
                                    
                                    
                                 </ul>
                             </div>
                       
-                             <%  })} else{}     %>                           
+                             <%  }   %>                           
                        
                       </div>
                 </div>
@@ -235,7 +177,7 @@
                 <div class="row">
                   <div class="col-md-12  grid-margin stretch-card">     <div class="card">
                       <div class="card-header">
-                          <h4 class="card-title">Course List</h4>
+                          <h4 class="card-title">Employment History List</h4>
                       </div>
                       <div class="card-body">
                       
@@ -257,47 +199,37 @@
                             <thead>
                               <tr>
                                 <th>#</th>
-                                <th>Unit Of Competency  </th>
-                                <th>Module Code</th>
-                                <th>Total Hour </th>
+                                <th>Company</th>
+                                <th>Message</th>
+                                <th>Update Type </th>
                                                            
-                                <th>Assessement Result 100% </th>
-                                <th>Grade In Letter</th>
-                                <th>Grade In Point</th>
+                                <th>Increase Income </th>
+                                <th>Updated At </th>
+                             
+                             
                              
                               </tr>
                             </thead>
                             <tbody>
-                            <% if(courselist.length >0){ %>
-                                <% courselist.forEach(function (row){ %>
-                                    <% var courseid = row.course_id %>
-                                    <% var coursecode = row.course_code %>
-                                    <% var coursename = row.course_name %>
-                                    <% var coursehour = row.training_hours %>
-                                    <% if(marklist.length >0 ) { %>
-                                        <% var i = 0 ;%>
-                                           <% marklist.forEach(function (row){ %>
-                                            <% i++ %>
-                                            <% var name = JSON.parse(JSON.stringify(row.personal_info)) %>
-                                            <% var course = row.course_id %>
-                                             <% if(courseid == course){ %>
+                            <% if(emphistory.length >0){ %>
+                              <% var i =0 %>
+                                <% emphistory.forEach(function (row){ %>
+                                  
+                                    <% i++ %>
                                                 <tr>
                                                     <td><%= i %></td>
-                                                    <td ><%= coursename %>
+                                                    <td ><%= row.company %>
                                                  
                                                     </td>
-                                                    <td><%= coursecode  %></td>
+                                                    <td><%= row.message  %></td>
                                                     
-                                                    <td><%= coursehour %></td>
+                                                    <td><%= row.update_type %></td>
                                                   
-                                                    <td><%= row.total_result %> </td>
-                                                    <td><%= row.grade_in_latter %> </td>
-                                                    <td> <%= row.grade_in_point %></td>
-                                               
+                                                    <td><%= row.income_increase %> </td>
+                                                    <td><%= new Date(row.updatedAt).toLocaleDateString() %> </td>
+                                                   
                                                 </tr>
-                                             <% } %>
                                            
-                                         <%  })} else{}     %>
 
                                     <% })}else{}%> 
                             
@@ -322,99 +254,7 @@
 
                    
 				</div>
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Send Evaluation To Registrar  </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="col-lg-12 grid-margin stretch-card">
-                  <div class="card">
-                      <div class="card-header">
-                          <h4 class="card-title">Student Grade List</h4>
-                      </div>
-                    <div class="card-body">
-                      <div class="alert  alert-dismissible fade show" role="alert" style="display: none;" id="servermsg">
-                          <p id="msg"></p>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                             <span aria-hidden="true">&times;</span>
-                           </button>
-                         </div>
-                     <div class="form-group">
-                      <input type="hidden" name="programtag" id="programtag" value="<%= programtag %>">
-                      <input type="hidden" name="deptid" id="deptid" value="<%= deptid %>">
-                      <input type="hidden" name="batchid" id="batchid" value="<%= batchid %>">
-                      <input type="hidden" name="classid" id="classid" value="<%= classid %>">  
-                  
-                      </div>
-                      <p></p>
-                      <fieldset id="studentlist">
-                        <div class="table-responsive">
-                          <table class="table  table-responsive" id="tablesend">
-                            <thead>
-                              <tr>
-                                <td></td>
-                                <th>#</th>
-                                
-                                <th>Student ID  </th>
-                                <th>Student Name</th>
-                                <th>Gender </th>
-                                                           
-                                <th>Grade In Letter </th>
-                                <th>Grade In Point</th>
-                             
-                              </tr>
-                            </thead>
-                            <tbody>
-                
-                              <% if(marklist.length >0 ) { %>
-                                  <% var i = 0 ;%>
-                                     <% marklist.forEach(function (row){ %>
-                                      <% i++ %>
-                                      <% var name = JSON.parse(JSON.stringify(row.personal_info)) %>
-                                      <% console.log(name) %>
-                                      <tr>
-                                        <td><div style="display: none;">
-                                          <%= row.trainee_id %>
-                                        </div></td>
-                                          <td><%= i %></td>
-                                          
-                                          <td ><%= row.student_unique_id %></td>
-                                          <td><%= name.firstname  %>&nbsp;<%= name.middlename  %></td>
-                                          
-                                          <td><%var gen =  name.gender %><%= gen=="m"?"Male":"Female" %></td>
-                                        
-                                         
-                                          <td><%= row.grade_in_latter %> </td>
-                                          <td> <%= row.grade_in_point %></td>
-                                      
-                                      </tr>
-                                   <%  })} else{}     %>
-                               
-                          </tbody>
-                          </table>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-6 offset-md-3  mt-2">
-                            <button type="button" onclick=" convertArrayToJSON();" class="btn btn-block btn-sm form-control btn-primary">Submit</button>
-                          </div>
-                        </div>
-                      </fieldset>
-                     
-                    
-                    </div>
-                  </div>
-                </div>
-             
-              </div>
-             
-            </div>
-          </div>
-        </div>
+     
           </div>
     
         <!-- /.row -->
@@ -528,42 +368,61 @@ location.reload(); // then reload the page.(3)
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables  & Plugins -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../../plugins/jszip/jszip.min.js"></script>
-<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="../../../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../../../../plugins/jszip/jszip.min.js"></script>
+<script src="../../../../plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../../../../plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
+<script src="../../../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
+<script src="../../../../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": true, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      "responsive": false, "lengthChange": true, "autoWidth": true,"width":400,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' )
+                        .prepend(
+                            '<img src="" style="position:absolute; top:0; left:0;" />'
+                            
+                            );
+ 
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' );
+                },
+                title: function() {
+    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+   " <td > <h4>  Organization Name <br> Selam David Roeschli Technical And Vocational College <br>  Employee Employeement History On JBS</h4> </td> </tr> </table>"
+              
+  } ,
+
+                
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: true
+        }]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
   });
 </script>
 </body>

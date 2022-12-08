@@ -25,13 +25,13 @@ const NGOBasedProgram = db.ngobasedprograms;
 
 router.get('/addnewapplicant',ensureAuthenticated,async function(req,res){
     const [ngobased, metangobaseddata] = await sequelize.query(
-        "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes'"
+        "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes' and is_current='Yes'"
       );
       const [levelbased, metalevelbaseddata] = await sequelize.query(
-        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id  where levelbasedprograms.is_open ='Yes'"
+        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id  where levelbasedprograms.is_open ='Yes' and is_current='Yes'"
       );
       const [industrybased, metaindbaseddata] = await sequelize.query(
-        "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes'"
+        "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes' and is_current='Yes'"
       );
         res.render('selectprogramtoregister',{
         levelbased:levelbased,
@@ -42,18 +42,18 @@ router.get('/addnewapplicant',ensureAuthenticated,async function(req,res){
 router.post('/addapplicanttolevelbasedprogram',ensureAuthenticated, async function(req,res){
    const {programidlevel} = req.body;
    const [ngobased, metangobaseddata] = await sequelize.query(
-    "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes'"
+    "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes' and is_current='Yes'"
   );
   const [levelbased, metalevelbaseddata] = await sequelize.query(
-    "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id  where levelbasedprograms.is_open ='Yes'"
+    "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id  where levelbasedprograms.is_open ='Yes' and is_current='Yes'"
   );
   const [industrybased, metaindbaseddata] = await sequelize.query(
-    "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes'"
+    "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes' and is_current='Yes'"
   );
  const occupation = await Occupation.findAll({});
 let errors = [];
 if(programidlevel == "0" || !programidlevel){
-errors.push({msg:'please select batch name first'})
+  errors.push({msg:'Please Select Program/Batch/ Name First'})
 }
 if(errors.length >0)
 {
@@ -61,31 +61,31 @@ if(errors.length >0)
     levelbased:levelbased,
     ngobased:ngobased,
     industrybased:industrybased,
-    error_msg:'Please select batch/open program first'
+    errors
 });
 	}
 else
 {
-    const department = await Department.findAll({})
+   
     res.render('addnewapplicant',{programidlevel:programidlevel,department:occupation});}
 });
 router.post('/addapplicanttongobasedprogram',ensureAuthenticated, async function(req,res){
     const {programidngo} = req.body;
     const [ngobased, metangobaseddata] = await sequelize.query(
-        "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes'"
-      );
-      const [levelbased, metalevelbaseddata] = await sequelize.query(
-        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id  where levelbasedprograms.is_open ='Yes'"
-      );
-      const [industrybased, metaindbaseddata] = await sequelize.query(
-        "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes'"
-      );
+      "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes' and is_current='Yes'"
+    );
+    const [levelbased, metalevelbaseddata] = await sequelize.query(
+      "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id  where levelbasedprograms.is_open ='Yes' and is_current='Yes'"
+    );
+    const [industrybased, metaindbaseddata] = await sequelize.query(
+      "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes' and is_current='Yes'"
+    );
     
   const prodata = await NGOBasedProgram.findAll({where:{program_id:programidngo}});
   
     let errors = [];
     if(programidngo == "0" || !programidngo){
-    errors.push({msg:'please select batch name first'})
+      errors.push({msg:'Please Select Program/Batch/ Name First'})
     }
     if(errors.length >0)
     {
@@ -93,7 +93,7 @@ router.post('/addapplicanttongobasedprogram',ensureAuthenticated, async function
         levelbased:levelbased,
         ngobased:ngobased,
         industrybased:industrybased,
-        error_msg:'Please select batch/open program first'
+        errors
     });
     }
     else
@@ -107,18 +107,18 @@ router.post('/addapplicanttongobasedprogram',ensureAuthenticated, async function
  router.post('/addapplicanttoindustrybasedprogram',ensureAuthenticated, async function(req,res){
     const {programid} = req.body;
     const [ngobased, metangobaseddata] = await sequelize.query(
-        "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes'"
-      );
-      const [levelbased, metalevelbaseddata] = await sequelize.query(
-        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id  where levelbasedprograms.is_open ='Yes'"
-      );
-      const [industrybased, metaindbaseddata] = await sequelize.query(
-        "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes'"
-      );
+      "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes' and is_current='Yes'"
+    );
+    const [levelbased, metalevelbaseddata] = await sequelize.query(
+      "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id  where levelbasedprograms.is_open ='Yes' and is_current='Yes'"
+    );
+    const [industrybased, metaindbaseddata] = await sequelize.query(
+      "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes' and is_current='Yes'"
+    );
      
     let errors = [];
     if(programid == "0" || !programid){
-    errors.push({msg:'please select batch name first'})
+    errors.push({msg:'Please Select Program/Batch/ Name First'})
     }
     if(errors.length >0)
     {
@@ -126,7 +126,7 @@ router.post('/addapplicanttongobasedprogram',ensureAuthenticated, async function
         levelbased:levelbased,
         ngobased:ngobased,
         industrybased:industrybased,
-        error_msg:'Please select batch/open program first'
+        errors
     });
     }
     else
@@ -137,18 +137,18 @@ router.post('/addapplicanttongobasedprogram',ensureAuthenticated, async function
 router.post('/updateapplicanttolevelbasedprogram',ensureAuthenticated, async function(req,res){
     const {programidlevel} = req.body;
     const [ngobased, metangobaseddata] = await sequelize.query(
-      "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes'"
+      "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes' and is_current='Yes'"
     );
     const [levelbased, metalevelbaseddata] = await sequelize.query(
-      "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id  where levelbasedprograms.is_open ='Yes'"
+      "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id  where levelbasedprograms.is_open ='Yes' and is_current='Yes'"
     );
     const [industrybased, metaindbaseddata] = await sequelize.query(
-      "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes'"
+      "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes' and is_current='Yes'"
     );
    
   let errors = [];
   if(programidlevel == "0" || !programidlevel){
-  errors.push({msg:'please select batch name first'})
+    errors.push({msg:'Please Select Program/Batch/ Name First'})
   }
   if(errors.length >0)
   {
@@ -156,7 +156,7 @@ router.post('/updateapplicanttolevelbasedprogram',ensureAuthenticated, async fun
       levelbased:levelbased,
       ngobased:ngobased,
       industrybased:industrybased,
-      error_msg:'Please select batch/open program first'
+      errors
   });
   }
   else
@@ -175,11 +175,11 @@ router.post('/updateentraceexamresult/(:applicantid)',ensureAuthenticated,async 
     const applicantlist = await NewApplicant.findAll({where:{is_selected:"No",application_id:programidlevel}})
    
     if(entranceresult == ""){
-     errors.push({msg:'please enter exam result'})
+     errors.push({msg:'Please Enter Exam Result'})
     }
     if(errors.length >0){
         res.render('updatenewapplicantresult',{applicantlist:applicantlist,department:department,programidlevel:programidlevel,
-        error_msg:'Please enter result first!'
+        errors
         });
  
     }
@@ -193,7 +193,7 @@ router.post('/updateentraceexamresult/(:applicantid)',ensureAuthenticated,async 
                   if(applicantlist)
                   {
                     res.render('updatenewapplicantresult',{applicantlist:applicantlist,department:department,
-                      success_msg:'Applicant entrance exam updated successfully',programidlevel:programidlevel
+                      success_msg:'Applicant Entrance Exam Updated Successfully',programidlevel:programidlevel
                       });
                   }
                   }).catch(error =>{
@@ -227,11 +227,11 @@ router.post('/updateapptitudeexamresult/(:applicantid)',ensureAuthenticated,asyn
   const applicantlist = await NewApplicant.findAll({where:{is_selected:"No",application_id:programidlevel}})
  
   if(apptitudeexam == ""){
-   errors.push({msg:'please enter exam result'})
+    errors.push({msg:'Please Enter Exam Result'})
   }
   if(errors.length >0){
       res.render('updatenewapplicantresult',{applicantlist:applicantlist,department:department,programidlevel:programidlevel,
-      error_msg:'Please enter result first!'
+     errors
       });
 
   }
@@ -245,7 +245,7 @@ router.post('/updateapptitudeexamresult/(:applicantid)',ensureAuthenticated,asyn
                   if(applicantlist)
                   {
                     res.render('updatenewapplicantresult',{applicantlist:applicantlist,department:department,
-                      success_msg:'Applicant entrance exam updated successfully',programidlevel:programidlevel
+                      success_msg:'Applicant Apptitude Exam Updated Successfully',programidlevel:programidlevel
                       });
                   }
                   }).catch(error =>{
@@ -272,15 +272,15 @@ router.post('/updateapptitudeexamresult/(:applicantid)',ensureAuthenticated,asyn
 
 })
 router.get('/updateapplicantinfo',ensureAuthenticated, async function(req,res){
-    const [ngobased, metangobaseddata] = await sequelize.query(
-        "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes'"
-      );
-      const [levelbased, metalevelbaseddata] = await sequelize.query(
-        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id where levelbasedprograms.is_open ='Yes'"
-      );
-      const [industrybased, metaindbaseddata] = await sequelize.query(
-        "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes'"
-      );
+  const [ngobased, metangobaseddata] = await sequelize.query(
+    "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes' and is_current='Yes'"
+  );
+  const [levelbased, metalevelbaseddata] = await sequelize.query(
+    "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id  where levelbasedprograms.is_open ='Yes' and is_current='Yes'"
+  );
+  const [industrybased, metaindbaseddata] = await sequelize.query(
+    "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes' and is_current='Yes'"
+  );
         res.render('selectprogramtoupdate',{
         levelbased:levelbased,
         ngobased:ngobased,
@@ -398,16 +398,16 @@ trainingtype,egsec,ssle,grade10score,grade12score,additionaldatas
       errors.push({msg:'Please add applicant applicantion id'})
   console.log("appid")
      } else if(applicant){
-      errors.push({msg:'Applicant  with this application id already registered'})
+      errors.push({msg:'Applicant  With This Application ID Already Registered'})
   
      }
      else if(programid ==""){
          console.log("programid")
-        errors.push({msg:'Please add applicant applicantion id'})
+        errors.push({msg:'Please Add Applicant Applicantion ID'})
   
      }
      if(errors.length >0){
-      res.render('addnewapplicantngo',{programidlevel:programid,prodata:prodata,department:department,error_msg:'Please enter all requred fields'})
+      res.render('addnewapplicantngo',{programidlevel:programid,prodata:prodata,department:department,errors})
     
      }
      else{
@@ -475,12 +475,12 @@ department:department,error_msg:'Error while register applicant try later'})
   })
 router.get('/filterapplicant',ensureAuthenticated,async function(req,res){
    
-    const [ngobased, metangobaseddata] = await sequelize.query(
-        "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id"
-      );
-      const [levelbased, metalevelbaseddata] = await sequelize.query(
-        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
-      );
+  const [ngobased, metangobaseddata] = await sequelize.query(
+    "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes' and is_current='Yes'"
+  );
+  const [levelbased, metalevelbaseddata] = await sequelize.query(
+    "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id  where levelbasedprograms.is_open ='Yes' and is_current='Yes'"
+  );
         res.render('selectprogramtofilterapplicant',{
         levelbased:levelbased,
         ngobased:ngobased
@@ -490,10 +490,10 @@ router.post('/filterapplicantlevelbased',ensureAuthenticated,async function(req,
     const{trainingtype,level,programidlevel} =req.body;
     let errors = [];
     const [ngobased, metangobaseddata] = await sequelize.query(
-      "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes'"
+      "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes' and is_current='Yes'"
     );
     const [levelbased, metalevelbaseddata] = await sequelize.query(
-      "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id  where levelbasedprograms.is_open ='Yes'"
+      "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id  where levelbasedprograms.is_open ='Yes' and is_current='Yes'"
     );
     const [industrybased, metaindbaseddata] = await sequelize.query(
       "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes'"
@@ -515,7 +515,7 @@ router.post('/filterapplicantlevelbased',ensureAuthenticated,async function(req,
       levelbased:levelbased,
       ngobased:ngobased,
       industrybased:industrybased,
-      error_msg:'Please select batch/open program first'
+     errors
   });
   }
   else
@@ -539,10 +539,10 @@ router.post('/filterapplicantngobased',ensureAuthenticated,async function(req,re
     const{trainingtype,programidngo} =req.body;
     let errors = [];
     const [ngobased, metangobaseddata] = await sequelize.query(
-      "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes'"
+      "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes' and is_current='Yes'"
     );
     const [levelbased, metalevelbaseddata] = await sequelize.query(
-      "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id  where levelbasedprograms.is_open ='Yes'"
+      "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id  where levelbasedprograms.is_open ='Yes' and is_current='Yes'"
     );
     const [industrybased, metaindbaseddata] = await sequelize.query(
       "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes'"
@@ -550,11 +550,11 @@ router.post('/filterapplicantngobased',ensureAuthenticated,async function(req,re
    
 
   if(programidngo == "0" || !programidngo){
-  errors.push({msg:'please select batch name first'})
+  errors.push({msg:'Please Select Batch Name First'})
   }
 
     if(trainingtype == "0" || !trainingtype){
-      errors.push({msg:'please select training type first'})
+      errors.push({msg:'Please Select Training Type First'})
       }
   if(errors.length >0)
   {
@@ -562,7 +562,7 @@ router.post('/filterapplicantngobased',ensureAuthenticated,async function(req,re
       levelbased:levelbased,
       ngobased:ngobased,
       industrybased:industrybased,
-      error_msg:'Please select batch/open program first'
+     errors
   });
   }
   else
@@ -586,78 +586,101 @@ router.post('/filterapplicantbycriteriassetted',ensureAuthenticated,async functi
 const{choiceorder,departmentchoice,limitsize,orderby,programtype,applevel,programidlevel,criteria} = req.body;
 let dptchoice = departmentchoice;
 const department = await Occupation.findAll({});
-
-var querytop = "select *  from newapplicants where is_selected = 'No' and application_id = '"+programidlevel+"' and choice_level ='"+applevel+"'";
-var query = "select personal_info,apptitude_result,grade12_leaving,contact_info,entrance_exam,grade10_leaving,total_transcript_ave912,applicant_id,choice_one,choice_two,choice_three, sum(";
-
-var filter ;
-if(criteria){
-  filter = JSON.parse(criteria);
-  Object.getOwnPropertyNames(filter).forEach(
-    function (val, idx, array) {
-  
-   var keys = val ;
-   console.log(keys);
-   var vals = filter[val] ;
-   console.log(vals);
-   if("apptitude_result" == keys ){
-    query += "(apptitude_result *"+vals+")/100 + ";
-   }
-   else if("total_transcript_ave912"  == keys){
-    query += "(total_transcript_ave912 *"+vals+")/100 +";
-   }
-    else if( "grade10_leaving"  == keys){
-      query += "(grade10_leaving *"+vals+")/100 + ";
-    }
-      else if( "grade12_leaving"  == keys){
-        query += "( grade12_leaving *"+vals+")/100 + ";
-      }
-        else if( "affarmative_action"  == keys){
-          query += "(affarmative_action *"+vals+")/100 + ";
-        }
-       
+let errors = [];
+if(!choiceorder || !departmentchoice){
+errors.push({msg:'Please Select And Insert All Required Fields'})
+}
+if(!criteria){
+  errors.push({msg:'Please Insert Selection Critera'})
+  }
+if(errors.length >0){
+  const applicantlist = await NewApplicant.findAll({where:{is_selected:"No",application_id:programidlevel}})
+    res.render('applicantlisttobefilter',{
+        department:department,
+        applicantlist:applicantlist,
+        applevel:applevel,
+  selecteddptid:'',
+        choice:'',
+        applistfilter:applicantlist,
+        programtype:programtype,
+        programidlevel:programidlevel,
+        errors
     });
 }
-
-  query += " 0 ) as total from newapplicants where is_selected = 'No' and application_id = '"+programidlevel+"' and choice_level ='"+applevel+"' ";
-
- if(choiceorder){
-  if(choiceorder =="choice_one"){
-    query +=" and choice_one='"+departmentchoice+"'"
-   
-    }
-    else if(choiceorder =="choice_two"){
-      query +=" and choice_two='"+departmentchoice+"'";
-        
-    }
-    else if(choiceorder =="choice_three"){
-      query +=" and choice_three='"+departmentchoice+"'"
-    }
- }
-
-   query +=" group by applicant_id,apptitude_result,grade12_leaving, choice_one,choice_two,choice_three,personal_info,contact_info,entrance_exam,grade10_leaving,total_transcript_ave912 order by total desc";
-
-  if(limitsize == ""){
+else{
+  var querytop = "select *  from newapplicants where is_selected = 'No' and application_id = '"+programidlevel+"' and choice_level ='"+applevel+"'";
+  var query = "select personal_info,apptitude_result,grade12_leaving,contact_info,entrance_exam,grade10_leaving,total_transcript_ave912,applicant_id,choice_one,choice_two,choice_three, sum(";
   
+  var filter ;
+  if(criteria){
+    filter = JSON.parse(criteria);
+    Object.getOwnPropertyNames(filter).forEach(
+      function (val, idx, array) {
+    
+     var keys = val ;
+     console.log(keys);
+     var vals = filter[val] ;
+     console.log(vals);
+     if("apptitude_result" == keys ){
+      query += "(apptitude_result *"+vals+")/100 + ";
+     }
+     else if("total_transcript_ave912"  == keys){
+      query += "(total_transcript_ave912 *"+vals+")/100 +";
+     }
+      else if( "grade10_leaving"  == keys){
+        query += "(grade10_leaving *"+vals+")/100 + ";
+      }
+        else if( "grade12_leaving"  == keys){
+          query += "( grade12_leaving *"+vals+")/100 + ";
+        }
+          else if( "affarmative_action"  == keys){
+            query += "(affarmative_action *"+vals+")/100 + ";
+          }
+         
+      });
   }
-  else{
-      query +=" limit "+limitsize+"";
-  }
-console.log(querytop);
- console.log(query);  
-const [applfilter, metalevelbaseddata] = await sequelize.query(query);
-const [applicantlistsqt, metalevelbaseddatat] = await sequelize.query(query);
+  
+    query += " 0 ) as total from newapplicants where is_selected = 'No' and application_id = '"+programidlevel+"' and choice_level ='"+applevel+"' ";
+  
+   if(choiceorder){
+    if(choiceorder =="choice_one"){
+      query +=" and choice_one='"+departmentchoice+"'"
+     
+      }
+      else if(choiceorder =="choice_two"){
+        query +=" and choice_two='"+departmentchoice+"'";
+          
+      }
+      else if(choiceorder =="choice_three"){
+        query +=" and choice_three='"+departmentchoice+"'"
+      }
+   }
+  
+     query +=" group by applicant_id,apptitude_result,grade12_leaving, choice_one,choice_two,choice_three,personal_info,contact_info,entrance_exam,grade10_leaving,total_transcript_ave912 order by total desc";
+  
+    if(limitsize == ""){
+    
+    }
+    else{
+        query +=" limit "+limitsize+"";
+    }
+  console.log(querytop);
+   console.log(query);  
+  const [applfilter, metalevelbaseddata] = await sequelize.query(query);
+  const [applicantlistsqt, metalevelbaseddatat] = await sequelize.query(query);
+  
+  res.render('applicantlisttobefilter',{
+      department:department,
+      applicantlist:applicantlistsqt,
+      applistfilter:applfilter,
+      applevel:applevel,
+      programtype:programtype,
+   choice:choiceorder,
+      selecteddptid:departmentchoice,
+      programidlevel:programidlevel
+  });
+}
 
-res.render('applicantlisttobefilter',{
-    department:department,
-    applicantlist:applicantlistsqt,
-    applistfilter:applfilter,
-    applevel:applevel,
-    programtype:programtype,
- choice:choiceorder,
-    selecteddptid:departmentchoice,
-    programidlevel:programidlevel
-});
 
 });
 router.post('/updateselecteddepartment',ensureAuthenticated,async function(req,res){

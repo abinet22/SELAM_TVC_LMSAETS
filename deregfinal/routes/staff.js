@@ -29,7 +29,9 @@ router.get('/addnewstaff',ensureAuthenticated,async function(req,res){
 });
 
 router.get('/allstafflist',ensureAuthenticated,async function(req,res){
-    const staff = await StaffList.findAll({});
+    const [staff, metangobaseddata] = await sequelize.query(
+        "SELECT * FROM stafflists INNER JOIN users ON users.fullname = stafflists.staff_id "
+      );
     res.render('allstafflist',{
        stafflist:staff
     });
@@ -39,16 +41,20 @@ router.post('/addnewstaffmember',uploadFile.single('staffphoto'),ensureAuthentic
 const{staffid,firstname,middlename,lastname,phoneNumber_1,phoneNumber_2,isteacherradio,region,zonesubcity,woredakebele,hno} =req.body;
 let errors = [];
 if(!req.file){
-    console.log("No File!")
-        }
-if(!staffid || !firstname || !middlename || !lastname || !phoneNumber_1 || !phoneNumber_2 || !isteacherradio || !region || !zonesubcity || !woredakebele || !hno){
-errors.push({msg:'please enter all the required fields'})
+    errors.push({msg:'Please Add Staff Member Photo'})
+ }
+if(!staffid || !firstname || !middlename || !lastname || !phoneNumber_1 || !isteacherradio || !region || !zonesubcity || !woredakebele || !hno){
+errors.push({msg:'Please Enter All Required Fields'})
+}
+if(region =="0"){
+    errors.push({msg:'Please Select Region'})
 }
 if(errors.length >0){
 res.render('addnewstaff',{
-    error_msg:'Please enter all the required fields'
+    errors
 })
 }
+else{
 if(isteacherradio == "Yes"){
     const v1options = {
         node: [0x01, 0x23],
@@ -110,30 +116,38 @@ if(isteacherradio == "Yes"){
        if(!user){
         res.render('addnewstaff',{
           
-            error_msg:'Something is wrong while saving data please try later',
+            error_msg:'Something Is Wrong While Saving Sata Please Try Later',
         
         })
        }
         res.render('addnewstaff',{  
 
-            success_msg:'Your are successfully registered teacher staff with credentials',
+            success_msg:'Your Are Successfully Registered Teaching Staff With Credentials',
          
         })
     }).catch(error =>{
         res.render('addnewstaff',{
           
-            error_msg:'Something is wrong while saving data please try later',
+            error_msg:'Something Is Wrong While Saving Sata Please Try Later',
           
         })
     })
         })
       })
     }).catch(error =>{
-        console.log(error)
+        res.render('addnewstaff',{
+          
+            error_msg:'Something Is Wrong While Saving Sata Please Try Later',
+          
+        })
     })
     
     }).catch(error =>{
-        console.log(error)
+        res.render('addnewstaff',{
+          
+            error_msg:'Something Is Wrong While Saving Sata Please Try Later',
+          
+        })
     })
     
 }
@@ -167,8 +181,11 @@ else{
     
     StaffList.findOne({where:{staff_id:staffid}}).then(staff =>{
     if(staff){
-        res.render('addnewstaff',{error_msg:'Error staff memeber with this id already registered!'
-    })
+        res.render('addnewstaff',{
+          
+            error_msg:'Something Is Wrong While Saving Sata Please Try Later',
+          
+        })
     }
     
     StaffList.create(staffData).then((staff)=>{
@@ -176,20 +193,112 @@ else{
        
         staff.photo_data
       );
-      res.render('addnewstaff',{success_msg:'Successfully registered new staff member'
+      res.render('addnewstaff',{success_msg:'Successfully Registered New Staff Member'
     
     })
     }).catch(error =>{
-        console.log(error)
+        res.render('addnewstaff',{
+          
+            error_msg:'Something Is Wrong While Saving Sata Please Try Later',
+          
+        })
     })
     
     }).catch(error =>{
-        console.log(error)
+        res.render('addnewstaff',{
+          
+            error_msg:'Something Is Wrong While Saving Sata Please Try Later',
+          
+        })
     })
     
 }
 
-
+}
 });
+router.post('/updatestaffinfo/(:staffid)',ensureAuthenticated,async function(req,res){
+    const {updateoption,updatevalue} = req.body;
+    const [staff, metangobaseddata] = await sequelize.query(
+        "SELECT * FROM stafflists INNER JOIN users ON users.fullname = stafflists.staff_id "
+      );
+    let errors =[];
 
+    if(updateoption=="0"){
+        errors.push({msg:'Please Select Update Option'})
+    }
+    if(!updatevalue){
+        errors.push({msg:'Please Add Update Values'})
+    }
+        if(errors.length>0){
+            res.render('allstafflist',{
+                stafflist:staff,
+                errors
+            });
+        }
+        else{
+        if(updateoption ==="phone"){
+        StaffList.findOne({where:{staff_id:req.params.staffid}}).then(staff =>{
+            if(staff){
+         StaffList.update({phoneNumber_1:updatevalue},{where:{staff_id:req.params.staffid}}).then(()=>{
+            res.render('allstafflist',{
+                stafflist:staff,
+                success_msg:"Successfully Update Staff Member Info"
+            });
+         }).catch(err =>{
+            res.render('allstafflist',{
+                stafflist:staff,
+                error_msg:"Error While Updateing Staff Member Info Please Try Later"
+            });
+         })
+            }
+            else{
+                res.render('allstafflist',{
+                    stafflist:staff,
+                    error_msg:"Cant Find Staff Member Please Try Later"
+                });
+            }
+        }).catch(err =>{
+            res.render('allstafflist',{
+                stafflist:staff,
+                error_msg:"Error While Finding Staff Member Please Try Later"
+            });
+        })
+        }
+
+        }
+    res.render('allstafflist',{
+       stafflist:staff
+    });
+})
+router.post('/removestaff/(:staffid)',ensureAuthenticated,async function(req,res){
+    const [staff, metangobaseddata] = await sequelize.query(
+        "SELECT * FROM stafflists INNER JOIN users ON users.fullname = stafflists.staff_id "
+      );
+  
+    StaffList.findOne({where:{staff_id:req.params.staffid}}).then(stafflist =>{
+        if(stafflist){
+       StaffList.destroy({where:{staff_id:req.params.staffid}}).then(()=>{
+        res.render('allstafflist',{
+            stafflist:staff,
+            success_msg:'Successfully Remove Staff Member Data'
+         });
+       }).catch(err =>{
+        res.render('allstafflist',{
+            stafflist:staff,
+            error_msg:'Cant Find Staff Memeber With This ID'
+         });
+       })
+        }else{
+            res.render('allstafflist',{
+                stafflist:staff,
+                error_msg:'Cant Find Staff Memeber With This ID'
+             });
+        }
+    }).catch(err =>{
+        res.render('allstafflist',{
+            stafflist:staff,
+            error_msg:'Cant Find Staff Memeber With This ID'
+         }); 
+    })
+})
 module.exports = router;

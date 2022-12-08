@@ -240,6 +240,8 @@
 <script src="../../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
+
+
   $(function () {
     $("#example1").DataTable({
       "responsive": false, "lengthChange": true, "autoWidth": true,"width":400,
@@ -252,17 +254,17 @@
                             '<img src="" style="position:absolute; top:0; left:0;" />'
                             
                             );
- 
+  
                     $(win.document.body).find( 'table' )
                         .addClass( 'compact' )
                         .css( 'font-size', 'inherit' );
                 },
                 title: function() {
     return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
-   " <td > <h4>  Organization Name <br> Selam Technical And Vocational Collage <br> Department List</h4> </td> </tr> </table>"
+   " <td > <h4> Selam David Roeschli Technical And Vocational College  </h4> <h6><small><br>  </small><br> All Department Occupation List</h6> </td> </tr> </table>"
               
   } ,
-
+  
                 
                 exportOptions: {
                     columns: ':visible'
@@ -270,10 +272,10 @@
             }, "colvis"],
             columnDefs: [ {
             targets: -1,
-            visible: false
+            visible: true
         }]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
   });
-</script>
+  </script>
 </body>
 </html>

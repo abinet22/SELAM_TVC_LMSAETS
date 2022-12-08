@@ -110,7 +110,7 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <div class="col-md-8 offset-md-2">
+        <div class="col-md-12">
             <div class="card card-primary">
                 <div class="card-header">
                   <h3 class="card-title">Search Filter Form</h3>
@@ -146,7 +146,7 @@
                            <div class="col-md-6">
                               <div class="form-group">
                                   <label>Select Occupation </label>
-                                  <select class="form-control " name="departmentchoice"  id="departmentchoice">
+                                  <select class="form-control-sm js-example-basic-single " name="departmentchoice"  id="departmentchoice">
                                    <option value="0">Choice Occupation Name</option>
                                    <% if(department.length >0) {%>
                                       <% department.forEach(function (row){ %>
@@ -169,6 +169,7 @@
                                   
                                       </div>
                                       <select class="form-control " name="prenume"  id="prenume" >
+                                        <option value="0">Please Select Criteria List</option>
                                         <option value="total_transcript_ave912">Grade 9-12 Average Transcript </option>
                                           <option value="grade12_leaving">EGSCE </option>
                                           <option value="grade10_leaving">SSLE </option>
@@ -199,6 +200,8 @@
                             <input type="hidden" id="criteria" name="criteria">
                           
                                 <div class="row">
+                                  <button class="btn btn-link btn-sm" type="button"  onclick="removeallcriterialist();">Clear Criteria</button>
+                                             
                                   <div class="col-md-6 offset-md-3 form-check form-check-primary">
                                     <ul class="" id="list">
                                       <label>Applicant Filter Criteria List<i class="input-helper"></i></label>
@@ -217,7 +220,7 @@
                         <div class="card-footer">
                          <div class="col-md-6 offset-md-3">
                              <input class="form-control" name="limitsize" id="limitsize" placeholder="Enter Search Limit" type="number">
-                          <button type="submit" class="btn btn-primary btn-block btn-sm">Search Filter</button>
+                          <button type="submit" class="btn btn-primary btn-block btn-sm my-2">Search Filter</button>
                          </div>
                       
                         </div>
@@ -226,7 +229,7 @@
                 <!-- /.card-body -->
               </div>
         </div>
-        <div class="row">
+       
            
             <div class="row">
                 <div class="col-md-12">
@@ -361,24 +364,29 @@
                                                   <td><%= filtertotal %></td>
                                                
                                                   <td><form  id="<%= row.applicant_id %>" >
-                                                 <div class="form-group">
-                                                     <label>Please Add Selected Department</label>
-                                                     <input name="programidlevel" id="programidlevel" value="<%=programidlevel %>" type="hidden">
-                                                     <input type="hidden" name="applevel" id="applevel" value="<%= applevel %>">
-                                                     <input type="hidden" name="programtype" id="programtype" value="<%= programtype %>">
-                                                     <input type="hidden" name="applicantid" id="applicantid" value="<%= row.applicant_id %>">
-                                                     <input type="hidden" name="departmentselected" id="departmentselected" >
-                               
-                                                     <div class="form-group">
-                                                      <label>Select Department Name</label>
-                                                      <select class="form-control " name="deptselected"  id="deptselected" onchange="deptselectedseet(this.value);">
-                                                       <option value="0">Choice Department Name</option>
-                                                       <% if(department.length >0) {%>
-                                                          <% department.forEach(function (row){ %>
-                                                            <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
-                                                         <% })}else {}%>
-                                                      </select>
-                                                    
+                                                 <div class="">
+                                                   <div class="col-md-8">
+                                                    <input name="programidlevel" id="programidlevel" value="<%=programidlevel %>" type="hidden">
+                                                    <input type="hidden" name="applevel" id="applevel" value="<%= applevel %>">
+                                                    <input type="hidden" name="programtype" id="programtype" value="<%= programtype %>">
+                                                    <input type="hidden" name="applicantid" id="applicantid" value="<%= row.applicant_id %>">
+                                                    <input type="hidden" name="departmentselected" id="departmentselected" >
+                              
+                                                    <div class="form-group">
+                                                   
+                                                     <select class="form-control-sm js-example-basic-single " name="deptselected"  id="deptselected" onchange="deptselectedseet(this.value);">
+                                                      <option value="0">Selected Department Name</option>
+                                                      <% if(department.length >0) {%>
+                                                         <% department.forEach(function (row){ %>
+                                                           <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                                        <% })}else {}%>
+                                                     </select>
+                                                   
+                                                 </div>
+                                                   </div>
+                                                  <div class="col-md-4">
+                                                    <button type="button" onclick="updatedpt('<%= row.applicant_id %>')" class="btn btn-sm  btn-link">Update Department</button>
+                                               
                                                   </div>
                                                   <script>
                                                       function deptselectedseet(val){
@@ -388,9 +396,8 @@
                                                       }
                                                   
                                                   </script>
-                                                  </div>
-                                                 <button type="button" onclick="updatedpt('<%= row.applicant_id %>')" class="btn btn-sm btn-success btn-block">Update Department</button>
-                                                  </form></td>
+                                                
+                                                </div>    </form></td>
                                                
     
                                               
@@ -406,26 +413,29 @@
                                                   console.log(xx);
                                                            $.ajax({
                                                               type: "POST",
-                                                              url: '/applicant/updateselecteddepartment',
+                                                              url: '/registrardataencoder/applicant/updateselecteddepartment',
                                                               data: $form.serialize(), // serializes form input
                                                               success: function(data){
                                                                 if(data.data == "error1"){
                                                                   var sm = document.getElementById('servermsg');
                                                                   var msg = document.getElementById('msg');
                                                                   sm.style.display ="block";
-                                                                  msg.innerHTML ="Something is wrong please try later"
+                                                                  msg.innerHTML ="Something Is Wrong Please Try Later"
                                                                 }
                                                                 else if(data.data == "error"){
                                                                   var sm = document.getElementById('servermsg');
                                                                   var msg = document.getElementById('msg');
                                                                   sm.style.display ="block";
-                                                                  msg.innerHTML ="please choose department name first"
+                                                                  msg.innerHTML ="Please Choose Occupation Name First"
                                                                 }
                                                                 else if(data.data =="success"){
                                                                   var sm = document.getElementById('servermsg');
                                                                   var msg = document.getElementById('msg');
                                                                   sm.style.display ="block";
-                                                                  msg.innerHTML ="Successfully updated selected applicant department"
+                                                                  msg.innerHTML ="Successfully Updated Selected Applicant Occupation Choice";
+                                                                  setTimeout(function(){// wait for 5 secs(2)
+                      location.reload(); // then reload the page.(3)
+                      }, 1000); 
                                                                 }
                                                               }
                                                           });
@@ -579,44 +589,7 @@
                                                   
                                                
                                               <%  })} else{}     %>
-                                              <script>
-                                                     function updatedpt(formid) {
-                                                         const $form = $('#'+formid);
-                                                         if(event.preventDefault) event.preventDefault(); 
-                                                         var xx =  $form.serialize();
-                                                         console.log(xx);
-                                                                  $.ajax({
-                                                                     type: "POST",
-                                                                     url: '/applicant/updateselecteddepartment',
-                                                                     data: $form.serialize(), // serializes form input
-                                                                     success: function(data){
-                                                                       if(data.data == "error1"){
-                                                                         var sm = document.getElementById('servermsg');
-                                                                         var msg = document.getElementById('msg');
-                                                                         sm.style.display ="block";
-                                                                         msg.innerHTML ="Something is wrong please try later"
-                                                                       }
-                                                                       else if(data.data == "error"){
-                                                                         var sm = document.getElementById('servermsg');
-                                                                         var msg = document.getElementById('msg');
-                                                                         sm.style.display ="block";
-                                                                         msg.innerHTML ="please choose department name first"
-                                                                       }
-                                                                       else if(data.data =="success"){
-                                                                         var sm = document.getElementById('servermsg');
-                                                                         var msg = document.getElementById('msg');
-                                                                         sm.style.display ="block";
-                                                                         msg.innerHTML ="Successfully updated selected applicant department"
-                                                                       }
-                                                                     }
-                                                                 });
-                                                           
-                                                     };
-                                             
-                                               </script>
                                          
-                             
-                                                
                                             
                                            
                                            </tbody>
@@ -661,6 +634,19 @@
            var criteria ={}; 
     
                       var criid =0 ;
+                      function removeallcriterialist(){
+                        criteria ={}; 
+                        criid =0 ;
+                                  $('#criteria').val( JSON.stringify(criteria) );
+                                
+                                  var addlos = document.getElementById('list');
+                                  var item = document.getElementById('criterialist');
+                              
+                                    addlos.removeChild(item);
+                                 
+                                  console.log(JSON.stringify(criteria) );  
+                                 
+                                }
                       $("#add").on("click", function(e){
                         var data = document.getElementById("prenume").value;
                      if(data == "0")
@@ -669,24 +655,28 @@
                      }
                      else
                      {
-                      criid ++ ;
+                    
                      var criname = document.getElementById("prenume").value;
                       var percent = document.getElementById("myRange").value;
                      
                       var checkboxvalue = criname + "_" +percent+"%";
                       criname.trim();
-                    // criarry.push(checkboxvalue);
-                    // criteria['name'] = criname;
-                    //  criteria['val'] = criname;
-                    //    criteria['id'] = criid;
-                    criteria[criname] = parseInt(percent) ;
+                      criid += parseInt(percent);
+                      if(criid <= 103){
+                        criteria[criname] = parseInt(percent) ;
                     //criarry.push(criteria);
                      // $('#criteria').val([criteria]);
                      $('#criteria').val( JSON.stringify(criteria) );
                    console.log(criteria);            
-    $("#list").append("<li><input type='checkbox' id="+ checkboxvalue +" class='form-check-input' checked >" + $("#prenume").val() + " " + $("#myRange").val() +"%"+"</li>");
+    $("#list").append("<li id='criterialist'><input type='checkbox' id="+ checkboxvalue +" class='form-check-input' checked >" + $("#prenume").val() + " " + $("#myRange").val() +"%"+"</li>");
     
     return false;
+                      }
+                    // criarry.push(checkboxvalue);
+                    // criteria['name'] = criname;
+                    //  criteria['val'] = criname;
+                    //    criteria['id'] = criid;
+                 
                      }
                    
     });
@@ -781,7 +771,7 @@
                       </script>
                            
                         </div>
-              </div>
+             
           
           </div>
     
@@ -796,7 +786,11 @@
       <!-- Brand Logo -->
       <%- include('./partials/footer') %> 
 </footer>
-
+<script>
+  $(document).ready(function() {
+$('.js-example-basic-single').select2();
+});
+</script>
   <!-- Control Sidebar -->
 
   <!-- /.control-sidebar -->
@@ -823,25 +817,51 @@
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<script src="../../plugins/select2/js/select2.full.min.js"></script>
+<!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+<!-- Page specific script -->
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <!-- Page specific script -->
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      "responsive": false, "lengthChange": true, "autoWidth": false  ,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' )
+                        .prepend(
+                            '<img src="" style="position:absolute; top:0; left:0;" />'
+                            
+                            );
+ 
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' );
+                },
+                title: function() {
+    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+   " <td > <h4>  Organization Name <br> Selam Technical And Vocational Collage <br>  Applicant  List Filtered</h4> </td> </tr> </table>"
+              
+  } ,
+
+                
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: true
+        }]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
   });
 </script>
-
 </body>
 </html>

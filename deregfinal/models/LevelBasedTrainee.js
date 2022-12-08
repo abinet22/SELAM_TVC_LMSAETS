@@ -100,6 +100,12 @@ module.exports = (sequelize, DataTypes) => {
         },
         is_pass_semister:{
             type:DataTypes.STRING,
+        },
+        is_pass_coc :{
+            type:DataTypes.STRING,
+        },
+        is_send_to_jbs:{
+            type:DataTypes.STRING,
         }
         
     });

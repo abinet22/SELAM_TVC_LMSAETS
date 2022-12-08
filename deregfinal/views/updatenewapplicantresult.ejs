@@ -9,13 +9,13 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../../../plugins/fontawesome-free/css/all.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../../../../dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -210,7 +210,7 @@ if(row.additional_data != null) {
 </td>
   <td><form action="/registrardataencoder/applicant/updateentraceexamresult/<%= row.applicant_id %>" method="post">
                                          <div class="form-group">
-                                             <label>Please Add Result Here</label>
+                                          
                                              <input name="programidlevel" id="programidlevel" value="<%=programidlevel %>" type="hidden">
                                              <input class="form-control" name="entranceresult" id="entranceresult" placeholder="Entrance Exam Result" type="number">
                                          </div>
@@ -219,7 +219,7 @@ if(row.additional_data != null) {
                                        
                                           <td><form action="/registrardataencoder/applicant/updateapptitudeexamresult/<%= row.applicant_id %>" method="post">
                                             <div class="form-group">
-                                                <label>Please Add Result Here</label>
+                                                
                                                 <input name="programidlevel" id="programidlevel" value="<%=programidlevel %>" type="hidden">
                                                 <input class="form-control" name="apptitudeexam" id="apptitudeexam" placeholder="Apptitude Exam Result" type="number">
                                             </div>
@@ -306,18 +306,37 @@ if(row.additional_data != null) {
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      "responsive": false, "lengthChange": true, "autoWidth": false  ,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' )
+                        .prepend(
+                            '<img src="" style="position:absolute; top:0; left:0;" />'
+                            
+                            );
+ 
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' );
+                },
+                title: function() {
+    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+   " <td > <h4>  Organization Name <br> Selam Technical And Vocational Collage <br>  Applicant List</h4> </td> </tr> </table>"
+              
+  } ,
+
+                
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: true
+        }]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
   });
 </script>
 </body>

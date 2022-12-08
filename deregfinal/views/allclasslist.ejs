@@ -43,7 +43,7 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
+          <span class="badge badge-warning navbar-badge">0</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">15 Notifications</span>
@@ -110,6 +110,70 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+        <div class="row">
+        
+          <div class="col-md-6 offset-md-3">
+            <div class="card card-widget collapsed-card">
+                <div class="card-header">
+                    <div class="user-block">
+                       <span class="username">Search Filter Class List</span>
+                      </div>
+                  <!-- /.user-block -->
+                  <div class="card-tools">
+                   
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                  <!-- /.card-tools -->
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body" style="display: none;">
+                    <form action="/registrardataencoder/classmanage/filterclasslistbydepartmentandbatch" method="post">
+                     
+                        <div class="form-group">
+                          <label class="">Select Batch</label>
+                          <select class="form-control" id="batch" name="batch">
+                            <option value="0">Please Select Batch Name</option>
+                            <% if(batches.length >0){ %>
+                              <% batches.forEach(function (row){ %>
+                               <option value="<%= row.batch_id %>" style="text-transform: uppercase;"><%= row.program_type %>/<%= row.batch_name %></option>
+                               <%   })} else{} %>
+                                  
+                          </select>
+                          </div>
+                          
+                          <div class="form-group">
+                          <label >Select Occupation Name</label>
+                          <select class="form-control-sm js-example-basic-single " id="dept" name="dept" style="width: 100%;">
+                            <option value="0">Please Select Occupation Name</option>
+                            <% if(department.length >0){ %>
+                              <% department.forEach(function (row){ %>
+                               <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                               <%   })} else{} %>
+                                  
+                          </select>
+                        </div>
+
+                        <div class="col-md-8 offset-md-2">
+                          <button type="submit" class="btn-sm btn-primary btn-block me-2">Submit</button>
+                        
+                         </div>
+                       
+                    
+                      </form>
+                  
+                </div>
+             
+                <!-- /.card-footer -->
+              </div>
+     
+          </div>
+        
+          </div>
         <div class="col-md-12">
             <div class="card card-primary">
               <div class="card-header">
@@ -117,60 +181,7 @@
               </div>
               <div class="card-body">
                
-                <div class="">
-        
-                  <div class="col-md-6 offset-md-3">
-                    <div class="card card-widget collapsed-card">
-                        <div class="card-header">
-                            <div class="user-block">
-                               <span class="username">Search Filter Class List</span>
-                              </div>
-                          <!-- /.user-block -->
-                          <div class="card-tools">
-                           
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                              <i class="fas fa-plus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                              <i class="fas fa-times"></i>
-                            </button>
-                          </div>
-                          <!-- /.card-tools -->
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body" style="display: none;">
-                            <form action="/registrardataencoder/classmanage/filterclasslistbydepartmentandbatch" method="post">
-                                <div class="form-group">
-                                  <label class="">Select Batch</label>
-                                  <select class="form-control" id="batch" name="batch">
-                                    <option value="0">Please select batch name</option>
-                                    <% if(batches.length >0){ %>
-                                      <% batches.forEach(function (row){ %>
-                                       <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
-                                       <%   })} else{} %>
-                                          
-                                  </select>
-                                  <label class="">Filter Class By Occupation</label>
-                                  <select class="form-control" id="dept" name="dept">
-                                    <option value="0">Please select occupation name</option>
-                                    <% if(department.length >0){ %>
-                                      <% department.forEach(function (row){ %>
-                                       <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
-                                       <%   })} else{} %>
-                                          
-                                  </select>
-                                </div>
-                                <button class="form-control btn btn-block btn-primary"  type="submit">Search</button>
-                              </form>
-                          
-                        </div>
-                     
-                        <!-- /.card-footer -->
-                      </div>
-             
-                  </div>
-                
-                  </div>
+              
                   <div class="row">
                     <div class="col-md-12  grid-margin stretch-card">     <div class="card">
                         <div class="card-body">
@@ -193,12 +204,12 @@
                               <thead>
                                 <tr>
                 <th>#</th>
-                <th>Training Batch Name </th>
-                <th>Training Occupation Name </th>
-                                  <th>Training Class Name</th>
+                <th> Batch Name </th>
+                <th> Occupation Name </th>
+                                  <th> Class Name</th>
                                   <th>Training Level</th>
+                                  <th>Program Type</th>
                                 
-                                  <th>Assigned Teacher </th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -213,9 +224,9 @@
                                               <td><%= row.occupation_name %></td>
                                               <td><%= row.class_name %></td>
                                               <td><%= row.training_level %></td>
+                                              <td><%= row.training_type %></td>
                                              
-                                              <td><%= row.teacher_name %></td>
-                                           
+                                             
                                             </tr>
                                        <%  })} else{}     %>
                                    
@@ -253,10 +264,11 @@
       <%- include('./partials/footer') %> 
 </footer>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
+<script>
+  $(document).ready(function() {
+$('.js-example-basic-single').select2();
+});
+</script>
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
@@ -280,24 +292,48 @@
 <script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
+<script src="../../plugins/select2/js/select2.full.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <!-- Page specific script -->
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      "responsive": false, "lengthChange": true, "autoWidth": true,"width":400,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' )
+                        .prepend(
+                            '<img src="" style="position:absolute; top:0; left:0;" />'
+                            
+                            );
+ 
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' );
+                },
+                title: function() {
+    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+   " <td > <h4>  Organization Name <br> Selam Technical And Vocational Collage <br> Class List</h4> </td> </tr> </table>"
+              
+  } ,
+
+                
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: true
+        }]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
   });
 </script>
 </body>

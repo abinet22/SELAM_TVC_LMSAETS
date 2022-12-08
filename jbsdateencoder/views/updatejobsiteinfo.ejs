@@ -9,13 +9,13 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../../../plugins/fontawesome-free/css/all.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../../../../dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -69,9 +69,9 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="/jbsdataencoder/logout" role="button">
-     Logout
-        </a>
+        <a class="nav-link" href="/jbsdataencoder/logout" role="button">
+          Logout
+             </a>
       </li>
     </ul>
   </nav>
@@ -97,7 +97,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Employees In JBS </li>
+              <li class="breadcrumb-item active">Update Employee Job Site Info On JBS </li>
             </ol>
           </div>
         </div>
@@ -112,7 +112,7 @@
                 <div class="col-md-12">
                     <div class="card card-primary">
                       <div class="card-header">
-                        <h4 class="card-title">Employee List</h4>
+                        <h4 class="card-title">Update Employee Job Site Info On JBS DB</h4>
                       </div>
                       <div class="card-body">
                       
@@ -150,7 +150,12 @@
                                      
                                       <th>Batch</th>
                                       <th>Show History</th>
-                                      <th>Action To Do</th>
+                                      <th style="width: 150px;">Action To Do</th>
+                                     <th></th>
+                                     <th></th>
+                                     <th></th>
+                                   
+                                      
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -202,40 +207,50 @@
                                            
                                               <button class="btn btn-sm btn-success btn-block" type="submit">Show History</button>
                                                </form></td>
-                                            <td><form action="/jbsdataencoder/updateemployee/jobsiteinformation/<%= row.trainee_id %>" method="post">
+                                            <td>
+
+                                              <form action="/jbsdataencoder/updateemployee/jobsiteinformation/<%= row.trainee_id %>" method="post">
                                               <div class="form-group">
-                                                <select class="form-control" name="infotype" id="infotype">
-                                                  <option value="0">please select info type</option>
-                                                  <option value="general_info">General Info</option>
-                                                <option value="health_info">Health Info</option>
-                                                <option value=" behaviour_info">Behavioural Info</option>
-                                                <option value="visits_info">Visit Info</option>
-                                                <option value="job_info">Job Info</option>
+                                                <select class="form-control" style="width: 200px;" name="infotype" id="infotype">
+                                                  <option value="0">please Select Info To Be Updated</option>
+                                                  <option value="General_Info">General Info</option>
+                                                <option value="Health_Info">Health Info</option>
+                                                <option value=" Behaviour_Info">Behavioural Info</option>
+                                                <option value="Visits_Info">Visit Info</option>
+                                                <option value="Job_Info">Job Info</option>
                                                 </select>
                                               </div>
-                                           <div class="form-group">
-                                               <label>Please select company</label>
-                                               <select class="form-control" name="companyname" >
-                                                   <option value="0">Please select company name</option>
-                                                   <% if(companylist.length > 0) {%>
-                                                    <% companylist.forEach( function (row){ %>
+                                          
+                                           
+                                          </td>
+                                           <td>
+                                            <div class="form-group">
+                                              
+                                              <select class="form-control"style="width: 200px;" name="companyname" >
+                                                  <option value="0">Please Select Company Name</option>
+                                                  <% if(companylist.length > 0) {%>
+                                                   <% companylist.forEach( function (row){ %>
 
-                                                    <option value="<%= row.company_name %>"><%= row.company_name %></option>
-                                             
-                                                    <%})}else{}%>
-                                                
-                                                </select>
-                                           </div>
-                                           <div class="form-group">
+                                                   <option value="<%= row.company_name %>"><%= row.company_name %></option>
                                             
-                                            <textarea name="info" id="info" rows="3" class="form-control" ></textarea>
-                                      
-
-                                        </div>
-                                           <button class="btn btn-sm btn-success btn-block" type="submit">Update Info</button>
-                                            </form></td>
+                                                   <%})}else{}%>
+                                               
+                                               </select>
+                                          </div>
+                                           </td>
+                                           <td>
+                                            <div class="form-group">
+                                            
+                                              <textarea name="info" id="info" placeholder="Job Site Info Here" rows="2" style="width: 200px;" class="form-control" ></textarea>
+                                        
+  
+                                          </div> 
+                                          </td>
+                                          <td>
+                                            <button class="btn btn-sm btn-success btn-block" type="submit">Update Info</button>
+                                          </form>
+                                           </td>
                                          
-
                                         
                                           </tr>
                                      <%  })} else{}     %>
@@ -292,42 +307,61 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables  & Plugins -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../../plugins/jszip/jszip.min.js"></script>
-<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="../../../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../../../../plugins/jszip/jszip.min.js"></script>
+<script src="../../../../plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../../../../plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
+<script src="../../../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
+<script src="../../../../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": true, "autoWidth": true,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      "responsive": false, "lengthChange": true, "autoWidth": true,"width":400,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' )
+                        .prepend(
+                            '<img src="" style="position:absolute; top:0; left:0;" />'
+                            
+                            );
+ 
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' );
+                },
+                title: function() {
+    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+   " <td > <h4>  Organization Name <br> Selam David Roeschli Technical And Vocational College <br>  Employee List On JBS</h4> </td> </tr> </table>"
+              
+  } ,
+
+                
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: true
+        }]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
   });
 </script>
 </body>

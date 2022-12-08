@@ -27,7 +27,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/" class="nav-link">Home</a>
+        <a href="/jbsdataencoder/dashboard" class="nav-link">Home</a>
       </li>
      
     </ul>
@@ -40,7 +40,7 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
+          <span class="badge badge-warning navbar-badge">0</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">15 Notifications</span>
@@ -69,7 +69,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="/logout" role="button">
+        <a class="nav-link" href="/jbsdataencoder/logout" role="button">
      Logout
         </a>
       </li>
@@ -97,7 +97,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Employees In JBS </li>
+              <li class="breadcrumb-item active">Update Employee Job Status  JBS </li>
             </ol>
           </div>
         </div>
@@ -112,7 +112,7 @@
                 <div class="col-md-12">
                     <div class="card card-primary">
                       <div class="card-header">
-                        <h4 class="card-title">Employee List</h4>
+                        <h4 class="card-title">Update Employee Job Status On JBS DB</h4>
                       </div>
                       <div class="card-body">
                       
@@ -201,11 +201,11 @@
                                             </td>
                                          
                                              
-                                            <td><form action="/trainee/seetraineejbshistory/<%= row.trainee_id %>" method="post">
+                                            <td><form action="/jbsdataencoder/trainee/seetraineejbshistory/<%= row.trainee_id %>" method="post">
                                            
                                               <button class="btn btn-sm btn-success btn-block" type="submit">Show History</button>
                                                </form></td>
-                                               <td><form action="/trainee/placeinapparentiship/<%= row.trainee_id %>" method="post">
+                                               <td><form action="/jbsdataencoder/trainee/placeinapparentiship/<%= row.trainee_id %>" method="post">
                                            
                                                 <button class="btn btn-sm btn-success btn-block" type="submit">Placed In Apprenticeship</button>
                                                  </form></td>
@@ -304,18 +304,37 @@
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": true, "autoWidth": true,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      "responsive": false, "lengthChange": true, "autoWidth": true,"width":400,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' )
+                        .prepend(
+                            '<img src="" style="position:absolute; top:0; left:0;" />'
+                            
+                            );
+ 
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' );
+                },
+                title: function() {
+    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+   " <td > <h4>  Organization Name <br> Selam David Roeschli Technical And Vocational College <br>  Employee List On JBS</h4> </td> </tr> </table>"
+              
+  } ,
+
+                
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: true
+        }]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
   });
 </script>
 </body>

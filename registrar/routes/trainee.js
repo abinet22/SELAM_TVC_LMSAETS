@@ -5,6 +5,10 @@ const db = require('../models');
 const LevelBasedTraining = db.levelbasedtraining;
 const NGOBasedTraining = db.ngobasedtraining;
 const IndustryBasedTraining = db.industrybasedtraining;
+const LevelBasedTrainee = db.levelbasedtrainees;
+const NGOBasedTrainee = db.ngobasedtrainees;
+const IndustryBasedTrainee = db.industrybasedtrainees;
+const Occupation  = db.occupations;
 const FunderInfo = db.funderinfo;
 const Department = db.departments;
 const Course = db.courses;
@@ -17,49 +21,54 @@ const passport = require('passport');
 const { v4: uuidv4 } = require('uuid');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
-router.get('/managelevelbased',ensureAuthenticated,async function(req,res){
-    const levelbased = await LevelBasedTraining.findAll({});
-    const department = await Department.findAll({});
-    const classlist = await ClassInDept.findAll({});
+router.get('/alltraineelist',async function(req,res){
+    const department = await Occupation.findAll({});
+        const [levelbased, metalevelbaseddata] = await sequelize.query(
+          "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id "
+        );
+        const [ngobased, metangobaseddata] = await sequelize.query(
+          "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id "
+        );
+        const [industry, metaindustrybaseddata] = await sequelize.query(
+          "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id "
+        );
+        res.render('alltraineelist',{
+          levelbased:levelbased,
+          ngobased:ngobased,
+          industrybased:industry,
+          department:department
+      })
+  })
+router.post('/alllevelbasedtrainee', ensureAuthenticated,async function(req,res){
+    const {programidlevel,occlevel} = req.body;
+    const applicantlist = await LevelBasedTrainee.findAll({where:{batch_id:programidlevel,department_id:occlevel}});
+    const department = await Occupation.findAll({})
+    res.render('alltraineeregisteredlist',{
+        applicantlist,applicantlist,
+        department:department,
+   
+    })
+})
+router.post('/allngobasedtrainee', ensureAuthenticated,async function(req,res){
+    const {programidngo,occngo} = req.body;
+    const applicantlist = await NGOBasedTrainee.findAll({where:{batch_id:programidngo,department_id:occngo}});
+  
+    const department = await Occupation.findAll({})
+    res.render('alltraineeregisteredlist',{
+        applicantlist,applicantlist,
+        department:department,
+     
+    })
+})
+router.post('/allindustrybasedtrainee', ensureAuthenticated,async function(req,res){
+    const {programidind,occind} = req.body;
+    const applicantlist = await IndustryBasedTrainee.findAll({where:{batch_id:programidind,department_id:occind}});
+  
+    const department = await Occupation.findAll({})
+    res.render('alltraineeregisteredlist',{
+        applicantlist,applicantlist,
+        department:department,
     
-res.render('managelevelbased',{
-    levelbased:levelbased,
-    department:department,
-    classlist:classlist
-})
-})
-router.get('/managengobased',ensureAuthenticated,async function(req,res){
-    const levelbased = await LevelBasedTraining.findAll({});
-    const department = await Department.findAll({});
-    const classlist = await ClassInDept.findAll({});
-    
-res.render('managengobased',{
-    levelbased:levelbased,
-    department:department,
-    classlist:classlist
-})
-})
-router.get('/manageindustrybased',ensureAuthenticated,async function(req,res){
-    const levelbased = await LevelBasedTraining.findAll({});
-    const department = await Department.findAll({});
-    const classlist = await ClassInDept.findAll({});
-    
-res.render('manageindustrybased',{
-    levelbased:levelbased,
-    department:department,
-    classlist:classlist
-})
-})
-router.post('/printcertificate',ensureAuthenticated,async function(req,res){
-
-    res.render('printcertificate');
-})
-router.post('/printstudentid',ensureAuthenticated,async function(req,res){
-
-    res.render('printstudentid');
-})
-router.post('/printgradereport',ensureAuthenticated,async function(req,res){
-
-    res.render('printgradereport');
+    })
 })
 module.exports = router;

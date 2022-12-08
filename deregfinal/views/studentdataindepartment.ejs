@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | DataTables</title>
+  <title></title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -43,7 +43,7 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
+          <span class="badge badge-warning navbar-badge">0</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">15 Notifications</span>
@@ -134,9 +134,9 @@
                         <input type="hidden" name="level" value="<%= level %>">
                        
                         <div class="form-group">
-                          <label>select class name</label>
-                          <select class="form-control" name="classid">
-                            <option value="0"> Please select class name</option>
+                          <label>Filter By Class Name</label>
+                          <select  class="form-control-sm js-example-basic-single " style="width: 100%;" name="classid">
+                            <option value="0"> Please Select Class Name</option>
                             <% if(classinfo.length >0) {%>
                               <% classinfo.forEach(function (row){ %>
                                <option value="<%= row.class_id %>"> <%= row.class_name %></option>
@@ -144,9 +144,9 @@
                           </select>
                         </div>
                         <div class="form-group">
-                          <label>select course name</label>
-                          <select class="form-control" name="courseid">
-                            <option value="0"> Please select course name</option>
+                          <label>Filter By Course Name</label>
+                          <select  class="form-control-sm js-example-basic-single "  style="width: 100%;" name="courseid">
+                            <option value="0"> Please Select Course Name</option>
                             <% if(courseid.length >0) {%>
                               <% courseid.forEach(function (row){ %>
                                <option value="<%= row.course_id %>"> <%= row.course_name %></option>
@@ -165,6 +165,7 @@
                   </div>
                   <div class="col-md-4"></div>
               </div>
+                <% if(tag==="Filtered"){ %>
                 <div class="row mb-2">
              <div class="col-md-4">
 
@@ -252,6 +253,9 @@
                                             <td><%= row.grade_in_latter %> </td>
                                             <td> <%= row.grade_in_point %></td>
                                          <td>
+                                          <% if(row.is_confirm_registrar == "Yes") {%>
+                                            Can't Update Report
+                                            <% }else{%>
                                            <form action="/registrardataencoder/trainee/reportproblemtodepartment/<%= row.trainee_id %>" method="post">
                                              <div class="form-group">
                                               
@@ -267,6 +271,7 @@
                                              <button type="submit" class="btn btn-block btn-sm btn-info">Report Problem To Department</button>
                                           
                                            </form>
+                                           <% }%>
                                           
                                           </td>
                                         </tr>
@@ -282,6 +287,7 @@
                
               
                 </div>
+                <%}%>
               </div>
             </div>
         
@@ -313,12 +319,12 @@
                              <span aria-hidden="true">&times;</span>
                            </button>
                          </div>
-                     <div class="form-group">
+                     <div class="form-group" style="display: none;">
                    
                       <input type="hidden" name="programtag" id="programtag" value="<%= programtag %>">
                       <input type="hidden" name="deptid" id="deptid" value="<%= deptid %>">
                       <input type="hidden" name="batchid" id="batchid" value="<%= batchid %>">
-                      <div class="form-group">
+                      <div class="form-group" style="display: none;">
                         <label>select class name</label>
                         <select class="form-control" name="classidm" id="classid">
                           <option value="0"> Please select class name</option>
@@ -347,6 +353,7 @@
                             <thead>
                               <tr>
                                 <td></td>
+                                <td></td>
                                 <th>#</th>
                                 
                                 <th>Student ID  </th>
@@ -367,29 +374,41 @@
                                       <% var name = JSON.parse(JSON.stringify(row.personal_info)) %>
   <% var courseids = row.course_id %>                            
           <% console.log(name) %>
-                                      <tr>
-                                        <td><div style="display: none;">
-                                          <%= row.trainee_id %>
-                                        </div></td>
-                                          <td><%= i %></td>
-                                          
-                                          <td ><%= row.student_unique_id %></td>
-                                          <td><%= name.firstname  %>&nbsp;<%= name.middlename  %></td>
-                                          
-                                          <td><%var gen =  name.gender %><%= gen=="m"?"Male":"Female" %></td>
-                                        
-                                           <td>
-                                              <% if(courseid.length >0) {%>
-                                                <% courseid.forEach(function (row){ %>
-                                                 <% if(courseids == row.course_id) { %>
-                                                  <%= row.course_name %>
+          <% if(row.is_confirm_registrar == "Yes") {%>
+                                         
+            <% }else{%>
+              <tr>
+                                              
+                <td><div style="display: none;">
+                  <%= row.trainee_id %>
+                </div></td>
+                <td><div style="display: none;">
+                  <%= row.class_id %>
+                </div></td>
+                <td><div style="display: none;">
+                  <%= row.course_id %>
+                </div></td>
+                  <td><%= i %></td>
+                  
+                  <td ><%= row.student_unique_id %></td>
+                  <td><%= name.firstname  %>&nbsp;<%= name.middlename  %></td>
+                  
+                  <td><%var gen =  name.gender %><%= gen=="m"?"Male":"Female" %></td>
+                
+                  <td>
+                      <% if(courseid.length >0) {%>
+                        <% courseid.forEach(function (row){ %>
+                        <% if(courseids == row.course_id) { %>
+                          <%= row.course_name %>
 
-                                               <%} })}else {}%>
-                                            </td>
-                                          <td><%= row.grade_in_latter %> </td>
-                                          <td> <%= row.grade_in_point %></td>
-                                      
-                                      </tr>
+                      <%} })}else {}%>
+                    </td>
+                  <td><%= row.grade_in_latter %> </td>
+                  <td> <%= row.grade_in_point %></td>
+              
+              </tr>
+              <%}%>                           
+          
                                    <%  })} else{}     %>
                                
                           </tbody>
@@ -429,7 +448,7 @@
         $('#tablesend tr').each(function (row, tr) {
          
           var currentRow=$(this);
-          var col =currentRow.find("td:eq(1)").text();
+          var col =currentRow.find("td:eq(2)").text();
 if(!col.length )
 {
 
@@ -437,9 +456,9 @@ if(!col.length )
 else{
 var col1_value= currentRow.find("td:eq(0)").text();
 var col2_value=document.getElementById('deptid').value;
-var col3_value=currentRow.find("td:eq(5)").text();
+var col3_value=currentRow.find("td:eq(2)").text();
 var col4_value=document.getElementById('batchid').value;
-var col5_value=document.getElementById('classid').value;
+var col5_value=currentRow.find("td:eq(1)").text();
 
 
 
@@ -450,7 +469,7 @@ obj.department_id=col2_value.trim();
 obj.class_id=col5_value.trim();
 obj.student_id=col1_value.trim();
 obj.course_id=col3_value.trim();
-obj.is_confirm_department="Yes";
+obj.is_confirm_registrar="Yes";
 
 
 
@@ -462,7 +481,7 @@ console.log(obj);
 
         });
       // first row will be empty - so remove
-        return TableData;
+       // return TableData;
     }
 
     function convertArrayToJSON()
@@ -487,7 +506,7 @@ var msg = document.getElementById("msg");
 
 x.style.display = "block";
 x.className="alert alert-success alert-dismissible fade show";
-msg.innerHTML="You are successfully sent student grade data to registrar!";
+msg.innerHTML="You Are Successfully Update Student Grade Report Accepted By Registrar!";
 setTimeout(function(){// wait for 5 secs(2)
 location.reload(); // then reload the page.(3)
 }, 1000); 
@@ -498,7 +517,7 @@ else{
 var msg = document.getElementById("msg");
 x.style.display = "block";
 x.className="alert alert-danger alert-dismissible fade show";
-msg.innerHTML="Something is wrong please try later!"
+msg.innerHTML="Something Is Wrong Please Try Later!"
 setTimeout(function(){// wait for 5 secs(2)
 location.reload(); // then reload the page.(3)
 }, 1000); 
@@ -547,20 +566,47 @@ location.reload(); // then reload the page.(3)
 <script src="../../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
+  $(document).ready(function() {
+$('.js-example-basic-single').select2();
+});
+</script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": true, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      "responsive": false, "lengthChange": true, "autoWidth": false  ,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' )
+                        .prepend(
+                            '<img src="" style="position:absolute; top:0; left:0;" />'
+                            
+                            );
+ 
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' );
+                },
+                title: function() {
+    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+   " <td > <h4>  Organization Name <br> Selam Technical And Vocational Collage <br> Staff Member List</h4> </td> </tr> </table>"
+              
+  } ,
+
+                
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: true
+        }]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
   });
 </script>
 </body>

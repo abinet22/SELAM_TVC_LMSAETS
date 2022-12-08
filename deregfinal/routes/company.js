@@ -38,15 +38,16 @@ router.post('/addnewcompany',ensureAuthenticated,async function(req,res){
         placementinfo,generalinfo,contactname,contactphone,postalcode,noofemployee,businesscategory,
         fairlabourscore,istherefairlabour} = req.body;
 let errors = [];
-if(!req.file){
-    console.log("No File!")
-        }
-if(companyname){
-errors.push({msg:'please enter all the required fields'})
+
+if(!companyname ||!region ||!woredakebele ||!zonesubcity ||!hno ||!phoneone ||!contactname ||!contactphone ||!postalcode ||!noofemployee){
+errors.push({msg:'Please Enter All Required Fields'})
+}
+if(businesscategory == "0"){
+    errors.push({msg:'Please Select Business Category'})
 }
 if(errors.length >0){
 res.render('addnewcompany',{
-    error_msg:'Please enter all the required fields'
+   errors
 })
 }
 const v1options = {

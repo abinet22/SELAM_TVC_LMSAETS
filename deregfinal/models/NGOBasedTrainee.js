@@ -98,6 +98,13 @@ module.exports = (sequelize, DataTypes) => {
         payment_info: {
             type: DataTypes.STRING,
         },
+        is_pass_coc :{
+            type:DataTypes.STRING,
+        },
+        is_send_to_jbs:{
+            type:DataTypes.STRING,
+        }
+        
                
     });
   

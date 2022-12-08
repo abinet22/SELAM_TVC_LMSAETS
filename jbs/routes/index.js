@@ -22,15 +22,49 @@ const passport = require('passport');
 const { v4: uuidv4 } = require('uuid');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 const IndustryBasedTraining = require('../models/IndustryBasedTraining');
+const JBSStudentData = db.jbsstudentdatas;
 
 router.get('/', forwardAuthenticated, (req, res) => res.render('login'));
 router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
-router.get('/dashboard', ensureAuthenticated, (req, res) => res.render('dashboard'));
+router.get('/dashboard', ensureAuthenticated, async function (req, res){
+  const currentYear = new Date().getFullYear();
+console.log(currentYear); // 👉️2022
 
+const firstDay = new Date(currentYear, 0, 1);
+console.log(firstDay); // 👉️ Sat Jan 01 2022
+const lyfirstDay = new Date(currentYear-1, 0, 1);
+const lastDay = new Date(currentYear, 11, 31);
+console.log(lyfirstDay);
+console.log(firstDay);
+console.log(lastDay);
+  const tyjbsdata=  await JBSStudentData.count({where: {
+    createdAt: {
+      [Op.and]: {
+        [Op.gte]: firstDay,
+        [Op.lte]: lastDay
+      }
+    }
+} });
+const lyjbsdata=  await JBSStudentData.count({where: {
+  createdAt: {
+    [Op.and]: {
+      [Op.gte]: lyfirstDay,
+      [Op.lte]: firstDay
+    }
+  }
+} });
+const total = await JBSStudentData.count({});
+ 
+  res.render('dashboard',{
+    lyjbsdata:lyjbsdata,
+    tyjbsdata:tyjbsdata,
+    total:total
+  })
+} );
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
-        successRedirect: '/dashboard',
-        failureRedirect: '/login',
+        successRedirect: '/jbs/dashboard',
+        failureRedirect: '/jbs/login',
         failureFlash: true
     })(req, res, next);
 });
@@ -39,20 +73,20 @@ router.post('/login', (req, res, next) => {
 router.get('/logout', (req, res) => {
     req.logout();
     req.flash('success_msg', 'You are logged out');
-    res.redirect('/login');
+    res.redirect('/jbs/login');
 });
 router.get('/createdataencoder',async function(req, res)  {
-    const stafflist = await StaffList.findAll({where:{isteacher:"No"}});
+    const stafflist = await StaffList.findAll({});
   res.render('createdataencoder',{stafflist:stafflist})
 });
 router.get('/alldataencoderlist',ensureAuthenticated,async function(req,res){
     const userlist = await User.findAll({where:{userroll:"JBS_DATA_ENCODER"}});
-    res.render('alldataencoderlist',{userlist:userlist})
+    res.render('alldataencoderlist',{userlist:userlist,tag:"All"})
 })
 router.post('/addnewregistrardataencoder', ensureAuthenticated,async function (req, res, next) {
 
     const {userroll,staffmember,username,password,repassword} = req.body;
-    const stafflist = await StaffList.findAll({where:{isteacher:"No"}});
+    const stafflist = await StaffList.findAll({});
      let errors =[];
    if(userroll =="0" || staffmember =="0" || !username || !password || !repassword){
        errors.push({msg:'please enter all required field values'})
@@ -62,7 +96,7 @@ router.post('/addnewregistrardataencoder', ensureAuthenticated,async function (r
    }
     if (errors.length > 0) {
         res.render('createdataencoder', {
-            error_msg:'Please enter all the required fields',
+            errors,
             stafflist:stafflist,
                  });
     } else {
@@ -140,42 +174,9 @@ router.post('/addnewregistrardataencoder', ensureAuthenticated,async function (r
         
     })
       });
-      router.get('/statistics',ensureAuthenticated,async function(req, res)  {
-        const [traineebatch, classevalmeta] = await sequelize.query(
-            "SELECT batches.batch_name,count(levelbasedtrainees.trainee_id) as total FROM levelbasedtrainees inner join batches on batches.batch_id=levelbasedtrainees.batch_id group by batches.batch_name  "
-          );
-        res.render('statistics',{
-            traineebatch:traineebatch
-        })
-    });
 
-router.get('/report',ensureAuthenticated,async function(req,res){
-   
-  const batch = await Batch.count();
-  const lbbatch = await LevelBasedProgram.count();
-  const ibbatch = await IndustryBasedProgram.count();
-  const nbbatch = await NGOBasedProgram.count();
-  const dpt = await Department.count();
-  const [deptcat, deptcatmeta] = await sequelize.query(
- "SELECT departments.department_name,count(levelbasedtrainees.department_id) as total FROM levelbasedtrainees inner join departments" +
-"  on departments.department_id = levelbasedtrainees.department_id group by department_name");
-  const trainee = await LevelBasedTrainee.count({});
-  const graduated = await LevelBasedTrainee.count({where:{is_graduated:"Yes"}});
-  const ontrainee = await LevelBasedTrainee.count({where:{is_graduated:"No"}});
-  const dropout = await LevelBasedTrainee.count({where:{is_graduated:"No",is_dropout:"Yes"}});
-res.render('report',{batch:batch,
- lbbatch:lbbatch,
- nbbatch:nbbatch,
- ibbatch,ibbatch,
- dpt:dpt,
- deptcat,deptcat,
- trainee:trainee,
- graduated:graduated,
- dropout:dropout,
- ontrainee:ontrainee
 
-})
-})
+
 router.get('/searchsinglestudentdata',ensureAuthenticated,async function(req,res){
   
   res.render('searchsingleuserdata')

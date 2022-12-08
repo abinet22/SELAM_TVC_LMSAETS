@@ -43,7 +43,7 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
+          <span class="badge badge-warning navbar-badge">0</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">15 Notifications</span>
@@ -168,7 +168,13 @@
                                           <tr>
                                            
                                               <td><%= r %></td>
-                                              <td><%= row.batch_name %></td>
+                                              <td>
+                                                <label style="text-transform: capitalize;">
+                                                  <%= row.batch_name %>
+                                                </label>
+                                               
+                                              
+                                              </td>
                                               <td><%= row.program_description %></td>
                                               <td><% var trainingnames =[];
                                                   var abc ;
@@ -179,9 +185,8 @@
                                                       <% var nameid =  trainingnames[j]; %>
                                                     
                                                       <label class="form-check-label">
-                                                          <input type="checkbox" class="form-check-input" checked="">
-                                                          <%= trainingnames[j] %>
-                                                        <i class="input-helper"></i></label>
+                                                        <%= trainingnames[j] %>&nbsp; ,   
+                                                      </label>
                                                  <% } %>
                                                  
                                                  
@@ -191,9 +196,10 @@
                                                     %>
                                                     <% for(var j =0 ; j< traininglevels.length ;j++) { %>
                                                     <label class="form-check-label">
-                                                      <input type="checkbox" class="form-check-input" checked="">
-                                                      <%= traininglevels[j] %>
-                                                    <i class="input-helper"></i></label>
+                                                   
+                                                      <%= traininglevels[j] %>&nbsp; ,   
+                                                  
+                                                  </label>
                                                  <% } %>
                                                   </td>
                                                   <td><% var trainingtype =[];
@@ -201,9 +207,9 @@
                                                     %>
                                                     <% for(var j =0 ; j< trainingtype.length ;j++) { %>
                                                     <label class="form-check-label">
-                                                      <input type="checkbox" class="form-check-input" checked="">
-                                                      <%= trainingtype[j] %>
-                                                    <i class="input-helper"></i></label>
+                                                   
+                                                      <%= trainingtype[j] %>&nbsp; ,   
+                                                    </label>
                                                  <% } %>
                                                   </td>
                                          
@@ -339,18 +345,37 @@
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      "responsive": false, "lengthChange": true, "autoWidth": false  ,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' )
+                        .prepend(
+                            '<img src="" style="position:absolute; top:0; left:0;" />'
+                            
+                            );
+ 
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' );
+                },
+                title: function() {
+    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+   " <td > <h4>  Organization Name <br> Selam Technical And Vocational Collage <br>  Level Based Batch List</h4> </td> </tr> </table>"
+              
+  } ,
+
+                
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: true
+        }]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
   });
 </script>
 </body>

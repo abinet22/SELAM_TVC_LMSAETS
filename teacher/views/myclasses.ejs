@@ -20,64 +20,7 @@
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="/teacher/dashboard" class="nav-link">Home</a>
-      </li>
-   
-    </ul>
-
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-      <!-- Navbar Search -->
-     
-
-      <!-- Messages Dropdown Menu -->
-  
-      <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link"   href="/teacher/logout" role="button">
-          Logout
-        </a>
-      </li>
-    </ul>
-  </nav>
+  <%- include('./partials/top') %>
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
@@ -113,10 +56,11 @@
         <div class="col-md-12">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h4 class="card-title">My Section List</h4>
+                    <h4 class="card-title">My Section List</h4><br>
+                    <h4 class="" style="text-transform: uppercase;">Batch: &nbsp;<%= batchinfo.batch_name %></h4>
                 </div>
               <div class="card-body">
-               
+                
                 <div class="col-md-12  grid-margin stretch-card">     <div class="">
                     <div class="">
                    
@@ -162,15 +106,15 @@
                                           <td>
                                             <% var curcls = row.class_id %>
                                             <% if(programtag =="level" ){ %>
-                                              <form action="/teacher/trainee/showclassstudentlevel/<%= row.class_id %>" method="post">
+                                              <form action="/trainer/trainee/showclassstudentlevel/<%= row.class_id %>" method="post">
                                                 <input type="hidden" name="level"  value="<%= row.training_level %>">
                                                 <input type="hidden" name="programtype" value="<%= row.training_type %>">
                                                 <input type="hidden" name="dpt" value="<%= row.department_id %>">
                                                 <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                                 <div class="form-group">
-                                                  <label>Select Course</label>
+                                                  
                                                   <select class="form-control" name="courseid">
-                                                    <option value="0">please select course</option>
+                                                    <option value="0">Please Select Course</option>
                                                     <% if(course.length > 0 ){ %>
                                                       <% course.forEach(function (row){ %>
                                                       <% var cls = row.class_id %>
@@ -187,15 +131,15 @@
                                                </form>
                                               
                                              <% } else if(programtag =="ngo"){ %>
-                                              <form action="/teacher/trainee/showclassstudentngo/<%= row.class_id %>" method="post">
+                                              <form action="/trainer/trainee/showclassstudentngo/<%= row.class_id %>" method="post">
                                                 <input type="hidden" name="level"  value="<%= row.training_level %>">
                                                 <input type="hidden" name="programtype" value="<%= row.training_type %>">
                                                 <input type="hidden" name="dpt" value="<%= row.department_id %>">
                                                 <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                                 <div class="form-group">
-                                                  <label>Select Course</label>
+                                                 
                                                   <select class="form-control" name="courseid">
-                                                    <option value="0">please select course</option>
+                                                    <option value="0">Please Select Course</option>
                                                     <% if(course.length > 0 ){ %>
                                                       <% course.forEach(function (row){ %>
                                                       <% var cls = row.class_id %>
@@ -211,15 +155,15 @@
                                                  </div>
                                                </form>
                                            <%  }else if(programtag =="industry") { %>
-                                            <form action="/teacher/trainee/showclassstudentindustry/<%= row.class_id %>" method="post">
+                                            <form action="/trainer/trainee/showclassstudentindustry/<%= row.class_id %>" method="post">
                                               <input type="hidden" name="level"  value="<%= row.training_level %>">
                                               <input type="hidden" name="programtype" value="<%= row.training_type %>">
                                               <input type="hidden" name="dpt" value="<%= row.department_id %>">
                                               <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                               <div class="form-group">
-                                                <label>Select Course</label>
+                                               
                                                 <select class="form-control" name="courseid">
-                                                  <option value="0">please select course</option>
+                                                  <option value="0">Please Select Course</option>
                                                   <% if(course.length > 0 ){ %>
                                                     <% course.forEach(function (row){ %>
                                                     <% var cls = row.class_id %>
@@ -239,15 +183,15 @@
                                             </td>
                                             <td>
                                               <% if(programtag =="level" ){ %>
-                                                <form action="/teacher/trainee/generatecoursegradelevelbased/<%= row.class_id %>" method="post">
+                                                <form action="/trainer/trainee/generatecoursegradelevelbased/<%= row.class_id %>" method="post">
                                                   <input type="hidden" name="level"  value="<%= row.training_level %>">
                                                   <input type="hidden" name="programtype" value="<%= row.training_type %>">
                                                   <input type="hidden" name="dpt" value="<%= row.department_id %>">
                                                   <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                                   <div class="form-group">
-                                                    <label>Select Course</label>
+                                                  
                                                     <select class="form-control" name="courseid">
-                                                      <option value="0">please select course</option>
+                                                      <option value="0">Please Select Course</option>
                                                       <% if(course.length > 0 ){ %>
                                                         <% course.forEach(function (row){ %>
                                                         <% var cls = row.class_id %>
@@ -263,15 +207,15 @@
                                                    </div>
                                                  </form>
                                                <% } else if(programtag =="ngo"){ %>
-                                                <form action="/teacher/trainee/generatecoursegradengobased/<%= row.class_id %>" method="post">
+                                                <form action="/trainer/trainee/generatecoursegradengobased/<%= row.class_id %>" method="post">
                                                   <input type="hidden" name="level"  value="<%= row.training_level %>">
                                                   <input type="hidden" name="programtype" value="<%= row.training_type %>">
                                                   <input type="hidden" name="dpt" value="<%= row.department_id %>">
                                                   <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                                   <div class="form-group">
-                                                    <label>Select Course</label>
+                                                   
                                                     <select class="form-control" name="courseid">
-                                                      <option value="0">please select course</option>
+                                                      <option value="0">Please Select Course</option>
                                                       <% if(course.length > 0 ){ %>
                                                         <% course.forEach(function (row){ %>
                                                         <% var cls = row.class_id %>
@@ -287,15 +231,15 @@
                                                    </div>
                                                  </form>
                                              <%  }else if(programtag =="industry") { %>
-                                              <form action="/teacher/trainee/generatecoursegradeindustrybased/<%= row.class_id %>" method="post">
+                                              <form action="/trainer/trainee/generatecoursegradeindustrybased/<%= row.class_id %>" method="post">
                                                 <input type="hidden" name="level"  value="<%= row.training_level %>">
                                                 <input type="hidden" name="programtype" value="<%= row.training_type %>">
                                                 <input type="hidden" name="dpt" value="<%= row.department_id %>">
                                                 <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                                 <div class="form-group">
-                                                  <label>Select Course</label>
+                                                 
                                                   <select class="form-control" name="courseid">
-                                                    <option value="0">please select course</option>
+                                                    <option value="0">Please Select Course</option>
                                                     <% if(course.length > 0 ){ %>
                                                       <% course.forEach(function (row){ %>
                                                       <% var cls = row.class_id %>
@@ -382,18 +326,37 @@
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      "responsive": false, "lengthChange": true, "autoWidth": true,"width":400,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' )
+                        .prepend(
+                            '<img src="" style="position:absolute; top:0; left:0;" />'
+                            
+                            );
+ 
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' );
+                },
+                title: function() {
+    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+   " <td > <h4>  Organization Name <br> Selam David Roeschli Technical And Vocational College <br> Batch Occupation Based Section List</h4> </td> </tr> </table>"
+              
+  } ,
+
+                
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: true
+        }]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
   });
 </script>
 </body>

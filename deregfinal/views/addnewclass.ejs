@@ -142,9 +142,9 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="exampleInputConfirmPassword1">Program Name</label>
+                                                    <label for="exampleInputConfirmPassword1">Program/Batch/ Name</label>
                                                     <select class="form-control" id="batchid" name="batchid">
-                                                     <option value="0">please select training program name</option>
+                                                     <option value="0">please Select Batch name</option>
                                                      <% if(levelbased.length >0) {%>
                                                       <% levelbased.forEach(function (row){ %>
                                                         <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
@@ -157,7 +157,7 @@
                                                 <div class="form-group">
                                                     <label for="exampleInputConfirmPassword1">Occupation Name</label>
                                                     <select class="form-control" id="deptid" name="deptid">
-                                                     <option value="0">please select occupation name</option>
+                                                     <option value="0">Please Select Occupation Name</option>
                                                     
                                                      <% if(department.length >0) {%>
                                                         <% department.forEach(function (row){ %>
@@ -175,7 +175,7 @@
                                         <div class="form-group">
                                             <label for="exampleInputConfirmPassword1">Training Type </label>
                                             <select class="form-control" id="programtype" name="programtype">
-                                             <option value="0">please select training program type</option>
+                                             <option value="0">Please Select Training Program type</option>
                                              <option value="Regular">Regular</option>
                                              <option value="Extension">Extension</option>
                                            
@@ -186,7 +186,7 @@
                                         <div class="form-group">
                                             <label for="exampleInputConfirmPassword1">Training Level</label>
                                             <select class="form-control" id="level" name="level">
-                                             <option value="0">Please select training level</option>
+                                             <option value="0">Please Select Training Level</option>
                                              <option value="Level_1">Level_1</option>
                                              <option value="Level_2">Level_2</option>
                                              <option value="Level_3">Level_3</option>
@@ -202,26 +202,28 @@
                                   
                                     <div class="form-group">
                                       <label for="exampleInputUsername1">Number Of Class </label>
-                                      <input type="text" class="form-control" id="noofclass" name="noofclass" placeholder="Number Of Class">
+                                      <input  autocomplete="off"  type="number" min="1" max="15" class="form-control" id="noofclass" name="noofclass" placeholder="Number Of Class">
                                     </div>
                                    
                                       <div class="form-group">
                                         <div class="input-group">
                                           <div class="input-group-prepend">
-                                            <button class="btn btn-sm form-control" id="addngo" style="background-color: #f48d5b;" type="button">Add Class Name</button>
+                                            <button class="btn btn-sm btn-info form-control" id="addngo" type="button">Add Class Name</button>
                                       
                                           </div>
                                           
                                         
-                                        <input type="text" class="form-control" name="classname" id="classname" placeholder="Class Name">
+                                        <input type="text" autocomplete="off" class="form-control" name="classname" id="classname" placeholder="Class Name">
                                          
                                         </div>
                                       </div>
                                       <input type="hidden" id="criteriango" name="criteriango">
                                    
                                           <div class="row">
+                                            <button class="btn btn-link btn-sm" type="button"  onclick="removeallclasslistl();">Clear Class Name</button>
+                                             
                                             <div class="col-md-6 offset-md-4 form-check form-check-primary">
-                                              <ul class="" id="listlevel">
+                                              <ul class="" id="listclassl">
                                                 <label>Class Name List<code></code><i class="input-helper"></i></label>
                                               </ul>
                                             </div>
@@ -232,9 +234,25 @@
                          var criteria2 =[];
                       
                                         var criid2 =1 ;
+                                        function removeallclasslistl(){
+                                          criteria2 =[]; 
+                                  criid2=1;
+                                  $('#criteriango').val( JSON.stringify(criteria2) );
+                                  document.getElementById("classname").value ="";
+                                  var nolo =document.getElementById("noofclass").value;
+                                  var addlos = document.getElementById('listclassl');
+                                  var item = document.getElementById('classlistl');
+                                  for(f=0;f<= nolo ; f++){
+                                    addlos.removeChild(item);
+                                  }
+                                 
+                                  console.log(JSON.stringify(lolistdata) );  
+                                 
+                                }
                                         $("#addngo").on("click", function(e){
+                                          var classnasdsd = document.getElementById("classname").value;
                                           var noofclass = document.getElementById("noofclass").value;
-                                          if(criid2 <= noofclass){
+                                          if(criid2 <= noofclass && classnasdsd){
                                        
                                        var criname2 = document.getElementById("classname").value;
                                        var programtype = document.getElementById("programtype").value;
@@ -248,7 +266,7 @@
                                        $('#criteriango').val( JSON.stringify(criteria2) );
                                      console.log( JSON.stringify(criteria2) );
                           
-                    $("#listlevel").append("<li><input type='checkbox' id="+ checkboxvalue2 +" class='form-check-input' checked >" + classname + "</li>");
+                    $("#listclassl").append("<li  id='classlistl'><input type='checkbox' id="+ checkboxvalue2 +" class='form-check-input' checked >" + classname + "</li>");
                     criid2 ++ ;
                     return false;
                     
@@ -268,9 +286,9 @@
                                       <div class="row">
                                         <div class="col-md-6">
                                           <div class="form-group">
-                                            <label for="exampleInputConfirmPassword1">Program Name</label>
+                                            <label for="exampleInputConfirmPassword1">Program/Batch/ Name</label>
                                             <select class="form-control" id="batchid" name="batchid">
-                                             <option value="0">please select training program name</option>
+                                              <option value="0">Please Select Batch Name</option>
                                              <% if(ngobased.length >0) {%>
                                               <% ngobased.forEach(function (row){ %>
                                                 <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
@@ -283,7 +301,7 @@
                                           <div class="form-group">
                                             <label for="exampleInputConfirmPassword1">Occupation Name</label>
                                             <select class="form-control" id="deptidn" name="deptid">
-                                             <option value="0">please select occupation name</option>
+                                             <option value="0">Please Select Occupation Name</option>
                                             
                                              <% if(department.length >0) {%>
                                               <% department.forEach(function (row){ %>
@@ -300,7 +318,7 @@
                                     <div class="form-group">
                                       <label for="exampleInputConfirmPassword1">Training Type </label>
                                       <select class="form-control" id="programtypen" name="programtype">
-                                       <option value="0">please select training program type</option>
+                                        <option value="0">Please Select Training Program Type</option>
                                        <option value="Regular">Regular</option>
                                        <option value="Extension">Extension</option>
                                        <option value="Short_Term">Short Term</option>
@@ -310,24 +328,26 @@
                                     
                                     <div class="form-group">
                                       <label for="exampleInputUsername1">Number Of Class </label>
-                                      <input type="text" class="form-control" id="noofclassn" name="noofclassn" placeholder="Number Of Class">
+                                      <input type="number" max="12" min="1" class="form-control" autocomplete="off" id="noofclassn" name="noofclassn" placeholder="Number Of Class">
                                     </div>
                                    
                                       <div class="form-group">
                                         <div class="input-group">
                                           <div class="input-group-prepend">
-                                            <button class="btn btn-sm form-control" id="add" style="background-color: #f48d5b;" type="button">Add Class Name</button>
+                                            <button class="btn btn-sm btn-info form-control" id="add"  type="button">Add Class Name</button>
                                       
                                           </div>
                                           
                                         
-                                        <input type="text" class="form-control" name="classnamen" id="classnamen" placeholder="Class Name">
+                                        <input type="text" class="form-control" autocomplete="off" name="classnamen" id="classnamen" placeholder="Class Name">
                                          
                                         </div>
                                       </div>
                                       <input type="hidden" id="criteriango2" name="criteriango2">
                                    
                                           <div class="row">
+                                            <button class="btn btn-link btn-sm" type="button"  onclick="removeallclasslistn();">Clear Class Name</button>
+                                             
                                             <div class="col-md-6 offset-md-4 form-check form-check-primary">
                                               <ul class="" id="listngo">
                                                 <label>Class Name List<code></code><i class="input-helper"></i></label>
@@ -340,10 +360,26 @@
                          var criteria =[];
                       
                                         var criid =1 ;
+                                        function removeallclasslistn(){
+                                          criteria =[]; 
+                                  criid=1;
+                                  $('#criteriango2').val( JSON.stringify(criteria) );
+                                  document.getElementById("classnamen").value ="";
+                                  var nolo =document.getElementById("noofclassn").value;
+                                  var addlos = document.getElementById('listngo');
+                                  var item = document.getElementById('classlistn');
+                                  for(f=0;f<= nolo ; f++){
+                                    addlos.removeChild(item);
+                                  }
+                                 
+                                  console.log(JSON.stringify(lolistdata) );  
+                                 
+                                }
                                         $("#add").on("click", function(e){
+                                          var crinamesds = document.getElementById("classnamen").value;
                                           var noofclassn = document.getElementById("noofclassn").value;
                                           console.log(noofclassn)
-                                          if(criid <= noofclassn){
+                                          if(criid <= noofclassn && crinamesds){
                                        
                                        var criname = document.getElementById("classnamen").value;
                                        var programtypen = document.getElementById("programtypen").value;
@@ -356,7 +392,7 @@
                                        $('#criteriango2').val( JSON.stringify(criteria) );
                                      console.log( JSON.stringify(criteria) );
                           
-                    $("#listngo").append("<li><input type='checkbox' id="+ checkboxvalue +" class='form-check-input' checked >" + classnamen + "</li>");
+                    $("#listngo").append("<li id='classlistn'><input type='checkbox' id="+ checkboxvalue +" class='form-check-input' checked >" + classnamen + "</li>");
                     criid ++ ;
                     return false;
                     
@@ -376,9 +412,9 @@
                                       <div class="row">
                                         <div class="col-md-6">
                                           <div class="form-group">
-                                            <label for="exampleInputConfirmPassword1">Program Name</label>
+                                            <label for="exampleInputConfirmPassword1">Program/Batch/ Name</label>
                                             <select class="form-control" id="batchidi" name="batchid">
-                                             <option value="0">please select training program name</option>
+                                             <option value="0">Please Select  Batch Name</option>
                                              <% if(industrybased.length >0) {%>
                                               <% industrybased.forEach(function (row){ %>
                                                 <option value="<%= row.batch_id %>"><%= row.batch_name %></option>
@@ -391,7 +427,7 @@
                                           <div class="form-group">
                                             <label for="exampleInputConfirmPassword1">Occupation Name</label>
                                             <select class="form-control" id="deptidi" name="deptid">
-                                             <option value="0">please select occupation name</option>
+                                             <option value="0">Please Select Occupation Name</option>
                                             
                                              <% if(department.length >0) {%>
                                               <% department.forEach(function (row){ %>
@@ -408,7 +444,7 @@
                                     <div class="form-group">
                                       <label for="exampleInputConfirmPassword1">Training Type </label>
                                       <select class="form-control" id="programtypei" name="programtype">
-                                       <option value="0">please select training program type</option>
+                                       <option value="0">Please Select Training Program Type</option>
                                        <option value="Regular">Regular</option>
                                        <option value="Extension">Extension</option>
                                        <option value="Short_Term">Short Term</option>
@@ -418,24 +454,26 @@
                                     
                                     <div class="form-group">
                                       <label for="exampleInputUsername1">Number Of Class </label>
-                                      <input type="text" class="form-control" id="noofclassi" name="noofclassi" placeholder="Number Of Class">
+                                      <input type="number" min="1" max="12" class="form-control" id="noofclassi" name="noofclassi" placeholder="Number Of Class">
                                     </div>
                                    
                                       <div class="form-group">
                                         <div class="input-group">
                                           <div class="input-group-prepend">
-                                            <button class="btn btn-sm form-control" id="addindustry" style="background-color: #f48d5b;" type="button">Add Class Name</button>
+                                            <button class="btn btn-sm btn-info form-control" id="addindustry" type="button">Add Class Name</button>
                                       
                                           </div>
                                           
                                         
-                                        <input type="text" class="form-control" name="classnamei" id="classnamei" placeholder="Class Name">
+                                        <input type="text" autocomplete="off" class="form-control" name="classnamei" id="classnamei" placeholder="Class Name">
                                          
                                         </div>
                                       </div>
                                       <input type="hidden" id="criteriai" name="criteriai">
                                    
                                           <div class="row">
+                                            <button class="btn btn-link btn-sm" type="button"  onclick="removeallclasslisti();">Clear Class Name</button>
+                                             
                                             <div class="col-md-6 offset-md-4 form-check form-check-primary">
                                               <ul class="" id="listindustry">
                                                 <label>Class Name List<code></code><i class="input-helper"></i></label>
@@ -448,10 +486,26 @@
                          var criteriai =[];
                       
                                         var criidi =1 ;
+                                        function removeallclasslisti(){
+                                          criteriai =[]; 
+                                  criidi=1;
+                                  $('#criteriai').val( JSON.stringify(criteriai) );
+                                  document.getElementById("classnamen").value ="";
+                                  var nolo =document.getElementById("noofclassi").value;
+                                  var addlos = document.getElementById('listindustry');
+                                  var item = document.getElementById('classlisti');
+                                  for(f=0;f<= nolo ; f++){
+                                    addlos.removeChild(item);
+                                  }
+                                 
+                                  console.log(JSON.stringify(lolistdata) );  
+                                 
+                                }
                                         $("#addindustry").on("click", function(e){
                                           var noofclassn = document.getElementById("noofclassi").value;
+                                          var crinamess = document.getElementById("classnamei").value;
                                           console.log(noofclassn)
-                                          if(criidi <= noofclassn){
+                                          if(criidi <= noofclassn && crinamess){
                                        
                                        var criname = document.getElementById("classnamei").value;
                                        var programtypen = document.getElementById("programtypei").value;
@@ -464,7 +518,7 @@
                                        $('#criteriai').val( JSON.stringify(criteriai) );
                                      console.log( JSON.stringify(criteriai) );
                           
-                    $("#listindustry").append("<li><input type='checkbox' id="+ checkboxvalue +" class='form-check-input' checked >" + classnamen + "</li>");
+                    $("#listindustry").append("<li id='classlisti'><input type='checkbox' id="+ checkboxvalue +" class='form-check-input' checked >" + classnamen + "</li>");
                     criidi ++ ;
                     return false;
                     

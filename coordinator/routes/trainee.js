@@ -122,34 +122,34 @@ router.post('/generatecoursegradeindustrybased/(:classname)',ensureAuthenticated
 
 
 router.post('/findmyclasstoevaluatecourselevel',ensureAuthenticated,async function(req,res){
-     const{batchid,dept,level} = req.body;
+     const{batchid,occupationid,level} = req.body;
     
      const [results, metadata] = await sequelize.query(
-      "SELECT * from classindepts where department_id='"+dept+"' and training_level='"+level+"'");  
+      "SELECT * from classindepts where department_id='"+occupationid+"' and batch_id='"+batchid+"' and training_level='"+level+"'");  
  
       const [course, metadatacourse] = await sequelize.query(
-        "SELECT * from courses where department_id='"+dept+"' and training_level='"+level+"' " );     
+        "SELECT * from courses where department_id='"+occupationid+"' and training_level='"+level+"' " );     
       console.log(results)
      res.render('myclasses',{classlist:results,course:course,programtag:"level"})
 });
 router.post('/findmyclasstoevaluatecoursengo',ensureAuthenticated,async function(req,res){
-  const{batchid,dept} = req.body;
+  const{batchid,occupationid} = req.body;
  
   const [results, metadata] = await sequelize.query(
-     "SELECT * from classindepts where department_id='"+dept+"' and batch_id='"+batchid+"'");  
+     "SELECT * from classindepts where department_id='"+occupationid+"' and batch_id='"+batchid+"'");  
    const [course, metadatacourse] = await sequelize.query(
-     "SELECT * from ngocourses where batch_id='"+batchid+"' and department_id='"+dept+"'" );     
+     "SELECT * from ngocourses where batch_id='"+batchid+"' and department_id='"+occupationid+"'" );     
    console.log(results)
   res.render('myclasses',{classlist:results,course:course,programtag:"ngo"})
 });
 router.post('/findmyclasstoevaluatecourseindustry',ensureAuthenticated,async function(req,res){
-  const{batchid,dept} = req.body;
+  const{batchid,occupationid} = req.body;
  
   const [results, metadata] = await sequelize.query(
-    "SELECT * from classindepts where department_id='"+dept+"' and batch_id='"+batchid+"'");  
+    "SELECT * from classindepts where department_id='"+occupationid+"' and batch_id='"+batchid+"'");  
  
    const [course, metadatacourse] = await sequelize.query(
-     "SELECT * FROM industrycourses where  batch_id='"+batchid+"' and department_id='"+dept+"'" );     
+     "SELECT * FROM industrycourses where  batch_id='"+batchid+"' and department_id='"+occupationid+"'" );     
    console.log(course)
   res.render('myclasses',{classlist:results,course:course,programtag:"industry"})
 });

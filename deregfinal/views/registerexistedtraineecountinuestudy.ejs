@@ -124,11 +124,13 @@
                       <!-- Profile Image -->
                       <div class="card card-primary card-outline" >
                         <div class="card-body box-profile">
-                          <div class="text-center" id="preimage" style="display: none;">
-                            <img class="profile-user-img img-fluid img-circle" id="appphoto" src="" alt="User profile picture">
+                          <div class="text-center" id="preimage" >
+                            <%  dataphotos = 	'data:image/png;base64,' + new Buffer(applicant.applicant_photo, 'binary').toString('base64')
+                            %>
+                            <img class="profile-user-img img-fluid img-circle" id="appphoto" src="<%=dataphotos%> " alt="User profile picture">
                           </div>
           
-                          <h3 class="profile-username text-center"><%var perinfo = JSON.parse(JSON.stringify(applicant.personal_info)) %> <%= perinfo.firstname %></h3>
+                          <h3 class="profile-username text-center"><%var perinfo = JSON.parse(JSON.stringify(applicant.personal_info)) %> <%= perinfo.firstname %> &nbsp; <%= perinfo.middlename %></h3>
                           <p class="text-muted text-center"><%= department.department_name %></p>
           
                          
@@ -149,13 +151,19 @@
           
                           <%var eduinfo = JSON.parse(JSON.stringify(applicant.personal_info)) %> 
                           <p class="text-muted">
-                            Grade 9:&nbsp; <%= applicant.grade9_ave %> <br>
-                         Grade 10:&nbsp; <%= applicant.grade10_ave %> <br>
-                         Grade 11:&nbsp; <%= applicant.grade11_ave %> <br>
-                         Grade 12:&nbsp; <%= applicant.grade12_ave %> <br>
-                       EGSLE  <%= applicant.grade10_leaving %> <br>
-                       SSLE  <%= applicant.grade12_leaving %>
-
+                            Is Graduated:&nbsp; <%= applicant.is_graduated %> <br>
+                         COC PASS?&nbsp; <%= applicant.is_pass_semister %> <br>
+                         Current Level:&nbsp; <%= applicant.current_level %> <br>
+                         <strong>Current Department:</strong><% if(department.length>0){ %>
+                          <% department.forEach(function(row){%>
+                        <%= row.department_name %>
+                               
+          <%  }) } %><br>
+                        <strong>Current Occupation:</strong><% if(department.length>0){ %>
+                          <% department.forEach(function(row){%>
+                        <%= row.occupation_name %>
+                               
+          <%  }) } %><br>
                         </p>
                           <hr>
           
@@ -173,11 +181,11 @@
                     </div>
                     <!-- /.col -->
                     <div class="col-md-9">
-                      <div class="card">
+                      <div class="card card-primary">
                         <div class="card-header p-2">
                           <ul class="nav nav-pills">
                           <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">Register</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Print Registration Slip</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Registration Slip</a></li>
                              
                         </ul>
                         </div><!-- /.card-header -->
@@ -189,12 +197,32 @@
                             <!-- /.tab-pane -->
           
                             <div class="tab-pane active" id="settings">
+                              <%- include('./partials/messages') %>
                               <form method="post" action="/registrardataencoder/registration/registercontinuestudy"  >
+                               <div>
+                                 <label>You Are Registering This Trainee To The Following </label>
+                             <br>   New Department:<label "><% if(departmentone.length>0){ %>
+                              <% departmentone.forEach(function(row){%>
+                            <%= row.department_name %>
+                                   
+              <%  }) } %></label><br>
+              New Occupation:<label "><% if(departmentone.length>0){ %>
+                <% departmentone.forEach(function(row){%>
+              <%= row.occupation_name %>
+                     
+<%  }) } %></label><br>
+                               
+                               New Batch: <label ><%= batchinfo.batch_name %></label><br>
+                              
+                               New Addmission Type: <label ><%= admissiontype %></label><br>
+                               New Level: <label ><%= newlevel %></label><br>
+                                Trainee ID:<label ><%= traineeid %></label><br>
+                               </div>
                                 <div class="form-group row">
                                   <label for="inputName" class="col-sm-2 col-form-label">Assign Class</label>
                                   <div class="col-sm-10">
                                 <select class="form-control" name="classname" id="classname">
-                                    <option>Please select class name to assign</option>
+                                    <option value="0">Please Select Class Name To Assign</option>
                                     <% if(classlist.length >0) {%>
                                         <% classlist.forEach(function (row){ %>
                                           <option value="<%= row.class_id %>"><%= row.class_name %></option>
@@ -203,8 +231,10 @@
                                 </div>
                                 </div>
                                 <input type="hidden" name="programtag" value="<%=  programtag %>">
-                               <input type="hidden" name="deptid" value="<%= department.department_id %>">
                                
+                               <input type="hidden" name="newdeptid" value="<%= newdeptid %>">
+                               <input type="hidden" name="deptid" value="<%= deptid %>">
+                              
                                <input type="hidden" name="level" value="<%= level %>">
                                <input type="hidden" name="batchidnew" value="<%= batchidnew %>">
                                <input type="hidden" name="batchid" value="<%= batchid %>">
@@ -293,7 +323,7 @@
                                               <div class="col-sm-4 invoice-col">
                                                 
                                                 <address>
-                                                 <img class="" id="slipphoto" width="150px" height="150px">
+                                                 <img class="" src="<%=dataphotos %>" id="slipphoto" width="150px" height="150px">
                                                 </address>
                                               </div>
                                               <!-- /.col -->
@@ -302,8 +332,16 @@
                                                 <address>
                                                   <strong>FullName:<% var perinfo = JSON.parse(JSON.stringify(applicant.personal_info)) %> <%= perinfo.firstname %> &nbsp; <%= perinfo.middlename %> &nbsp; <%= perinfo.lastname %></strong><br>
             
-                                                  <strong>Department:</strong><%= department.department_name %><br>
-                                              
+                                                   Department:<label "><% if(departmentone.length>0){ %>
+                                                    <% departmentone.forEach(function(row){%>
+                                                  <%= row.department_name %>
+                                                         
+                                    <%  }) } %></label>
+                                     Occupation:<label "><% if(departmentone.length>0){ %>
+                                      <% departmentone.forEach(function(row){%>
+                                    <%= row.occupation_name %>
+                                           
+                      <%  }) } %></label><br>
                                                   <strong>Addmission Type:</strong><%= admissiontype %><br>
                                                   <strong>Telephone:<% var contact = JSON.parse(JSON.stringify(applicant.contact_info)) %> <%= contact.phoneNumber_1 %></strong>
                                                
@@ -313,14 +351,15 @@
                                               <div class="col-sm-4 invoice-col">
                                                 <b>Nationality:</b>Ethiopian<br>
                                                 <br>
-                                                <b>Acadamic Year:</b><% var today = new Date().getYear()
-            %> <%= today
-            %><br>
+                                                <b>Acadamic Year:</b><% var today = new Date(batchinfo.batch_from).getFullYear()
+                                                %> <%= today
+                                                %><br>
             <b>Class Name:</b> <%=  %><br>
            
             <b>Level:</b> <%= newlevel %><br>
                        
-            <b>Sex:</b> <%= perinfo.gender %><br>
+            <b>Sex:</b> <span style="text-transform: capitalize;"><%= perinfo.gender %></span> <br>
+          
           
             <b>ID:</b> <p id="studentid"></p>
                                               </div>
@@ -386,9 +425,7 @@
                                             <!-- this row will not appear when printing -->
                                             <div class="row no-print">
                                               <div class="col-12">
-                                                
-                                                <a type="button " class="btn-block btn-sm btn" style="background-color: aqua;" href="/registration/printslip/<%= batchidnew %>/<%= applicant.applicant_id %>"><i class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print Registration Slip</a>
-                                              </div>
+                                              
                                             </div>
                                           </div>
                                       </div>

@@ -3,8 +3,15 @@ const router = express.Router();
 
 const db = require('../models');
 const User = db.users;
+const Batch =db.batches;
 const AppSelectionCriteria = db.appselectioncriterias;
 const FunderInfo = db.funderinfo;
+const LevelBasedProgram = db.levelbasedprograms;
+const Department = db.departments;
+const Occupation = db.occupations;
+const NGOBasedProgram = db.ngobasedprograms;
+const IndustryBasedProgram = db.industrybasedprograms;
+const LevelBasedTrainee = db.levelbasedtrainees;
 const sequelize = db.sequelize ;
 const { Op } = require("sequelize");
 const bcrypt = require('bcryptjs');
@@ -27,120 +34,98 @@ router.get('/dashboard', ensureAuthenticated, async function(req, res)
 }
 );
 router.get('/report',ensureAuthenticated,async function(req,res){
-  const [ngobased, metangobaseddata] = await sequelize.query(
-      "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id"
-    );
-    const [levelbased, metalevelbaseddata] = await sequelize.query(
-      "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
-    );
-    const [industrybased, metaindustrybaseddata] = await sequelize.query(
-      "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id"
-    );
-    const [classlistl, metalclassl] = await sequelize.query(
-      "SELECT * FROM classindepts INNER JOIN courseteacherclasses ON courseteacherclasses.class_id = classindepts.class_id inner join levelbasedprograms on classindepts.batch_id = levelbasedprograms.batch_id "+
-      " where courseteacherclasses.teacher_id = '"+req.user.userid+"'"
-     
-      );
-      const [classlistn, metalclassn] = await sequelize.query(
-        "SELECT * FROM classindepts INNER JOIN courseteacherclasses ON courseteacherclasses.class_id = classindepts.class_id inner join ngobasedprograms on classindepts.batch_id = ngobasedprograms.batch_id"+
-        " where courseteacherclasses.teacher_id = '"+req.user.userid+"'"
-        );
-        const [classlisti, metalclassi] = await sequelize.query(
-          "SELECT * FROM classindepts INNER JOIN courseteacherclasses ON courseteacherclasses.class_id = classindepts.class_id inner join industrybasedprograms on classindepts.batch_id = industrybasedprograms.batch_id"+
-          " where courseteacherclasses.teacher_id = '"+req.user.userid+"'"
-          );
-      res.render('report',{
-      levelbased:levelbased,
-      ngobased:ngobased,
-      industrybased:industrybased,
-      classlisti:classlisti,
-      classlistl:classlistl,
-      classlistn:classlistn
-  });
-});
-router.post('/reportlevel', ensureAuthenticated,async function (req, res) 
-{ 
-  const [classlistl, metalclassl] = await sequelize.query(
-    "SELECT * FROM classindepts INNER JOIN courseteacherclasses ON courseteacherclasses.class_id = classindepts.class_id inner join levelbasedprograms on classindepts.batch_id = levelbasedprograms.batch_id "+
-    " where courseteacherclasses.teacher_id = '"+req.user.userid+"'"
    
-    );
-  
-  res.render('reportlevel')
+  const batch = await Batch.count();
+  const lbbatch = await LevelBasedProgram.count();
+  const ibbatch = await IndustryBasedProgram.count();
+  const nbbatch = await NGOBasedProgram.count();
+  const dpt = await Department.count();
+  const occcupation = await Occupation.findAll({where:{department_id:req.user.department}})
+  const [deptcat, deptcatmeta] = await sequelize.query(
+ "SELECT departments.department_name,count(levelbasedtrainees.department_id) as total FROM levelbasedtrainees inner join departments" +
+"  on departments.department_id = levelbasedtrainees.department_id group by department_name");
+const [graduated, gradmeta] = await sequelize.query(
+" select  occupation_id,occupation_name, sum(trainee) as trainee from("+
+"   select occupation_id,occupation_name,count(*) as trainee from levelbasedtrainees "+
+ "  inner join occupations on levelbasedtrainees.department_id = occupations.occupation_id"+
+"    group by occupation_id,occupation_name union"+
+"   select occupation_id,occupation_name,count(*) as trainee from ngobasedtrainees"+
+ "  inner join occupations on ngobasedtrainees.department_id = occupations.occupation_id"+
+ "   group by occupation_id,occupation_name union"+
+ "  select occupation_id,occupation_name, count(*) as trainee from industrybasedtrainees"+
+ "  inner join occupations on industrybasedtrainees.department_id = occupations.occupation_id"+
+ "    group by occupation_id,occupation_name ) occupations "+
+  " group by  occupation_id ,occupation_name"
+);
+const [ontrainee, ontraineemeta] = await sequelize.query(
+" select  occupation_id,occupation_name, sum(trainee) as trainee from("+
+"   select occupation_id,occupation_name,count(*) as trainee from levelbasedtrainees "+
+ "  inner join occupations on levelbasedtrainees.department_id = occupations.occupation_id"+
+"    group by occupation_id,occupation_name union"+
+"   select occupation_id,occupation_name,count(*) as trainee from ngobasedtrainees"+
+ "  inner join occupations on ngobasedtrainees.department_id = occupations.occupation_id"+
+ "   group by occupation_id,occupation_name union"+
+ "  select occupation_id,occupation_name, count(*) as trainee from industrybasedtrainees"+
+ "  inner join occupations on industrybasedtrainees.department_id = occupations.occupation_id"+
+ "    group by occupation_id,occupation_name ) occupations "+
+  " group by  occupation_id ,occupation_name"
+);
+const [dropout, dropoutmeta] = await sequelize.query(
+" select  occupation_id,occupation_name, sum(trainee) as trainee from("+
+"   select occupation_id,occupation_name,count(*) as trainee from levelbasedtrainees "+
+ "  inner join occupations on levelbasedtrainees.department_id = occupations.occupation_id"+
+ "    group by occupation_id,occupation_name union"+
+"   select occupation_id,occupation_name,count(*) as trainee from ngobasedtrainees"+
+ "  inner join occupations on ngobasedtrainees.department_id = occupations.occupation_id"+
+ "   group by occupation_id,occupation_name union"+
+ "  select occupation_id,occupation_name, count(*) as trainee from industrybasedtrainees"+
+ "  inner join occupations on industrybasedtrainees.department_id = occupations.occupation_id"+
+"    group by occupation_id,occupation_name ) occupations "+
+  " group by  occupation_id ,occupation_name"
+);
+  const [dptlevelngo, dptlevelnogometa] = await sequelize.query(
+   " select  occupation_id,occupation_name, sum(trainee) as trainee from("+
+   "   select occupation_id,occupation_name,count(*) as trainee from levelbasedtrainees "+
+    "  inner join occupations on levelbasedtrainees.department_id = occupations.occupation_id"+
 
-});
-router.post('/reportngo', ensureAuthenticated,async function (req, res) 
-{ 
-  
-  res.render('reportngo')
-
-});
-router.post('/reportindustry', ensureAuthenticated,async function (req, res) 
-{ 
-  const{classid,batchid} = req.body;
-  const [industryprogress, metalclassl] = await sequelize.query(
-    "SELECT * FROM levelbasedprogresses INNER JOIN courseteacherclasses ON courseteacherclasses.class_id = levelbasedprogresses.class_id "+
-    " where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.class_id = '"+ classid+"' and courseteacherclasses.batch_id = '"+batchid+"' "+
-    " and courseteacherclasses.course_id= levelbasedprogresses.course_id "
+    "    group by occupation_id,occupation_name union"+
+   "   select occupation_id,occupation_name,count(*) as trainee from ngobasedtrainees"+
+    "  inner join occupations on ngobasedtrainees.department_id = occupations.occupation_id"+
    
-    );
-    console.log(industryprogress)
-  res.render('reportindustry',{
-     industryevaluation:industryprogress
-  })
+    "   group by occupation_id,occupation_name union"+
+    "  select occupation_id,occupation_name, count(*) as trainee from industrybasedtrainees"+
+    "  inner join occupations on industrybasedtrainees.department_id = occupations.occupation_id"+
+  
+    "    group by occupation_id,occupation_name ) occupations "+
+     " group by  occupation_id ,occupation_name"
+  );
+  const trainee = await LevelBasedTrainee.count({});
+//   const graduated = await LevelBasedTrainee.count({where:{is_graduated:"Yes"}});
+//   const ontrainee = await LevelBasedTrainee.count({where:{is_graduated:"No"}});
+ // const dropout = await LevelBasedTrainee.count({where:{is_graduated:"No",is_dropout:"Yes"}});
+res.render('report',{batch:batch,
+ lbbatch:lbbatch,
+ nbbatch:nbbatch,
+ ibbatch,ibbatch,
+ occcupation:occcupation,
+ 
+ dpt:dpt,
+ dptlevelngo:dptlevelngo,
+ deptcat,deptcat,
+ trainee:trainee,
+ graduated:graduated,
+ dropout:dropout,
+ ontrainee:ontrainee
 
-});
-router.get('/statistics', ensureAuthenticated,async function (req, res) 
-{ 
-  const [ngobased, metangobaseddata] = await sequelize.query(
-    "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id"
-  );
-  // const [courselist, metadata] = await sequelize.query(
-  //   "SELECT courses.course_name,courses.course_id FROM  courseteacherclasses "+
-  //   "INNER JOIN courses ON courses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.course_id='"+courseid+"' and courseteacherclasses.class_id='"+classid+"' "
-  // );
-  // const [courselistngo, metadatango] = await sequelize.query(
-  //   "SELECT ngocourses.course_name,ngocourses.course_id FROM  courseteacherclasses "+
-  //   "INNER JOIN ngocourses ON ngocourses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"'  and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.course_id='"+courseid+"' and courseteacherclasses.class_id='"+classid+"' "
-  // );
-  // const [courselistind, metadataind] = await sequelize.query(
-  //   "SELECT industrycourses.course_name,industrycourses.course_id FROM  courseteacherclasses "+
-  //   "INNER JOIN industrycourses ON industrycourses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"'  and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.course_id='"+courseid+"' and courseteacherclasses.class_id='"+classid+"' "
-  // );
-  const [levelbased, metalevelbaseddata] = await sequelize.query(
-    "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
-  );
-  const [industrybased, metaindustrybaseddata] = await sequelize.query(
-    "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id"
-  );
-    res.render('statistics',{
-    levelbased:levelbased,
-    ngobased:ngobased,
-    industrybased:industrybased
-});
+})
+})
 
-});
-router.post('/showstatistics', ensureAuthenticated,async function (req, res) 
-{ 
-  const{batchid} = req.body;
-  const [classwithevluation, classevalmeta] = await sequelize.query(
-    "SELECT classindepts.class_name,sum(total_result) as total,count(student_id) as totalstudent FROM studentmarklistlevelbaseds inner join classindepts on classindepts.class_id=studentmarklistlevelbaseds.class_id where studentmarklistlevelbaseds.batch_id ='"+batchid+"' group by classindepts.class_name  "
-  );
-  const [classattendance,attendancemeta] = await sequelize.query(
-    "SELECT classindepts.class_name,sum(attendance_type='Absent') as absent,sum(attendance_type='Present') as present,sum(attendance_type='Permission')as permission  FROM attendances inner join classindepts on classindepts.class_id = attendances.class_id where attendances.batch_id ='"+batchid+"'  group by classindepts.class_name "
-
-  );
-  console.log(classwithevluation)
-  res.render('showstatistics',
-  {classwithevluation:classwithevluation,classattendance:classattendance})
-
-});
 
 
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
-        successRedirect: '/teacher/dashboard',
-        failureRedirect: '/teacher/login',
+        successRedirect: '/trainer/dashboard',
+        failureRedirect: '/trainer/login',
         failureFlash: true
     })(req, res, next);
 });
@@ -149,10 +134,8 @@ router.post('/login', (req, res, next) => {
 router.get('/logout', (req, res) => {
     req.logout();
     req.flash('success_msg', 'You are logged out');
-    res.redirect('/teacher/login');
+    res.redirect('/trainer/login');
 });
-router.get('/notifications',async function(req, res)  {
-  res.render('notificationlist')
-});
+
 
 module.exports = router;

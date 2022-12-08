@@ -66,20 +66,20 @@ app.use(function(req, res, next) {
 
 app.use(express.static(path.join(__dirname,'./public')));
 
-app.use('/department', require('./routes/index.js'));
-app.use('/department/programs', require('./routes/programs.js'));
-app.use('/department/company', require('./routes/company.js'));
-app.use('/department/trainee', require('./routes/trainee.js'));
-app.use('/department/teacher',require('./routes/teacher.js'));
+app.use('/', require('./routes/index.js'));
+app.use('/programs', require('./routes/programs.js'));
+app.use('/company', require('./routes/company.js'));
+app.use('/trainee', require('./routes/trainee.js'));
+app.use('/teacher',require('./routes/teacher.js'));
 
-app.use('/department/staff',require('./routes/staff.js'));
+app.use('/staff',require('./routes/staff.js'));
 
-app.use('/department/classmanage',require('./routes/classmanage.js'));
+app.use('/classmanage',require('./routes/classmanage.js'));
 
-app.use('/department/evaluation',require('./routes/evaluation.js'));
+app.use('/evaluation',require('./routes/evaluation.js'));
 
-app.use('/department/attendance',require('./routes/attendance.js'));
-app.use('/department/grade',require('./routes/grade.js'));
+app.use('/attendance',require('./routes/attendance.js'));
+app.use('/grade',require('./routes/grade.js'));
 
 
 

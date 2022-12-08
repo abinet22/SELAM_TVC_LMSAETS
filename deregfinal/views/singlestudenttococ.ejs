@@ -116,95 +116,15 @@
                 <h4 class="card-title">Student Grade Report</h4>
               </div>
               <div class="card-body">
-                <%- include ('./partials/messages') %>
-                <div class="alert  alert-dismissible fade show" role="alert" style="display: none;" id="servermsg">
-                   <p id="msg"></p>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                
-                <div class="row mb-2">
-             <div class="col-md-3">
-              <form action="/registrardataencoder/trainee/updatestudentdatacocresult" method="post">
-                <div class="form-group">
-                    <input type="hidden" name="programtag" id="programtag" value="<%= programtag %>">
-                    <input type="hidden" name="traineeid" id="traineeid" value="<%= traineeid %>">  
-                    <input type="hidden" name="level" id="level" value="<%= level %>">  
-                    <input type="hidden" name="batchid" id="batchid" value="<%= batchid %>">  
-                    <input type="hidden" name="deptid" id="deptid" value="<%= deptid %>">  
-                 
-                  </div>
-                  <div class="form-group">
-                      <label>Please Select Option To Update COC Result</label>
-                   <select class="form-control" name="cocresult" id="cocresult">
-                       <option value="0">Please Select Option</option>
-                       <option value="PASS">PASS</option>
-                       <option value="FAIL">FAIL</option>
-                   </select>
-                  </div>
-                  <button type="submit" class="btn btn-primary btn-block btn-sm" >
-                   Update COC Result
-                   </button> 
-             </form>
-             </div>
-             <div class="col-md-3">
-                 <form action="/registrardataencoder/trainee/printgraduatescertificate" method="post">
-                    <div class="form-group">
-                        <input type="hidden" name="programtag" value="<%= programtag %>">
-                        <input type="hidden" name="traineeid" value="<%= traineeid %>">  
-                        <input type="hidden" name="level" value="<%= level %>">  
-                        <input type="hidden" name="programidbatch" value="<%= batchid %>">  
-                        <input type="hidden" name="dept" value="<%= deptid %>">  
-                     
-                      </div>
-                      <button type="submit" class="btn btn-primary btn-block btn-sm" data-toggle="modal" data-target="#exampleModal">
-                        Print Certificate 
-                       </button> 
-                 </form>
-             
-            </div>
-            <div class="col-md-3">
-             
-                <form action="/registrardataencoder/trainee/printgraduatesgradereport" method="post">
-                    <div class="form-group">
-                        <input type="hidden" name="programtag" value="<%= programtag %>">
-                        <input type="hidden" name="traineeid" value="<%= traineeid %>">  
-                        <input type="hidden" name="level" value="<%= level %>">  
-                        <input type="hidden" name="programidbatch" value="<%= batchid %>">  
-                        <input type="hidden" name="dept" value="<%= deptid %>">  
-                     
-                      </div>
-                      <button type="submit" class="btn btn-primary btn-block btn-sm" >
-                        Print Grade Report 
-                       </button> 
-                 </form>
-            </div>
-            <div class="col-md-3">
-             
-                <form action="/registrardataencoder/trainee/printgraduatecoclatter" method="post">
-                    <div class="form-group">
-                        <input type="hidden" name="programtag" value="<%= programtag %>">
-                        <input type="hidden" name="traineeid" value="<%= traineeid %>">  
-                        <input type="hidden" name="level" value="<%= level %>">  
-                        <input type="hidden" name="programidbatch" value="<%= batchid %>">  
-                        <input type="hidden" name="dept" value="<%= deptid %>">  
-                     
-                      </div>
-                      <button type="submit" class="btn btn-primary btn-block btn-sm" >
-                        Print COC Latter 
-                       </button> 
-                 </form>
-            </div>
-             </div>
+              
              <div class="row">
                 <div class="col-md-12">
                     
                     <div class="callout callout-success">
                         <div class="row">
-                            <% if(marklist.length >0 ) { %>
+                            <% if(student.length >0 ) { %>
                                 <% var i = 0 ;%>
-                                   <% marklist.forEach(function (row){ %>
+                                   <% student.forEach(function (row){ %>
                                     <% var name = JSON.parse(JSON.stringify(row.personal_info)) %>
                              
                             <div class="col-lg-12 ">
@@ -223,7 +143,7 @@
                                               
                                                 </div>
                                                 <ul class="list-unstyled mb-1-9">
-                                                    <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Sex:<%var gen =  name.gender %><%= gen=="m"?"Male":"Female" %></span> </li>
+                                                    <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Sex:<%var gen =  name.gender %><%= gen==="m"?"Male":"Female" %></span> </li>
                                                     <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Birth Date:</span> <%= name.birthday %></li>
                                                     <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Age:</span> <% 
                                                        var birthday = name.birthday
@@ -241,12 +161,24 @@
                                     </div>
                                 </div>
                                 <ul class="social-icon-style1 list-unstyled mb-0 ps-0">
-                                    <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Year Of Entry:<%= batch.batch_from %></span><span class="display-26 text-secondary me-2 font-weight-600">Year Of Graduation:<% var dt =  new Date() %><%= dt.toLocaleString() %></span>  </li>
-                                    <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Sector:Manufucturing</span> <span class="display-26 text-secondary me-2 font-weight-600">Sub Sector:Wood Work</span> <span class="display-26 text-secondary me-2 font-weight-600">Occupation:<%= department.department_name %></span><span class="display-26 text-secondary me-2 font-weight-600">Level:</span>  </li>
-                                    <li class="mb-1 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Program:<%= row.admission_type %></span> </li>
-                                   
-                                   
-                                </ul>
+                                  <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Year Of Entry:<%= new Date(batch.batch_from).getUTCFullYear() %></span><span class="display-26 text-secondary me-2 font-weight-600">Year Of Graduation:<%= new Date(batch.batch_to).getUTCFullYear()  %></span>  </li>
+                                
+                                      <% department.forEach(function(row){%>
+                                        <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Sector:<%= row.sector_name %></span><br>
+                                          <span class="display-26 text-secondary me-2 font-weight-600">Department :<%= row.department_name %></span> <br>
+                                         <span class="display-26 text-secondary me-2 font-weight-600">Occupation:<%= row.occupation_name %></span> <br>
+                                         
+                                    <%  })%>
+                              
+                               
+                                    <span class="display-26 text-secondary me-2 font-weight-600"><%if(level){%>
+                                      Level: &nbsp; <%= level %> 
+                                      <%}%>
+                                    </span>  </li>
+                                  <li class="mb-1 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Program:<%= row.admission_type %></span> </li>
+                                 
+                                 
+                              </ul>
                             </div>
                       
                              <%  })} else{}     %>                           
@@ -258,7 +190,7 @@
                 <div class="row">
                   <div class="col-md-12  grid-margin stretch-card">     <div class="card">
                       <div class="card-header">
-                          <h4 class="card-title">Course List</h4>
+                          <h4 class="card-title">Grade Report</h4>
                       </div>
                       <div class="card-body">
                       
@@ -291,42 +223,51 @@
                               </tr>
                             </thead>
                             <tbody>
-                            <% if(courselist.length >0){ %>
-                                <% courselist.forEach(function (row){ %>
-                                    <% var courseid = row.course_id %>
-                                    <% var coursecode = row.course_code %>
-                                    <% var coursename = row.course_name %>
-                                    <% var coursehour = row.training_hours %>
-                                    <% if(marklist.length >0 ) { %>
-                                        <% var i = 0 ;%>
-                                           <% marklist.forEach(function (row){ %>
-                                            <% i++ %>
-                                            <% var name = JSON.parse(JSON.stringify(row.personal_info)) %>
-                                            <% var course = row.course_id %>
-                                             <% if(courseid == course){ %>
-                                                <tr>
-                                                    <td><%= i %></td>
-                                                    <td ><%= coursename %>
+                              <% if(courselist.length >0){ %>
+                                <% var i = 0 ;%>
+                                  <% courselist.forEach(function (row){ %>
+                                      <% var courseid = row.course_id %>
+                                      <% var coursecode = row.course_code %>
+                                      <% var coursename = row.course_name %>
+                                      <% var coursehour = row.training_hours %>
+                                      <% i++ %>
+                                      <tr>
+                                        <td><%= i %></td>
+                                        <td ><%= row.course_name %>
+                                     
+                                        </td>
+                                        <td><%= row.course_code  %></td>
+                                        
+                                        <td><%= coursehour %></td>
+                                      <% if(marklist.length >0 ) { %>
+                                         
+                                             <% marklist.forEach(function (row){ %>
+                                             
+                                              <% var name = JSON.parse(JSON.stringify(row.personal_info)) %>
+                                              <% var course = row.course_id %>
+                                               <% if(courseid == course){ %>
                                                  
-                                                    </td>
-                                                    <td><%= coursecode  %></td>
                                                     
-                                                    <td><%= coursehour %></td>
-                                                  
-                                                    <td><%= row.total_result %> </td>
-                                                    <td><%= row.grade_in_latter %> </td>
-                                                    <td> <%= row.grade_in_point %></td>
-                                               
-                                                </tr>
-                                             <% } %>
+                                                      <td><%= row.total_result %> </td>
+                                                      <td><%= row.grade_in_latter %> </td>
+                                                      <td> <%= row.grade_in_point %></td>
+                                                 
+                                                
+                                               <% } else{%>
+                                                <td> Not Found </td>
+                                                <td> Not Found </td>
+                                                <td> Not Found </td>
+                                             <% }%>
+                                           <%  })}  %>
+                                          
+                                       
                                            
-                                         <%  })} else{}     %>
-
-                                    <% })}else{}%> 
-                            
-                            
-                                 
-                            </tbody>
+                                          </tr>
+                                      <% })}else{}%> 
+                              
+                              
+                                   
+                              </tbody>
                           </table>
                         </div>
                       
@@ -337,6 +278,87 @@
               
                 </div>
               </div>
+              <%- include ('./partials/messages') %>
+              <div class="alert  alert-dismissible fade show" role="alert" style="display: none;" id="servermsg">
+                 <p id="msg"></p>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              
+              <div class="row mb-2">
+           <div class="col-md-12">
+            <form action="/registrardataencoder/trainee/updatestudentdatacocresult" method="post">
+              <div class="form-group">
+                  <input type="hidden" name="programtag" id="programtag" value="<%= programtag %>">
+                  <input type="hidden" name="traineeid" id="traineeid" value="<%= traineeid %>">  
+                  <input type="hidden" name="level" id="level" value="<%= level %>">  
+                  <input type="hidden" name="batchid" id="batchid" value="<%= batchid %>">  
+                  <input type="hidden" name="deptid" id="deptid" value="<%= deptid %>">  
+               
+                </div>
+                <div class="form-group">
+                    <label>Please Select Option To Update COC Result</label>
+                 <select class="form-control" name="cocresult" id="cocresult">
+                     <option value="0">Please Select Option</option>
+                     <option value="PASS">Competent</option>
+                     <option value="FAIL">Not Yet Competent</option>
+                 </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block btn-sm" >
+                 Update COC Result
+                 </button> 
+           </form>
+           </div>
+           <div class="col-md-4">
+               <form action="/registrardataencoder/trainee/printgraduatescertificate" method="post">
+                  <div class="form-group">
+                      <input type="hidden" name="programtag" value="<%= programtag %>">
+                      <input type="hidden" name="traineeid" value="<%= traineeid %>">  
+                      <input type="hidden" name="level" value="<%= level %>">  
+                      <input type="hidden" name="programidbatch" value="<%= batchid %>">  
+                      <input type="hidden" name="dept" value="<%= deptid %>">  
+                   
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-sm" data-toggle="modal" data-target="#exampleModal">
+                      Print Certificate 
+                     </button> 
+               </form>
+           
+          </div>
+          <div class="col-md-4">
+           
+              <form action="/registrardataencoder/trainee/printgraduatesgradereport" method="post">
+                  <div class="form-group">
+                      <input type="hidden" name="programtag" value="<%= programtag %>">
+                      <input type="hidden" name="traineeid" value="<%= traineeid %>">  
+                      <input type="hidden" name="level" value="<%= level %>">  
+                      <input type="hidden" name="programidbatch" value="<%= batchid %>">  
+                      <input type="hidden" name="dept" value="<%= deptid %>">  
+                   
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-sm" >
+                      Print Grade Report 
+                     </button> 
+               </form>
+          </div>
+          <div class="col-md-4">
+           
+              <form action="/registrardataencoder/trainee/printgraduatecoclatter" method="post">
+                  <div class="form-group">
+                      <input type="hidden" name="programtag" value="<%= programtag %>">
+                      <input type="hidden" name="traineeid" value="<%= traineeid %>">  
+                      <input type="hidden" name="level" value="<%= level %>">  
+                      <input type="hidden" name="programidbatch" value="<%= batchid %>">  
+                      <input type="hidden" name="dept" value="<%= deptid %>">  
+                   
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-sm" >
+                      Print COC Latter 
+                     </button> 
+               </form>
+          </div>
+           </div>
             </div>
         
            

@@ -30,7 +30,7 @@ var storage = multer.diskStorage({
      
     }
     else{
-      cb(null, `${Date.now()}-selamtrainee-${file.originalname}`);
+      cb(null, `${Date.now()}-selamstaff-${file.originalname}`);
     }
    
   },
