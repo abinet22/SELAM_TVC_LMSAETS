@@ -29,10 +29,12 @@ router.get('/addnewclass',ensureAuthenticated, async function(req,res){
       const [industrybased, metaindbaseddata] = await sequelize.query(
         "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes' and is_confirm='Yes'"
       );
-    const department = await Occupation.findAll({});
+    const occupation = await Occupation.findAll({});
+    const department = await Department.findAll({});
     res.render('addnewclass',{
         department:department,
         levelbased:levelbased,
+        occupation:occupation,
         ngobased:ngobased,
         industrybased:industrybased
     })
@@ -50,7 +52,8 @@ router.post('/addnewclasslevelbased',ensureAuthenticated,async function(req,res)
       const [industrybased, metaindbaseddata] = await sequelize.query(
         "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes'"
       );
-    const department = await Occupation.findAll({});
+    const department = await Department.findAll({});
+    const occupation = await Occupation.findAll({});
   
     let errors = [];
     if(batchid =="0" ||  deptid=="0" ){
@@ -59,6 +62,7 @@ router.post('/addnewclasslevelbased',ensureAuthenticated,async function(req,res)
     if(errors.length >0 ){
         res.render('addnewclass',{
             department:department,
+            occupation:occupation,
             levelbased:levelbased,
             ngobased:ngobased,
             industrybased:industrybased,
@@ -112,6 +116,7 @@ router.post('/addnewclasslevelbased',ensureAuthenticated,async function(req,res)
           res.render('addnewclass',{
             department:department,
             levelbased:levelbased,
+            occupation:occupation,
             ngobased:ngobased,
             industrybased:industrybased,
             success_msg:'You are successfully create new classes'
@@ -120,6 +125,7 @@ router.post('/addnewclasslevelbased',ensureAuthenticated,async function(req,res)
         else{
             res.render('addnewclass',{
                 department:department,
+                occupation:occupation,
                 levelbased:levelbased,
                 ngobased:ngobased,
                 industrybased:industrybased,

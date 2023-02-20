@@ -358,9 +358,9 @@
                        
                        
                           <div class="form-group">
-                            <label>Please Select Learning Objective First</label>
+                            <label>Please Select Learning Outcome First</label>
                           <select class="form-control" name="los" id="los">
-                            <option value="0">Please Select Learning Objective</option>
+                            <option value="0">Please Select Outcome Objective</option>
                             <% if(courselist.length >0) {%>
                               <% courselist.forEach(function (row){ %>
                             
@@ -421,6 +421,7 @@
                                       <% i++ %>
                                       <% var infotag %>
                                       <% var trainee = row.trainee_id %>
+                                      
                                         <tr>
                                     
                                             <% var name = JSON.parse(JSON.stringify(row.personal_info)); %>
@@ -431,11 +432,13 @@
                                             <td> <small><%= i %></small></td>
                                             <td> <small><%= row.student_unique_id %> </small> 
                                               <% if(studentwithmark.length >0 ) { %>
-                                           
+                                               
+                                               
                                                 <% studentwithmark.forEach(function (row){ %>
                                                  <% var studentid = row.student_id %>
-                                               
+                                              
                                                 <% if(trainee === studentid){%>
+                                               
                                                   <% infotag ="Senttodepartment"; %>
                                                   <input type="checkbox" checked> 
                                                  <%}%>
@@ -522,9 +525,9 @@ onkeypress="return isNumberKey(event)"
                           </blockquote>
                         </div>
                           <div class="form-group">
-                            <label>Please Select Learning Objective First</label>
+                            <label>Please Select Learning Outcome First</label>
                           <select class="form-control" name="losi" id="losi">
-                            <option value="0">Please Select Learning Objective</option>
+                            <option value="0">Please Select Learning Outcome</option>
                             <% if(courselist.length >0) {%>
                               <% courselist.forEach(function (row){ %>
                             
@@ -1273,7 +1276,7 @@ return returnArray;
                 },
                 title: function() {
     return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
-   " <td > <h4>  Organization Name <br> Selam David Roeschli Technical And Vocational College <br> Short Term /Project/ Based Trainee List</h4> </td> </tr> </table>"
+   " <td > <h4>  Organization Name <br> Selam David Roeschli Technical And Vocational College <br> Level Based Trainee List</h4> </td> </tr> </table>"
               
   } ,
 

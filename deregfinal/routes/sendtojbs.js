@@ -54,7 +54,7 @@ router.post('/allgraduatengobaseddatabydepartment',ensureAuthenticated,async fun
         " and batch_id ='"+batchid+"'"+
         " and department_id ='"+deptid+"'"
       );
-    const department = await Occupation.findAll({});
+    const department = await Department.findAll({});
     const classlist = await ClassInDept.findAll({});
     
 res.render('graduatestudentlist',{
@@ -74,7 +74,7 @@ router.post('/allgraduateindustrybaseddatabydepartment',ensureAuthenticated,asyn
         " and batch_id ='"+batchid+"'"+
         " and department_id ='"+deptid+"'"
       );
-    const department = await Occupation.findAll({});
+    const department = await Department.findAll({});
     const classlist = await ClassInDept.findAll({});
     
 res.render('graduatestudentlist',{

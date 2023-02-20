@@ -43,7 +43,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Trainee List</li>
+              <li class="breadcrumb-item active">Attendance/Take Attendance</li>
             </ol>
           </div>
         </div>
@@ -62,12 +62,7 @@
                         </div>
                       <div class="card-body">
                         <%- include ('./partials/messages') %>
-                        <div class="alert  alert-dismissible fade show" role="alert" style="display: none;" id="servermsg">
-                           <p id="msg"></p>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
+                       
                       <br>
                       <div class="row">
                         <div class="col-md-8">
@@ -214,7 +209,7 @@
                                                              <% var a =  row.absent %>
                                                             <% if(a == 0){ %>
                                                                 <button class="btn btn-sm btn-success btn-block"></button>
-                                                            <% }else if(a >= 2 && a <= 4){ %>
+                                                            <% }else if(a >= 1 && a <= 4){ %>
                                                               <button class="btn btn-sm btn-warning btn-block"></button>
                                                            <%  }else if( a > 4){ %>
 
@@ -281,7 +276,12 @@
                 <div class="modal-body">
                   <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
-                    
+                      <div class="alert  alert-dismissible fade show" role="alert" style="display: none;" id="servermsg">
+                        <p id="msg"></p>
+                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                           <span aria-hidden="true">&times;</span>
+                         </button>
+                       </div>
                       <div class="card-body">
                         <div class="row">
                           <div class="">
@@ -308,13 +308,23 @@
                           </div>
                         </div>
                         <label>Please Select Date First</label>
-                        <input class="form-control" type="date" name="attendancdate" id="attendancedate">
+                        <input class="form-control form-control-sm" type="date" name="attendancdate" id="attendancedate">
                             <input type="hidden" id="classid" name="classid" value="<%= classid %>">
                             <input type="hidden" id="level" name="level" value="<%= level %>">
                             <input type="hidden" id="programtype" name="programtype" value="<%= programtype %>">
                             <input type="hidden" id="dpt" name="dpt" value="<%= dpt %>">
                             <input type="hidden" id="batchid" name="batchid" value="<%= batchid %>">
-                           
+                         <br>
+                         <label>Select UOC Here</label>
+                            <select class="form-control form-control-sm" name="uocname" id="uocname">
+                              <option value="0">Please Select UOC</option>
+                             <% if(courselist.length > 0) { %>
+                               <% courselist.forEach(function (row){ %>
+                                <option value="<%= row.course_id %>"><%= row.course_name %></option>
+                               <% }) %>
+                             <%}else {}%>
+                              
+                            </select>
                         </div>
                         <p></p>
                         <fieldset id="studentlist">
@@ -423,6 +433,7 @@ var level = document.getElementById('level').value;
 var programtype = document.getElementById('programtype').value;
 var batch = document.getElementById('batchid').value;
 var dpt = document.getElementById('dpt').value;
+var uocname = document.getElementById('uocname').value;
 if(!attendancedate )
 {
 
@@ -431,6 +442,15 @@ var msg = document.getElementById("msg");
 x.style.display = "block";
 x.className="alert alert-danger alert-dismissible fade show";
 msg.innerHTML="Please select attendance date first!"
+}
+else if(uocname==0 )
+{
+
+    var x = document.getElementById("servermsg");
+var msg = document.getElementById("msg");
+x.style.display = "block";
+x.className="alert alert-danger alert-dismissible fade show";
+msg.innerHTML="Please select UOC name  first!"
 }
 else{
 if(personalinfo.length >0)
@@ -450,7 +470,7 @@ tblobj['attendancetype'] = obj[val] ;
 
 tblobj['batchid'] = batch ;
 tblobj['department'] = dpt;
-
+tblobj['uocname'] = uocname;
 
 
     senddt.push(tblobj) 
@@ -586,7 +606,7 @@ return returnArray;
                 },
                 title: function() {
     return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
-      " <td > <h4> Selam David Roeschli Technical And Vocational College  </h4> <h6><small><br> "+batchname+"<br> "+departmentname+"<br> "+occupationname+"<br> "+classname+" </small><br> Trainee Attendance Report</h6> </td> </tr> </table>"
+      " <td > <h4> Selam  Technical And Vocational College  </h4> <h6><small><br> "+batchname+"<br> "+departmentname+"<br> "+occupationname+"<br> "+classname+" </small><br> Trainee Attendance Report</h6> </td> </tr> </table>"
                    
   } ,
 

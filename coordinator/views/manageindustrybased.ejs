@@ -89,12 +89,12 @@
                                 
                               </div>
                               <div class="form-group">
-                                <label>Select  Occupation</label>
+                                <label>Select  Department</label>
                                 <select style="width: 100%;"  class="form-control-sm js-example-basic-single " name="occupationid" id="occupationid">
-                                 <option value="0">Please Occupation Name</option>
+                                 <option value="0">Please Department Name</option>
                                  <% if(department.length >0) {%>
                                     <% department.forEach(function (row){ %>
-                                      <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                      <option value="<%= row.department_id %>"><%= row.department_name %></option>
                                    <% })}else {}%>
                                 </select>
                               
@@ -123,12 +123,12 @@
                               </div>
                              
                               <div class="form-group">
-                                <label>Select  Occupation</label>
+                                <label>Select  Department</label>
                                 <select style="width: 100%;"  class="form-control-sm js-example-basic-single " name="occupationida" id="occupationida">
-                                 <option value="0">Please Occupation Name</option>
+                                 <option value="0">Please Department Name</option>
                                  <% if(department.length >0) {%>
                                     <% department.forEach(function (row){ %>
-                                      <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                      <option value="<%= row.department_id %>"><%= row.department_name %></option>
                                    <% })}else {}%>
                                 </select>
                               

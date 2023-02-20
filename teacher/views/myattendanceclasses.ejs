@@ -100,7 +100,8 @@
                                            </div>
                                             <form action="/trainer/attendance/takeattendance/<%= row.class_id %>" method="post">
                                                <input type="hidden" name="batchid" value="<%= row.batch_id %>">
-                                               <input type="hidden" name="dept" value="<%= row.department_id %>">
+                                               <input type="hidden" name="occ" value="<%= row.occupation_id %>">
+                                               <input type="hidden" name="dpt" value="<%= row.occupation_id %>">
                                                <input type="hidden" name="level" value="<%= row.training_level %>">
                                                <input type="hidden" name="programtypeb" value="<%= row.program_type %>">
 

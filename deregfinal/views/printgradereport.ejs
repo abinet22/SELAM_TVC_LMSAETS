@@ -57,7 +57,7 @@
                   <td></td>
                   <td colspan="3">
                     <h5> <small class="">Office Of Registrar</small>
-                      <small class="">Student Transcript</small></h5>
+                      <small class="">Trainee Transcript</small></h5>
                   </td>
                 
                   <td>
@@ -124,18 +124,25 @@
                                 </div>
                             </div>
                             <ul class="social-icon-style1 list-unstyled mb-0 ps-0">
-                                <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Year Of Entry:<%= batch.batch_from %></span><span class="display-26 text-secondary me-2 font-weight-600">Year Of Graduation:<% var dt =  new Date() %><%= dt.toLocaleString() %></span>  </li>
+                                <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Year Of Entry:<%= new Date(batch.batch_from).toLocaleDateString() %></span><span class="display-26 text-secondary me-2 font-weight-600">Year Of Graduation:<% var dt =  new Date(batch.batch_to) %><%= dt.toLocaleString() %></span>  </li>
                                 <li class="mb-1  display-28">
                                   <% if(sectorlist.length >0) {%>
                                     <% sectorlist.forEach(function (row){ %>
                                       <span class="display-26 text-secondary me-2 font-weight-600">Sector:<%= row.sector_name %></span>
                                   
                                   <span class="display-26 text-secondary me-2 font-weight-600">Department:<%= row.department_name %></span> 
-                                  <span class="display-26 text-secondary me-2 font-weight-600">Occupation:<%= row.occupation_name %></span>  </li>
+                                 <% var x = row.occupation_name %>
+                                  <% if(row.occupation_name ){ %>
+                                    <span class="display-26 text-secondary me-2 font-weight-600">Occupation:<%= row.occupation_name  %></span>  </li>
                              
+                                 <% }%>
+                                
                                    <% })}else {}%>
-                                   <span class="display-26 text-secondary me-2 font-weight-600">Level:<%=row.current_level %> </span>
-                                 <li class="mb-1 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Admission Type:<%= row.admission_type %></span> </li>
+                                   <% if(row.current_level ){ %>
+                                    <span class="display-26 text-secondary me-2 font-weight-600">Level:<%=row.current_level %> </span>
+                             
+                                 <% }%>
+                                   <li class="mb-1 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Admission Type:<%= row.admission_type %></span> </li>
                                
                                
                             </ul>
@@ -181,14 +188,17 @@
                           </tr>
                         </thead>
                         <tbody>
+                          <% var i = 0 ;%>
+                          <% var grade = 0; %>
                         <% if(courselist.length >0){ %>
                             <% courselist.forEach(function (row){ %>
                                 <% var courseid = row.course_id %>
                                 <% var coursecode = row.course_code %>
                                 <% var coursename = row.course_name %>
                                 <% var coursehour = row.training_hours %>
+                             
                                 <% if(marklist.length >0 ) { %>
-                                    <% var i = 0 ;%>
+                                  
                                        <% marklist.forEach(function (row){ %>
                                         <% i++ %>
                                         <% var name = JSON.parse(JSON.stringify(row.personal_info))%>
@@ -205,7 +215,9 @@
                                               
                                                 <td><%= row.total_result %> </td>
                                                 <td><%= row.grade_in_latter %> </td>
-                                                <td> <%= row.grade_in_point %></td>
+                                                <td> <%= row.grade_in_point %>
+                                                <% grade += row.grade_in_point %>
+                                                </td>
                                            
                                             </tr>
                                          <% } %>
@@ -227,7 +239,7 @@
                                                      
                           <th>-</th>
                           <th>-</th>
-                          <th>4</th>
+                          <th> <%= grade /i %></th>
                        
                         </tr>
                       </table>

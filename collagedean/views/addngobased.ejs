@@ -155,11 +155,11 @@ background-color: #f48d5b;;
                       }
                     </script>
                      <div class="form-group">
-                      <label for="exampleInputUsername1">Select Occupation Include</label>
+                      <label for="exampleInputUsername1">Select Department Include</label>
                       <select class="form-control" multiple="" id="trainingname" name="trainingname">
                         <% if(training.length >0) {%>
                           <% training.forEach(function (row){ %>
-                            <option value="<%= row.occupation_name %>"><%= row.occupation_name %></option>
+                            <option value="<%= row.department_name %>"><%= row.department_name %></option>
                          <% })}else {}%>
               </select>
                     </div>

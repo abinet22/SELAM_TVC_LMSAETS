@@ -25,64 +25,7 @@
   <body class="sidebar-mini sidebar-closed sidebar-collapse" style="height: auto;">
   <div class="wrapper">
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-      <!-- Left navbar links -->
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-          <a href="/registrardataencoder/dashboard" class="nav-link">Home</a>
-        </li>
-     
-      </ul>
-  
-      <!-- Right navbar links -->
-      <ul class="navbar-nav ml-auto">
-        <!-- Navbar Search -->
-       
-  
-        <!-- Messages Dropdown Menu -->
-    
-        <!-- Notifications Dropdown Menu -->
-        <li class="nav-item dropdown">
-          <a class="nav-link" data-toggle="dropdown" href="#">
-            <i class="far fa-bell"></i>
-            <span class="badge badge-warning navbar-badge">15</span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <span class="dropdown-item dropdown-header">15 Notifications</span>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-envelope mr-2"></i> 4 new messages
-              <span class="float-right text-muted text-sm">3 mins</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-users mr-2"></i> 8 friend requests
-              <span class="float-right text-muted text-sm">12 hours</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-file mr-2"></i> 3 new reports
-              <span class="float-right text-muted text-sm">2 days</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-            <i class="fas fa-expand-arrows-alt"></i>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link"   href="/registrardataencoder/logout" role="button">
-            Logout
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <%- include('./partials/top') %>
     <!-- /.navbar -->
   
     <!-- Main Sidebar Container -->
@@ -173,11 +116,11 @@
                     </div>
                     <!-- /.col -->
                     <div class="col-md-9">
-                      <div class="card">
-                        <div class="card-header p-2">
+                      <div class="card b">
+                        <div class="card-header p-2 bg-primary">
                           <ul class="nav nav-pills">
                           <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">Register</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Print Registration Slip</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Registration Slip</a></li>
                              
                         </ul>
                         </div><!-- /.card-header -->
@@ -191,10 +134,10 @@
                             <div class="tab-pane active" id="settings">
                               <form method="post" action="/registrardataencoder/registration/registernewtrainee/<%= applicant.application_id %>/<%= applicant.applicant_id %>" enctype="multipart/form-data" >
                                 <div class="form-group row">
-                                  <label for="inputName" class="col-sm-2 col-form-label">Assign Class</label>
+                                  <label for="inputName" class="col-sm-2 col-form-label">Assign Class <code>***</code></label>
                                   <div class="col-sm-10">
-                                <select class="form-control" name="classname" id="classname">
-                                    <option>Please select class name to assign</option>
+                                <select class="form-control" name="classname" id="classname" onchange="myFunction()" >
+                                    <option>Please Select Section Name First</option>
                                     <% if(classlist.length >0) {%>
                                         <% classlist.forEach(function (row){ %>
                                           <option value="<%= row.class_id %>"><%= row.class_name %></option>
@@ -205,13 +148,109 @@
                                 <input type="hidden" name="programtag" value="<%=  programtag %>">
                                <input type="hidden" id="deptname" value="<%= department.department_name %>">
                                 <div class="form-group ">
-                                    <label>Please add Student ID</label>
+                                    <label>Please Add Trainee ID<code>***</code></label>
                                     <div class="form-group">
-                                        <input type="text" class="form-control"   id="traineeid" name="traineeid" placeholder="Please Enter Student ID" autocomplete="off"> 
+                                        <input type="text" class="form-control" onchange="myFunction2()"  id="traineeid" name="traineeid" placeholder="Please Enter Student ID" autocomplete="off"> 
                                       
                                       </div>
                                    
                                   </div>
+                                  <div class="row" id="cam">
+                     <input value="<%= applicantid %>" type="hidden" name="applicantid" id="applicantid">
+                                    <div class="col-md-6">
+                                     <a class="btn btn btn-gradient-primary btn-sm" id="start-camera"><i class="fa fa-camera"></i> Start Camera</a>
+                                
+                                     <video id="video" width="320" height="240" autoplay="" style="display: none;"></video>
+                                
+                                    </div>
+                                    <div class="col-md-6">
+                                     <div id="dataurl-container" style="display: none;">
+                                       <canvas id="canvas" width="320" height="240"></canvas>
+                                       <div id="dataurl-header" class="row">
+                                         <div class="col-md-6">
+                                           <a class="btn btn btn-gradient-primary btn-sm" id="click-photo" ><i class="fa fa-gallary"></i>Take Photo</a>
+                                   
+                                         </div>
+                                         <div class="col-md-6">
+                                           <a class="btn btn btn-gradient-primary btn-sm" id="usephoto" ><i class="fa fa-download"></i>Save Photo</a>
+                                 
+                                         </div>
+                                       </div>
+           
+                                   
+                                   </div>
+                                    </div>
+                                  </div>
+                                  <label id="cammsg" style="display: none;"><code>You can find new file on download folder please choose photo to upload !( <span id="msg"></span>) </code></label>
+                                  
+                                  <script>
+
+                                    let camera_button = document.querySelector("#start-camera");
+                                    let video = document.querySelector("#video");
+                                    let click_button = document.querySelector("#click-photo");
+                                    let canvas = document.querySelector("#canvas");
+                                   // let dataurl = document.querySelector("#dataurl");
+                                    let dataurl_container = document.querySelector("#dataurl-container");
+                                    let usephoto = document.querySelector("#usephoto");
+                                    
+                                    camera_button.addEventListener('click', async function() {
+                                         let stream = null;
+                                    
+                                        try {
+                                          
+                                          stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                                        }
+                                        catch(error) {
+                                          alert(error.message);
+                                          return;
+                                        }
+                                    
+                                        video.srcObject = stream;
+                                    
+                                        video.style.display = 'block';
+                                        dataurl_container.style.display = 'block';
+                                        camera_button.style.display = 'none';
+                                        click_button.style.display = 'block';
+                                    });
+                                    
+                                    click_button.addEventListener('click', function() {
+                                        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+                                         let image_data_url = canvas.toDataURL('image/jpeg');
+                                         var item_image = image_data_url.replace(/^data:image\/(png|jpg);base64,/, "") ;
+                                      // dataurl.value = image_data_url;
+                                      
+                                        dataurl_container.style.display = 'block';
+                                        // document.getElementById('photo').setAttribute('src', item_image);
+                              
+                                    });
+                                    usephoto.addEventListener('click', function() {
+                                      let file = null;
+                                    let blob = document.querySelector("#canvas").toBlob(function(blob) {
+            file = new File([blob], 'test.png', { type: 'image/png' });
+            // console.log(blob)
+            //  console.log(canvas.file)
+           
+           // document.querySelector('#photo').files = file;
+        
+          }, 'image/png');
+          image = canvas.toDataURL("image/png", 1.0).replace("image/png", "image/octet-stream");
+           filename =document.getElementById('applicantid').value;
+          var link = document.createElement('a');
+      link.download = filename +".png";
+      link.href = image;
+      link.click();
+      dataurl_container.style.display = 'none';
+    document.getElementById('cam').style.display="none";
+    document.getElementById('cammsg').style.display ="block";
+    document.getElementById('msg').innerHTML =filename +".png";
+      // event.preventDefault();//Do not start the download
+          // usephoto.href = URL.createObjectURL(blob);
+          //  usephoto.download = blob;
+          //   console.log(blob);
+                                    });
+                             
+    
+                                    </script>
                                   <div class="form-group">
                                     <!-- <label for="customFile">Custom File</label> -->
                 
@@ -330,11 +369,14 @@
                                               <!-- /.col -->
                                               <div class="col-sm-4 invoice-col">
                                                 <b>Nationality:</b>Ethiopian<br>
-                                                <br>
+                                                
                                                 <b>Acadamic Year:</b><% var today = new Date(batchinfo.batch_from).getFullYear()
-            %> <%= today
-            %><br>
-            <b>Class Name:</b> <%= classlist.class_name %><br>
+            %> 
+            <% var today2 = new Date(batchinfo.batch_to).getFullYear()
+            %> <%= today %>-<%= today2 %>G.C
+            
+            <br>
+            <b>Section Name:</b><p id="demo"></p><br>
             <% if (applicant.current_level ) {%>
             <b>Level:</b> <%= applicant.current_level %><br>
                         <%}%>
@@ -345,7 +387,31 @@
                                               <!-- /.col -->
                                             </div>
                                             <!-- /.row -->
-                              
+                                            <script>
+                                                var t = '<%- JSON.stringify(classlist) %>';
+                                               
+                                                var test = JSON.parse(t);
+                                                console.log(test)
+                                           
+                                            function myFunction() {
+                                              var x = document.getElementById("classname").value;
+                                              test.forEach(function(row){
+                                                console.log(row.class_id)
+                                                console.log(x)
+                                                if(x === row.class_id){
+
+                                                  document.getElementById("demo").innerHTML = row.class_name;
+                                                }
+                                              })
+                                            
+                                             
+                                            }
+                                              function myFunction2() {
+                                                var y = document.getElementById("traineeid").value;
+                                                document.getElementById("studentid").innerHTML = y;
+                                              }
+                                              </script>
+                                              
                                             <!-- Table row -->
                                             <div class="row">
                                               <div class="col-12 table-responsive">
@@ -389,7 +455,7 @@
                                                 
                                               </div>
                                               <div class="col-4">
-                                                <p class="lead"> Advisor Signiture:</p>
+                                                <p class="lead"> Program Coordinator Signiture:</p>
                                                 
                                               </div>
                                               <!-- /.col -->
@@ -403,10 +469,10 @@
                               
                                             <!-- this row will not appear when printing -->
                                             <div class="row no-print">
-                                              <div class="col-12">
+                                              <!-- <div class="col-12">
                                                 
                                                 <a type="button " class="btn-block btn-sm btn" style="background-color: aqua;" href="/registrardataencoder/registration/printslip/<%= programidlevel %>/<%= applicant.applicant_id %>"><i class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print Registration Slip</a>
-                                              </div>
+                                              </div> -->
                                             </div>
                                           </div>
                                       </div>
@@ -493,6 +559,10 @@
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script src="../../../dist/js/pages/dashboard3.js"></script>
   <script src="../../plugins/toastr/toastr.min.js"></script>
-  
-  
+  <script src="../../../../plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+  <script>
+    $(function () {
+      bsCustomFileInput.init();
+    });
+    </script>
   </body></html>

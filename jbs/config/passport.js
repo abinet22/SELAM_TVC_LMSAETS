@@ -12,7 +12,7 @@ module.exports = function(passport) {
   passport.use(
     new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
       // Match user
-      User.findOne({ where:{username:email,userroll:"JBS"}}).then(data => {
+      User.findOne({ where:{username:email,userroll:"JBS",isactive:'Yes'}}).then(data => {
       
         if(!data)
         {

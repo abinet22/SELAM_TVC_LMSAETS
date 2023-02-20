@@ -56,6 +56,125 @@ router.get('/allcourselist', ensureAuthenticated, async function (req, res) {
  
  
  });
+ router.post('/filtershorttermuocbybatch', ensureAuthenticated, async function (req, res) {
+
+  const {batch,semister,dept ,searchtag} = req.body;
+  const batchngo = await Batch.findAll({where:{program_type:"ngo"}});
+  const batchindustry = await Batch.findAll({where:{program_type:"industry"}});
+  
+  if( searchtag=="ngo"){
+    const [ngo, metadatango] = await sequelize.query(
+      "SELECT ngocourses.*, batches.batch_name, occupations.occupation_name, occupations.training_cost as cost,departments.department_name FROM ngocourses "+
+      " inner join occupations on occupations.occupation_id=  ngocourses.department_name"+
+      " inner join batches on ngocourses.batch_id = batches.batch_id "+
+      " INNER JOIN departments ON departments.department_id = ngocourses.department_id where  ngocourses.department_id ='"+dept+"' and ngocourses.batch_id='"+batch+"' "
+    );
+    const occupation = await Department.findAll({});
+   
+    res.render('allshorttermcourselist',{
+     department:occupation,     
+     course1:ngo,
+     course2:'',
+     course3:'',
+     course4:'',
+     course5:'',
+     ngo:ngo,
+     batch:batchngo,
+     searchtag:"ngo",
+     industry:''
+  })
+  }else{
+    const [industry, metadataindu] = await sequelize.query(
+      "SELECT industrycourses.*,batches.batch_name, occupations.occupation_name, occupations.training_cost as cost,departments.department_name FROM industrycourses "+
+      " inner join occupations on occupations.occupation_id=  industrycourses.department_name"+
+      " inner join batches on industrycourses.batch_id = batches.batch_id "+
+      " INNER JOIN departments ON departments.department_id = industrycourses.department_id where industrycourses.department_id ='"+dept+"' and industrycourses.batch_id='"+batch+"'"
+    );
+    const occupation = await Department.findAll({});
+   
+   res.render('allshorttermcourselist',{
+    department:occupation,     
+    course1:industry,
+    course2:'',
+    course3:'',
+    course4:'',
+    course5:'',
+    ngo:'',
+    searchtag:"industry",
+    industry:'',
+    batch:batchindustry
+ })
+  }
+ 
+  
+ 
+ 
+ });
+ router.get('/allngocourselist', ensureAuthenticated,async function (req, res) 
+{
+const occupation = await Department.findAll({});
+const batchngo = await Batch.findAll({where:{program_type:"ngo"}});
+const batchindustry = await Batch.findAll({where:{program_type:"industry"}});
+const [course1, metadata] = await sequelize.query(
+  "SELECT ngocourses.*,batches.batch_name, occupations.occupation_name, occupations.training_cost as cost,departments.department_name FROM ngocourses INNER JOIN occupations ON occupations.occupation_id = ngocourses.department_name"+
+  " inner join batches on ngocourses.batch_id = batches.batch_id "+
+
+  "  inner join departments on ngocourses.department_id = departments.department_id"
+);
+const [course2, metadata2] = await sequelize.query(
+  "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2'"
+);
+const [course3, metadata3] = await sequelize.query(
+  "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3'"
+);
+const [course4, metadata4] = await sequelize.query(
+  "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4'"
+);
+    res.render('allshorttermcourselist',{
+      department:occupation,
+        batch:batchngo,
+        batchindustry:batchindustry,
+        course1:course1,
+        course2:course2,
+        course3:course3,
+        searchtag:"ngo",
+        course4:course4,
+    });
+
+});
+router.get('/allindustrycourselist', ensureAuthenticated,async function (req, res) 
+{
+const occupation = await Department.findAll({});
+const batchngo = await Batch.findAll({where:{program_type:"ngo"}});
+const batchindustry = await Batch.findAll({where:{program_type:"industry"}});
+
+const [course1, metadata] = await sequelize.query(
+  "SELECT industrycourses.*, batches.batch_name, occupations.occupation_name, occupations.training_cost as cost,departments.department_name FROM industrycourses INNER JOIN occupations ON occupations.occupation_id = industrycourses.department_name"+
+  " inner join batches on industrycourses.batch_id = batches.batch_id "+
+
+  "  inner join departments on industrycourses.department_id = departments.department_id"
+);
+const [course2, metadata2] = await sequelize.query(
+  "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2'"
+);
+const [course3, metadata3] = await sequelize.query(
+  "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3'"
+);
+const [course4, metadata4] = await sequelize.query(
+  "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4'"
+);
+    res.render('allshorttermcourselist',{
+      department:occupation,
+        batchngo:batchngo,
+        batch:batchindustry,
+        searchtag:"industry",
+        course1:course1,
+        course2:course2,
+        course3:course3,
+        course4:course4,
+    });
+
+});
  router.post('/filterbydepartment', ensureAuthenticated, async function (req, res) {
 
     const {dept,semister} = req.body;

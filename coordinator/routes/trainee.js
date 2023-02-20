@@ -41,7 +41,7 @@ router.get('/managengobased',ensureAuthenticated,async function(req,res){
   const [levelbased, metalevelbaseddata] = await sequelize.query(
     "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
   );
-  const department = await Occupation.findAll({});
+  const department = await Department.findAll({});
   res.render('managengobased',{levelbased:ngobased,department:department})
 })
 router.get('/manageindustrybased',ensureAuthenticated,async function(req,res){
@@ -49,7 +49,7 @@ router.get('/manageindustrybased',ensureAuthenticated,async function(req,res){
     "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id"
   );
  
-  const department = await Occupation.findAll({});
+  const department = await Department.findAll({});
   res.render('manageindustrybased',{levelbased:industrybased,department:department})
 })
 

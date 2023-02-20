@@ -35,7 +35,9 @@ module.exports = (sequelize, DataTypes) => {
         learning_obj:{
             type:DataTypes.JSON
         },
-      
+        amharicuocname:{
+            type: DataTypes.STRING,
+        }
 
        
     

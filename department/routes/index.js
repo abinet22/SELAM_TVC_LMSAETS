@@ -23,7 +23,8 @@ router.get('/', forwardAuthenticated, (req, res) => res.render('login'));
 router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
 router.get('/dashboard', ensureAuthenticated, async function(req, res) { 
    const departments = await Department.findOne({where:{department_id:req.user.department}})
-  res.render('dashboard',{department:departments,user:req.user})});
+  res.render('dashboard',{department:departments,user:req.user})
+});
 router.get('/addnewfunder', ensureAuthenticated, (req, res) => res.render('addnewfunder'));
 router.get('/addselectcriteria', ensureAuthenticated, (req, res) => res.render('addselectcriteria'));
 
@@ -34,7 +35,55 @@ router.post('/login', (req, res, next) => {
         failureFlash: true
     })(req, res, next);
 });
-  
+router.get('/changepassword', ensureAuthenticated, (req, res) => res.render('changepassword'));
+
+router.post('/changepassword',ensureAuthenticated,async function (req, res)  {
+  const {oldpass,newpass,newpassre} = req.body;
+  let errors =[];
+if(!oldpass || !newpass || !newpassre){
+errors.push({msg:"please enter all required fields!"})
+}
+
+if(newpass != newpassre){
+  errors.push({msg:"your new password and re-type password are not the same!"}) 
+}
+
+if(errors.length >0){
+res.render('changepassword',{errors})
+}
+else{
+  User.findOne({where:{userid:req.user.userid}}).then(user =>{
+      if(user){
+          var op = user.password;
+          bcrypt.compare(oldpass,op, (err, isMatch) => {
+              if (err) throw err;
+              if (isMatch) {
+                  bcrypt.hash(newpass, 10, (err, hash) => {
+     
+                      User.update({password:hash},{where:{userid:req.user.userid}}).then(user =>{
+                          res.render('changepassword',{success_msg:"You Are Successfully Update Your Password "})
+                       }).catch(err =>{
+                          res.render('changepassword',{error_msg:'Error While Change Password'})
+                       })
+                      }); 
+              } else{
+                  res.render('changepassword',{error_msg:'Old Password Not Correct'})
+              }
+            });
+      }else{
+          res.render('changepassword',{error_msg:'User Not Find Try Later'})
+      }
+  }).catch(err =>{
+      console.log(err)
+      res.render('changepassword',{error_msg:'Error While Change Password'})
+                  
+  })
+ 
+
+
+}
+
+}); 
   // Logout
 router.get('/logout', (req, res) => {
     req.logout();

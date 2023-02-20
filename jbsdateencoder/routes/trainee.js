@@ -43,9 +43,16 @@ router.post('/seetraineejbshistory/(:traineeid)',ensureAuthenticated,async funct
         " select * from occupations inner join departments on"+
          " departments.department_id=occupations.department_id inner join sectorlists on"+
          " sectorlists.sector_id = departments.training_id where occupations.occupation_id='"+student.department_id+"' "
-      )
+      ) ;
+      const [newdpt,dptmjeta] = await sequelize.query(
+        " select * from departments "+
+         "inner join sectorlists on"+
+         " sectorlists.sector_id = departments.training_id where departments.department_id='"+student.department_id+"' "
+      );
+
 res.render('singlestudentjbshistory',{
     emphistory:emphistory,
+    newdpt:newdpt,
     batch:batch,
     department:department,
     student:student
@@ -79,14 +86,16 @@ res.render('alljbstraineelist',{
 })
 router.get('/alltraineeinjbs',ensureAuthenticated,async function(req,res){
     const levelbased = await JBSStudentData.findAll({});
-    const department = await Department.findAll({});
+    const department = await Occupation.findAll({});
+    const newdpt = await Department.findAll({})
     const classlist = await ClassInDept.findAll({});
     const batchlist = await Batch.findAll({});
 res.render('alljbstraineelist',{
     levelbased:levelbased,
     department:department,
     classlist:classlist,
-    batchlist:batchlist
+    batchlist:batchlist,
+    newdpt:newdpt
 })
 })
 

@@ -88,6 +88,7 @@
                                               <th>User Roll</th>
                                               <th>Is Active?</th>
                                               <th>Action To Do</th>
+                                              <th>Reset Password</th>
                                             </tr>
                                           </thead>
                                           <tbody>
@@ -134,6 +135,18 @@
                                      
                                                     
                                                   </div>
+                                                </td>
+                                                <td>
+                                                  <form action="/admin/resetstaffpassword/<%= row.userid %>" method="post">
+                                                    <div class="form-group">
+                                                      <input class="form-control" placeholder="New Password" id="newpassstaff" name="newpassstaff">
+                                                    </div>
+                                                    <button type="type" class="btn btn-block btn-outline-success btn-xs">
+                                                      <i class="mdi mdi-key-remove"></i>                                                        
+                                                          Reset Password 
+                                                        </button>
+                                                  </form>
+                                             
                                                 </td>
                                               </tr>
                                              <% }) }else{} %>

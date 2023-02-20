@@ -83,10 +83,15 @@
                               <tr>
               <th>#</th>
               <th>Batch Name </th>
-              <th>Occupation Name </th>
-                                <th>Class Name</th>
+              <% if(programtag ==="level") { %>
+                <th>Occupation Name </th>
+              <%}else{ %>
+                <th>Department Name </th>
+              <%}%>
+              
+                                <th>Section Name</th>
                               
-                                <th>Class Representative </th>
+                                <th>Section Representative </th>
                                 <th>Select Course To See Report</th>
                                
                               </tr>
@@ -100,7 +105,12 @@
                                         <tr>
                                             <td><%= i %></td>
                                             <td><%= row.batch_name%></td>
-                                            <td><%= row.occupation_name %></td>
+                                            <% if(programtag ==="level") { %>
+                                              <td><%= row.occupation_name %></td>
+                                            <%}else{ %>
+                                              <td><%= row.department_name %></td>
+                                            <%}%>
+                                           
                                             <td><%= row.class_name %></td>
                                            
                                             <td>

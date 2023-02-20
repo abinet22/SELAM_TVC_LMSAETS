@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
         course_code: {
             type: DataTypes.STRING,
         },
+        amharicuocname:{
+            type: DataTypes.STRING,
+        },
         department_id: {
             type: DataTypes.STRING,
         },

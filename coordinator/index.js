@@ -66,16 +66,16 @@ app.use(function(req, res, next) {
 
 app.use(express.static(path.join(__dirname,'./public')));
 // Routes
-app.use('/', require('./routes/index.js'));
-app.use('/programs', require('./routes/programs.js'));
-app.use('/company', require('./routes/company.js'));
-app.use('/trainee', require('./routes/trainee.js'));
-app.use('/applicant',require('./routes/applicant.js'));
-app.use('/reports',require('./routes/reports.js'));
-app.use('/staff',require('./routes/staff.js'));
-app.use('/evaluation',require('./routes/evaluation.js'));
-app.use('/attendance',require('./routes/attendance.js'));
-app.use('/classmanage',require('./routes/classmanage.js'));
+app.use('/coordinator', require('./routes/index.js'));
+app.use('/coordinator/programs', require('./routes/programs.js'));
+app.use('/coordinator/company', require('./routes/company.js'));
+app.use('/coordinator/trainee', require('./routes/trainee.js'));
+app.use('/coordinator/applicant',require('./routes/applicant.js'));
+app.use('/coordinator/reports',require('./routes/reports.js'));
+app.use('/coordinator/staff',require('./routes/staff.js'));
+app.use('/coordinator/evaluation',require('./routes/evaluation.js'));
+app.use('/coordinator/attendance',require('./routes/attendance.js'));
+app.use('/coordinator/classmanage',require('./routes/classmanage.js'));
 
 
 

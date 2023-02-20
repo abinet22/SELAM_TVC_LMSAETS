@@ -175,6 +175,31 @@ router.get('/allbatchlist',ensureAuthenticated,async function(req,res){
     res.render('allbatchlist',{batch:batchl,batchi:batchi,batchn:batchn})
 })
 
+router.post('/changetonotcurrent/(:batchid)',ensureAuthenticated,async function(req,res){
+    const [batchl, metadata] = await sequelize.query(
+       "SELECT * FROM batches INNER JOIN levelbasedprograms ON batches.batch_id = levelbasedprograms.batch_id "
+     );
+     const [batchn, metadatan] = await sequelize.query(
+       "SELECT * FROM batches INNER JOIN  ngobasedprograms on ngobasedprograms.batch_id =batches.batch_id "
+     );
+     const [batchi, metadatai] = await sequelize.query(
+       "SELECT * FROM batches INNER JOIN  industrybasedprograms on industrybasedprograms.batch_id = batches.batch_id"
+     );
+     Batch.findOne({where:{batch_id:req.params.batchid}}).then( ba=>{
+        if(ba){
+            Batch.update({is_current:'No'},{where:{batch_id:req.params.batchid}}).then(batc =>{
+                res.render('allbatchlist',{batch:batchl,batchi:batchi,batchn:batchn,
+                
+                success_msg:"Successfully update batch status"})
+            }).catch(err =>{
+                res.render('allbatchlist',{batch:batchl,batchi:batchi,batchn:batchn})
+            })
+        }
+     }).catch(error =>{
+        res.render('allbatchlist',{batch:batchl,batchi:batchi,batchn:batchn})
+     })
+  
+})
 
 
 module.exports = router;

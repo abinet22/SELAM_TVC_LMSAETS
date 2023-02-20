@@ -103,9 +103,13 @@
           <div class="col-sm-4 invoice-col">
             <b>Nationality:</b>Ethiopian<br>
             
-            <b>Acadamic Year:</b><% var today = new Date(batchinfo.batch_from).getFullYear()
-            %> <%= today
-            %><br>
+            <b>Acadamic Year:</b><% var frmdt = new Date(batchinfo.batch_from).getFullYear()
+            %>
+            <% var todt = new Date(batchinfo.batch_to).getFullYear()
+            %>
+             <%= frmdt %> - <%= todt %> G.C
+          
+            <br>
             <b>Class Name:</b> <%= classlist.class_name %><br>
             <% if (applicant.current_level ) {%>
             <b>Level:</b> <%= applicant.current_level %><br>
@@ -161,7 +165,7 @@
             
           </div>
           <div class="col-4">
-            <p class="lead"> Advisor Signiture:</p>
+            <p class="lead"> Program Coordinator Signiture:</p>
             
           </div>
           <!-- /.col -->

@@ -18,6 +18,7 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const { v4: uuidv4, parse } = require('uuid');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
+const Batch = db.batches;
 
 const LevelBasedProgram = db.levelbasedprograms;
 const NGOBasedProgram = db.ngobasedprograms;
@@ -98,7 +99,7 @@ router.post('/addapplicanttongobasedprogram',ensureAuthenticated, async function
     }
     else
     {
-        const department = await Occupation.findAll({})
+        const department = await Department.findAll({})
         res.render('addnewapplicantngo',{prodata:prodata,programidlevel:programidngo,department:department});
     
     }
@@ -162,8 +163,11 @@ router.post('/updateapplicanttolevelbasedprogram',ensureAuthenticated, async fun
   else
   {
     const department = await Occupation.findAll({});
-    const applicantlist = await NewApplicant.findAll({where:{is_selected:"No",application_id:programidlevel}})
-     res.render('updatenewapplicantresult',{applicantlist:applicantlist,department:department,programidlevel:programidlevel});
+    const  [applicantlist, sdfs] = await sequelize.query(
+      "SELECT * FROM newapplicants INNER JOIN batches ON batches.batch_id = newapplicants.application_id where is_selected ='No' and is_current='Yes' and application_id='"+programidlevel+"'"
+    );
+    
+    res.render('updatenewapplicantresult',{applicantlist:applicantlist,department:department,programidlevel:programidlevel});
  
   }
  
@@ -360,7 +364,7 @@ grade12_old:JSON.parse(grade12score),
         {
           res.render('addnewapplicant',{programidlevel:programid,department:department,
             success_msg_extra:"Successfully register applicant data.",
-            success_extra:'/registrardataencoder/applicant/printapplication/'+appid})
+            success_extra:'/registrardataencoder/applicant/printapplication/'+programid+'/'+appid})
 
         }
         else
@@ -452,7 +456,7 @@ additional_data:additionaldatas
           {
             res.render('addnewapplicantngo',{programidlevel:programid,department:department,
               success_msg_extra:"Successfully register applicant data.",prodata:prodata,
-              success_extra:'/registrardataencoder/applicant/printapplication/'+appid})
+              success_extra:'/registrardataencoder/applicant/printapplicationngo/'+programid+'/'+appid})
   
           }
           else
@@ -567,9 +571,9 @@ router.post('/filterapplicantngobased',ensureAuthenticated,async function(req,re
   }
   else
   {
-    const department = await Occupation.findAll({});
+    const department = await Department.findAll({});
     const applicantlist = await NewApplicant.findAll({where:{is_selected:"No",application_id:programidngo}})
-    res.render('applicantlisttobefilter',{
+    res.render('applicantlisttobefilterngo',{
         department:department,
         applicantlist:applicantlist,
         applevel:'',
@@ -683,6 +687,107 @@ else{
 
 
 });
+router.post('/filterapplicantbycriteriassettedngo',ensureAuthenticated,async function(req,res){
+  const{choiceorder,departmentchoice,limitsize,orderby,programtype,applevel,programidlevel,criteria} = req.body;
+  let dptchoice = departmentchoice;
+  const department = await Department.findAll({});
+  let errors = [];
+  if(!choiceorder || !departmentchoice){
+  errors.push({msg:'Please Select And Insert All Required Fields'})
+  }
+  if(!criteria){
+    errors.push({msg:'Please Insert Selection Critera'})
+    }
+  if(errors.length >0){
+    const applicantlist = await NewApplicant.findAll({where:{is_selected:"No",application_id:programidlevel}})
+      res.render('applicantlisttobefilterngo',{
+          department:department,
+          applicantlist:applicantlist,
+          applevel:applevel,
+    selecteddptid:'',
+          choice:'',
+          applistfilter:applicantlist,
+          programtype:programtype,
+          programidlevel:programidlevel,
+          errors
+      });
+  }
+  else{
+  //  var querytop = "select *  from newapplicants where is_selected = 'No' and application_id = '"+programidlevel+"' ";
+    var query = "select personal_info,apptitude_result,grade12_leaving,contact_info,entrance_exam,grade10_leaving,total_transcript_ave912,applicant_id,choice_one,choice_two,choice_three, sum(";
+    
+    var filter ;
+    if(criteria){
+      filter = JSON.parse(criteria);
+      Object.getOwnPropertyNames(filter).forEach(
+        function (val, idx, array) {
+      
+       var keys = val ;
+       console.log(keys);
+       var vals = filter[val] ;
+       console.log(vals);
+       if("apptitude_result" == keys ){
+        query += "(apptitude_result *"+vals+")/100 + ";
+       }
+       else if("total_transcript_ave912"  == keys){
+        query += "(total_transcript_ave912 *"+vals+")/100 +";
+       }
+        else if( "grade10_leaving"  == keys){
+          query += "(grade10_leaving *"+vals+")/100 + ";
+        }
+          else if( "grade12_leaving"  == keys){
+            query += "( grade12_leaving *"+vals+")/100 + ";
+          }
+            else if( "affarmative_action"  == keys){
+              query += "(affarmative_action *"+vals+")/100 + ";
+            }
+           
+        });
+    }
+    
+      query += " 0 ) as total from newapplicants where is_selected = 'No' and application_id = '"+programidlevel+"' ";
+    
+     if(choiceorder){
+      if(choiceorder =="choice_one"){
+        query +=" and choice_one='"+departmentchoice+"'"
+       
+        }
+        else if(choiceorder =="choice_two"){
+          query +=" and choice_two='"+departmentchoice+"'";
+            
+        }
+        else if(choiceorder =="choice_three"){
+          query +=" and choice_three='"+departmentchoice+"'"
+        }
+     }
+    
+       query +=" group by applicant_id,apptitude_result,grade12_leaving, choice_one,choice_two,choice_three,personal_info,contact_info,entrance_exam,grade10_leaving,total_transcript_ave912 order by total desc";
+    
+      if(limitsize == ""){
+      
+      }
+      else{
+          query +=" limit "+limitsize+"";
+      }
+    //console.log(querytop);
+     console.log(query);  
+    const [applfilter, metalevelbaseddata] = await sequelize.query(query);
+    const [applicantlistsqt, metalevelbaseddatat] = await sequelize.query(query);
+    
+    res.render('applicantlisttobefilterngo',{
+        department:department,
+        applicantlist:applicantlistsqt,
+        applistfilter:applfilter,
+        applevel:applevel,
+        programtype:programtype,
+     choice:choiceorder,
+        selecteddptid:departmentchoice,
+        programidlevel:programidlevel
+    });
+  }
+  
+  
+  });
 router.post('/updateselecteddepartment',ensureAuthenticated,async function(req,res){
     const{departmentselected,programidlevel,applicantid} =req.body;
     let errors = [];
@@ -799,19 +904,39 @@ console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
   }
 
 });
-router.get('/printapplication/(:applicantid)',ensureAuthenticated,async function(req,res){
+router.get('/printapplication/(:batchid)/(:applicantid)',ensureAuthenticated,async function(req,res){
    
   //const{programidlevel,applicantid} = req.body;
+  const batchinfo = await Batch.findOne({where:{batch_id:req.params.batchid}});
 const applicant = await NewApplicant.findOne({where:{applicant_id:req.params.applicantid}});
 if(applicant){
   const department = await Occupation.findAll({})
    res.render('printapplicationform',{
       applicant:applicant,
       classlist:"",
+      batchinfo:batchinfo,
       department:department,
       courselist:"",
       programidlevel:"",
       programtag:"level"
+  });
+}
+});
+router.get('/printapplicationngo/(:batchid)/(:applicantid)',ensureAuthenticated,async function(req,res){
+   
+  //const{programidlevel,applicantid} = req.body;
+  const batchinfo = await Batch.findOne({where:{batch_id:req.params.batchid}})
+const applicant = await NewApplicant.findOne({where:{applicant_id:req.params.applicantid}});
+if(applicant){
+  const department = await Department.findAll({})
+   res.render('printapplicationformngo',{
+      applicant:applicant,
+      batchinfo:batchinfo,
+      classlist:"",
+      department:department,
+      courselist:"",
+      programidlevel:"",
+      programtag:"ngo"
   });
 }
 });

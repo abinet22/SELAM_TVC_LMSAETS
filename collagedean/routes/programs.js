@@ -36,7 +36,7 @@ router.get('/addlevelbased', ensureAuthenticated,async function (req, res)
 router.get('/addngobased', ensureAuthenticated, async function(req, res) {
     
     const funderinfo = await FunderInfo.findAll({});
-    const traininglist = await  Occupation.findAll();
+    const traininglist = await  Department.findAll();
     const criterialist = await  AppSelectionCriteria.findAll();
     res.render('addngobased',{
         funderinfo:funderinfo,
@@ -47,7 +47,7 @@ router.get('/addngobased', ensureAuthenticated, async function(req, res) {
 });
 router.get('/addindustrybased', ensureAuthenticated, async function(req, res) {
 
-const traininglist = await  Occupation.findAll();
+const traininglist = await  Department.findAll();
 
 res.render('addindustrybased',{
 

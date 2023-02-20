@@ -103,14 +103,14 @@
                                               <td><%var stat =  row.criteria_status ; %>
                                                 <% if(stat == "Enabled"){%>
                                                   <form action="/admin/disableselectioncriteria/<%=row.criteria_id%>" method="get">
-                                                      <button type="type" class="btn btn-outline-danger btn-icon-text">
+                                                      <button type="type" class="btn btn-block btn-outline-success btn-xs">
                                                         <i class="mdi mdi-key-remove"></i>                                                        
                                                            Disable
                                                           </button>
                                                     </form>
                                               <% }else{ %>
                                                   <form action="/admin/enableselectioncriteria/<%=row.criteria_id%>" method="get">
-                                                      <button type="type" class="btn btn-outline-warning btn-icon-text">
+                                                      <button type="type" class="btn btn-block btn-outline-danger btn-xs">
                                                         <i class="mdi mdi-key-remove"></i>                                                        
                                                            Enable
                                                           </button>
@@ -226,7 +226,7 @@
           }, "colvis"],
           columnDefs: [ {
           targets: -1,
-          visible: false
+          visible: true
       }]
   }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 });

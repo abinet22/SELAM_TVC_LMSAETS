@@ -70,6 +70,31 @@
                           </div>
                       <br>
                       <div class="row">
+                        <div class="col-md-8">
+                          <div class="alert  alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <blockquote>
+                              <% if(addinfo.length >0) {%>
+                                <% addinfo.forEach(function (row){ %>
+                                  
+                                    <small>Batch Name :<%= row.batch_name %><br>
+                                    Department Name: <%= row.department_name %><br>
+                                    Occupation Name: <%= row.occupation_name %><br>
+                                    Class Name: <%= row.class_name %></small><br>
+                               <% })}else {}%>    
+                            <% if(courselist.length >0) {%>
+                              <% courselist.forEach(function (row){ %>
+                                  <small>UOC Name :<%= row.course_name %><br>
+                                  Module Code: <%= row.course_code %></br>
+                                  Duration: <%= row.training_hours %></small>
+                             <% })}else {}%>   
+                            
+                            </blockquote>
+                          </div>
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+                      <div class="row">
                      
                       
                         <div class="row" style="display: none;">
@@ -111,7 +136,7 @@
                                    <th><small>Student ID</small></th>
                                                      <th><small>Full Name</small></th>
                                                  
-                                                     <th><small>Course Name</small></th>
+                                                     <th><small>UOC Name</small></th>
                
                                                      <th> <small>Theoretical Evaluation</small></th>
                                                      <th><small> Practical Evaluation</small></th>
@@ -648,7 +673,7 @@ return returnArray;
                },
                title: function() {
    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
-     " <td > <h4> Selam David Roeschli Technical And Vocational College  </h4> <h6><small><br> "+batchname+"<br> "+departmentname+"<br> "+occupationname+"<br> "+classname+" </small><br> Trainee Progress Report</h6> </td> </tr> </table>"
+     " <td > <h4> Selam  Technical And Vocational College  </h4> <h6><small><br> "+batchname+"<br> "+departmentname+"<br> "+occupationname+"<br> "+classname+" </small><br> Trainee Progress Report</h6> </td> </tr> </table>"
                   
  } ,
 

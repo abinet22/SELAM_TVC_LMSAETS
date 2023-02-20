@@ -21,7 +21,8 @@ const SectorList = db.sectorlists;
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
 router.get('/searchclasswithbatch',ensureAuthenticated,async function(req,res){
-  const dpt = await Occupation.findAll({});
+  const occ = await Occupation.findAll({});
+  const dpt = await Department.findAll({});
   const [ngobased, metangobaseddata] = await sequelize.query(
       "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id"
     );
@@ -35,7 +36,9 @@ router.get('/searchclasswithbatch',ensureAuthenticated,async function(req,res){
       levelbased:levelbased,
       ngobased:ngobased,
       industrybased:industrybased,
+      occupation:occ,
       department:dpt
+
   });
 });
 router.get('/allclasslist',ensureAuthenticated,async function(req,res){

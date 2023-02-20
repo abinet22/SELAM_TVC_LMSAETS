@@ -94,7 +94,7 @@
                                       <th>Emergency Info</th>
                                       <th>Extra Info</th>
                                       <th>Department </th> 
-                                      <th>Class</th> 
+                                      <th>Section</th> 
                                       <th>Batch</th>
                                       <th>Action To Do</th>
                                     </tr>
@@ -123,13 +123,24 @@
                                             <td><%= row.is_disable %><br><%= row.disable_info %></td>
                                            
                                             <td>
-                                                 <% if(department.length > 0){ %>
-                                                    <% department.forEach(function (row){ %>
-                                                       <% var dptid = row.department_id %>
-                                                       <%  if(dptid == dpt)  {%>
-                                                        <%= row.department_name %>
-                                                        <%   }  %>
-                                                   <% })} %>
+                                              <% if(row.programtag ==="level"){%>
+                                                <% if(department.length > 0){ %>
+                                                  <% department.forEach(function (row){ %>
+                                                     <% var dptid = row.occupation_id %>
+                                                     <%  if(dptid == dpt)  {%>
+                                                      <%= row.occupation_name %>
+                                                      <%   }  %>
+                                                 <% })} %>
+                                              <%}else{%>
+                                                <% if(department.length > 0){ %>
+                                                  <% department.forEach(function (row){ %>
+                                                     <% var dptid = row.department_id %>
+                                                     <%  if(dptid == dpt)  {%>
+                                                      <%= row.department_name %>
+                                                      <%   }  %>
+                                                 <% })} %>
+                                             <% }%>
+                                                
                                              
                                             </td>
                                             <td>

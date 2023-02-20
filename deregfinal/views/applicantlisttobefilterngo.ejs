@@ -1,0 +1,810 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>selam</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  <!-- Navbar -->
+  <%- include('./partials/top') %>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar  elevation-4">
+    <!-- Brand Logo -->
+         <!-- Brand Logo -->
+         <%- include('./partials/sidebar') %>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Dashboard</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Applicant List</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="col-md-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                  <h3 class="card-title">Search Filter Form</h3>
+    
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body" style="display: block;">
+                    <form action="/registrardataencoder/applicant/filterapplicantbycriteriassettedngo" method="post">
+                        <div class="card-body">
+                            <div class="row">
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                  <label>Filter By Choice</label>
+                                  <select class="form-control " name="choiceorder"  id="choiceorder" onchange="changetablecolumn(this);">
+                                   <option value="0">Filter By Choice </option>
+                                   <option value="choice_one">Choice One</option>
+                                   <option value="choice_two">Choice Two</option>
+                                   <option value="choice_three">Choice Three</option>
+                                 
+                                  </select>
+                                
+                              </div>
+                           </div>
+                           <script>
+                               function changetablecolumn(val){
+                              console.log(val.value)
+                               }
+                           </script>
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                  <label>Select Department </label>
+                                  <select class="form-control-sm js-example-basic-single " name="departmentchoice"  id="departmentchoice">
+                                   <option value="0">Choice Department Name</option>
+                                   <% if(department.length >0) {%>
+                                      <% department.forEach(function (row){ %>
+                                        <option value="<%= row.department_id %>"><%= row.department_name %></option>
+                                     <% })}else {}%>
+                                  </select>
+                                
+                              </div>
+                           </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="row">
+                                <label>Filter And Order Result By</label>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    
+                                    <div class="input-group">
+                                      <div class="input-group-prepend">
+                                        <button class="btn btn-sm btn-primary form-control" id="add"  type="button">Add Filter Criteria</button>
+                                  
+                                      </div>
+                                      <select class="form-control " name="prenume"  id="prenume" >
+                                        <option value="0">Please Select Criteria List</option>
+                                        <option value="total_transcript_ave912">Grade 9-12 Average Transcript </option>
+                                          <option value="grade12_leaving">EGSCE </option>
+                                          <option value="grade10_leaving">SSLE </option>
+                                          <option value="entrance_exam">Entrance Exam </option>
+                                          <option value="apptitude_result">Apptitude Exam </option>
+                                          <option value="affarmative_action">Affarmative Action</option>
+                                         </select>
+                                     
+                                    </div>
+                                  </div>
+                                
+                                </div>
+                                <div class="col-md-6">
+                                 <div class="form-group">
+                                
+                                   <div class="input-group">
+                                     <input type="range" min="1" max="100" value="50" class="slider form-control" id="myRange">
+                                 
+                                     <div class="input-group-append">
+                                       <span class="input-group-text" id="demo">50%</span>
+                                     </div>
+                                   </div>
+                                 </div>
+                                
+                               </div>
+                              </div>
+                            </div>
+                            <input type="hidden" id="criteria" name="criteria">
+                          
+                                <div class="row">
+                                  <button class="btn btn-link btn-sm" type="button"  onclick="removeallcriterialist();">Clear Criteria</button>
+                                             
+                                  <div class="col-md-6 offset-md-3 form-check form-check-primary">
+                                    <ul class="" id="list">
+                                      <label>Applicant Filter Criteria List<i class="input-helper"></i></label>
+                                    </ul>
+                                  </div>
+                                </div>
+                        
+                        <input type="hidden" name="programidlevel" id="programidlevel" value="<%= programidlevel %>">
+                        <input type="hidden" name="applevel" id="applevel" value="<%= applevel %>">
+                        <input type="hidden" name="programtype" id="programtype" value="<%= programtype %>">
+  
+                        </div>
+                        
+                        <!-- /.card-body -->
+        
+                        <div class="card-footer">
+                         <div class="col-md-6 offset-md-3">
+                             <input class="form-control" name="limitsize" id="limitsize" placeholder="Enter Search Limit" type="number">
+                          <button type="submit" class="btn btn-primary btn-block btn-sm my-2">Search Filter</button>
+                         </div>
+                      
+                        </div>
+                      </form>
+                </div>
+                <!-- /.card-body -->
+              </div>
+        </div>
+       
+           
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                      <div class="card-header">
+                        <h4 class="card-title">Filtered Applicant Result List</h4>
+                      </div>
+                      <div class="card-body">
+                       
+                        <%- include ('./partials/messages') %>
+                        <div class="row">
+                          <div class="alert alert-success alert-dismissible fade show" style="display: none;" role="alert" id="servermsg">
+                               <p id="msg"></p>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="row" style="display: none;">
+                              <div class="col-sm-12 col-md-6">
+                                  <div class="dt-buttons btn-group flex-wrap">               
+                              <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Copy</span></button> 
+                              <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>CSV</span></button> 
+                              <button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Excel</span></button> 
+                              <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>PDF</span></button>
+                               <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="example1" type="button"><span>Print</span></button> <div class="btn-group">
+                                   <button class="btn btn-secondary buttons-collection dropdown-toggle buttons-colvis" tabindex="0" aria-controls="example1" type="button" aria-haspopup="true" aria-expanded="false"><span>Column visibility</span></button></div> </div></div>
+                                   
+                                   <div class="col-sm-12 col-md-6"><div id="example1_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1"></label></div></div>
+                                  </div>
+                          <div class="col-md-12  grid-margin stretch-card">     <div class="card">
+                            <div class="card-body">
+                             <div class="row mb-2">
+                               <div class="col-md-4">
+
+                               </div>
+                               <div class="col-md-4">
+
+                              </div>
+                               <div class="col-md-4">
+                                <button type="button" class="btn btn-primary btn-block btn-sm" data-toggle="modal" data-target="#exampleModal">
+                                 Select All Filtered Applicants
+                                 </button>
+                             
+                              </div>
+                             </div>
+                              <div class="table-responsive" >
+                                  <table aria-describedby="example1_info" role="grid" class="table table-bordered table-striped dataTable dtr-inline" id="example1">
+                                    <thead>
+                                      <tr>
+                      <th>#</th>
+                                        <th>Applicant Full Name</th>
+                                        <th>Gender</th>
+                                       
+                                        <th>Department Choice One</th>  
+                                        <th>Department Choice Two</th>  
+                                        <th>Department Choice Three</th>  
+                                                                         
+                                      
+                                        <th>Entrance/Apptitude Exam</th>
+                                        <th>Grade 10/12 Leaving Exam</th>
+                                        <th>Grade 9-12 Transcript Average</th>
+                                        <th>Filter Criteria Point  </th>
+                                      
+                                      
+                                        <th>Action To Do</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                    
+                                       
+                                    
+                                     <% if(applistfilter.length >0 ) { %>
+                                      <% var i = 0 ;%>
+                                         <% applistfilter.forEach(function (row){ %>
+                             
+                                          <% var appid= row.applicant_id %>
+                                          <% var filtertotal= row.total %>
+
+                                         
+                                              <% i++ %>
+                                              <% var one, two,three; %>
+                                              <% var name = JSON.parse(JSON.stringify(row.personal_info)); %>
+                                              <% var contact = JSON.parse(JSON.stringify(row.contact_info)); %>
+                                              <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
+                                              <% var contactself = name.firstname +"/ "+contact.phoneNumber_1  %>
+                                              <% var contactemergency = contact.emergencyname +"/ "+contact.emergencyphone  %>
+                                              <tr>
+                                                  <td><%= i %></td>
+                                                  <td><%= fullname %></td>
+                                                  <td><%= name.gender %></td>
+                                                  
+                                                 
+                                                  <td><%var choice1 = row.choice_one %>
+                                                       <%var choice2 =  row.choice_two %>
+                                                       <% var choice3 = row.choice_three %>
+                                                       <% if(department.length > 0){ %>
+                                                          <% department.forEach(function (row){ %>
+                                                             <% var dptid = row.department_id %>
+                                                             <%  if(dptid == choice1)  {%>
+                                                              <%   one = row.department_name %>
+                                                              <%   }   %>
+                                                               
+                                                              
+                                                         <% })} %>
+                                                      <%= one %>
+                                                    
+                                                  </td>
+                                                  <td> 
+                                                    <% if(department.length > 0){ %>
+                                                      <% department.forEach(function (row){ %>
+                                                         <% var dptid = row.department_id %>
+                                                         <%  if(dptid == choice2)  {%>
+                                                          <%   two = row.department_name %>
+                                                          <%   }   %>
+                                                     <% })} %>
+                                                     <%= two %>
+                                                  </td>
+                                                  <td> <% if(department.length > 0){ %>
+                                                    <% department.forEach(function (row){ %>
+                                                       <% var dptid = row.department_id %>
+                                                       <%   if(dptid == choice3){%>
+                                                            <%   three = row.department_name %>
+                                                          
+                                                            <%   } %>
+                                                   <% })} %> 
+                                                   <%= three %>
+                                                   </td>
+                                                  <td><%= row.entrance_exam %>/<%= row.apptitude_result %></td>
+                                                  <td><%= row.grade10_leaving %>/<%= row.grade12_leaving %></td>
+                                               
+                                                  <td><%= row.total_transcript_ave912 %></td>
+                                                  <td><%= filtertotal %></td>
+                                               
+                                                  <td><form  id="<%= row.applicant_id %>" >
+                                                 <div class="">
+                                                   <div class="col-md-8">
+                                                    <input name="programidlevel" id="programidlevel" value="<%=programidlevel %>" type="hidden">
+                                                    <input type="hidden" name="applevel" id="applevel" value="<%= applevel %>">
+                                                    <input type="hidden" name="programtype" id="programtype" value="<%= programtype %>">
+                                                    <input type="hidden" name="applicantid" id="applicantid" value="<%= row.applicant_id %>">
+                                                    <input type="hidden" name="departmentselected" id="departmentselected" >
+                              
+                                                    <div class="form-group">
+                                                   
+                                                     <select class="form-control-sm js-example-basic-single " name="deptselected"  id="deptselected" onchange="deptselectedseet(this.value);">
+                                                      <option value="0">Selected Department Name</option>
+                                                      <% if(department.length >0) {%>
+                                                         <% department.forEach(function (row){ %>
+                                                           <option value="<%= row.department_id %>"><%= row.department_name %></option>
+                                                        <% })}else {}%>
+                                                     </select>
+                                                   
+                                                 </div>
+                                                   </div>
+                                                  <div class="col-md-4">
+                                                    <button type="button" onclick="updatedpt('<%= row.applicant_id %>')" class="btn btn-sm  btn-link">Update Department</button>
+                                               
+                                                  </div>
+                                                  <script>
+                                                      function deptselectedseet(val){
+                                                       var dpt =  document.getElementById('departmentselected');
+                                                           dpt.value = val;
+                                                           console.log(val);
+                                                      }
+                                                  
+                                                  </script>
+                                                
+                                                </div>    </form></td>
+                                               
+    
+                                              
+                                                </tr>
+                                          
+                                        
+                                       <%  })} else{}     %>
+                                       <script>
+                                              function updatedpt(formid) {
+                                                  const $form = $('#'+formid);
+                                                  if(event.preventDefault) event.preventDefault(); 
+                                                  var xx =  $form.serialize();
+                                                  console.log(xx);
+                                                           $.ajax({
+                                                              type: "POST",
+                                                              url: '/registrardataencoder/applicant/updateselecteddepartment',
+                                                              data: $form.serialize(), // serializes form input
+                                                              success: function(data){
+                                                                if(data.data == "error1"){
+                                                                  var sm = document.getElementById('servermsg');
+                                                                  var msg = document.getElementById('msg');
+                                                                  sm.style.display ="block";
+                                                                  msg.innerHTML ="Something Is Wrong Please Try Later"
+                                                                }
+                                                                else if(data.data == "error"){
+                                                                  var sm = document.getElementById('servermsg');
+                                                                  var msg = document.getElementById('msg');
+                                                                  sm.style.display ="block";
+                                                                  msg.innerHTML ="Please Choose Occupation Name First"
+                                                                }
+                                                                else if(data.data =="success"){
+                                                                  var sm = document.getElementById('servermsg');
+                                                                  var msg = document.getElementById('msg');
+                                                                  sm.style.display ="block";
+                                                                  msg.innerHTML ="Successfully Updated Selected Applicant Occupation Choice";
+                                                                  setTimeout(function(){// wait for 5 secs(2)
+                      location.reload(); // then reload the page.(3)
+                      }, 1000); 
+                                                                }
+                                                              }
+                                                          });
+                                                    
+                                              };
+                                      
+                                        </script>
+                                  
+                      
+                                         
+                                     
+                                    
+                                    </tbody>
+                                  </table>
+                                </div>
+                            
+                            </div>
+                          </div>
+                        </div>
+                     
+                    
+                      </div>
+                      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Filter Applicant List  </h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="col-lg-12 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Filter Result</h4>
+                                    </div>
+                                  <div class="card-body">
+                                    <div class="alert  alert-dismissible fade show" role="alert" style="display: none;" id="servermsg">
+                                        <p id="msg"></p>
+                                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                           <span aria-hidden="true">&times;</span>
+                                         </button>
+                                       </div>
+                                   <div class="form-group">
+                                     <input type="hidden" name="batchid" id="batchid" value="<%= programidlevel %>">
+                                     <input type="hidden" name="departmentselectedm" id="departmentselectedm" value="<%= selecteddptid %>">
+                                 
+                                    <% if(department.length >0) {%>
+                                      <% department.forEach(function (row){ %>
+                                       <% var deptid = row.department_id %>
+                                        <% if(deptid ===selecteddptid){ %>
+                                          <label>Selected Department:<%= row.department_name %></label>
+                                        <%}%>
+                                      <% })}else {}%>
+                                      <label>Selected Choice:<%= choice %></label>        
+                                    </div>
+                                    <p></p>
+                                    <script>
+                                          function deptselected(val){
+                                                       var dpt =  document.getElementById('departmentselectedm');
+                                                           dpt.value = val;
+                                                           console.log(val);
+                                                      }
+                                    </script>
+                                    <fieldset id="studentlist">
+                                      <div class="table-responsive">
+                                        <table class="table  table-responsive" id="tablesend">
+                                          <thead>
+                                            <tr>
+                                              <th>#</th>
+                                              <th>Applicant ID</th>
+                                              <th>Applicant Full Name</th>
+                                              <th>Gender</th>
+                                             
+                                              <th>Department Choice One</th>  
+                                              <th>Department Choice Two</th>  
+                                              <th>Department Choice Three</th>  
+                                               
+                                              <th>Filter Criteria Point  </th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                    
+                                       
+                                    
+                                            <% if(applistfilter.length >0 ) { %>
+                                             <% var i = 0 ;%>
+                                                <% applistfilter.forEach(function (row){ %>
+                                    
+                                                 <% var appid= row.applicant_id %>
+                                                 <% var filtertotal= row.total %>
+       
+                                                
+                                                     <% i++ %>
+                                                     <% var one, two,three; %>
+                                                     <% var name = JSON.parse(JSON.stringify(row.personal_info)); %>
+                                                     <% var contact = JSON.parse(JSON.stringify(row.contact_info)); %>
+                                                     <% var fullname = name.firstname +" "+name.middlename +" "+name.lastname %>
+                                                     <% var contactself = name.firstname +"/ "+contact.phoneNumber_1  %>
+                                                     <% var contactemergency = contact.emergencyname +"/ "+contact.emergencyphone  %>
+                                                     <tr>
+                                                       
+                                                         <td><%= i %></td>
+                                                         <td><%= row.applicant_id %></td>
+                                                         <td><%= fullname %></td>
+                                                         <td><%= name.gender %></td>
+                                                         
+                                                        
+                                                         <td><%var choice1 = row.choice_one %>
+                                                              <%var choice2 =  row.choice_two %>
+                                                              <% var choice3 = row.choice_three %>
+                                                              <% if(department.length > 0){ %>
+                                                                <% department.forEach(function (row){ %>
+                                                                   <% var dptid = row.occupation_id %>
+                                                                   <%   if(dptid == choice1){%>
+                                                                        <%   one = row.occupation_name %>
+                                                                      
+                                                                        <%   } %>
+                                                               <% })} %> 
+                                                             
+                                                             <%= one %>
+                                                           
+                                                         </td>
+                                                         <td><% if(department.length > 0){ %>
+                                                          <% department.forEach(function (row){ %>
+                                                             <% var dptid = row.occupation_id %>
+                                                             <%   if(dptid == choice2){%>
+                                                                  <%   two = row.occupation_name %>
+                                                                
+                                                                  <%   } %>
+                                                         <% })} %> 
+                                                         <%= two %></td>
+                                                         <td> <% if(department.length > 0){ %>
+                                                          <% department.forEach(function (row){ %>
+                                                             <% var dptid = row.occupation_id %>
+                                                             <%   if(dptid == choice3){%>
+                                                                  <%   three = row.occupation_name %>
+                                                                
+                                                                  <%   } %>
+                                                         <% })} %> 
+                                                        <%= three %> </td>
+                                                        
+                                                         <td><%= filtertotal %></td>
+                                                      
+                                                         
+                                                      
+           
+                                                     
+                                                       </tr>
+                                                  
+                                               
+                                              <%  })} else{}     %>
+                                         
+                                            
+                                           
+                                           </tbody>
+                                        </table>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-md-6 offset-md-3  mt-2">
+                                          <button type="button" onclick=" convertArrayToJSON2();" class="btn btn-block btn-sm form-control btn-primary">Submit</button>
+                                        </div>
+                                      </div>
+                                    </fieldset>
+                                   
+                                  
+                                  </div>
+                                </div>
+                              </div>
+                           
+                            </div>
+                           
+                          </div>
+                        </div>
+                      </div>
+                
+                        </div>
+                      </div>
+                    </div>
+                
+                   
+                    <script>
+                      var slider = document.getElementById("myRange");
+                   
+                      var output = document.getElementById("demo");
+                 
+                    
+    output.innerHTML = slider.value +"%"; // Display the default slider value
+    
+    // Update the current slider value (each time you drag the slider handle)
+    slider.oninput = function() {
+    output.innerHTML = this.value;
+    } ;           
+           var criarry = [] ;
+           var criteria ={}; 
+    
+                      var criid =0 ;
+                      function removeallcriterialist(){
+                        criteria ={}; 
+                        criid =0 ;
+                                  $('#criteria').val( JSON.stringify(criteria) );
+                                
+                                  var addlos = document.getElementById('list');
+                                  var item = document.getElementById('criterialist');
+                              
+                                    addlos.removeChild(item);
+                                 
+                                  console.log(JSON.stringify(criteria) );  
+                                 
+                                }
+                      $("#add").on("click", function(e){
+                        var data = document.getElementById("prenume").value;
+                     if(data == "0")
+                     {
+    
+                     }
+                     else
+                     {
+                    
+                     var criname = document.getElementById("prenume").value;
+                      var percent = document.getElementById("myRange").value;
+                     
+                      var checkboxvalue = criname + "_" +percent+"%";
+                      criname.trim();
+                      criid += parseInt(percent);
+                      if(criid <= 103){
+                        criteria[criname] = parseInt(percent) ;
+                    //criarry.push(criteria);
+                     // $('#criteria').val([criteria]);
+                     $('#criteria').val( JSON.stringify(criteria) );
+                   console.log(criteria);            
+    $("#list").append("<li id='criterialist'><input type='checkbox' id="+ checkboxvalue +" class='form-check-input' checked >" + $("#prenume").val() + " " + $("#myRange").val() +"%"+"</li>");
+    
+    return false;
+                      }
+                    // criarry.push(checkboxvalue);
+                    // criteria['name'] = criname;
+                    //  criteria['val'] = criname;
+                    //    criteria['id'] = criid;
+                 
+                     }
+                   
+    });
+       
+                    </script>
+                        
+                        <script>
+          
+                          function storeTblValues2()
+                          {
+                              var TableData = new Array();
+                             
+                              $('#tablesend tr').each(function (row, tr) {
+                               
+                                var currentRow=$(this);
+                                var col =currentRow.find("td:eq(1)").text();
+                                var dp =document.getElementById('departmentselectedm').value;
+                      if(!col.length  )
+                      {
+                      
+                      }
+                      else{
+                      var col1_value= currentRow.find("td:eq(1)").text();
+                      var col2_value=document.getElementById('departmentselectedm').value;
+                       var col3_value = document.getElementById('batchid').value;
+                       console.log(col2_value);
+                       console.log(col3_value);
+                   
+                        var obj={};
+                        obj.department_id=col2_value.trim();
+                      obj.student_id=col1_value.trim();
+                     obj.batch_id = col3_value.trim();
+                      TableData.push(obj);
+                      
+                      console.log(obj);
+                      
+                      
+                     
+                    
+                      }
+                      
+                      
+                              });
+                            // first row will be empty - so remove
+                              return TableData;
+                          }
+                      
+                          function convertArrayToJSON2()
+                          {
+                              var TableData;
+                             // TableData = $.toJSON(storeTblValues());
+                             TableData =  JSON.stringify(storeTblValues2());
+                            //  $('#tbConvertToJSON').html('<br>JSON array: <br>' + TableData.replace(/},/g, "},<br>"));
+                      
+                      
+                      $.ajax({
+                                  type: "POST",
+                                  url: "/registrardataencoder/applicant/confirmselectedapplicantdepartmentbulk",
+                                  data: "pTableData=" + TableData,    // post TableData to server script
+                      
+                                  success: function (data) {
+                            
+                                    if(data.message == 'success'){ // if true (1)
+                      
+                                      var x = document.getElementById("servermsg");
+                      var msg = document.getElementById("msg");
+                      
+                      x.style.display = "block";
+                      x.className="alert alert-success alert-dismissible fade show";
+                      msg.innerHTML="You are successfully update filter applicant selected department!";
+                      setTimeout(function(){// wait for 5 secs(2)
+                      location.reload(); // then reload the page.(3)
+                      }, 1000); 
+                      }
+                      else{
+                      
+                          var x = document.getElementById("servermsg");
+                      var msg = document.getElementById("msg");
+                      x.style.display = "block";
+                      x.className="alert alert-danger alert-dismissible fade show";
+                      msg.innerHTML="Something is wrong please try later!"
+                      setTimeout(function(){// wait for 5 secs(2)
+                      location.reload(); // then reload the page.(3)
+                      }, 1000); 
+                      }
+                                  }
+                              });
+                         
+                            }
+                      
+                      
+                      </script>
+                           
+                        </div>
+             
+          
+          </div>
+    
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+      <!-- Brand Logo -->
+      <%- include('./partials/footer') %> 
+</footer>
+<script>
+  $(document).ready(function() {
+$('.js-example-basic-single').select2();
+});
+</script>
+  <!-- Control Sidebar -->
+
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../../plugins/jszip/jszip.min.js"></script>
+<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<script src="../../plugins/select2/js/select2.full.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+<!-- Page specific script -->
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<!-- Page specific script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": false, "lengthChange": true, "autoWidth": false  ,
+      "buttons": ["copy", "csv", "excel", "pdf",  {
+                extend: 'print',
+                customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' )
+                        .prepend(
+                            '<img src="" style="position:absolute; top:0; left:0;" />'
+                            
+                            );
+ 
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' );
+                },
+                title: function() {
+    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
+   " <td > <h4>  Organization Name <br> Selam Technical And Vocational Collage <br>  Applicant  List Filtered</h4> </td> </tr> </table>"
+              
+  } ,
+
+                
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, "colvis"],
+            columnDefs: [ {
+            targets: -1,
+            visible: true
+        }]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+  });
+</script>
+</body>
+</html>

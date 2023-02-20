@@ -323,7 +323,7 @@ router.post('/addnewsystemuser',ensureAuthenticated, async function(req, res)
 {
     const {username,password,repassword,userroll,deptname,staffmember} = req.body;
     const deptnames = await Department.findAll({});
-    const stafflist = await StaffList.findAll({where:{isteacher:'No'}})
+    const stafflist = await StaffList.findAll({})
   const users = await User.findAll({});
     let errors = [];
  
@@ -584,7 +584,7 @@ router.get('/disableselectioncriteria/(:criteriaid)',ensureAuthenticated,async f
     const criteria = await AppSelectionCriteria.findAll({});
 
     AppSelectionCriteria.update({criteria_status:'Disabled'},{where:{criteria_id:req.params.criteriaid}}).then(funders =>{
-        FunderInfo.findAll({}).then(list =>{
+        AppSelectionCriteria.findAll({}).then(list =>{
             res.render('allselectioncriterialist',{
       
                 criteria:list
@@ -624,6 +624,28 @@ router.get('/enableselectioncriteria/(:criteriaid)',ensureAuthenticated,async fu
       
             criteria:criteria
         })
+    })
+})
+router.post('/resetstaffpassword/(:userid)',ensureAuthenticated,async function(req,res){
+   const {newpassstaff} = req.body;
+    const userlist = await User.findAll({});
+    User.findOne({where:{userid:req.params.userid}}).then(user =>{
+        if(user){
+            bcrypt.hash(newpassstaff, 10, (err, hash) => {
+       
+                User.update({password:hash},{where:{userid:req.params.userid}}).then(user =>{
+                    res.render('alluserlist',{userlist:userlist,success_msg:"You Are Successfully Update Your Password "+ newpassstaff})
+                 }).catch(err =>{
+                    res.render('alluserlist',{userlist:userlist,error_msg:'Error While Change Password'})
+                 })
+                }); 
+        }else{
+            res.render('alluserlist',{userlist:userlist,error_msg:'User Not Find Try Later'})
+        }
+    }).catch(err =>{
+        console.log(err)
+        res.render('alluserlist',{userlist:userlist,error_msg:'Error While Change Password'})
+                    
     })
 })
 module.exports = router;

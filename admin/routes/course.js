@@ -49,7 +49,71 @@ const [course4, metadata4] = await sequelize.query(
     });
 
 });
+router.get('/allngocourselist', ensureAuthenticated,async function (req, res) 
+{
+const occupation = await Department.findAll({});
+const batchngo = await Batch.findAll({where:{program_type:"ngo"}});
+const batchindustry = await Batch.findAll({where:{program_type:"industry"}});
+const [course1, metadata] = await sequelize.query(
+  "SELECT ngocourses.*,batches.batch_name, occupations.occupation_name, occupations.training_cost as cost,departments.department_name FROM ngocourses INNER JOIN occupations ON occupations.occupation_id = ngocourses.department_name"+
+  " inner join batches on ngocourses.batch_id = batches.batch_id "+
 
+  "  inner join departments on ngocourses.department_id = departments.department_id"
+);
+const [course2, metadata2] = await sequelize.query(
+  "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2'"
+);
+const [course3, metadata3] = await sequelize.query(
+  "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3'"
+);
+const [course4, metadata4] = await sequelize.query(
+  "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4'"
+);
+    res.render('allshorttermcourselist',{
+      department:occupation,
+        batch:batchngo,
+        batchindustry:batchindustry,
+        course1:course1,
+        course2:course2,
+        course3:course3,
+        searchtag:"ngo",
+        course4:course4,
+    });
+
+});
+router.get('/allindustrycourselist', ensureAuthenticated,async function (req, res) 
+{
+const occupation = await Department.findAll({});
+const batchngo = await Batch.findAll({where:{program_type:"ngo"}});
+const batchindustry = await Batch.findAll({where:{program_type:"industry"}});
+
+const [course1, metadata] = await sequelize.query(
+  "SELECT industrycourses.*, batches.batch_name, occupations.occupation_name, occupations.training_cost as cost,departments.department_name FROM industrycourses INNER JOIN occupations ON occupations.occupation_id = industrycourses.department_name"+
+  " inner join batches on industrycourses.batch_id = batches.batch_id "+
+
+  "  inner join departments on industrycourses.department_id = departments.department_id"
+);
+const [course2, metadata2] = await sequelize.query(
+  "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_2'"
+);
+const [course3, metadata3] = await sequelize.query(
+  "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_3'"
+);
+const [course4, metadata4] = await sequelize.query(
+  "SELECT * FROM courses INNER JOIN occupations ON occupations.occupation_id = courses.department_id where training_level='Level_4'"
+);
+    res.render('allshorttermcourselist',{
+      department:occupation,
+        batchngo:batchngo,
+        batch:batchindustry,
+        searchtag:"industry",
+        course1:course1,
+        course2:course2,
+        course3:course3,
+        course4:course4,
+    });
+
+});
 router.post('/deletecourseinfo/(:courseid)', ensureAuthenticated, async function(req, res) 
 {
   
@@ -755,6 +819,60 @@ router.get('/allcourselist', ensureAuthenticated, async function (req, res) {
  
  
  });
+ router.post('/filtershorttermuocbybatch', ensureAuthenticated, async function (req, res) {
+
+  const {batch,semister,dept ,searchtag} = req.body;
+  const batchngo = await Batch.findAll({where:{program_type:"ngo"}});
+  const batchindustry = await Batch.findAll({where:{program_type:"industry"}});
+  
+  if( searchtag=="ngo"){
+    const [ngo, metadatango] = await sequelize.query(
+      "SELECT ngocourses.*, batches.batch_name, occupations.occupation_name, occupations.training_cost as cost,departments.department_name FROM ngocourses "+
+      " inner join occupations on occupations.occupation_id=  ngocourses.department_name"+
+      " inner join batches on ngocourses.batch_id = batches.batch_id "+
+      " INNER JOIN departments ON departments.department_id = ngocourses.department_id where  ngocourses.department_id ='"+dept+"' and ngocourses.batch_id='"+batch+"' "
+    );
+    const occupation = await Department.findAll({});
+   
+    res.render('allshorttermcourselist',{
+     department:occupation,     
+     course1:ngo,
+     course2:'',
+     course3:'',
+     course4:'',
+     course5:'',
+     ngo:ngo,
+     batch:batchngo,
+     searchtag:"ngo",
+     industry:''
+  })
+  }else{
+    const [industry, metadataindu] = await sequelize.query(
+      "SELECT industrycourses.*,batches.batch_name, occupations.occupation_name, occupations.training_cost as cost,departments.department_name FROM industrycourses "+
+      " inner join occupations on occupations.occupation_id=  industrycourses.department_name"+
+      " inner join batches on industrycourses.batch_id = batches.batch_id "+
+      " INNER JOIN departments ON departments.department_id = industrycourses.department_id where industrycourses.department_id ='"+dept+"' and industrycourses.batch_id='"+batch+"'"
+    );
+    const occupation = await Department.findAll({});
+   
+   res.render('allshorttermcourselist',{
+    department:occupation,     
+    course1:industry,
+    course2:'',
+    course3:'',
+    course4:'',
+    course5:'',
+    ngo:'',
+    searchtag:"industry",
+    industry:'',
+    batch:batchindustry
+ })
+  }
+ 
+  
+ 
+ 
+ });
  router.post('/filterbydepartment', ensureAuthenticated, async function (req, res) {
 
     const {dept,semister} = req.body;
@@ -936,7 +1054,7 @@ router.post('/addnewcourse', ensureAuthenticated, async function(req, res)
 
 router.post('/addnewcoursengo', ensureAuthenticated, async function(req, res) 
 {
-    const{batch,level1,traininghours,nolosngo,lodatango,trainingcost} = req.body;
+    const{batch,level1,traininghours,nolosngo,amharicuocname,lodatango,trainingcost} = req.body;
     let error = [];
     const occupation = await Occupation.findAll({});
     const batchngo = await Batch.findAll({where:{program_type:"ngo"}});
@@ -1001,22 +1119,34 @@ router.post('/addnewcoursengo', ensureAuthenticated, async function(req, res)
       if(!course){
 
       }
-      const courseData ={
-        batch_id:batch,
-      course_id: course.course_id,
-      course_name: course.course_name,
-      course_code: course.course_code,
-      department_id: course.department_id,
-      department_name:course.department_name,
-      training_hours:traininghours,
-      training_level:course.training_level,
-      semister:course.semister,
-      nooflo:nolosngo,
-      learning_obj:JSON.parse(lodatango),
-      training_cost:trainingcost
-      }
-       console.log(courseData)
-       NGOCourse.create(courseData)
+      Occupation.findOne({where:{occupation_id:course.department_id}}).then(cwdpt =>{
+        if(!cwdpt){
+
+        }
+        const courseData ={
+          batch_id:batch,
+        course_id: course.course_id,
+        course_name: course.course_name,
+        course_code: course.course_code,
+        department_id: cwdpt.department_id,
+        department_name:course.department_name,
+        training_hours:traininghours,
+        training_level:course.training_level,
+        semister:course.semister,
+        nooflo:nolosngo,
+        learning_obj:JSON.parse(lodatango),
+        training_cost:trainingcost,
+        amharicuocname:amharicuocname
+        }
+        console.log("seeeeeeeeeeeeeeeeeee")
+         console.log(cwdpt)
+         console.log(course.department_id)
+         console.log(cwdpt.department_id)
+         NGOCourse.create(courseData)
+      }).catch(err =>{
+
+      })
+     
   
        }).catch(error =>{
   
@@ -1045,7 +1175,7 @@ router.post('/addnewcoursengo', ensureAuthenticated, async function(req, res)
 });
 router.post('/addnewcourseindustry', ensureAuthenticated, async function(req, res) 
 {
-    const{batch,level1,traininghours,nolosind,lodataind,trainingcost} = req.body;
+    const{batch,level1,traininghours,nolosind,amharicuocname,lodataind,trainingcost} = req.body;
     let error = [];
     const occupation = await Occupation.findAll({});
     const batchngo = await Batch.findAll({where:{program_type:"ngo"}});
@@ -1110,22 +1240,31 @@ router.post('/addnewcourseindustry', ensureAuthenticated, async function(req, re
       if(!course){
 
       }
-      const courseData ={
-        batch_id:batch,
-      course_id: course.course_id,
-      course_name: course.course_name,
-      course_code: course.course_code,
-      department_id: course.department_id,
-      department_name:course.department_name,
-      training_hours:traininghours,
-      training_level:course.training_level,
-      semister:course.semister,
-      nooflo:nolosind,
-      training_cost:trainingcost,
-      learning_obj:JSON.parse(lodataind),
-      }
-       console.log(courseData)
-       IndustryCourse.create(courseData)
+      Occupation.findOne({where:{occupation_id:course.department_id}}).then(cwdpt =>{
+        if(!cwdpt){
+
+        }
+        const courseData ={
+          batch_id:batch,
+        course_id: course.course_id,
+        course_name: course.course_name,
+        course_code: course.course_code,
+        department_id: cwdpt.department_id,
+        department_name:course.department_name,
+        training_hours:traininghours,
+        training_level:course.training_level,
+        semister:course.semister,
+        nooflo:nolosind,
+        training_cost:trainingcost,
+        learning_obj:JSON.parse(lodataind),
+        amharicuocname:amharicuocname
+        }
+         console.log(courseData)
+         IndustryCourse.create(courseData)
+      }).catch(err =>{
+
+      })
+     
   
        }).catch(error =>{
   
@@ -1151,6 +1290,135 @@ router.post('/addnewcourseindustry', ensureAuthenticated, async function(req, re
    }
    
    
+});
+router.post('/deletecourseinfo/(:deptid)/(:courseid)/(:batchid)', ensureAuthenticated, async function(req, res) 
+{
+  const {searchtag} = req.body;
+  const batchngo = await Batch.findAll({where:{program_type:"ngo"}});
+  const batchindustry = await Batch.findAll({where:{program_type:"industry"}});
+  
+  if( searchtag=="ngo"){
+    const [ngo, metadatango] = await sequelize.query(
+      "SELECT ngocourses.*, batches.batch_name, occupations.occupation_name, occupations.training_cost as cost,departments.department_name FROM ngocourses "+
+      " inner join occupations on occupations.occupation_id=  ngocourses.department_name"+
+      " inner join batches on ngocourses.batch_id = batches.batch_id "+
+      " INNER JOIN departments ON departments.department_id = ngocourses.department_id where  ngocourses.department_id ='"+req.params.deptid+"' and ngocourses.batch_id='"+req.params.batchid+"' "
+    );
+    const occupation = await Department.findAll({});
+    NGOCourse.findOne({where:{course_id:req.params.courseid,batch_id:req.params.batchid,department_id:req.params.deptid}}).then(course =>{
+    
+      if(course){
+        NGOCourse.destroy({where:{course_id:req.params.courseid,batch_id:req.params.batchid,department_id:req.params.deptid}}).then( occ =>{
+          res.render('allshorttermcourselist',{
+            department:occupation,     
+            course1:ngo,
+            success_msg:"You Are Deleting UOC  Info Successfully",
+            course2:'',
+            course3:'',
+            course4:'',
+            course5:'',
+            ngo:ngo,
+            batch:batchngo,
+            searchtag:"ngo",
+            industry:''
+         })
+        }).catch(err =>{
+          console.log(err)
+          res.render('allshorttermcourselist',{
+            department:occupation,     
+            course1:ngo,
+            course2:'',
+            course3:'',
+            course4:'',
+            course5:'',
+            ngo:ngo,
+            batch:batchngo,
+            searchtag:"ngo",
+            industry:'',
+            error_msg:"Error While Updating UOCs LOs Info Please Try Later"
+         })
+        })
+      }
+
+    }).catch(err =>{
+      console.log(err)
+      res.render('allshorttermcourselist',{
+        department:occupation,     
+        course1:ngo,
+        course2:'',
+        course3:'',
+        course4:'',
+        course5:'',
+        ngo:ngo,
+        batch:batchngo,
+        searchtag:"ngo",
+        industry:'',
+        error_msg:"Error While Updating UOCs Info Please Try Later"
+     })
+    })
+   
+  }else{
+    const [industry, metadataindu] = await sequelize.query(
+      "SELECT industrycourses.*,batches.batch_name, occupations.occupation_name, occupations.training_cost as cost,departments.department_name FROM industrycourses "+
+      " inner join occupations on occupations.occupation_id=  industrycourses.department_name"+
+      " inner join batches on industrycourses.batch_id = batches.batch_id "+
+      " INNER JOIN departments ON departments.department_id = industrycourses.department_id where industrycourses.department_id ='"+req.params.deptid+"' and industrycourses.batch_id='"+req.params.batchid+"'"
+    );
+    const occupation = await Department.findAll({});
+   
+    IndustryCourse.findOne({where:{course_id:req.params.courseid,batch_id:req.params.batchid,department_id:req.params.deptid}}).then(course =>{
+    
+      if(course){
+        IndustryCourse.destroy({where:{course_id:req.params.courseid,batch_id:req.params.batchid,department_id:req.params.deptid}}).then( occ =>{
+          res.render('allshorttermcourselist',{
+            department:occupation,     
+            course1:industry,
+            course2:'',
+            course3:'',
+            course4:'',
+            course5:'',
+            ngo:'',
+            searchtag:"industry",
+            industry:'',
+            batch:batchindustry,
+            success_msg:"You Are Deleting UOC  Info Successfully"
+         })
+        }).catch(err =>{
+          console.log(err)
+          res.render('allshorttermcourselist',{
+            department:occupation,     
+            course1:industry,
+            course2:'',
+            course3:'',
+            course4:'',
+            course5:'',
+            ngo:'',
+            searchtag:"industry",
+            industry:'',
+            batch:batchindustry,
+            error_msg:"Error While Updating UOCs LOs Info Please Try Later"
+         })
+        })
+      }
+
+    }).catch(err =>{
+      console.log(err)
+      res.render('allshorttermcourselist',{
+        department:occupation,     
+        course1:industry,
+        course2:'',
+        course3:'',
+        course4:'',
+        course5:'',
+        ngo:'',
+        searchtag:"industry",
+        industry:'',
+        batch:batchindustry,
+        error_msg:"Error While Updating UOCs LOs Info Please Try Later"
+     })
+    })
+ 
+  }
 });
 
 module.exports = router;

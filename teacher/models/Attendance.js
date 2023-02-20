@@ -16,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
         },
         attendance_date:{
             type: DataTypes.STRING,
+        },
+        uoc_name:{
+            type: DataTypes.STRING,
         }
        
     });

@@ -26,7 +26,7 @@ const { funderinfo } = require('../models');
 router.get('/newlevelbased', ensureAuthenticated,async function (req, res) 
 {
     const [results, metadata] = await sequelize.query(
-        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id where is_open='Yes' and is_confirm ='Yes'"
+        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id where is_open='Yes' and is_confirm ='Yes' and is_current='Yes'"
       );
       
       console.log(JSON.stringify(results, null, 2));
@@ -48,7 +48,7 @@ router.get('/newlevelbased', ensureAuthenticated,async function (req, res)
 router.get('/newngobased', ensureAuthenticated, async function(req, res) {
     
     const [results, metadata] = await sequelize.query(
-        "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where is_open='Yes' and is_confirm ='Yes'"
+        "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where is_open='Yes' and is_confirm ='Yes' and is_current='Yes'"
       );
       const funderinfo = await FunderInfo.findAll({});
       console.log(JSON.stringify(results, null, 2));
@@ -71,7 +71,7 @@ router.get('/newngobased', ensureAuthenticated, async function(req, res) {
 });
 router.get('/newindustrybased', ensureAuthenticated,async function (req, res){
     const [results, metadata] = await sequelize.query(
-        "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where is_open='Yes' and is_confirm ='Yes'"
+        "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where is_open='Yes' and is_confirm ='Yes' and is_current='Yes'"
       );
       
       console.log(JSON.stringify(results, null, 2));

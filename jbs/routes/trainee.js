@@ -9,6 +9,7 @@ const JBSStudentData = db.jbsstudentdatas;
 const FunderInfo = db.funderinfo;
 const EmployeementHistory = db.employementhistories;
 const Department = db.departments;
+const Occupation = db.occupations;
 const Course = db.courses;
 const User = db.users;
 const ClassInDept = db.classindepts;
@@ -22,7 +23,7 @@ const Batch = db.batches;
 
 router.get('/managelevelbased',ensureAuthenticated,async function(req,res){
     const levelbased = await JBSStudentData.findAll({where:{programtag:"level"}});
-    const department = await Department.findAll({});
+    const department = await Occupation.findAll({});
     const classlist = await ClassInDept.findAll({});
     const batchlist = await Batch.findAll({});
 res.render('alljbstraineelist',{

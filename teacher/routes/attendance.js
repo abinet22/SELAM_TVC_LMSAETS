@@ -27,11 +27,18 @@ const SectorList = db.sectorlists;
 router.get('/takeattendance',ensureAuthenticated,async function(req,res){
 
   const [classlist, metadata] = await sequelize.query(
-    "SELECT * FROM  classindepts "+
-    "INNER JOIN batches ON classindepts.batch_id = batches.batch_id inner join occupations on occupations.occupation_id =classindepts.department_id where classindepts.rep_teacher_id = '"+req.user.userid+"' "
+    "SELECT classindepts.class_id,program_type,batches.batch_name,classindepts.class_name,batches.batch_id,occupations.occupation_id,occupations.occupation_name,classindepts.training_level FROM  classindepts "+
+    "INNER JOIN batches ON classindepts.batch_id = batches.batch_id"+
+    " inner join occupations on occupations.occupation_id =classindepts.department_id "+
+   " where classindepts.rep_teacher_id = '"+req.user.userid+"' union " +
+   "SELECT classindepts.class_id,program_type,batches.batch_name,classindepts.class_name,batches.batch_id,departments.department_id,departments.department_name,classindepts.training_level FROM  classindepts "+
+   "INNER JOIN batches ON classindepts.batch_id = batches.batch_id"+
+   " inner join departments on departments.department_id =classindepts.department_id "+
+  " where classindepts.rep_teacher_id = '"+req.user.userid+"'  " 
   );
     res.render('myattendanceclasses',{
         classlist:classlist,
+
        
     })
 
@@ -39,8 +46,14 @@ router.get('/takeattendance',ensureAuthenticated,async function(req,res){
 router.get('/attendancedata',ensureAuthenticated,async function(req,res){
 
   const [classlist, metadata] = await sequelize.query(
-    "SELECT * FROM  classindepts "+
-    "INNER JOIN batches ON classindepts.batch_id = batches.batch_id inner join occupations on occupations.occupation_id = classindepts.department_id where classindepts.rep_teacher_id = '"+req.user.userid+"' "
+    "SELECT classindepts.class_id,program_type,batches.batch_name,classindepts.class_name,batches.batch_id,occupations.occupation_id,occupations.occupation_name,classindepts.training_level FROM  classindepts "+
+    "INNER JOIN batches ON classindepts.batch_id = batches.batch_id"+
+    " inner join occupations on occupations.occupation_id =classindepts.department_id "+
+   " where classindepts.rep_teacher_id = '"+req.user.userid+"' union " +
+   "SELECT classindepts.class_id,program_type,batches.batch_name,classindepts.class_name,batches.batch_id,departments.department_id,departments.department_name,classindepts.training_level FROM  classindepts "+
+   "INNER JOIN batches ON classindepts.batch_id = batches.batch_id"+
+   " inner join departments on departments.department_id =classindepts.department_id "+
+  " where classindepts.rep_teacher_id = '"+req.user.userid+"'  " 
   );
   res.render('attendanceclasssearchdata',{
       classlist:classlist,
@@ -108,7 +121,7 @@ router.post('/attendancedatafromclass/(:classname)',ensureAuthenticated,async fu
   })
 router.post('/takeattendance/(:classname)',ensureAuthenticated,async function(req,res){
     
-  const{level,programtype, programtypeb,dpt,batchid} = req.body;
+  const{level,programtype,occ, programtypeb,dpt,batchid} = req.body;
   console.log("prooooooooooooooooooo")
     console.log(programtypeb)
     const [absent, absentmeta] = await sequelize.query(
@@ -124,29 +137,32 @@ router.post('/takeattendance/(:classname)',ensureAuthenticated,async function(re
       "SELECT student_id,sum(attendance_type='Absent') as absent,sum(attendance_type='Present') as present,sum(attendance_type='Permission')as permission  FROM attendances  where class_id='"+req.params.classname +"' group by student_id "
 
     ); 
-    const [addinfo,addinfometa] = await sequelize.query(
-      " select * from classindepts "+
-" inner join batches on batches.batch_id = classindepts.batch_id "+
-" inner join occupations on occupation_id = classindepts.department_id "+
-" inner join departments on departments.department_id = occupations.department_id "+
-" where classindepts.class_id='"+req.params.classname+"'"
-    ); 
+  
     if(programtypeb == "level"){
       const [courselist, metadata] = await sequelize.query(
-        "SELECT courses.course_name,courses.course_id FROM  courseteacherclasses "+
-        "INNER JOIN courses ON courses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+req.params.classname+"' "
-      );
+        "SELECT  * from courses where department_id='"+occ+"'" );
       const [levelbased, metadatalevelbased] = await sequelize.query(
         "select * from levelbasedtrainees where class_id = '"+req.params.classname+"'"
       );   
-        
+      const [addinfo,addinfometa] = await sequelize.query(
+        " select * from classindepts "+
+  " inner join batches on batches.batch_id = classindepts.batch_id "+
+  " inner join occupations on occupation_id = classindepts.department_id "+
+  " inner join departments on departments.department_id = occupations.department_id "+
+  " where classindepts.class_id='"+req.params.classname+"'"
+      );  
    res.render('myattendanceclassstudentlist',{addinfo:addinfo, present:present,permission:permission,absent:absent,dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtypeb , lbattendancedata:lbattendancedata})
 
     }else if(programtypeb == "ngo"){
+      const [addinfo,addinfometa] = await sequelize.query(
+        " select * from classindepts "+
+  " inner join batches on batches.batch_id = classindepts.batch_id "+
+  
+  " inner join departments on departments.department_id = classindepts.department_id "+
+  " where classindepts.class_id='"+req.params.classname+"'"
+      ); 
       const [courselistngo, metadatango] = await sequelize.query(
-        "SELECT ngocourses.course_name,ngocourses.course_id FROM  courseteacherclasses "+
-        "INNER JOIN ngocourses ON ngocourses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+req.params.classname+"' "
-      );
+        "SELECT * from ngocourses where batch_id='"+batchid+"' and department_id='"+dpt+"'" );
       const [ngobased, metadatangobased] = await sequelize.query(
         "select * from ngobasedtrainees where class_id = '"+req.params.classname+"'"
       );   
@@ -154,10 +170,15 @@ router.post('/takeattendance/(:classname)',ensureAuthenticated,async function(re
    res.render('myattendanceclassstudentlist',{addinfo:addinfo,present:present,permission:permission,absent:absent,dpt:dpt,batchid:batchid,levelbased:ngobased,courselist:courselistngo,classid:req.params.classname,level:level,programtype:programtypeb , lbattendancedata:lbattendancedata})
 
     }else if(programtypeb == "industry"){
+      const [addinfo,addinfometa] = await sequelize.query(
+        " select * from classindepts "+
+  " inner join batches on batches.batch_id = classindepts.batch_id "+
+  
+  " inner join departments on departments.department_id = classindepts.department_id "+
+  " where classindepts.class_id='"+req.params.classname+"'"
+      ); 
       const [courselistind, metadataind] = await sequelize.query(
-        "SELECT industrycourses.course_name,industrycourses.course_id FROM  courseteacherclasses "+
-        "INNER JOIN industrycourses ON industrycourses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+req.params.classname+"' "
-      );
+        "SELECT * from industrycourses where batch_id='"+batchid+"' and department_id='"+dpt+"'");
       const [industrybased, metadataindustrybased] = await sequelize.query(
         "select * from industrybasedtrainees where class_id = '"+req.params.classname+"'"
       );   
@@ -189,21 +210,22 @@ router.post('/saveclassattendance',ensureAuthenticated,async function(req,res){
      var classid = item.classid;
          var department = item.department;
          var batchid = item.batchid;
+         var uocname = item.uocname;
      const attendanceData = {
         class_id: classid,
         batch_id: batchid,
         student_id:studentid,
         attendance_type:attendancetype,
-      attendance_date:attendancedate
-    
+      attendance_date:attendancedate,
+       uoc_name:uocname
      }
     
-     Attendance.findOne({where:{student_id:studentid,class_id:classid,attendance_date:attendancedate}}).then(marklist =>{
+     Attendance.findOne({where:{student_id:studentid,uoc_name:uocname,class_id:classid,attendance_date:attendancedate}}).then(marklist =>{
          if(!marklist){
             Attendance.create(attendanceData);
          }
          else{
-            Attendance.update({attendance_date:attendancedate},{where:{student_id:studentid,class_id:classid}})
+            Attendance.update({attendance_date:attendancedate},{where:{student_id:studentid,class_id:classid,uoc_name:uocname}})
          }
      })
   
@@ -225,13 +247,16 @@ router.post('/saveclassattendance',ensureAuthenticated,async function(req,res){
     const {programtype} = req.body;
      const dpt = await Department.findAll({});
       const [absent, absentmeta] = await sequelize.query(
-        "SELECT student_id,attendance_date FROM attendances  where student_id='"+req.params.studentid +"' and attendance_type='Absent'"
+        "SELECT student_id,attendance_date,course_name FROM attendances inner join courses on course_id=uoc_name  where student_id='"+req.params.studentid +"' and attendance_type='Absent'"
+     
       );  
       const [present, persentmeta] = await sequelize.query(
-        "SELECT student_id,attendance_date FROM attendances  where student_id='"+req.params.studentid +"' and attendance_type='Present'"
+        "SELECT student_id,attendance_date,course_name FROM attendances inner join courses on course_id=uoc_name where student_id='"+req.params.studentid +"' and attendance_type='Present'"
+       
       );       
       const [permission, permissionmeta] = await sequelize.query(
-        "SELECT student_id,attendance_date FROM attendances  where student_id='"+req.params.studentid +"' and attendance_type='Permission'"
+        "SELECT student_id,attendance_date,course_name FROM attendances inner join courses on course_id=uoc_name where student_id='"+req.params.studentid +"' and attendance_type='Permission'"
+      
       ); 
       const [lbattendancedata, metaattendace] = await sequelize.query(
         "SELECT student_id,count(student_id) as total,sum(attendance_type='Absent') as absent,sum(attendance_type='Present') as present,sum(attendance_type='Permission')as permission  FROM attendances  where student_id='"+req.params.studentid +"' group by student_id "
@@ -240,7 +265,10 @@ router.post('/saveclassattendance',ensureAuthenticated,async function(req,res){
       if(programtype == "level"){
       
         const [levelbased, metadatalevelbased] = await sequelize.query(
-          "select * from levelbasedtrainees where trainee_id = '"+req.params.studentid+"'"
+          "select * from levelbasedtrainees "+
+          " inner join batches on batches.batch_id=levelbasedtrainees.batch_id"+
+          " where trainee_id = '"+req.params.studentid+"'"
+          
         );   
           
         res.render('showsinglestudentattendancedetail',{dpt:dpt,studentid:req.params.studentid,present:present,permission:permission,absent:absent,levelbased:levelbased,programtype:programtype , lbattendancedata:lbattendancedata})
@@ -248,7 +276,9 @@ router.post('/saveclassattendance',ensureAuthenticated,async function(req,res){
       }else if(programtype == "ngo"){
       
         const [ngobased, metadatangobased] = await sequelize.query(
-          "select * from ngobasedtrainees where trainee_id = '"+req.params.studentid+"'"
+          "select * from ngobasedtrainees"+
+          " inner join batches on batches.batch_id=ngobasedtrainees.batch_id"+
+          " where trainee_id = '"+req.params.studentid+"'"
         );   
           
         res.render('showsinglestudentattendancedetail',{dpt:dpt,studentid:req.params.studentid,present:present,permission:permission,absent:absent,levelbased:ngobased,programtype:programtype , lbattendancedata:lbattendancedata})

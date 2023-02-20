@@ -128,7 +128,7 @@ router.post('/findmyclasstoevaluatecourselevel',ensureAuthenticated,async functi
      const{batchid,dept,occupationid,level} = req.body;
     
      const [results, metadata] = await sequelize.query(
-      "SELECT * from classindepts where department_id='"+occupationid+"' and training_level='"+level+"'" );  
+      "SELECT * from classindepts where batch_id='"+batchid+"' and department_id='"+occupationid+"' and training_level='"+level+"'" );  
  
       const [course, metadatacourse] = await sequelize.query(
         "SELECT * from courses where department_id='"+occupationid+"' and training_level='"+level+"'" );     
@@ -139,9 +139,9 @@ router.post('/findmyclasstoevaluatecoursengo',ensureAuthenticated,async function
   const{batchid,dept,occupationid} = req.body;
  
   const [results, metadata] = await sequelize.query(
-     "SELECT * from classindepts where department_id='"+occupationid+"' and batch_id='"+batchid+"'");  
+     "SELECT * from classindepts where batch_id='"+batchid+"' and department_id='"+req.user.department+"' and batch_id='"+batchid+"'");  
    const [course, metadatacourse] = await sequelize.query(
-     "SELECT * from ngocourses where batch_id='"+batchid+"' and department_id='"+occupationid+"'" );     
+     "SELECT * from ngocourses where batch_id='"+batchid+"' and department_id='"+req.user.department+"'" );     
    console.log(results)
   res.render('myclasses',{classlist:results,course:course,programtag:"ngo"})
 });
@@ -149,7 +149,7 @@ router.post('/findmyclasstoevaluatecourseindustry',ensureAuthenticated,async fun
   const{batchid,dept,occupationid} = req.body;
  
   const [results, metadata] = await sequelize.query(
-    "SELECT * from classindepts where department_id='"+occupationid+"' and batch_id='"+batchid+"'");  
+    "SELECT * from classindepts where batch_id='"+batchid+"' and department_id='"+req.user.department+"' and batch_id='"+batchid+"'");  
  
    const [course, metadatacourse] = await sequelize.query(
      "SELECT * FROM industrycourses where  batch_id='"+batchid+"' and department_id='"+req.user.department+"'" );     

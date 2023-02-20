@@ -25,64 +25,8 @@
   <body class="sidebar-mini sidebar-closed sidebar-collapse" style="height: auto;">
   <div class="wrapper">
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-      <!-- Left navbar links -->
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-          <a href="/registrardataencoder/dashboard" class="nav-link">Home</a>
-        </li>
-     
-      </ul>
   
-      <!-- Right navbar links -->
-      <ul class="navbar-nav ml-auto">
-        <!-- Navbar Search -->
-       
-  
-        <!-- Messages Dropdown Menu -->
-    
-        <!-- Notifications Dropdown Menu -->
-        <li class="nav-item dropdown">
-          <a class="nav-link" data-toggle="dropdown" href="#">
-            <i class="far fa-bell"></i>
-            <span class="badge badge-warning navbar-badge">15</span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <span class="dropdown-item dropdown-header">15 Notifications</span>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-envelope mr-2"></i> 4 new messages
-              <span class="float-right text-muted text-sm">3 mins</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-users mr-2"></i> 8 friend requests
-              <span class="float-right text-muted text-sm">12 hours</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-file mr-2"></i> 3 new reports
-              <span class="float-right text-muted text-sm">2 days</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-            <i class="fas fa-expand-arrows-alt"></i>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link"   href="/registrardataencoder/logout" role="button">
-            Logout
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <%- include('./partials/top') %>
     <!-- /.navbar -->
   
     <!-- Main Sidebar Container -->
@@ -104,7 +48,7 @@
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Search Graduate Students & Send  To JBS</li>
+                <li class="breadcrumb-item active">Search Graduate Trainees & Send  To JBS</li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -119,7 +63,7 @@
                 <div class="card-header">
                   <h3 class="card-title">
                     <i class="fas fa-edit"></i>
-                  Search Graduate Student List
+                  Search Graduate Trainees List
                   </h3>
                 </div>
                 <div class="card-body">
@@ -150,10 +94,10 @@
                             </div>
                             <div class="form-group">
                                 <label>Select Occupation</label>
-                                <select class="form-control " name="deptid" id="deptid">
+                                <select class="form-control-sm js-example-basic-single " style="width: 100%;" name="deptid" id="deptid">
                                  <option value="0">Please Select Occupation Name</option>
-                                 <% if(department.length >0) {%>
-                                    <% department.forEach(function (row){ %>
+                                 <% if(occupation.length >0) {%>
+                                    <% occupation.forEach(function (row){ %>
                                       <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
                                    <% })}else {}%>
                                 </select>
@@ -170,6 +114,7 @@
                                   <option value="Level_5">Level_5</option>
                               </select>
                           </div> 
+                          <input type="hidden" name="programtag" value="level">
                             <div class="col-md-6 offset-md-3">
                                 <button type="submit" class="btn btn-block btn-sm btn-primary">Submit</button>
                      
@@ -181,6 +126,7 @@
                             <form action="/registrardataencoder/sendtojbs/allgraduatengobaseddatabydepartment" method="post">
                                 <div class="form-group">
                                     <label>Select Short Term /Project/ Based Program</label>
+                                    <input type="hidden" name="programtag" value="ngo">
                                     <select class="form-control " name="batchid" id="batchid">
                                      <option value="0">Please Select Program/Batch Name</option>
                                      <% if(ngobased.length >0) {%>
@@ -191,12 +137,12 @@
                                   
                                 </div>
                                 <div class="form-group">
-                                    <label>Select Occupation</label>
+                                    <label>Select Department</label>
                                     <select class="form-control " name="deptid" id="deptid">
-                                     <option value="0">Please Select occupation Name</option>
+                                     <option value="0">Please Select Department Name</option>
                                      <% if(department.length >0) {%>
                                       <% department.forEach(function (row){ %>
-                                        <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                        <option value="<%= row.department_id %>"><%= row.department_name %></option>
                                      <% })}else {}%>
                                     </select>
                                   
@@ -209,7 +155,8 @@
                           </div>
                           <div class="tab-pane fade" id="vert-tabs-profilei" role="tabpanel" aria-labelledby="vert-tabs-profilei-tab">
                             <form action="/registrardataencoder/sendtojbs/allgraduateindustrybaseddatabydepartment" method="post">
-                                <div class="form-group">
+                              <input type="hidden" name="programtag" value="industry">  
+                              <div class="form-group">
                                     <label>Select Industry Based Program</label>
                                     <select class="form-control " name="batchid" id="batchid">
                                      <option value="0">Please Select Program/Batch Name</option>
@@ -221,12 +168,12 @@
                                   
                                 </div>
                                 <div class="form-group">
-                                    <label>Select Occupation</label>
+                                    <label>Select Department</label>
                                     <select class="form-control " name="deptid" id="deptid">
-                                     <option value="0">Please Select occupation Name</option>
+                                     <option value="0">Please Select Department Name</option>
                                      <% if(department.length >0) {%>
                                       <% department.forEach(function (row){ %>
-                                        <option value="<%= row.occupation_id %>"><%= row.occupation_name %></option>
+                                        <option value="<%= row.department_id %>"><%= row.department_name %></option>
                                      <% })}else {}%>
                                     </select>
                                   
@@ -278,6 +225,13 @@
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script src="../../../dist/js/pages/dashboard3.js"></script>
   <script src="../../plugins/toastr/toastr.min.js"></script>
+  <script>
+    $(document).ready(function() {
+  $('.js-example-basic-single').select2();
+  });
+  </script>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   
   
   </body></html>

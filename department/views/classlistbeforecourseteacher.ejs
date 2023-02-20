@@ -105,7 +105,21 @@
                                             </td>
                                            
                                             <td>
-                                            <form action="/department/teacher/coursetoteacherlevelbased/<%=row.class_id%>" method="post">
+                                              <% if(tag ==="level") { %>
+                                                <form action="/department/teacher/coursetoteacherlevelbased/<%=row.class_id%>" method="post">
+                                                  <input type="hidden" name="programidlevel" id="programidlevel" value="<%= programidlevel %>">
+                                                  <input type="hidden" name="traininglevel" id="traininglevel" value="<%= traininglevel %>">
+                                                  <input type="hidden" name="programtype" id="programtype" value="<%= programtype %>">
+                                                  <input type="hidden" name="occupationname" id="occupationname" value="<%= occupationname %>">
+                                               
+                       
+                                                  <div class="form-group">
+                                                      <button class=" btn btn-block mb-2 btn-sm btn-link" type="submit">Assign UOCs To Trainer</button>
+                               
+                                                  </div>
+                                              </form>
+                                             <% }else if(tag ==="ngo"){ %>
+                                              <form action="/department/teacher/coursetoteacherngobased/<%=row.class_id%>" method="post">
                                                 <input type="hidden" name="programidlevel" id="programidlevel" value="<%= programidlevel %>">
                                                 <input type="hidden" name="traininglevel" id="traininglevel" value="<%= traininglevel %>">
                                                 <input type="hidden" name="programtype" id="programtype" value="<%= programtype %>">
@@ -113,10 +127,25 @@
                                              
                      
                                                 <div class="form-group">
-                                                    <button class=" btn btn-block mb-2 btn-sm btn-link" type="submit">Assign Course To Teacher</button>
+                                                    <button class=" btn btn-block mb-2 btn-sm btn-link" type="submit">Assign UOCs To Trainer</button>
                              
                                                 </div>
                                             </form>
+                                             <% }else if(tag ==="industry") { %>
+                                              <form action="/department/teacher/coursetoteacherindustrybased/<%=row.class_id%>" method="post">
+                                                <input type="hidden" name="programidlevel" id="programidlevel" value="<%= programidlevel %>">
+                                                <input type="hidden" name="traininglevel" id="traininglevel" value="<%= traininglevel %>">
+                                                <input type="hidden" name="programtype" id="programtype" value="<%= programtype %>">
+                                                <input type="hidden" name="occupationname" id="occupationname" value="<%= occupationname %>">
+                                             
+                     
+                                                <div class="form-group">
+                                                    <button class=" btn btn-block mb-2 btn-sm btn-link" type="submit">Assign UOCs To Trainer</button>
+                             
+                                                </div>
+                                            </form>
+                                             <% } %>
+                                          
                                           
                                            </td>
                                           </tr>

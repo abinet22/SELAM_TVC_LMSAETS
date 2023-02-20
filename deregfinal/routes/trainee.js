@@ -46,7 +46,7 @@ router.get('/managengobased',ensureAuthenticated,async function(req,res){
     const [ngobased, metangobaseddata] = await sequelize.query(
         "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes'"
       );
-      const department = await Occupation.findAll({});
+      const department = await Department.findAll({});
     const classlist = await ClassInDept.findAll({});
     
 res.render('managengobased',{
@@ -59,7 +59,7 @@ router.get('/manageindustrybased',ensureAuthenticated,async function(req,res){
     const [industrybased, metaindbaseddata] = await sequelize.query(
         "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes'"
       );
-      const department = await Occupation.findAll({});
+      const department = await Department.findAll({});
     const classlist = await ClassInDept.findAll({});
     
 res.render('manageindustrybased',{
@@ -77,11 +77,7 @@ router.post('/printgraduatesgradereport',ensureAuthenticated,async function(req,
     const{level,traineeid,programidbatch,dept,programtag} = req.body;
     const [courselist,metacourselist] = await sequelize.query(
       "select * from industrycourses where batch_id='"+programidbatch+"'");
-      const [department,dptmeta] = await sequelize.query(
-        " select * from occupations inner join departments on"+
-         " departments.department_id=occupations.department_id inner join sectorlists on"+
-         " sectorlists.sector_id = departments.training_id where occupations.occupation_id='"+dept+"' "
-      );
+      
       console.log("cccccccccccccccccccccc");
      
     // const department = await Occupation.findOne({where:{occupation_id:dept}});
@@ -96,6 +92,13 @@ router.post('/printgraduatesgradereport',ensureAuthenticated,async function(req,
      " and studentmarklistlevelbaseds.batch_id ='"+programidbatch+"' "+
       "  and courses.training_level='"+level+"'" +
       "  and courses.department_id='"+dept+"'" 
+        );
+        const [department,dptmeta] = await sequelize.query(
+          " select * from occupations inner join departments on"+
+           " departments.department_id=occupations.department_id inner join sectorlists on"+
+           " sectorlists.sector_id = departments.training_id "+
+           
+           " where occupations.occupation_id='"+dept+"' "
         );
             res.render('printgradereport',{
               marklist:marklist,
@@ -113,11 +116,19 @@ router.post('/printgraduatesgradereport',ensureAuthenticated,async function(req,
               sectorlist:department
           })
       }else if(programtag =="ngo"){
+        const [courselist,metacourselist] = await sequelize.query(
+          "select * from ngocourses where batch_id='"+programidbatch+"' and department_id='"+dept+"'");
+         
           const [marklist, metaclasslist] = await sequelize.query(
               "SELECT * FROM studentmarklistlevelbaseds INNER JOIN ngobasedtrainees ON ngobasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
+              "inner join ngocourses on ngocourses.course_id = studentmarklistlevelbaseds.course_id "+
             " where  ngobasedtrainees.student_unique_id ='"+traineeid+"'" +
             " and studentmarklistlevelbaseds.department_id ='"+dept+"' "+
             " and studentmarklistlevelbaseds.batch_id ='"+programidbatch+"' "
+            );
+            const [department,dptmeta] = await sequelize.query(
+              " select * from departments inner  join sectorlists on"+
+               " sectorlists.sector_id = departments.training_id where departments.department_id='"+dept+"' "
             );
             res.render('printgradereport',{
               marklist:marklist,
@@ -126,19 +137,25 @@ router.post('/printgraduatesgradereport',ensureAuthenticated,async function(req,
               batchid:programidbatch,
               classid:'',
               courseid:'',
+              sectorlist:department,
               department:department,
               traineeid:traineeid,
+              courselist:marklist,
               batch:batch,
               classinfo:'',
               level:''
           })
       }else if(programtag == "industry"){
         const [courselist,metacourselist] = await sequelize.query(
-            "select * from industrycourses where batch_id='"+programidbatch+"'");
-           
+            "select * from industrycourses where batch_id='"+programidbatch+"' and department_id='"+dept+"'");
+            const [department,dptmeta] = await sequelize.query(
+              " select * from departments inner  join sectorlists on"+
+               " sectorlists.sector_id = departments.training_id where departments.department_id='"+dept+"' "
+            );
           const [marklist, metaclasslist] = await sequelize.query(
             "  SELECT * FROM studentmarklistlevelbaseds INNER JOIN industrybasedtrainees ON industrybasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+ 
-             " where  industrybasedtrainees.student_unique_id ='"+traineeid+"'" +
+            "inner join industrycourses on industrycourses.course_id = studentmarklistlevelbaseds.course_id "+ 
+            " where  industrybasedtrainees.student_unique_id ='"+traineeid+"'" +
           " and studentmarklistlevelbaseds.department_id ='"+dept+"' "+
           " and studentmarklistlevelbaseds.batch_id ='"+programidbatch+"' "
             );
@@ -150,8 +167,9 @@ router.post('/printgraduatesgradereport',ensureAuthenticated,async function(req,
                   classid:'',
                   department:department,
                   batch:batch,
+                  sectorlist:department,
                   traineeid:traineeid,
-                  courselist:courselist,
+                  courselist:marklist,
                   classinfo:'',
                   level:''
               })
@@ -788,8 +806,8 @@ router.post('/updatestudentdatagraduated',ensureAuthenticated,async function(req
 
   }else if(programtag =="ngo"){
     const [courselist,metacourselist] = await sequelize.query(
-      "select * from ngocourses where batch_id='"+batchid+"'");
-      const student = await NGOBasedTrainee.findOne({where:{student_unique_id:traineeid,department_id:deptid,batch_id:batchid}});
+      "select * from ngocourses where batch_id='"+batchid+"' and department_id='"+deptid+"'");
+      const student = await NGOBasedTrainee.findAll({where:{student_unique_id:traineeid,department_id:deptid,batch_id:batchid}});
     
     const [marklist, metaclasslist] = await sequelize.query(
       "SELECT * FROM studentmarklistlevelbaseds INNER JOIN ngobasedtrainees ON ngobasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
@@ -807,7 +825,7 @@ router.post('/updatestudentdatagraduated',ensureAuthenticated,async function(req
           res.render('singlestudentdata',{
             marklist:marklist,
             programtag:programtag,
-            deptid:dept,
+            deptid:deptid,
             batchid:batchid,
             classid:'',
             department:department,
@@ -824,8 +842,8 @@ router.post('/updatestudentdatagraduated',ensureAuthenticated,async function(req
     })
   }else if(programtag =="industry"){
     const [courselist,metacourselist] = await sequelize.query(
-      "select * from industrycourses where batch_id='"+batchid+"'");
-      const student = await IndustryBasedTrainee.findOne({where:{student_unique_id:traineeid,department_id:deptid,batch_id:batchid}});
+      "select * from industrycourses where batch_id='"+batchid+"' and department_id='"+deptid+"'");
+      const student = await IndustryBasedTrainee.findAll({where:{student_unique_id:traineeid,department_id:deptid,batch_id:batchid}});
     
     const [marklist, metaclasslist] = await sequelize.query(
       "  SELECT * FROM studentmarklistlevelbaseds INNER JOIN industrybasedtrainees "+
@@ -843,7 +861,7 @@ router.post('/updatestudentdatagraduated',ensureAuthenticated,async function(req
           res.render('singlestudentdata',{
             marklist:marklist,
             programtag:programtag,
-            deptid:dept,
+            deptid:deptid,
             batchid:batchid,
             classid:'',
             student:student,

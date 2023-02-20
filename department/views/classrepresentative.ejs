@@ -99,7 +99,7 @@
                                 
                                   <th>Section Name </th>
                                   <th>Current Section Representative </th>
-                                  <th>Assign Section Rep. Teacher</th>
+                                  <th>Assign Section Rep. Trainer</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -126,7 +126,7 @@
                                           
                                             <div class="form-group">
                                               <select class="form-control-sm js-example-basic-single "  id="<%= row.class_id %>" name="<%= row.class_id %>">
-                                                <option value="0">Please select teacher name</option>
+                                                <option value="0">Please select trainer name</option>
                                                 <% if(teacherlist.length >0) {%>
                                                  <% teacherlist.forEach(function (aaa){ %>
                                                    <option value="<%= aaa.staff_id %>"><%= aaa.staff_f_name %> <%= aaa.staff_m_name %> </option>
@@ -214,7 +214,7 @@ var x = document.getElementById("server");
 var msg = document.getElementById("servermsg");
 x.style.display = "block";
 x.className="alert-danger alert  alert-dismissible fade show";
-msg.innerHTML="Please select teacher name to assign first"
+msg.innerHTML="Please select trainer name to assign first"
 setTimeout(function(){// wait for 5 secs(2)
 location.reload(); // then reload the page.(3)
 }, 1000); 
@@ -370,7 +370,7 @@ $('.js-example-basic-single').select2();
                 
                 title: function() {
     return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
-   " <td > <h4>  Organization Name <br> Selam David Roeschli Technical And Vocational College <br>"+departmentname+"<br>"+occupationname+"<br> Class Representative List</h4> </td> </tr> </table>"
+   " <td > <h4>  Organization Name <br> Selam Technical And Vocational College <br>"+departmentname+"<br>"+occupationname+"<br> Class Representative List</h4> </td> </tr> </table>"
               
   } ,
 

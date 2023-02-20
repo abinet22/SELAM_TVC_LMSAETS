@@ -6,9 +6,9 @@
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../../../plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="../../../../dist/css/adminlte.min.css">
   
   </head>
   <body>
@@ -29,7 +29,7 @@
             border: 1px solid black;
             border-collapse: collapse;
           ">
-              <td><img src="../../../dist/img/logoselam.jpg" width="150px" height="150px"></td>
+              <td><img src="../../../../../dist/img/logoselam.jpg" width="150px" height="150px"></td>
               <td colspan="2" style="
               border: 1px solid black;
               border-collapse: collapse;
@@ -119,9 +119,12 @@
                             <%}%>
             <b>Addmission Type:</b><%= applicant.choice_program_type %><br>
             
-            <b>Acadamic Year:</b><% var today = new Date().getYear()
-            %> <%= today
-            %><br>
+            <b>Acadamic Year:</b>
+            <% var frmdt = new Date(batchinfo.batch_from) %>
+            <%  var todt = new Date(batchinfo.batch_to) %> %>  
+            <%= frmdt.getFullYear()%>    -   <%= todt.getFullYear() %> G.C
+            <br>
+           
            
           
            

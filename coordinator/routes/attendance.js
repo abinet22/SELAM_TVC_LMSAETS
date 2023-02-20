@@ -122,8 +122,8 @@ router.post('/attendancedatafromclass/(:classname)',ensureAuthenticated,async fu
       }else if(programtype == "ngo"){
       
         const [ngobased, metadatangobased] = await sequelize.query(
-          "select * from ngobasedtrainees inner join occupations on "+
-          " occupations.occupation_id =ngobasedtrainees.department_id " +
+          "select * from ngobasedtrainees inner join departments on "+
+          " departments.department_id =ngobasedtrainees.department_id " +
           " inner join batches on batches.batch_id = ngobasedtrainees.batch_id where trainee_id = '"+req.params.studentid+"'"
      
         );   
@@ -133,8 +133,8 @@ router.post('/attendancedatafromclass/(:classname)',ensureAuthenticated,async fu
       }else if(programtype == "industry"){
       
         const [industrybased, metadataindustrybased] = await sequelize.query(
-          "select * from industrybasedtrainees  inner join occupations on  "+
-          " occupations.occupation_id =industrybasedtrainees.department_id " +
+          "select * from industrybasedtrainees  inner join departments on  "+
+          " departments.department_id =industrybasedtrainees.department_id " +
           " inner join batches on batches.batch_id = industrybasedtrainees.batch_id where trainee_id = '"+req.params.studentid+"'"
      
           );   

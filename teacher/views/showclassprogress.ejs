@@ -70,55 +70,32 @@
                           </div>
                       <br>
                       <div class="row">
-                        <div class="row mb-2">
-                            <div class="col-sm-6 offset-md-3">
-                                <div class="card card-widget collapsed-card">
-                                    <div class="card-header">
-                                        <div class="user-block">
-                                           <span class="username">Search Filter Evaluation By Course Name</span>
-                                          </div>
-                                      <!-- /.user-block -->
-                                      <div class="card-tools">
-                                       
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                          <i class="fas fa-plus"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                          <i class="fas fa-times"></i>
-                                        </button>
-                                      </div>
-                                      <!-- /.card-tools -->
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <div class="card-body" style="display: none;">
-                                        <form action="/trainer/evaluation/filterprogressbycoursename" method="post">
-                                            <div class="form-group">
-                                                <input type="hidden" name="dpt" value="<%= dpt %>">
-                                                <input type="hidden" name="batchid" value="<%= batchid %>">
-                                                <input type="hidden" name="classid" value="<%= classid %>">
-                                                                   <input type="hidden" name="level" value="<%= level %>">
-
-                                                <input type="hidden" name="programtag" value="<%= programtag %>">
-                                                <label>Please Select Course Name First</label>
-                                                <select class="form-control" id="courseid" name="courseid">
-                                                  <option value="0">Please Select Course Name</option>
-                                                  <% if(courselist.length >0) {%>
-                                                    <% courselist.forEach(function (row){ %>
-                                                      <option value="<%= row.course_id %>"><%= row.course_name %></option>
-                                                   <% })}else {}%>
-                                                </select>
-                                            </div>
-                                            <button class="form-control btn btn-block btn-primary"  type="submit">Search</button>
-                                          </form>
-                                      
-                                    </div>
-                                 
-                                    <!-- /.card-footer -->
-                                  </div>
-                         
-                              </div>
+                        <div class="col-md-8">
+                          <div class="alert  alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <blockquote>
+                              <% if(addinfo.length >0) {%>
+                                <% addinfo.forEach(function (row){ %>
+                                  
+                                    <small>Batch Name :<%= row.batch_name %><br>
+                                    Department Name: <%= row.department_name %><br>
+                                    Occupation Name: <%= row.occupation_name %><br>
+                                    Class Name: <%= row.class_name %></small><br>
+                               <% })}else {}%>    
+                            <% if(courselist.length >0) {%>
+                              <% courselist.forEach(function (row){ %>
+                                  <small>UOC Name :<%= row.course_name %><br>
+                                  Module Code: <%= row.course_code %></br>
+                                  Duration: <%= row.training_hours %></small>
+                             <% })}else {}%>   
                             
+                            </blockquote>
+                          </div>
                         </div>
+                        <div class="col-md-4"></div>
+                    </div>
+                      <div class="row">
+                       
                       
                         <div class="row" style="display: none;">
                             <div class="col-sm-12 col-md-6">
@@ -159,7 +136,7 @@
                                    <th><small>Student ID</small></th>
                                                      <th><small>Full Name</small></th>
                                                  
-                                                     <th><small>Course Name</small></th>
+                                                     <th><small>UOC Name</small></th>
                
                                                      <th> <small>Theoretical Evaluation</small></th>
                                                      <th><small> Practical Evaluation</small></th>
@@ -696,7 +673,7 @@ return returnArray;
                },
                title: function() {
    return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
-     " <td > <h4> Selam David Roeschli Technical And Vocational College  </h4> <h6><small><br> "+batchname+"<br> "+departmentname+"<br> "+occupationname+"<br> "+classname+" </small><br> Trainee Progress Report</h6> </td> </tr> </table>"
+     " <td > <h4> Selam  Technical And Vocational College  </h4> <h6><small><br> "+batchname+"<br> "+departmentname+"<br> "+occupationname+"<br> "+classname+" </small><br> Trainee Progress Report</h6> </td> </tr> </table>"
                   
  } ,
 

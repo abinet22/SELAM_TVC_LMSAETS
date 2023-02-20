@@ -32,6 +32,7 @@ router.get('/employeecompany',ensureAuthenticated,async function(req,res){
 
   const levelbased = await JBSStudentData.findAll({});
   const department = await Occupation.findAll({});
+  const newdpt = await Department.findAll({});
   const classlist = await ClassInDept.findAll({});
   const batchlist = await Batch.findAll({});
   const companylist = await Company.findAll({});
@@ -39,6 +40,7 @@ router.get('/employeecompany',ensureAuthenticated,async function(req,res){
 res.render('updateemployeeinfo',{
   levelbased:levelbased,
   department:department,
+  newdpt:newdpt,
   classlist:classlist,
   batchlist:batchlist,
   companylist:companylist
@@ -52,9 +54,10 @@ router.get('/employeeincome',ensureAuthenticated,async function(req,res){
   const classlist = await ClassInDept.findAll({});
   const batchlist = await Batch.findAll({});
   const companylist = await Company.findAll({});
-
+  const newdpt = await Department.findAll({})
 res.render('updateincomeincrease',{
   levelbased:levelbased,
+  newdpt:newdpt,
   department:department,
   classlist:classlist,
   batchlist:batchlist,
@@ -69,13 +72,14 @@ router.get('/jobsiteinformation',ensureAuthenticated,async function(req,res){
   const classlist = await ClassInDept.findAll({});
   const batchlist = await Batch.findAll({});
   const companylist = await Company.findAll({});
-
+  const newdpt = await Department.findAll({})
 res.render('updatejobsiteinfo',{
   levelbased:levelbased,
   department:department,
   classlist:classlist,
   batchlist:batchlist,
-  companylist:companylist
+  companylist:companylist,
+  newdpt:newdpt
 })
 
 });
@@ -86,13 +90,14 @@ router.get('/jbsstatus',ensureAuthenticated,async function(req,res){
   const classlist = await ClassInDept.findAll({});
   const batchlist = await Batch.findAll({});
   const companylist = await Company.findAll({});
-
+  const newdpt = await Department.findAll({})
 res.render('updatejbsstatus',{
   levelbased:levelbased,
   department:department,
   classlist:classlist,
   batchlist:batchlist,
-  companylist:companylist
+  companylist:companylist,
+  newdpt:newdpt
 })
 
 });
@@ -105,7 +110,7 @@ router.post('/employeecompany/(:employeeid)',ensureAuthenticated,async function(
   const classlist = await ClassInDept.findAll({});
   const batchlist = await Batch.findAll({});
   const companylist = await Company.findAll({});
-
+  const newdpt = await Department.findAll({})
   if(!companyname || companyname==="0"){
     res.render('updateemployeeinfo',{
       levelbased:levelbased,
@@ -113,6 +118,7 @@ router.post('/employeecompany/(:employeeid)',ensureAuthenticated,async function(
       classlist:classlist,
       batchlist:batchlist,
       companylist:companylist,
+      newdpt:newdpt,
       error_msg:'Please Select Company First'
     })
   }else{
@@ -142,6 +148,7 @@ router.post('/employeecompany/(:employeeid)',ensureAuthenticated,async function(
             classlist:classlist,
             batchlist:batchlist,
             companylist:companylist,
+            newdpt:newdpt,
             success_msg:"Successfully Update Employee Employeer Company"
           })
         })
@@ -164,7 +171,7 @@ router.post('/employeeincome/(:employeeid)',ensureAuthenticated,async function(r
   const classlist = await ClassInDept.findAll({});
   const batchlist = await Batch.findAll({});
   const companylist = await Company.findAll({});
-
+  const newdpt = await Department.findAll({})
  
   JBSStudentData.findOne({where:{trainee_id:req.params.employeeid}}).then(employee =>{
   if(!employee){
@@ -173,7 +180,8 @@ router.post('/employeeincome/(:employeeid)',ensureAuthenticated,async function(r
       department:department,
       classlist:classlist,
       batchlist:batchlist,
-      companylist:companylist
+      companylist:companylist,
+      newdpt:newdpt
     })
   }else{
      
@@ -187,7 +195,8 @@ router.post('/employeeincome/(:employeeid)',ensureAuthenticated,async function(r
       update_by:req.user.username,
       update_type:"Income_Increase",
       message: "Update Employee New Income: "+ companyname +" "+ income,
-      income_increase:income
+      income_increase:income,
+      newdpt:newdpt
     };
     EmployeementHistory.create(employeehistoryData).then(history =>{
       res.render('updateincomeincrease',{
@@ -195,6 +204,7 @@ router.post('/employeeincome/(:employeeid)',ensureAuthenticated,async function(r
         department:department,
         classlist:classlist,
         batchlist:batchlist,
+        newdpt:newdpt,
         companylist:companylist,
         success_msg:"Successfully Update Employee New Income"
       })
@@ -215,13 +225,14 @@ router.post('/jobsiteinformation/(:employeeid)',ensureAuthenticated,async functi
   const classlist = await ClassInDept.findAll({});
   const batchlist = await Batch.findAll({});
   const companylist = await Company.findAll({});
-  
+  const newdpt = await Department.findAll({})
   if(infotype == "0"){
     res.render('updatejobsiteinfo',{
       levelbased:levelbased,
       department:department,
       classlist:classlist,
       batchlist:batchlist,
+      newdpt:newdpt,
       companylist:companylist,
       error_msg:"Please Select Update Option Info First"
     })
@@ -233,7 +244,8 @@ router.post('/jobsiteinformation/(:employeeid)',ensureAuthenticated,async functi
       department:department,
       classlist:classlist,
       batchlist:batchlist,
-      companylist:companylist
+      companylist:companylist,
+      newdpt:newdpt
     })
   }else{
     const employeehistoryData ={
@@ -241,6 +253,7 @@ router.post('/jobsiteinformation/(:employeeid)',ensureAuthenticated,async functi
       trainee_id: req.params.employeeid,
       student_unique_id:employee.student_unique_id,
       company:companyname,
+      newdpt:newdpt,
       update_by:req.user.username,
       update_type:"Job_Site"+ infotype,
       message: "Update Employee Job Site Information: Job_Site " +infotype+" To The Following Company: "+ companyname +":- "+ info
@@ -249,6 +262,7 @@ router.post('/jobsiteinformation/(:employeeid)',ensureAuthenticated,async functi
       res.render('updatejobsiteinfo',{
         levelbased:levelbased,
         department:department,
+        newdpt:newdpt,
         classlist:classlist,
         batchlist:batchlist,
         companylist:companylist,

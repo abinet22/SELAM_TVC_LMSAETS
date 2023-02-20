@@ -125,7 +125,14 @@
                   
                    Batch Name: &nbsp; <%= batchinfo.batch_name %> <br>
                    Training From &nbsp; <%= new Date(batchinfo.batch_from).toLocaleDateString() %>  To &nbsp; <%= new Date(batchinfo.batch_to).toLocaleDateString() %> <br>
-                   Occupation Info: &nbsp;<%= occinfo.occupation_name %><br>
+                   <%if(tag==="level"){%>
+                    Occupation Info: &nbsp;<%= occinfo.occupation_name %><br>
+                    <%} else if(tag ==="ngo"){%>
+                      Department Info: &nbsp;<%= occinfo.department_name %><br>
+                      <%} else if(tag ==="industry"){%>
+                        Department Info: &nbsp;<%= occinfo.department_name %><br>
+                        <%}%>
+                  
                    <%if(traininglevel){%>
                    Level:&nbsp; <%= traininglevel%><br>
                    <%}%>
@@ -143,8 +150,9 @@
                                
                                   <tr>
                   <th>#</th>
-                                  
+                <th style="width: 150px;"> <code>Assigned Trainer </code> </th>  
                                     <th>Unit Of Competency </th>
+                                   
                                     <th>Module Code </th>
                                     <th>Training Hours  </th>
                                    
@@ -165,8 +173,8 @@
                                           <% var course = row.course_id %>      
                                           <tr>
                                             <td><%= i %></td>
-                                            <td><%= row.course_name %><br>
-                                              <code>Assigned Teacher:</code><br>
+                                            <td>
+                                            
                                               <% if(courseteacher.length > 0) {%>
                                                 <% courseteacher.forEach(function (row){ %>
                                                  <% var xx = row.course_id %>
@@ -175,6 +183,16 @@
                                                   <label>From:<%= new Date(row.startdate).toLocaleDateString() %> To <%= new Date(row.enddate).toLocaleDateString() %></label>
                                                 <%} })}else {}%>
                                             </td>
+                                            <td><%= row.course_name %><br>
+                                              <%if(tag==="ngo"){%>
+                                               ( <%= row.amharicuocname %>)
+                                                <%} else if(tag==="industry") {%>
+                                               
+                                                 ( <%= row.amharicuocname %>)
+                                                  <%} %>
+                                            
+                                            </td>
+                                            
                                             <td><%= row.course_code %></td>
                                             <td><%= row.training_hours %></td>
                                             
@@ -185,6 +203,7 @@
                                                 <input type="hidden" name="traininglevel" id="traininglevel" value="<%= traininglevel %>">
                                                 <input type="hidden" name="programtype" id="programtype" value="<%= programtype %>">
                                                 <input type="hidden" name="dpt" id="dpt" value="<%= dpt %>">
+                                                <input type="hidden" name="tag" id="tag" value="<%= tag %>">
                                                
                                              
                                               <input class="form-control" type="hidden" id="calssname" name="classname" value="<%= classname %>">
@@ -201,7 +220,7 @@
                                             
                                               <div class="form-group">
                                                 <select class="form-control-sm js-example-basic-single " id="<%= row.course_id %>" name="teachername">
-                                                  <option value="0">Please Select Teacher Name</option>
+                                                  <option value="0">Please Select Trainers Name</option>
                                                   <% if(teacherlist.length >0) {%>
                                                    <% teacherlist.forEach(function (aaa){ %>
                                                      <option value="<%= aaa.staff_id %>" style="text-transform: uppercase;"><span > <%= aaa.staff_f_name %> &nbsp; <%= aaa.staff_m_name %> &nbsp; <%= aaa.staff_l_name %> </span></option>
@@ -344,7 +363,7 @@ var msg = document.getElementById("servermsg");
               
 x.style.display = "block";
 x.className="alert-success alert  alert-dismissible fade show";
-msg.innerHTML="You are successfully assign class teacher to course list!";
+msg.innerHTML="You are successfully assign UOC to trainer list!";
 setTimeout(function(){// wait for 5 secs(2)
 location.reload(); // then reload the page.(3)
 }, 1000); 
@@ -353,7 +372,7 @@ else{
 
 x.style.display = "block";
 x.className="alert-danger alert  alert-dismissible fade show";
-msg.innerHTML="Error while assign teacher to course list request try again!"
+msg.innerHTML="Error while assign trainer to UOC list request try again!"
 setTimeout(function(){// wait for 5 secs(2)
 location.reload(); // then reload the page.(3)
 }, 1000); 

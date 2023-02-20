@@ -77,12 +77,20 @@
                                <div class="col-sm-12 col-md-6"><div id="example1_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1"></label></div></div>
                               </div>
                       <div class="table-responsive" id="trainingdata">
-                          <table aria-describedby="example1_info" role="grid" class="table table-bordered table-striped dataTable dtr-inline" id="example1">
+                          <table aria-describedby="example1_info" role="grid" class="table table-sm table-bordered table-striped dataTable dtr-inline no-footer collapsed" id="example1">
                                   
                           <thead>
                             <tr>
             <th>#</th>
-            <th> Occupation Name</th>
+            
+          
+                                          <% if(tag==="level"){%>
+                                            <th> Occupation Name</th>
+                                          <%}else if(tag==="ngo"){%>
+                                            <th> Department Name</th>
+                                          <%}else if (tag==="industry"){ %>
+                                            <th> Department Name</th>
+                                           <%}%>
                               <th>Training Section Name</th>
                             <th> Training Level</th>
                              <th> Training Type</th>
@@ -98,7 +106,13 @@
                                       <% i++ %>
                                       <tr>
                                           <td><%= i %></td>
-                                          <td><%= row.occupation_name %></td>
+                                          <% if(tag==="level"){%>
+                                            <td><%= row.occupation_name %></td>
+                                          <%}else if(tag==="ngo"){%>
+                                            <td><%= row.department_name %></td>
+                                          <%}else if (tag==="industry"){ %>
+                                            <td><%= row.department_name %></td>
+                                           <%}%>
                                           <td><%= row.class_name %></td>
                                          
                                           <td><%= row.training_level %></td>
@@ -113,8 +127,8 @@
                                                 <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                                 <div class="form-group">
                                                   
-                                                  <select class="form-control" name="courseid">
-                                                    <option value="0">Please Select Course</option>
+                                                  <select class="form-control form-control-sm" name="courseid">
+                                                    <option value="0">Please Select UOC</option>
                                                     <% if(course.length > 0 ){ %>
                                                       <% course.forEach(function (row){ %>
                                                       <% var cls = row.class_id %>
@@ -126,7 +140,7 @@
                                                   </select>
                                                 </div>
                                                  <div class="form-group">
-                                                     <button class="btn btn-block btn-primary btn-sm">Add Evaluation</button>
+                                                     <button class="btn btn-block btn-outline-primary btn-xs">Add Evaluation</button>
                                                  </div>
                                                </form>
                                               
@@ -138,8 +152,8 @@
                                                 <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                                 <div class="form-group">
                                                  
-                                                  <select class="form-control" name="courseid">
-                                                    <option value="0">Please Select Course</option>
+                                                  <select class="form-control form-control-sm" name="courseid">
+                                                    <option value="0">Please Select UOC</option>
                                                     <% if(course.length > 0 ){ %>
                                                       <% course.forEach(function (row){ %>
                                                       <% var cls = row.class_id %>
@@ -151,7 +165,7 @@
                                                   </select>
                                                 </div>
                                                  <div class="form-group">
-                                                     <button class="btn btn-block btn-primary btn-sm">Add Evaluation</button>
+                                                     <button class="btn btn-block btn-outline-primary btn-xs">Add Evaluation</button>
                                                  </div>
                                                </form>
                                            <%  }else if(programtag =="industry") { %>
@@ -162,8 +176,8 @@
                                               <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                               <div class="form-group">
                                                
-                                                <select class="form-control" name="courseid">
-                                                  <option value="0">Please Select Course</option>
+                                                <select class="form-control form-control-sm" name="courseid">
+                                                  <option value="0">Please Select UOC</option>
                                                   <% if(course.length > 0 ){ %>
                                                     <% course.forEach(function (row){ %>
                                                     <% var cls = row.class_id %>
@@ -175,7 +189,7 @@
                                                 </select>
                                               </div>
                                                <div class="form-group">
-                                                   <button class="btn btn-block btn-primary btn-sm">Add Evaluation</button>
+                                                   <button class="btn btn-block btn-outline-primary btn-xs">Add Evaluation</button>
                                                </div>
                                              </form>
                                             <% } %>
@@ -190,8 +204,8 @@
                                                   <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                                   <div class="form-group">
                                                   
-                                                    <select class="form-control" name="courseid">
-                                                      <option value="0">Please Select Course</option>
+                                                    <select class="form-control form-control-sm" name="courseid">
+                                                      <option value="0">Please Select UOC</option>
                                                       <% if(course.length > 0 ){ %>
                                                         <% course.forEach(function (row){ %>
                                                         <% var cls = row.class_id %>
@@ -203,7 +217,7 @@
                                                     </select>
                                                   </div>
                                                    <div class="form-group">
-                                                       <button class="btn btn-block btn-primary btn-sm">Generate Grade</button>
+                                                       <button class="btn btn-block btn-outline-primary btn-xs">Generate Grade</button>
                                                    </div>
                                                  </form>
                                                <% } else if(programtag =="ngo"){ %>
@@ -214,8 +228,8 @@
                                                   <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                                   <div class="form-group">
                                                    
-                                                    <select class="form-control" name="courseid">
-                                                      <option value="0">Please Select Course</option>
+                                                    <select class="form-control form-control-sm" name="courseid">
+                                                      <option value="0">Please Select UOC</option>
                                                       <% if(course.length > 0 ){ %>
                                                         <% course.forEach(function (row){ %>
                                                         <% var cls = row.class_id %>
@@ -227,7 +241,7 @@
                                                     </select>
                                                   </div>
                                                    <div class="form-group">
-                                                       <button class="btn btn-block btn-primary btn-sm">Generate Grade</button>
+                                                       <button class="btn btn-block btn-outline-primary btn-xs">Generate Grade</button>
                                                    </div>
                                                  </form>
                                              <%  }else if(programtag =="industry") { %>
@@ -238,8 +252,8 @@
                                                 <input type="hidden" name="batchid" value="<%= row.batch_id %>">
                                                 <div class="form-group">
                                                  
-                                                  <select class="form-control" name="courseid">
-                                                    <option value="0">Please Select Course</option>
+                                                  <select class="form-control form-control-sm" name="courseid">
+                                                    <option value="0">Please Select UOC</option>
                                                     <% if(course.length > 0 ){ %>
                                                       <% course.forEach(function (row){ %>
                                                       <% var cls = row.class_id %>
@@ -251,7 +265,7 @@
                                                   </select>
                                                 </div>
                                                  <div class="form-group">
-                                                     <button class="btn btn-block btn-primary btn-sm">Generate Grade</button>
+                                                     <button class="btn btn-block btn-outline-primary btn-xs">Generate Grade</button>
                                                  </div>
                                                </form>
                                               <%} %>
@@ -343,7 +357,7 @@
                 },
                 title: function() {
     return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
-   " <td > <h4>  Organization Name <br> Selam David Roeschli Technical And Vocational College <br> Batch Occupation Based Section List</h4> </td> </tr> </table>"
+   " <td > <h4>  Organization Name <br> Selam Technical And Vocational College <br> Batch Occupation Based Section List</h4> </td> </tr> </table>"
               
   } ,
 
