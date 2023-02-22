@@ -66,12 +66,18 @@ app.use(function(req, res, next) {
 
 app.use(express.static(path.join(__dirname,'./public')));
 // Routes
-app.use('/jbsdataencoder', require('./routes/index.js'));
-app.use('/jbsdataencoder/company', require('./routes/company.js'));
-app.use('/jbsdataencoder/trainee', require('./routes/trainee.js'));
-app.use('/jbsdataencoder/dataanalysis', require('./routes/dataanalysis.js'));
-app.use('/jbsdataencoder/updateemployee', require('./routes/updateemployee.js'));
+// app.use('/jbsdataencoder', require('./routes/index.js'));
+// app.use('/jbsdataencoder/company', require('./routes/company.js'));
+// app.use('/jbsdataencoder/trainee', require('./routes/trainee.js'));
+// app.use('/jbsdataencoder/dataanalysis', require('./routes/dataanalysis.js'));
+// app.use('/jbsdataencoder/updateemployee', require('./routes/updateemployee.js'));
 
+
+app.use('/', require('./routes/index.js'));
+app.use('/company', require('./routes/company.js'));
+app.use('/trainee', require('./routes/trainee.js'));
+app.use('/dataanalysis', require('./routes/dataanalysis.js'));
+app.use('/updateemployee', require('./routes/updateemployee.js'));
 
 
 

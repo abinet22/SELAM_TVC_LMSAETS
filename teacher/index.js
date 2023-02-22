@@ -66,15 +66,23 @@ app.use(function(req, res, next) {
 
 app.use(express.static(path.join(__dirname,'./public')));
 // Routes
-app.use('/trainer', require('./routes/index.js'));
-app.use('/trainer/programs', require('./routes/programs.js'));
-app.use('/trainer/evaluation', require('./routes/evaluation.js'));
-app.use('/trainer/trainee', require('./routes/trainee.js'));
-app.use('/trainer/attendance',require('./routes/attendance.js'));
-app.use('/trainer/staff',require('./routes/staff.js'));
+// app.use('/trainer', require('./routes/index.js'));
+// app.use('/trainer/programs', require('./routes/programs.js'));
+// app.use('/trainer/evaluation', require('./routes/evaluation.js'));
+// app.use('/trainer/trainee', require('./routes/trainee.js'));
+// app.use('/trainer/attendance',require('./routes/attendance.js'));
+// app.use('/trainer/staff',require('./routes/staff.js'));
 
-app.use('/trainer/classmanage',require('./routes/classmanage.js'));
+// app.use('/trainer/classmanage',require('./routes/classmanage.js'));
 
+app.use('/', require('./routes/index.js'));
+app.use('/programs', require('./routes/programs.js'));
+app.use('/evaluation', require('./routes/evaluation.js'));
+app.use('/trainee', require('./routes/trainee.js'));
+app.use('/attendance',require('./routes/attendance.js'));
+app.use('/staff',require('./routes/staff.js'));
+
+app.use('/classmanage',require('./routes/classmanage.js'));
 
 
 const PORT = process.env.PORT || 5006;

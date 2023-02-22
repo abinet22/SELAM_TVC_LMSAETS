@@ -66,12 +66,17 @@ app.use(function(req, res, next) {
 
 app.use(express.static(path.join(__dirname,'./public')));
 // Routes
-app.use('/jbs', require('./routes/index.js'));
-app.use('/jbs/programs', require('./routes/programs.js'));
-app.use('/jbs/company', require('./routes/company.js'));
-app.use('/jbs/trainee', require('./routes/trainee.js'));
-app.use('/jbs/dataanalysis', require('./routes/dataanalysis.js'));
+// app.use('/jbs', require('./routes/index.js'));
+// app.use('/jbs/programs', require('./routes/programs.js'));
+// app.use('/jbs/company', require('./routes/company.js'));
+// app.use('/jbs/trainee', require('./routes/trainee.js'));
+// app.use('/jbs/dataanalysis', require('./routes/dataanalysis.js'));
 
+app.use('/', require('./routes/index.js'));
+app.use('/programs', require('./routes/programs.js'));
+app.use('/company', require('./routes/company.js'));
+app.use('/trainee', require('./routes/trainee.js'));
+app.use('/dataanalysis', require('./routes/dataanalysis.js'));
 
 
 const PORT = process.env.PORT || 5008;

@@ -75,11 +75,11 @@ app.use('/',express.static(path.join(__dirname,'./public')));
 // Generate the route
 
 
-app.use('/admin', require('./routes/index.js'));
-app.use('/admin/training', require('./routes/training.js'));
-app.use('/admin/dept', require('./routes/dept.js'));
-app.use('/admin/course', require('./routes/course.js'));
-app.use('/admin/datalist', require('./routes/datalist.js'));
+app.use('/', require('./routes/index.js'));
+app.use('/training', require('./routes/training.js'));
+app.use('/dept', require('./routes/dept.js'));
+app.use('/course', require('./routes/course.js'));
+app.use('/datalist', require('./routes/datalist.js'));
 
 
 
