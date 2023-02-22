@@ -7,6 +7,8 @@ const NGOBasedTraining = db.ngobasedtraining;
 const IndustryBasedTraining = db.industrybasedtraining;
 const FunderInfo = db.funderinfo;
 const Department = db.departments;
+const Notification = db.notifications;
+   
 const Course = db.courses;
 const User = db.users;
 const sequelize = db.sequelize ;
@@ -71,6 +73,7 @@ router.post('/addnewclasslevelbased',ensureAuthenticated,async function(req,res)
     }
     else{
         var classname ;
+        var cl = "";
         if(criteriango){
           classname = JSON.parse(JSON.stringify(criteriango))
         }else if(criteriango2){
@@ -91,6 +94,7 @@ router.post('/addnewclasslevelbased',ensureAuthenticated,async function(req,res)
             };
             classid = uuidv4(v1options);
             var clsnm = classnamelist[i];
+            cl += clsnm +",";
             var classData = {
                 class_id:classid,
                 batch_id:batchid,
@@ -112,15 +116,54 @@ router.post('/addnewclasslevelbased',ensureAuthenticated,async function(req,res)
       
       
           }
-          
-          res.render('addnewclass',{
-            department:department,
-            levelbased:levelbased,
-            occupation:occupation,
-            ngobased:ngobased,
-            industrybased:industrybased,
-            success_msg:'You are successfully create new classes'
-        })
+          const v1options = {
+            node: [0x01, 0x23],
+            clockseq: 0x1234,
+            msecs: new Date('2011-11-01').getTime(),
+            nsecs: 5678,
+          };
+        
+          nid = uuidv4(v1options)
+           var depnote;
+           var info =""
+          if(level){
+           depnote =await Occupation.findOne({where:{occupation_id:deptid}})
+           info += depnote.occupation_name +""+level 
+          }else{
+            depnote =await Department.findOne({where:{department_id:deptid}})
+            info += depnote.department_name+" Short Term"
+          }
+          const batchnote = await Batch.findOne({where:{batch_id:batchid}})
+          const note ={
+            note_id:nid,
+            notefrom:"Registrar Data Encoder",
+            noteto:depnote.department_id,
+            is_read:"No",
+            note:"New Section Are Created for "+batchnote.batch_name+
+            " With A Name "+cl+
+            " For " +info+
+            " .You Can Manage Trainees Now!"
+          }
+          Notification.create(note).then(()=>{
+            res.render('addnewclass',{
+              department:department,
+              levelbased:levelbased,
+              occupation:occupation,
+              ngobased:ngobased,
+              industrybased:industrybased,
+              success_msg:'You are successfully create new classes'
+          })
+          }).catch(err =>{
+            res.render('addnewclass',{
+              department:department,
+              levelbased:levelbased,
+              occupation:occupation,
+              ngobased:ngobased,
+              industrybased:industrybased,
+              success_msg:'You are successfully create new classes'
+          })
+          })
+         
         }
         else{
             res.render('addnewclass',{

@@ -13,6 +13,7 @@ const Department =db.departments;
 const NGOBasedTrainee = db.ngobasedtrainees;
 const IndustryBasedTrainee = db.industrybasedtrainees;
 const AppSelectionCriteria = db.appselectioncriterias;
+const TraineeCOCHistory = db.traineecochistory;
 const NewApplicant = db.newapplicants;
 const FunderInfo = db.funderinfo;
 const sequelize = db.sequelize ;
@@ -37,30 +38,51 @@ const lastDay = new Date(currentYear, 11, 31);
 console.log(lyfirstDay);
 console.log(firstDay);
 console.log(lastDay);
-  const tyjbsdata=  await JBSStudentData.count({where: {
+  const tyjbsdata=  await LevelBasedTrainee.count({where: {
     createdAt: {
       [Op.and]: {
         [Op.gte]: firstDay,
         [Op.lte]: lastDay
       }
-    }
+    
+    },
+    is_graduated:'Yes'
 } });
-const lyjbsdata=  await JBSStudentData.count({where: {
+const lyjbsdata=  await LevelBasedTrainee.count({where: {
   createdAt: {
     [Op.and]: {
       [Op.gte]: lyfirstDay,
       [Op.lte]: firstDay
     }
-  }
+  },
+  is_graduated:'Yes'
 } });
-const total = await JBSStudentData.count({});
- 
+const total = await LevelBasedTrainee.count({where:{   is_graduated:'Yes'}});
+const [tyjbsdatact,mt1] =  await sequelize.query("select count(distinct trainee_id) as tot from traineecochistories where createdAt between '"+new Date(firstDay).toISOString()+"' and '"+new Date(lastDay).toISOString()+"'")
+const [lyjbsdatal,mt]=  await sequelize.query("select count(distinct trainee_id) as tot from traineecochistories where createdAt between '"+new Date(lyfirstDay).toISOString()+"' and '"+new Date(firstDay).toISOString()+"'")
+const [totalc,totmete] = await sequelize.query("select count(distinct trainee_id) as tot from traineecochistories ")
+console.log(new Date(lastDay).toISOString())
+console.log(new Date(firstDay))
+const totalcp =  await LevelBasedTrainee.count({where: {
+  is_pass_coc:'PASS'
+} });
+const totalcf =  await LevelBasedTrainee.count({where: {
+  is_pass_coc:'FAIL'
+} });
   res.render('dashboard',{
     lyjbsdata:lyjbsdata,
     tyjbsdata:tyjbsdata,
-    total:total
+    total:total,
+    lyjbsdatacl:lyjbsdatal,
+    tyjbsdatact:tyjbsdatact,
+    totalchis:totalc,
+   
+    totalcp:totalcp,
+    totalcf:totalcf
   })
 } );
+
+
 router.get('/changepassword', ensureAuthenticated, (req, res) => res.render('changepassword'));
 
 router.post('/changepassword',ensureAuthenticated,async function (req, res)  {

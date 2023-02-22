@@ -28,237 +28,122 @@ const IndustryBasedTraining = require('../models/IndustryBasedTraining');
 const Occupation = db.occupations;
 const Company = db.companies;
 const EmployeementHistory = db.employementhistories;
-router.get('/employeecompany',ensureAuthenticated,async function(req,res){
+router.get('/allgraduates',ensureAuthenticated,async function(req,res){
 
-  const levelbased = await JBSStudentData.findAll({});
+  const levelbased = await LevelBasedTrainee.findAll({where:{is_graduated:'Yes'}});
   const department = await Occupation.findAll({});
   const classlist = await ClassInDept.findAll({});
   const batchlist = await Batch.findAll({});
   const companylist = await Company.findAll({});
 
-res.render('updateemployeeinfo',{
+res.render('allgraduates',{
   levelbased:levelbased,
   department:department,
   classlist:classlist,
   batchlist:batchlist,
-  companylist:companylist
+  companylist:companylist,
+  tag:"All Graduate Trainees"
 })
 
 });
-router.get('/employeeincome',ensureAuthenticated,async function(req,res){
 
-  const levelbased = await JBSStudentData.findAll({});
+router.get('/newtococ',ensureAuthenticated,async function(req,res){
+
+  const levelbased = await LevelBasedTrainee.findAll({where:{is_graduated:'Yes'}});
   const department = await Occupation.findAll({});
   const classlist = await ClassInDept.findAll({});
   const batchlist = await Batch.findAll({});
   const companylist = await Company.findAll({});
 
-res.render('updateincomeincrease',{
+res.render('allgraduates',{
   levelbased:levelbased,
   department:department,
   classlist:classlist,
   batchlist:batchlist,
-  companylist:companylist
+  companylist:companylist,
+  tag:"New Graduate Trainees"
 })
 
 });
-router.get('/jobsiteinformation',ensureAuthenticated,async function(req,res){
+router.get('/coccompetent',ensureAuthenticated,async function(req,res){
 
-  const levelbased = await JBSStudentData.findAll({});
+  const levelbased = await LevelBasedTrainee.findAll({where:{is_graduated:'Yes',is_pass_coc:'PASS'}});
   const department = await Occupation.findAll({});
   const classlist = await ClassInDept.findAll({});
   const batchlist = await Batch.findAll({});
   const companylist = await Company.findAll({});
 
-res.render('updatejobsiteinfo',{
+res.render('allgraduates',{
   levelbased:levelbased,
   department:department,
   classlist:classlist,
   batchlist:batchlist,
-  companylist:companylist
+  companylist:companylist,
+  tag:"Competent Graduate Trainees"
 })
 
 });
-router.get('/jbsstatus',ensureAuthenticated,async function(req,res){
+router.get('/cocnotyetcompetent',ensureAuthenticated,async function(req,res){
 
-  const levelbased = await JBSStudentData.findAll({});
+  const levelbased = await LevelBasedTrainee.findAll({where:{is_graduated:'Yes',is_pass_coc:'FAIL'}});
   const department = await Occupation.findAll({});
   const classlist = await ClassInDept.findAll({});
   const batchlist = await Batch.findAll({});
   const companylist = await Company.findAll({});
 
-res.render('updatejbsstatus',{
+res.render('allgraduates',{
   levelbased:levelbased,
   department:department,
   classlist:classlist,
   batchlist:batchlist,
-  companylist:companylist
+  companylist:companylist,
+  tag:"Not Yet Competent Graduate Trainees"
 })
 
 });
-router.post('/employeecompany/(:employeeid)',ensureAuthenticated,async function(req,res){
- 
-  const {companyname} = req.body;
 
-  const levelbased = await JBSStudentData.findAll({});
-  const department = await Department.findAll({});
-  const classlist = await ClassInDept.findAll({});
-  const batchlist = await Batch.findAll({});
-  const companylist = await Company.findAll({});
-
-  if(!companyname || companyname==="0"){
-    res.render('updateemployeeinfo',{
-      levelbased:levelbased,
-      department:department,
-      classlist:classlist,
-      batchlist:batchlist,
-      companylist:companylist,
-      error_msg:'Please Select Company First'
-    })
-  }else{
-    JBSStudentData.findOne({where:{trainee_id:req.params.employeeid}}).then(employee =>{
-      if(!employee){
-        res.render('updateemployeeinfo',{
-          levelbased:levelbased,
-          department:department,
-          classlist:classlist,
-          batchlist:batchlist,
-          companylist:companylist
-        })
-      }else{
-        const employeehistoryData ={
-          batch_id:employee.batch_id,
-          trainee_id: req.params.employeeid,
-          student_unique_id:employee.student_unique_id,
-          company:companyname,
-          update_by:req.user.username,
-          update_type:"Company_Info",
-          message: "Update Employee New Employeer Company "+ companyname
-        };
-        EmployeementHistory.create(employeehistoryData).then(history =>{
-          res.render('updateemployeeinfo',{
-            levelbased:levelbased,
-            department:department,
-            classlist:classlist,
-            batchlist:batchlist,
-            companylist:companylist,
-            success_msg:"Successfully Update Employee Employeer Company"
-          })
-        })
-       
-      }
-    
-      })
-  }
- 
- 
-
-})
-
-router.post('/employeeincome/(:employeeid)',ensureAuthenticated,async function(req,res){
- 
-  const {companyname, income} = req.body;
-
-  const levelbased = await JBSStudentData.findAll({});
-  const department = await Department.findAll({});
-  const classlist = await ClassInDept.findAll({});
-  const batchlist = await Batch.findAll({});
-  const companylist = await Company.findAll({});
-
- 
-  JBSStudentData.findOne({where:{trainee_id:req.params.employeeid}}).then(employee =>{
-  if(!employee){
-    res.render('updateincomeincrease',{
-      levelbased:levelbased,
-      department:department,
-      classlist:classlist,
-      batchlist:batchlist,
-      companylist:companylist
-    })
-  }else{
-     
-   
-
-    const employeehistoryData ={
-      batch_id:employee.batch_id,
-      trainee_id: req.params.employeeid,
-      student_unique_id:employee.student_unique_id,
-      company:companyname,
-      update_by:req.user.username,
-      update_type:"Income_Increase",
-      message: "Update Employee New Income: "+ companyname +" "+ income,
-      income_increase:income
-    };
-    EmployeementHistory.create(employeehistoryData).then(history =>{
-      res.render('updateincomeincrease',{
-        levelbased:levelbased,
-        department:department,
-        classlist:classlist,
-        batchlist:batchlist,
-        companylist:companylist,
-        success_msg:"Successfully Update Employee New Income"
-      })
-    })
-   
-  }
-
-  })
-
-})
-
-router.post('/jobsiteinformation/(:employeeid)',ensureAuthenticated,async function(req,res){
- 
-  const {companyname,infotype,info} = req.body;
-
-  const levelbased = await JBSStudentData.findAll({});
-  const department = await Department.findAll({});
-  const classlist = await ClassInDept.findAll({});
-  const batchlist = await Batch.findAll({});
-  const companylist = await Company.findAll({});
+router.post('/sendtococ/(:traineeid)',ensureAuthenticated,async function(req,res){
+  const{level,traineeid,programidbatch,dept,programtag} = req.body;
   
-  if(infotype == "0"){
-    res.render('updatejobsiteinfo',{
-      levelbased:levelbased,
-      department:department,
-      classlist:classlist,
-      batchlist:batchlist,
-      companylist:companylist,
-      error_msg:"Please Select Update Option Info First"
-    })
-  }
-  JBSStudentData.findOne({where:{trainee_id:req.params.employeeid}}).then(employee =>{
-  if(!employee){
-    res.render('updatejobsiteinfo',{
-      levelbased:levelbased,
-      department:department,
-      classlist:classlist,
-      batchlist:batchlist,
-      companylist:companylist
-    })
-  }else{
-    const employeehistoryData ={
-      batch_id:employee.batch_id,
-      trainee_id: req.params.employeeid,
-      student_unique_id:employee.student_unique_id,
-      company:companyname,
-      update_by:req.user.username,
-      update_type:"Job_Site"+ infotype,
-      message: "Update Employee Job Site Information: Job_Site " +infotype+" To The Following Company: "+ companyname +":- "+ info
-    };
-    EmployeementHistory.create(employeehistoryData).then(history =>{
-      res.render('updatejobsiteinfo',{
-        levelbased:levelbased,
-        department:department,
-        classlist:classlist,
-        batchlist:batchlist,
-        companylist:companylist,
-        success_msg:"Successfully Update Job Site Job Site Information"
-      })
-    })
-   
-  }
+  const [department,dptmeta] = await sequelize.query(
+    " select * from occupations inner join departments on"+
+     " departments.department_id=occupations.department_id inner join sectorlists on"+
+     " sectorlists.sector_id = departments.training_id where occupations.occupation_id='"+dept+"' "
+  );
+  const batch = await Batch.findOne({where:{batch_id:programidbatch}});
+  const student = await LevelBasedTrainee.findAll({where:{trainee_id:req.params.traineeid,department_id:dept,batch_id:programidbatch,current_level:level}});
+    
+      const [courselist,metacourselist] = await sequelize.query(
+        "select * from courses where department_id='"+dept+"' and training_level='"+level+"'");
+       
+       
+      const [marklist, metaclasslist] = await sequelize.query(
+        "SELECT * FROM levelbasedtrainees  INNER JOIN studentmarklistlevelbaseds "+
+        " ON levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
+        "inner join courses on courses.course_id = studentmarklistlevelbaseds.course_id "+
+    " where levelbasedtrainees.trainee_id ='"+req.params.traineeid+"'" +
+    " and levelbasedtrainees.current_level ='"+level+"'"+
+    " and studentmarklistlevelbaseds.department_id ='"+dept+"' "+
+   " and studentmarklistlevelbaseds.batch_id ='"+programidbatch+"' "+
+    "  and courses.training_level='"+level+"'" +
+    "  and courses.department_id='"+dept+"'" 
+      );
+          res.render('singlestudenttococ',{
+            marklist:marklist,
+            programtag:'level',
+            deptid:dept,
+            batchid:programidbatch,
+            classid:'',
+            courseid:'',
+            student:student,
+            department:department,
+            batch:batch,
+            courselist:courselist,
+            classinfo:'',
+            level:level,
+            traineeid:req.params.traineeid
+        })
 
-  })
+});
 
-})
 module.exports = router;

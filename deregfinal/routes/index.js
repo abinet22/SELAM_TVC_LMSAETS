@@ -6,6 +6,7 @@ const User = db.users;
 const AppSelectionCriteria = db.appselectioncriterias;
 const FunderInfo = db.funderinfo;
 const sequelize = db.sequelize ;
+const Notification = db.notifications;
 const { Op } = require("sequelize");
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
@@ -16,19 +17,47 @@ router.get('/', forwardAuthenticated, (req, res) => res.render('login'));
 router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
 router.get('/dashboard', ensureAuthenticated, async function(req, res) 
 {
-  const [userlist, metalclassl] = await sequelize.query(
-    "SELECT * FROM users INNER JOIN stafflists ON fullname  = staff_id "+
-    " where  userroll='REGISTRAR_DATA_ENCODER' and stafflists.staff_id='"+req.user.fullname+"'"
-   
-    );
-  
+    const note = await Notification.findAll({where:{noteto:'REGISTRAR_DATA_ENCODER',is_read:'No'}})
+ 
+    const [userlist, metalclassl] = await sequelize.query(
+        "SELECT * FROM stafflists INNER JOIN users ON users.fullname  = stafflists.staff_id "+
+        " where staff_id = '"+req.user.fullname+"' and userroll='REGISTRAR_DATA_ENCODER'"
+       
+        );
+  console.log(userlist)
   
 
-  res.render('dashboard',{user:userlist})
+  res.render('dashboard',{user:userlist,note:note})
 
 }
 );
+/* This is a post method that is used to update the notification as read. */
+router.post('/updatenotificationasread/(:noteid)', ensureAuthenticated,async function (req, res) 
+{
+    const [userlist, metalclassl] = await sequelize.query(
+        "SELECT * FROM stafflists INNER JOIN users ON users.fullname  = stafflists.staff_id "+
+        " where staff_id = '"+req.user.fullname+"' and userroll='REGISTRAR_DATA_ENCODER'"
+       
+        );
+  Notification.findOne({where:{note_id:req.params.noteid}}).then(note =>{
+    if(note){
+      Notification.update({is_read:'Yes'},{where:{note_id:req.params.noteid}}).then(nt =>{
+        Notification.findAll({where:{noteto:'REGISTRAR_DATA_ENCODER',is_read:'No'}}).then(notenew=>{
+          res.render('dashboard',{user:userlist ,note:notenew})
+        }).catch(err =>{
+          res.render('dashboard',{user:userlist ,note:''})
+        })
+        
+      }).catch(err =>{
+        res.render('dashboard',{user:userlist ,note:''})
+      })
+    }
+  }).catch(err =>{
+    res.render('dashboard',{user:userlist ,note:''})
+        })
 
+
+});
 router.get('/addnewfunder', ensureAuthenticated, (req, res) => res.render('addnewfunder'));
 router.get('/addselectcriteria', ensureAuthenticated, (req, res) => res.render('addselectcriteria'));
 

@@ -9,13 +9,13 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../../../plugins/fontawesome-free/css/all.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../../../../dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -43,7 +43,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active"> Update Trainee COC Result</li>
+              <li class="breadcrumb-item active">Trainee Report</li>
             </ol>
           </div>
         </div>
@@ -56,7 +56,7 @@
         <div class="col-md-12">
             <div class="card card-primary">
               <div class="card-header">
-                <h4 class="card-title">Trainee  Report</h4>
+                <h4 class="card-title">Trainee Report</h4>
               </div>
               <div class="card-body">
               
@@ -119,9 +119,6 @@
                                       <%}%>
                                     </span>  </li>
                                   <li class="mb-1 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Program:<%= row.admission_type %></span> </li>
-                                  <li class="mb-1 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Graduated:<%= row.is_graduated %></span> </li>
-                                  <li class="mb-1 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Is COC Result Updated?:<%= row.is_pass_coc==""?"NO":"Yes" %></span> </li>
-                                  <li class="mb-1 display-28"><span class="display-26 text-secondary me-2 font-weight-600">COC Result:<%= row.is_pass_coc=="PASS"?"Competent":"Not Yet Competent" %></span> </li>
                                  
                                  
                               </ul>
@@ -133,91 +130,87 @@
                 </div>
                
             </div>
-            <%- include ('./partials/messages') %>
-            <div class="alert  alert-dismissible fade show" role="alert" style="display: none;" id="servermsg">
-               <p id="msg"></p>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-            
-            <div class="col-md-8 offset-md-2 ">
-         <div class="col-md-12">
-          <form action="/registrardataencoder/trainee/updatestudentdatacocresult" method="post">
-            <div class="form-group">
-                <input type="hidden" name="programtag" id="programtag" value="<%= programtag %>">
-                <input type="hidden" name="traineeid" id="traineeid" value="<%= traineeid %>">  
-                <input type="hidden" name="level" id="level" value="<%= level %>">  
-                <input type="hidden" name="batchid" id="batchid" value="<%= batchid %>">  
-                <input type="hidden" name="deptid" id="deptid" value="<%= deptid %>">  
+            <div class="row mb-2">
+              <%- include ('./partials/messages') %>
+              <div class="alert  alert-dismissible fade show" role="alert" style="display: none;" id="servermsg">
+                 <p id="msg"></p>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              <!-- <div class="col-md-8 offset-md-2">
+               <form action="/coc/trainee/updatestudentdatacocresult" method="post">
+                 <div class="form-group">
+                     <input type="hidden" name="programtag" id="programtag" value="<%= programtag %>">
+                     <input type="hidden" name="traineeid" id="traineeid" value="<%= traineeid %>">  
+                     <input type="hidden" name="level" id="level" value="<%= level %>">  
+                     <input type="hidden" name="batchid" id="batchid" value="<%= batchid %>">  
+                     <input type="hidden" name="deptid" id="deptid" value="<%= deptid %>">  
+                  
+                   </div>
+                   <div class="form-group">
+                       <label>Please Select Option To Update COC Result</label>
+                    <select class="form-control" name="cocresult" id="cocresult">
+                        <option value="0">Please Select Option</option>
+                        <option value="PASS">Competent</option>
+                        <option value="FAIL">Not Yet Competent</option>
+                    </select>
+                   </div>
+                   <button type="submit" class="btn btn-primary btn-block btn-sm" >
+                    Update COC Result
+                    </button> 
+              </form>
+              </div> -->
+              <div class="col-md-4 offset-md-4">
+              
+               <form action="/coc/trainee/updatetraineestatussendtococ" method="post">
+                   <div class="form-group">
+                       <input type="hidden" name="programtag" value="<%= programtag %>">
+                       <input type="hidden" name="traineeid" value="<%= traineeid %>">  
+                       <input type="hidden" name="level" value="<%= level %>">  
+                       <input type="hidden" name="programidbatch" value="<%= batchid %>">  
+                       <input type="hidden" name="dept" value="<%= deptid %>">  
+                    
+                     </div>
+                     <button type="submit" class="btn btn-primary btn-block btn-sm" >
+                      Send TO COC Exam 
+                      </button> 
+                </form>
+           </div>
+              <!-- <div class="col-md-4">
+                  <form action="/registrardataencoder/trainee/printgraduatescertificate" method="post">
+                     <div class="form-group">
+                         <input type="hidden" name="programtag" value="<%= programtag %>">
+                         <input type="hidden" name="traineeid" value="<%= traineeid %>">  
+                         <input type="hidden" name="level" value="<%= level %>">  
+                         <input type="hidden" name="programidbatch" value="<%= batchid %>">  
+                         <input type="hidden" name="dept" value="<%= deptid %>">  
+                      
+                       </div>
+                       <button type="submit" class="btn btn-primary btn-block btn-sm" data-toggle="modal" data-target="#exampleModal">
+                         Print Certificate 
+                        </button> 
+                  </form>
+              
+             </div> -->
+             <!-- <div class="col-md-4">
+              
+                 <form action="/coc/trainee/printgraduatesgradereport" method="post">
+                     <div class="form-group">
+                         <input type="hidden" name="programtag" value="<%= programtag %>">
+                         <input type="hidden" name="traineeid" value="<%= traineeid %>">  
+                         <input type="hidden" name="level" value="<%= level %>">  
+                         <input type="hidden" name="programidbatch" value="<%= batchid %>">  
+                         <input type="hidden" name="dept" value="<%= deptid %>">  
+                      
+                       </div>
+                       <button type="submit" class="btn btn-primary btn-block btn-sm" >
+                         Print Grade Report 
+                        </button> 
+                  </form>
+             </div> -->
              
               </div>
-              <div class="form-group">
-                  <label>Please Select Option To Update COC Result</label>
-               <select class="form-control" name="cocresult" id="cocresult">
-                   <option value="0">Please Select Option</option>
-                   <option value="PASS">Competent</option>
-                   <option value="FAIL">Not Yet Competent</option>
-               </select>
-              </div>
-              <button type="submit" class="btn btn-primary btn-block btn-sm" >
-               Update COC Result
-               </button> 
-         </form>
-         </div>
-       
-        <!-- <div class="col-md-4">
-         
-            <form action="/registrardataencoder/trainee/printgraduatecoclatter" method="post">
-                <div class="form-group">
-                    <input type="hidden" name="programtag" value="<%= programtag %>">
-                    <input type="hidden" name="traineeid" value="<%= traineeid %>">  
-                    <input type="hidden" name="level" value="<%= level %>">  
-                    <input type="hidden" name="programidbatch" value="<%= batchid %>">  
-                    <input type="hidden" name="dept" value="<%= deptid %>">  
-                 
-                  </div>
-                  <button type="submit" class="btn btn-block btn-outline-success btn-xs" >
-                    Print COC Latter 
-                   </button> 
-             </form>
-        </div> -->
-         </div>
-         <div class="row">
-          <div class="col-md-4"></div>
-          <div class="col-md-4">
-            <form action="/registrardataencoder/trainee/printgraduatescertificate" method="post">
-               <div class="form-group">
-                   <input type="hidden" name="programtag" value="<%= programtag %>">
-                   <input type="hidden" name="traineeid" value="<%= traineeid %>">  
-                   <input type="hidden" name="level" value="<%= level %>">  
-                   <input type="hidden" name="programidbatch" value="<%= batchid %>">  
-                   <input type="hidden" name="dept" value="<%= deptid %>">  
-                
-                 </div>
-                 <button type="submit" class="btn btn-block btn-outline-success btn-xs" data-toggle="modal" data-target="#exampleModal">
-                   Print Certificate 
-                  </button> 
-            </form>
-        
-       </div>
-       <div class="col-md-4">
-        
-           <form action="/registrardataencoder/trainee/printgraduatesgradereport" method="post">
-               <div class="form-group">
-                   <input type="hidden" name="programtag" value="<%= programtag %>">
-                   <input type="hidden" name="traineeid" value="<%= traineeid %>">  
-                   <input type="hidden" name="level" value="<%= level %>">  
-                   <input type="hidden" name="programidbatch" value="<%= batchid %>">  
-                   <input type="hidden" name="dept" value="<%= deptid %>">  
-                
-                 </div>
-                 <button type="submit" class="btn btn-block btn-outline-success btn-xs" >
-                   Print Grade Report 
-                  </button> 
-            </form>
-       </div>
-         </div>
                 <div class="row">
                   <div class="col-md-12  grid-margin stretch-card">     <div class="card">
                       <div class="card-header">
@@ -310,6 +303,8 @@
                 </div>
               </div>
              
+              
+             
             </div>
         
            
@@ -318,99 +313,7 @@
 
                    
 				</div>
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Send Evaluation To Registrar  </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="col-lg-12 grid-margin stretch-card">
-                  <div class="card">
-                      <div class="card-header">
-                          <h4 class="card-title">Trainee Grade List</h4>
-                      </div>
-                    <div class="card-body">
-                      <div class="alert  alert-dismissible fade show" role="alert" style="display: none;" id="servermsg">
-                          <p id="msg"></p>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                             <span aria-hidden="true">&times;</span>
-                           </button>
-                         </div>
-                     <div class="form-group">
-                      <input type="hidden" name="programtag" id="programtag" value="<%= programtag %>">
-                      <input type="hidden" name="deptid" id="deptid" value="<%= deptid %>">
-                      <input type="hidden" name="batchid" id="batchid" value="<%= batchid %>">
-                      <input type="hidden" name="classid" id="classid" value="<%= classid %>">  
-                  
-                      </div>
-                      <p></p>
-                      <fieldset id="studentlist">
-                        <div class="table-responsive">
-                          <table class="table  table-responsive" id="tablesend">
-                            <thead>
-                              <tr>
-                                <td></td>
-                                <th>#</th>
-                                
-                                <th>Trainee ID  </th>
-                                <th>Trainee Name</th>
-                                <th>Gender </th>
-                                                           
-                                <th>Grade In Letter </th>
-                                <th>Grade In Point</th>
-                             
-                              </tr>
-                            </thead>
-                            <tbody>
-                
-                              <% if(marklist.length >0 ) { %>
-                                  <% var i = 0 ;%>
-                                     <% marklist.forEach(function (row){ %>
-                                      <% i++ %>
-                                      <% var name = JSON.parse(JSON.stringify(row.personal_info)) %>
-                                      <% console.log(name) %>
-                                      <tr>
-                                        <td><div style="display: none;">
-                                          <%= row.trainee_id %>
-                                        </div></td>
-                                          <td><%= i %></td>
-                                          
-                                          <td ><%= row.student_unique_id %></td>
-                                          <td><%= name.firstname  %>&nbsp;<%= name.middlename  %></td>
-                                          
-                                          <td><%var gen =  name.gender %><%= gen=="m"?"Male":"Female" %></td>
-                                        
-                                         
-                                          <td><%= row.grade_in_latter %> </td>
-                                          <td> <%= row.grade_in_point %></td>
-                                      
-                                      </tr>
-                                   <%  })} else{}     %>
-                               
-                          </tbody>
-                          </table>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-6 offset-md-3  mt-2">
-                            <button type="button" onclick=" convertArrayToJSON();" class="btn btn-block btn-sm form-control btn-primary">Submit</button>
-                          </div>
-                        </div>
-                      </fieldset>
-                     
-                    
-                    </div>
-                  </div>
-                </div>
-             
-              </div>
-             
-            </div>
-          </div>
-        </div>
+      
           </div>
     
         <!-- /.row -->
@@ -524,22 +427,22 @@ location.reload(); // then reload the page.(3)
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables  & Plugins -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../../plugins/jszip/jszip.min.js"></script>
-<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="../../../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../../../../plugins/jszip/jszip.min.js"></script>
+<script src="../../../../plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../../../../plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../../../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->

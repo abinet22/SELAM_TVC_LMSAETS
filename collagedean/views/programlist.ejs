@@ -198,27 +198,27 @@
                                                     <% if(ed >td){ %> 
                                                    <form >
                                                    
-                                               <button class="btn btn-block btn-info">Not Passed</button>     
+                                               <button class="btn btn-block bg-gradient-warning btn-xs">Not Passed</button>     
                                                    </form>
                                                  <% }else{%>
                                                    <form >
-                                                     <button class="btn btn-block btn-danger">Passed</button>      
+                                                     <button class="btn btn-block bg-gradient-warning btn-xs">Passed</button>      
                                                    </form>
                                                  
                                                    <% }%>
                                                  </td>
                                                  <td> 
                                                   <% if(ed > td){ %> 
-                                                    <button class="btn btn-block btn-info">Application Date Not Passed </button> 
+                                                    <button class="btn btn-block bg-gradient-warning btn-xs">Application Date Not Passed </button> 
                                                     
                                                        <% }else{%>
                                                         <% if(row.is_open == "Yes"){ %>
                                                           <form action="/dean/programs/closeopenprograms/<%= row.program_id %>" method="post">
                                                          
-                                                          <button class="btn btn-block btn-danger">Close Program</button> 
+                                                          <button class="btn btn-block bg-gradient-danger btn-xs">Close Program</button> 
                                                           </form>
                                                             <%} else {%>
-                                                             <button class="btn btn-block btn-info">Already Closed </button> 
+                                                             <button class="btn btn-block bg-gradient-warning btn-xs">Already Closed </button> 
                                                              <%} %>
                                                             <% }%>
                                                      </td>
@@ -230,7 +230,7 @@
                                                     </div>
                                                     <input class="form-control" id="programtag" name="programtag" type="hidden" value="levelbased">
                                                   
-                                                     <button class="btn btn-block btn-info" type="submit"><i class="fa fa-edit"></i>Update Application Date</button> 
+                                                     <button class="btn btn-block bg-gradient-info btn-xs" type="submit"><i class="fa fa-edit"></i>Update Application Date</button> 
                                                  
                                                    </form>
                                                
@@ -368,27 +368,27 @@
                                                   <% if(ed>td){ %> 
                                                  <form >
                                                  
-                                             <button class="btn btn-block btn-info">Not Passed</button>     
+                                             <button class="btn btn-block bg-gradient-warning btn-xs">Not Passed</button>     
                                                  </form>
                                                <% }else{%>
                                                  <form >
-                                                   <button class="btn btn-block btn-danger">Passed</button>      
+                                                   <button class="btn btn-block bg-gradient-warning btn-xs">Passed</button>      
                                                  </form>
                                                
                                                  <% }%>
                                                </td>
                                                <td> 
                                                 <% if(ed>td){ %> 
-                                                  <button class="btn btn-block btn-info">Application Date Not Passed </button> 
+                                                  <button class="btn btn-block bg-gradient-warning btn-xs">Application Date Not Passed </button> 
                                                   
                                                      <% }else{%>
                                                       <% if(row.is_open == "Yes"){ %>
                                                         <form action="/dean/programs/closeopenprograms/<%= row.program_id %>" method="post">
                                                        
-                                                        <button class="btn btn-block btn-danger">Close Program</button> 
+                                                        <button class="btn btn-block bg-gradient-danger btn-xs">Close Program</button> 
                                                         </form>
                                                           <%} else {%>
-                                                           <button class="btn btn-block btn-info">Already Closed </button> 
+                                                           <button class="btn btn-block bg-gradient-warning btn-xs">Already Closed </button> 
                                                            <%} %>
                                                           <% }%>
                                                    </td>
@@ -400,7 +400,7 @@
                                                   </div>
                                                   <input class="form-control" id="programtag" name="programtag" type="hidden" value="ngobased">
                                                 
-                                                   <button class="btn btn-block btn-info" type="submit"><i class="fa fa-edit"></i>Update Application Date</button> 
+                                                   <button class="btn btn-block bg-gradient-info btn-xs" type="submit"><i class="fa fa-edit"></i>Update Application Date</button> 
                                                
                                                  </form>
                                              
@@ -497,27 +497,27 @@
                                                 <% if(ed>td){ %> 
                                                <form >
                                                
-                                           <button class="btn btn-block btn-info">Not Passed</button>     
+                                           <button class="btn btn-block bg-gradient-warning btn-xs">Not Passed</button>     
                                                </form>
                                              <% }else{%>
                                                <form >
-                                                 <button class="btn btn-block btn-danger">Passed</button>      
+                                                 <button class="btn btn-block bg-gradient-warning btn-xs">Passed</button>      
                                                </form>
                                              
                                                <% }%>
                                              </td>
                                              <td> 
                                               <% if(ed>td){ %> 
-                                                <button class="btn btn-block btn-info">Application Date Not Passed </button> 
+                                                <button class="btn btn-block bg-gradient-warning btn-xs">Application Date Not Passed </button> 
                                                 
                                                    <% }else{%>
                                                     <% if(row.is_open == "Yes"){ %>
                                                       <form action="/dean/programs/closeopenprograms/<%= row.program_id %>" method="post">
                                                      
-                                                      <button class="btn btn-block btn-danger">Close Program</button> 
+                                                      <button class="btn btn-block bg-gradient-danger btn-xs">Close Program</button> 
                                                       </form>
                                                         <%} else {%>
-                                                         <button class="btn btn-block btn-info">Already Closed </button> 
+                                                         <button class="btn btn-block bg-gradient-warning btn-xs">Already Closed </button> 
                                                          <%} %>
                                                         <% }%>
                                                  </td>
@@ -529,7 +529,7 @@
                                                 </div>
                                                 <input class="form-control" id="programtag" name="programtag" type="hidden" value="industrybased">
                                               
-                                                 <button class="btn btn-block btn-info" type="submit"><i class="fa fa-edit"></i>Update Application Date</button> 
+                                                 <button class="btn btn-block bg-gradient-info btn-xs" type="submit"><i class="fa fa-edit"></i>Update Application Date</button> 
                                              
                                                </form>
                                            
@@ -642,7 +642,7 @@
             }, "colvis"],
             columnDefs: [ {
             targets: -1,
-            visible: false
+            visible: true
         }]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     $("#example2").DataTable({
@@ -674,7 +674,7 @@
             }, "colvis"],
             columnDefs: [ {
             targets: -1,
-            visible: false
+            visible: true
         }]
     }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
     $("#example3").DataTable({
@@ -706,7 +706,7 @@
             }, "colvis"],
             columnDefs: [ {
             targets: -1,
-            visible: false
+            visible: true
         }]
     }).buttons().container().appendTo('#example3_wrapper .col-md-6:eq(0)');
   

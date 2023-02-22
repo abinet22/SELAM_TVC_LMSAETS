@@ -11,6 +11,7 @@ const Department = db.departments;
 const Course = db.courses;
 const User = db.users;
 const ClassInDept = db.classindepts;
+const TraineeCOCHistory = db.traineecochistory;
 const sequelize = db.sequelize ;
 const Occupation = db.occupations;
 const Company = db.companies;
@@ -20,31 +21,88 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const { v4: uuidv4 } = require('uuid');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
-const LevelBasedTrainee = require('../models/LevelBasedTrainee');
+const LevelBasedTrainee = db.levelbasedtrainees;
 const Batch = db.batches;
 
-router.get('/managelevelbased',ensureAuthenticated,async function(req,res){
-    const levelbased = await JBSStudentData.findAll({where:{programtag:"level"}});
-    const department = await Department.findAll({});
-    const classlist = await ClassInDept.findAll({});
-    const batchlist = await Batch.findAll({});
-res.render('alljbstraineelist',{
-    levelbased:levelbased,
-    department:department,
-    classlist:classlist,
-    batchlist:batchlist
+router.post('/updatetraineestatussendtococ',ensureAuthenticated,async function(req,res){
+    const{level,traineeid,programidbatch,dept,programtag} = req.body;
+  
+  const [department,dptmeta] = await sequelize.query(
+    " select * from occupations inner join departments on"+
+     " departments.department_id=occupations.department_id inner join sectorlists on"+
+     " sectorlists.sector_id = departments.training_id where occupations.occupation_id='"+dept+"' "
+  );
+  const batch = await Batch.findOne({where:{batch_id:programidbatch}});
+  const student = await LevelBasedTrainee.findAll({where:{trainee_id:traineeid,department_id:dept,batch_id:programidbatch,current_level:level}});
+    
+      const [courselist,metacourselist] = await sequelize.query(
+        "select * from courses where department_id='"+dept+"' and training_level='"+level+"'");
+       
+       
+      const [marklist, metaclasslist] = await sequelize.query(
+        "SELECT * FROM levelbasedtrainees  INNER JOIN studentmarklistlevelbaseds "+
+        " ON levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
+        "inner join courses on courses.course_id = studentmarklistlevelbaseds.course_id "+
+    " where levelbasedtrainees.trainee_id ='"+traineeid+"'" +
+    " and levelbasedtrainees.current_level ='"+level+"'"+
+    " and studentmarklistlevelbaseds.department_id ='"+dept+"' "+
+   " and studentmarklistlevelbaseds.batch_id ='"+programidbatch+"' "+
+    "  and courses.training_level='"+level+"'" +
+    "  and courses.department_id='"+dept+"'" 
+      );
+       var x = new Date()
+      const cochis = {
+        batch_id: programidbatch,
+      trainee_id: traineeid,
+      message:"Sent to take coc exam on"+ x
+      }
+      TraineeCOCHistory.create(cochis).then(()=>{
+        res.render('singlestudenttococ',{
+          marklist:marklist,
+          programtag:'level',
+          deptid:dept,
+          batchid:programidbatch,
+          classid:'',
+          courseid:'',
+          student:student,
+          department:department,
+          batch:batch,
+          courselist:courselist,
+          classinfo:'',
+          level:level,
+          traineeid:traineeid,
+          success_msg:"Successfully Update Trainee Status Sent To Take COC Exam"
+      })
+      }).catch(err =>{
+        res.render('singlestudenttococ',{
+          marklist:marklist,
+          programtag:'level',
+          deptid:dept,
+          batchid:programidbatch,
+          classid:'',
+          courseid:'',
+          student:student,
+          department:department,
+          batch:batch,
+          courselist:courselist,
+          classinfo:'',
+          level:level,
+          traineeid:traineeid,
+          error_msg:"Error Occurs Please Try Later"
+      })
+      })
+        
 })
-})
-router.post('/seetraineejbshistory/(:traineeid)',ensureAuthenticated,async function(req,res){
-    const emphistory = await EmployeementHistory.findAll({where:{trainee_id:req.params.traineeid}});
-    const student   =await  JBSStudentData.findOne({where:{trainee_id:req.params.traineeid}});
+router.post('/seetraineecochistory/(:traineeid)',ensureAuthenticated,async function(req,res){
+    const emphistory = await TraineeCOCHistory.findAll({where:{trainee_id:req.params.traineeid}});
+    const student   =await  LevelBasedTrainee.findOne({where:{trainee_id:req.params.traineeid}});
     const batch = await Batch.findOne({where:{batch_id:student.batch_id}});
     const [department,dptmeta] = await sequelize.query(
         " select * from occupations inner join departments on"+
          " departments.department_id=occupations.department_id inner join sectorlists on"+
          " sectorlists.sector_id = departments.training_id where occupations.occupation_id='"+student.department_id+"' "
       )
-res.render('singlestudentjbshistory',{
+res.render('singletraineecochistory',{
     emphistory:emphistory,
     batch:batch,
     department:department,
@@ -53,41 +111,6 @@ res.render('singlestudentjbshistory',{
     
 })
 })
-router.get('/managengobased',ensureAuthenticated,async function(req,res){
-    const levelbased = await JBSStudentData.findAll({where:{programtag:"ngo"}});
-    const department = await Department.findAll({});
-    const classlist = await ClassInDept.findAll({});
-    const batchlist = await Batch.findAll({});
-res.render('alljbstraineelist',{
-    levelbased:levelbased,
-    department:department,
-    classlist:classlist,
-    batchlist:batchlist
-})
-})
-router.get('/manageindustrybased',ensureAuthenticated,async function(req,res){
-    const levelbased = await JBSStudentData.findAll({where:{programtag:"industry"}});
-    const department = await Department.findAll({});
-    const classlist = await ClassInDept.findAll({});
-    const batchlist = await Batch.findAll({});
-res.render('alljbstraineelist',{
-    levelbased:levelbased,
-    department:department,
-    classlist:classlist,
-    batchlist:batchlist
-})
-})
-router.get('/alltraineeinjbs',ensureAuthenticated,async function(req,res){
-    const levelbased = await JBSStudentData.findAll({});
-    const department = await Department.findAll({});
-    const classlist = await ClassInDept.findAll({});
-    const batchlist = await Batch.findAll({});
-res.render('alljbstraineelist',{
-    levelbased:levelbased,
-    department:department,
-    classlist:classlist,
-    batchlist:batchlist
-})
-})
+
 
 module.exports = router;

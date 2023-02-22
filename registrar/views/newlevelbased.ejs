@@ -192,11 +192,11 @@
                                                 <% if( new Date(aed) > new Date(todayis)){ %> 
                                                <form >
                                               
-                                           <button class="btn btn-block btn-info">Not Passed</button>     
+                                           <button class="btn btn-block bg-gradient-success btn-xs">Not Passed</button>     
                                                </form>
                                              <% }else{%>
                                                <form >
-                                                 <button class="btn btn-block btn-danger">Passed</button>      
+                                                 <button class="btn btn-block bg-gradient-warning btn-xs">Passed</button>      
                                                </form>
                                              
                                                <% }%>
@@ -207,12 +207,12 @@
                                                 <form action="/registrar/programs/updateconfirmprogram" method="post">
                                                   <input type="hidden" name="programid" value="<%= row.program_id %>">
                                                   <input type="hidden" name="infotag" value="level">
-                                                  <button class="btn btn-block btn-info"><i class="fa fa-edit"></i>Confirm For Registration</button> 
+                                                  <button class="btn btn-block bg-gradient-info btn-xs"><i class="fa fa-edit"></i>Confirm For Registration</button> 
                                               
                                                 </form>
                                               <% }else{%>
                                                 <form >
-                                                  <button class="btn btn-block btn-danger">Application End Date Passed</button>      
+                                                  <button class="btn btn-block bg-gradient-warning btn-xs">Application End Date Passed</button>      
                                                 </form>
                                               
                                                 <% }%>

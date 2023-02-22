@@ -19,11 +19,37 @@ const LevelBasedProgram = db. levelbasedprograms;
 const IndustryBasedProgram = db.industrybasedprograms;
 const LevelBasedTrainee = db.levelbasedtrainees;
 const NGOBasedTrainee  = db.ngobasedtrainees;
+const Notification = db.notifications;
 router.get('/', forwardAuthenticated, (req, res) => res.render('login'));
 router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
 router.get('/dashboard', ensureAuthenticated, async function(req, res) { 
    const departments = await Department.findOne({where:{department_id:req.user.department}})
-  res.render('dashboard',{department:departments,user:req.user})
+   const note = await Notification.findAll({where:{noteto:req.user.department,is_read:'No'}})
+ 
+   res.render('dashboard',{department:departments,user:req.user,note:note})
+});
+router.post('/updatenotificationasread/(:noteid)', ensureAuthenticated,async function (req, res) 
+{
+  const departments = await Department.findOne({where:{department_id:req.user.department}})
+ 
+  Notification.findOne({where:{note_id:req.params.noteid}}).then(note =>{
+    if(note){
+      Notification.update({is_read:'Yes'},{where:{note_id:req.params.noteid}}).then(nt =>{
+        Notification.findAll({where:{noteto:req.user.department,is_read:'No'}}).then(notenew=>{
+          res.render('dashboard',{department:departments,user:req.user  ,note:notenew})
+        }).catch(err =>{
+          res.render('dashboard',{department:departments,user:req.user  ,note:''})
+        })
+        
+      }).catch(err =>{
+        res.render('dashboard',{department:departments,user:req.user ,note:''})
+      })
+    }
+  }).catch(err =>{
+    res.render('dashboard',{department:departments,user:req.user  ,note:''})
+        })
+
+
 });
 router.get('/addnewfunder', ensureAuthenticated, (req, res) => res.render('addnewfunder'));
 router.get('/addselectcriteria', ensureAuthenticated, (req, res) => res.render('addselectcriteria'));

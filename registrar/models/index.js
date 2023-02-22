@@ -33,6 +33,7 @@ const LevelBasedTrainee =require("./LevelBasedTrainee")(sequelize, Sequelize);
 const NGOBasedTrainee = require('./NGOBasedTrainee')(sequelize, Sequelize);
 const Occupation = require('./Occupation')(sequelize, Sequelize);
 const SectorList = require('./SectorList')(sequelize, Sequelize);
+const Notification = require('./Notification')(sequelize, Sequelize);
 LevelBasedTraining.hasMany(Department);
 Department.belongsTo(LevelBasedTraining);
 Batch.hasOne(LevelBasedProgram);
@@ -58,6 +59,7 @@ db.funderinfo = FunderInfo;
 db.departments = Department;
 db.courses = Course;
 db.batches = Batch;
+db.notifications = Notification;
 db.classindepts = ClassInDept
 db.levelbasedprograms =LevelBasedProgram
 db.newapplicants = NewApplicant;

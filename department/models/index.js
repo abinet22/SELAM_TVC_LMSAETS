@@ -59,6 +59,7 @@ db.levelbasedtraining = LevelBasedTraining;
 db.ngobasedtraining = NGOBasedTraining;
 db.industrybasedtraining = require("../models/IndustryBasedTraining.js")(sequelize, Sequelize);
 db.levelbasedprogresses = require("../models/LevelBasedProgress.js")(sequelize, Sequelize);
+db.notifications = require("../models/Notification.js")(sequelize, Sequelize);
 
 db.funderinfo = FunderInfo;
 db.departments = Department;

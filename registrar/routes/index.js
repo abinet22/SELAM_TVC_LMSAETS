@@ -10,6 +10,7 @@ const NGOBasedProgram = db.ngobasedprograms;
 const IndustryBasedProgram = db.industrybasedprogram;
 const LevelBasedTrainee = db.levelbasedtrainees;
 const Department =db.departments;
+const Notification = db.notifications;
 const NGOBasedTrainee = db.ngobasedtrainees;
 const IndustryBasedTrainee = db.industrybasedtrainees;
 const AppSelectionCriteria = db.appselectioncriterias;
@@ -24,9 +25,36 @@ const { v4: uuidv4 } = require('uuid');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 const IndustryBasedTraining = require('../models/IndustryBasedTraining');
 
+
 router.get('/', forwardAuthenticated, (req, res) => res.render('login'));
 router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
-router.get('/dashboard', ensureAuthenticated, (req, res) => res.render('dashboard',{user:req.user}));
+router.get('/dashboard', ensureAuthenticated,async function (req, res) 
+{
+ const note = await Notification.findAll({where:{noteto:'Registrar',is_read:'No'}})
+  res.render('dashboard',{user:req.user ,note:note})
+
+});
+router.post('/updatenotificationasread/(:noteid)', ensureAuthenticated,async function (req, res) 
+{
+  Notification.findOne({where:{note_id:req.params.noteid}}).then(note =>{
+    if(note){
+      Notification.update({is_read:'Yes'},{where:{note_id:req.params.noteid}}).then(nt =>{
+        Notification.findAll({where:{noteto:'Registrar',is_read:'No'}}).then(notenew=>{
+          res.render('dashboard',{user:req.user ,note:notenew})
+        }).catch(err =>{
+          res.render('dashboard',{user:req.user ,note:''})
+        })
+        
+      }).catch(err =>{
+        res.render('dashboard',{user:req.user ,note:''})
+      })
+    }
+  }).catch(err =>{
+    res.render('dashboard',{user:req.user ,note:''})
+        })
+
+
+});
 
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {

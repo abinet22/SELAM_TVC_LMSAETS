@@ -13,6 +13,7 @@ const NGOBasedProgram = db.ngobasedprograms;
 const IndustryBasedProgram = db.industrybasedprograms;
 const LevelBasedTrainee = db.levelbasedtrainees;
 const sequelize = db.sequelize ;
+const Notification = db.notifications;
 const { Op } = require("sequelize");
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
@@ -29,13 +30,40 @@ router.get('/dashboard', ensureAuthenticated, async function(req, res)
     " where staff_id = '"+req.user.fullname+"' and userroll='Teacher'"
    
     );
-  
+    const note = await Notification.findAll({where:{noteto:req.user.fullname,is_read:'No'}})
+ 
   
 
-  res.render('dashboard',{user:userlist})
+  res.render('dashboard',{user:userlist,note:note})
 
 }
 );
+router.post('/updatenotificationasread/(:noteid)', ensureAuthenticated,async function (req, res) 
+{
+  const [userlist, metalclassl] = await sequelize.query(
+    "SELECT * FROM stafflists INNER JOIN users ON users.fullname  = stafflists.staff_id "+
+    " where staff_id = '"+req.user.fullname+"' and userroll='Teacher'"
+   
+    );
+  Notification.findOne({where:{note_id:req.params.noteid}}).then(note =>{
+    if(note){
+      Notification.update({is_read:'Yes'},{where:{note_id:req.params.noteid}}).then(nt =>{
+        Notification.findAll({where:{noteto:req.user.fullname,is_read:'No'}}).then(notenew=>{
+          res.render('dashboard',{user:userlist  ,note:notenew})
+        }).catch(err =>{
+          res.render('dashboard',{user:userlist  ,note:''})
+        })
+        
+      }).catch(err =>{
+        res.render('dashboard',{user:userlist ,note:''})
+      })
+    }
+  }).catch(err =>{
+    res.render('dashboard',{user:userlist ,note:''})
+        })
+
+
+});
 router.get('/report',ensureAuthenticated,async function(req,res){
    
   const batch = await Batch.count();

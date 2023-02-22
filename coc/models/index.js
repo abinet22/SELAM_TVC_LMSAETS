@@ -16,6 +16,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+
 const StaffList = require('./StaffList')(sequelize, Sequelize);
 const Batch = require('./Batch')(sequelize, Sequelize);
 const LevelBasedProgress = require('./LevelBasedProgress')(sequelize,Sequelize);
@@ -77,6 +78,7 @@ db.levelbasedprogresses = LevelBasedProgress;
 db.industrybasedprograms = require('./IndustryBasedProgram.js')(sequelize,Sequelize);
 db.jbsstudentdatas = require('./JBSStudentData.js')(sequelize,Sequelize);
 db.employementhistories = require('./EmployeementHistory.js')(sequelize,Sequelize);
+db.traineecochistory = require('./TraineeCOCHistory.js')(sequelize,Sequelize);
 
 db.occupations = require('./Occupation')(sequelize,Sequelize);
 db.sectorlists = require('./SectorList')(sequelize,Sequelize);

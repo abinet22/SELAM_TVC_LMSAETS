@@ -73,7 +73,9 @@
                     
                     <div class="callout callout-success">
                         <div class="row">
-                            <% if(student.length >0 ) { %>
+                          <% var checkinfo = 0; %>
+                        
+                            <% if(student.length >0  ) { %>
                                 <% var i = 0 ;%>
                                    <% student.forEach(function (row){ %>
                                     <% var name = JSON.parse(JSON.stringify(row.personal_info)) %>
@@ -256,6 +258,8 @@
                                                
                                               
                                              <% } else{%>
+                                              <% checkinfo++ %>
+                                            
                                               <td> Not Found </td>
                                               <td> Not Found </td>
                                               <td> Not Found </td>

@@ -62,13 +62,31 @@
       <!-- Main content -->
       <div class="content">
         <div class="container-fluid">
+          <% if(note.length >0) { %>
+            <% note.forEach(function(row){ %>
+              <div class="row">
+                <div class="alert alert-info alert-dismissible">
+                     <form method="post" action="/trainer/updatenotificationasread/<%= row.note_id %>">
+                      <button type="submit" class=" btn  btn-outline-danger btn-xs" >Mark As Read</button>
+                  
+                     </form>
+            
+                  <h5><i class="icon fas fa-info"></i> <small>Alert!<br> Note From <%= row.notefrom %></small></h5>
+                  <small><%= row.note %></small>
+                </div>
+              </div>
+          <%  }) %>
+           
+         <% }else{ %>
           <div class="row">
             <div class="alert alert-info alert-dismissible">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
               <h5><i class="icon fas fa-info"></i> Alert!</h5>
-              Info alert preview. This alert is dismissable.
+             No New Notifications Are Here!
             </div>
           </div>
+         <%} %>
+         
           <!-- /.row -->
         </div>
         <!-- /.container-fluid -->

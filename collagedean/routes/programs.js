@@ -11,7 +11,7 @@ const LevelBasedProgram = db.levelbasedprograms;
 const NGOBasedProgram = db.ngobasedprograms;
 const IndustryBasedProgram = db.industrybasedprograms;
 const Batch = db.batches;
-
+const Notification = db.notifications;
 const AppSelectionCriteria = db.appselectioncriterias;
 const Course = db.courses;
 const User = db.users;
@@ -207,10 +207,20 @@ router.post('/addnewlevelbasedprogram',ensureAuthenticated, async function(req,r
            
             }
             else{
+              const note ={
+                note_id:proid,
+                notefrom:"Collage Dean",
+                noteto:"Registrar",
+                is_read:"No",
+                note:"New Level Based Program With Batch Name -"+batchname+"- Is Create Please Confirm And Start Registration"
+              }
                 LevelBasedProgram.create(levelbasedprogramData).then(levelbasedprogram =>{
+                  Notification.create(note).then(()=>{
                     res.render('addlevelbased',{success_msg:'You create new level based program with batch information',
                     training:traininglist,
         criteria:criterialist,}) 
+                  })   
+                 
                 }).catch(error =>{
                     res.render('addlevelbased',{error_msg:'Error while creating level based program with batch',
                     training:traininglist,
@@ -334,7 +344,13 @@ router.post('/addnewngobasedprogram',ensureAuthenticated, async function(req,res
          additional_form_data:JSON.parse(addformdata)
          
      }
-    
+     const note ={
+      note_id:proid,
+      notefrom:"Collage Dean",
+      noteto:"Registrar",
+      is_read:"No",
+      note:"New Short Term /Project/ Based Program With Batch Name -"+batchname+"- Is Create Please Confirm And Start Registration"
+    }
      Batch.count({where:{batch_name:batchname}}).then(count =>{
          console.log("axxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
          console.log(count)
@@ -350,10 +366,19 @@ router.post('/addnewngobasedprogram',ensureAuthenticated, async function(req,res
             }
          
              NGOBasedProgram.create(ngobasedprogramData).then(ngobasedprogram =>{
-                    res.render('addngobased',{success_msg:'You create new NGO based program with batch information',
-                    training:traininglist,
-                    funderinfo:funderinfo,
-        criteria:criterialist,}) 
+                  
+              Notification.create(note).thhen(() =>{
+                res.render('addngobased',{success_msg:'You create new short term/project/ based program with batch information',
+                training:traininglist,
+                funderinfo:funderinfo,
+    criteria:criterialist,}) 
+              }).catch(err =>{
+                res.render('addngobased',{success_msg:'You create new short term/project/ based program with batch information',
+                training:traininglist,
+                funderinfo:funderinfo,
+    criteria:criterialist,}) 
+              })
+           
                 }).catch(error =>{
                     console.log(error);
                     res.render('addngobased',{error_msg:'Error while creating NGO based program with batch',
@@ -472,7 +497,13 @@ const v1options = {
      is_confirm:"No"
      
  }
-
+ const note ={
+  note_id:proid,
+  notefrom:"Collage Dean",
+  noteto:"Registrar",
+  is_read:"No",
+  note:"New Industry Based Program With Batch Name -"+batchname+"- Is Create Please Confirm And Start Registration"
+}
  Batch.count({where:{batch_name:batchname}}).then(count =>{
      console.log("axxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
      console.log(count)
@@ -488,10 +519,19 @@ const v1options = {
         }
      
          IndustryBasedProgram.create(ngobasedprogramData).then(ngobasedprogram =>{
-                res.render('addindustrybased',{success_msg:'You create new Industry based program with batch information',
-                training:traininglist,
-                funderinfo:funderinfo,
-    criteria:criterialist,}) 
+              
+          Notification.create(note).then(() =>{
+            res.render('addindustrybased',{success_msg:'You create new Industry based program with batch information',
+            training:traininglist,
+            funderinfo:funderinfo,
+criteria:criterialist,}) 
+          }).catch(err =>{
+            res.render('addindustrybased',{success_msg:'You create new Industry based program with batch information',
+            training:traininglist,
+            funderinfo:funderinfo,
+criteria:criterialist,}) 
+          })
+        
             }).catch(error =>{
                 console.log(error);
                 res.render('addindustrybased',{error_msg:'Error while creating Industry based program with batch',

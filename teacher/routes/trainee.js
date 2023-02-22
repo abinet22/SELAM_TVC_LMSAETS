@@ -9,6 +9,7 @@ const FunderInfo = db.funderinfo;
 const Department = db.departments;
 const Course = db.courses;
 const User = db.users;
+const Notification = db.notifications;
 const ClassInDept = db.classindepts;
 const NGOBasedTrainee = db.ngobasedtrainees;
 const LevelBasedTrainee = db.levelbasedtrainees;

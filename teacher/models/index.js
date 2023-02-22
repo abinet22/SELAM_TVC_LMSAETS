@@ -63,6 +63,8 @@ db.sectorlists = SectorList;
 db.occupations = Occupation;
 db.industrybasedtraining = require("../models/IndustryBasedTraining.js")(sequelize, Sequelize);
 db.industrybasedprograms = require("./IndustryBasedProgram.js")(sequelize, Sequelize);
+db.notifications = require("./Notification.js")(sequelize, Sequelize);
+
 db.funderinfo = FunderInfo;
 db.departments = Department;
 db.courses = Course;

@@ -14,6 +14,7 @@ const NGOBasedProgram  = db.ngobasedprograms;
 const AppSelectionCriteria = db.appselectioncriterias;
 const Course = db.courses;
 const User = db.users;
+const Notification = db.notifications;
 const sequelize = db.sequelize ;
 const { Op } = require("sequelize");
 const bcrypt = require('bcryptjs');
@@ -102,15 +103,40 @@ router.post('/updateconfirmprogram', ensureAuthenticated, async function (req, r
   const [resultsind, metadataind] = await sequelize.query(
     "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where is_confirm='No'"
   );
+  const v1options = {
+    node: [0x01, 0x23],
+    clockseq: 0x1234,
+    msecs: new Date('2011-11-01').getTime(),
+    nsecs: 5678,
+  };
+  const batchname = await Batch.findOne({where:{batch_id:programid}});
+  proid = uuidv4(v1options);
   const funderinfo = await FunderInfo.findAll({});
   if(infotag =="level"){
+    const note ={
+      note_id:proid,
+      notefrom:"Registrar",
+      noteto:"REGISTRAR_DATA_ENCODER",
+      is_read:"No",
+      note:"New Level Based Program With Batch Name -"+batchname.batch_name+"- Is Ready. You Can Start Registration!"
+    }
       LevelBasedProgram.update({is_confirm:"Yes"},{where:{program_id:programid}}).then(leveldt =>{
-        res.render('newlevelbased',{
+        Notification.create(note).then(()=>{
+          res.render('newlevelbased',{
             levelbased:results,
             industrybased:'',
             ngobased:'',
             success_msg:'Successfully confirm new program to start registration'
         })
+        }).catch(err =>{
+          res.render('newlevelbased',{
+            levelbased:results,
+            industrybased:'',
+            ngobased:'',
+            success_msg:'Successfully confirm new program to start registration'
+        })
+        })
+       
       }).catch(error =>{
         res.render('newlevelbased',{
             levelbased:results,
@@ -122,14 +148,32 @@ router.post('/updateconfirmprogram', ensureAuthenticated, async function (req, r
   
   }
   else if(infotag =="ngo"){
+    const note ={
+      note_id:proid,
+      notefrom:"Registrar",
+      noteto:"REGISTRAR_DATA_ENCODER",
+      is_read:"No",
+      note:"New Short Term/Project/ Based Program With Batch Name -"+batchname.batch_name+"- Is Ready. You Can Start Registration!"
+    }
     NGOBasedProgram.update({is_confirm:"Yes"},{where:{program_id:programid}}).then(leveldt =>{
+      Notification.create(note).then(()=>{
         res.render('newngobased',{
-            levelbased:'',
-            industrybased:'',
-            ngobased:resultsngo,
-            funderinfo:funderinfo,
-            success_msg:'Successfully confirm new program to start registration'
-        })
+          levelbased:'',
+          industrybased:'',
+          ngobased:resultsngo,
+          funderinfo:funderinfo,
+          success_msg:'Successfully confirm new program to start registration'
+      })
+      }).catch(err =>{
+        res.render('newngobased',{
+          levelbased:'',
+          industrybased:'',
+          ngobased:resultsngo,
+          funderinfo:funderinfo,
+          success_msg:'Successfully confirm new program to start registration'
+      })
+      })
+     
     }).catch(error =>{
         res.render('newngobased',{
             levelbased:'',
@@ -142,13 +186,30 @@ router.post('/updateconfirmprogram', ensureAuthenticated, async function (req, r
    
   }
   else if(infotag == "industry"){
+    const note ={
+      note_id:proid,
+      notefrom:"Registrar",
+      noteto:"REGISTRAR_DATA_ENCODER",
+      is_read:"No",
+      note:"New Industry Based Program With Batch Name -"+batchname.batch_name+"- Is Ready. You Can Start Registration!"
+    }
     IndustryBasedProgram.update({is_confirm:"Yes"},{where:{program_id:programid}}).then(leveldt =>{
+      Notification.create(note).then(()=>{
         res.render('newindustrybased',{
-            levelbased:'',
-            industrybased:resultsind,
-            ngobased:'',
-            success_msg:'Successfully confirm new program to start registration'
-        })
+          levelbased:'',
+          industrybased:resultsind,
+          ngobased:'',
+          success_msg:'Successfully confirm new program to start registration'
+      })
+      }).catch(err =>{
+        res.render('newindustrybased',{
+          levelbased:'',
+          industrybased:resultsind,
+          ngobased:'',
+          success_msg:'Successfully confirm new program to start registration'
+      })
+      })
+    
     }).catch(error =>{
         res.render('newindustrybased',{
             levelbased:'',

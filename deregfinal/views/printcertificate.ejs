@@ -63,106 +63,112 @@
     </head>
     <body>
         <div class="container" id="certificate">
-           <div class="row col-md-12">
-            <div class="logo">
-                <div class="col-12">
-                    <table style="
-                 
-                    border-collapse: collapse;
-                    width: 100%;
-                  ">
-                    <tr style="
-                  
-                    border-collapse: collapse;
-                  ">
-                      <td><img src="../../../dist/img/logoselam.jpg" style="width: 100PX; height: 100px;"></td>
-                      <td colspan="2" style="
-                 
-                      border-collapse: collapse;
-                    ">
-                        <h4>
+            <% if(traineegradute) { %>
+                <div class="row col-md-12">
+                    <div class="logo">
+                        <div class="col-12">
+                            <table style="
                          
-                          Selam Technical And Vocational Collage
+                            border-collapse: collapse;
+                            width: 100%;
+                          ">
+                            <tr style="
+                          
+                            border-collapse: collapse;
+                          ">
+                              <td><img src="../../../dist/img/logoselam.jpg" style="width: 100PX; height: 100px;"></td>
+                              <td colspan="2" style="
                          
-                        </h4>
-                      </td>
-                     
-                      <td  colspan="2"  style="
-                
-                      border-collapse: collapse;
-                    ">
-        
-                        <h5> <small class="float-">Doc No._____</small><br>
-                          <small class="float-">SDR-TVC/QF/____</small></h5>
-                          <small class="float-">Issued Date:<% var today = new Date().toLocaleDateString() %> <%= today %></small>
-                        <br>  <small>  Issue No. __</small>
-                        </td>
-                    </tr>
-                   
-                  </table>
-                 
-                  </div>
-            </div>
-          
-                    <div class="foat-right" >
-                        <img src="../../../dist/img/logoselam.jpg" style="width: 150PX; height: 150px;">
-                    </div>
-               
-             <table style="width: 100%;" >
-                 <tr>
-                     <td>
-                        <div class="marquee">
-                            Middle  Level Technical & Vocational  Certificate of Completion
-                        </div>
-            
-                        <div class="assignment">
+                              border-collapse: collapse;
+                            ">
+                                <h4>
+                                 
+                                  Selam Technical And Vocational Collage
+                                 
+                                </h4>
+                              </td>
+                             
+                              <td  colspan="2"  style="
                         
-                         Level Two
-                        </div>
-            
-                        <div class="person">
-                            This certificate is awarded to <span style="text-decoration: underline;text-transform: uppercase;font-size: 14;font-style: italic;"><b>Ashenafi Tadesse Mengistu</b></span> <br>
-                            who admitted Selam Technical And Vocational Collage And Successfully completed level Two training program,specialize <br>
-                            in  <span style="text-decoration: underline;text-transform: uppercase;font-size: 14;font-style: italic;"><b>Machining</b></span>
-                        </div>
-                        <div class="assignment">
-                        Date Augest 28,2018
-                           </div>
-                        <div class="">
-                           Note:<br>
-                           <p style="font-size: 10px;">This Certificate is granted up on successful compelation of the training  
-                           doesnt substitute the national certification of competency. To validate this certificate it is mandatory to produce the equivalent level
-                        certificate of competency from Education & Training Quality Occupational Competency Assurance Authority.</p>
-                        </div>
-                     </td>
-                     <td>
-                        <div class="marquee">
-                            Middle  Level Technical & Vocational  Certificate of Completion
-                        </div>
-            
-                        <div class="assignment">
-                        Level Two
-                        </div>
-            
-                        <div class="person">
-                            This certificate is awarded to <span style="text-decoration: underline;text-transform: uppercase;font-size: 14;font-style: italic;"><b>Ashenafi Tadesse Mengistu</b></span> <br>
-                            who admitted Selam Technical And Vocational Collage And Successfully completed level Two training program,specialize <br>
-                            in  <span style="text-decoration: underline;text-transform: uppercase;font-size: 14;font-style: italic;"><b>Machining</b></span>
-                        </div>
-                        <div class="assignment">
-                            Date Augest 28,2018
-                               </div>
-                        <div class="">
-                            Note:<br>
-                            <p style="font-size: 10px;">This Certificate is granted up on successful compelation of the training  
-                            doesnt substitute the national certification of competency. To validate this certificate it is mandatory to produce the equivalent level
-                         certificate of competency from Education & Training Quality Occupational Competency Assurance Authority.</p>
-                         </div>
-                     </td>
-                 </tr>
-             </table>
-          
-           </div>
+                              border-collapse: collapse;
+                            ">
+                
+                                <h5> <small class="float-">Doc No._____</small><br>
+                                  <small class="float-">SDR-TVC/QF/____</small></h5>
+                                  <small class="float-">Issued Date:<% var today = new Date().toLocaleDateString() %> <%= today %></small>
+                                <br>  <small>  Issue No. __</small>
+                                </td>
+                            </tr>
+                           
+                          </table>
+                         
+                          </div>
+                    </div>
+                  
+                            <div class="foat-right" >
+                                <img src="../../../dist/img/logoselam.jpg" style="width: 150PX; height: 150px;">
+                            </div>
+                       
+                     <table style="width: 100%;" >
+                         <tr>
+                             <td>
+                                <div class="marquee">
+                                    Middle  Level Technical & Vocational  Certificate of Completion
+                                </div>
+                    
+                                <div class="assignment">
+                                
+                                 <%= traineegradute.current_level %>
+                                </div>
+                    
+                                <div class="person">
+                                    This certificate is awarded to <span style="text-decoration: underline;text-transform: uppercase;font-size: 14;font-style: italic;"><b><% var x = JSON.parse(JSON.stringify(traineegradute.personal_info)) %>
+                                    <%= x.firstname %> <%= x.middlename %> <%= x.lastname %>
+                                    </b></span> <br>
+                                    who admitted Selam Technical And Vocational Collage And Successfully completed level Two training program,specialize <br>
+                                    in  <span style="text-decoration: underline;text-transform: uppercase;font-size: 14;font-style: italic;"><b><%= dept.occupation_name %> <%= dept.department_name %></b></span>
+                                </div>
+                                <div class="assignment">
+                                    Date <%= new Date().toLocaleDateString() %>                           </div>
+                                <div class="">
+                                   Note:<br>
+                                   <p style="font-size: 10px;">This Certificate is granted up on successful compelation of the training  
+                                   doesnt substitute the national certification of competency. To validate this certificate it is mandatory to produce the equivalent level
+                                certificate of competency from Education & Training Quality Occupational Competency Assurance Authority.</p>
+                                </div>
+                             </td>
+                             <td>
+                                <div class="marquee">
+                                    Middle  Level Technical & Vocational  Certificate of Completion
+                                </div>
+                    
+                                <div class="assignment">
+                                    <%= traineegradute.current_level %>
+                                </div>
+                    
+                                <div class="person">
+                                    This certificate is awarded to <span style="text-decoration: underline;text-transform: uppercase;font-size: 14;font-style: italic;"><b>  <%= x.firstname %> <%= x.middlename %> <%= x.lastname %></b></span> <br>
+                                    who admitted Selam Technical And Vocational Collage And Successfully completed level Two training program,specialize <br>
+                                    in  <span style="text-decoration: underline;text-transform: uppercase;font-size: 14;font-style: italic;"><b><%= dept.occupation_name %><%= dept.department_name %> </b></span>
+                                </div>
+                                <div class="assignment">
+                                    Date <%= new Date().toLocaleDateString() %>
+                                       </div>
+                                <div class="">
+                                    Note:<br>
+                                    <p style="font-size: 10px;">This Certificate is granted up on successful compelation of the training  
+                                    doesnt substitute the national certification of competency. To validate this certificate it is mandatory to produce the equivalent level
+                                 certificate of competency from Education & Training Quality Occupational Competency Assurance Authority.</p>
+                                 </div>
+                             </td>
+                         </tr>
+                     </table>
+                  
+                   </div>
+           <% }else { %>
+  <label >Trainee Not Found</label>
+          <% } %>
+       
         </div>
     </body>
     <script>

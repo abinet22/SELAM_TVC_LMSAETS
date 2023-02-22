@@ -12,7 +12,7 @@ const NGOCourse = db.ngocourses;
 const IndustryCourse = db.industrycourses;
 const User = db.users;
 const Occupation = db.occupations;
-
+const Notification = db.notifications;
 const CourseTeacherClass = db.courseteacherclasses;
 const sequelize = db.sequelize ;
 const { Op } = require("sequelize");
@@ -405,8 +405,17 @@ router.post('/saveclassteachercourse/(:courseid)',ensureAuthenticated,async func
     let errors=[];
   
     var courselist,occinfo,qry;
-   
+    var courseinfo;
     const teacherlist = await StaffList.findAll({})
+    const v1options = {
+      node: [0x01, 0x23],
+      clockseq: 0x1234,
+      msecs: new Date('2011-11-01').getTime(),
+      nsecs: 5678,
+    };
+   
+    nid = uuidv4(v1options)
+    const depinfo  = await Department.findOne({where:{department_id:req.user.department}})
     const classlist = await ClassInDept.findOne({where:{
                           class_id:classname,
                           batch_id:programid,
@@ -419,6 +428,7 @@ router.post('/saveclassteachercourse/(:courseid)',ensureAuthenticated,async func
                             "  courses.course_id = courseteacherclasses.course_id inner join stafflists on "+
                             " stafflists.staff_id = courseteacherclasses.teacher_id where courses.department_id='"+ dpt+"' and courseteacherclasses.class_id='"+classname+"'"
                             ;
+                            courseinfo = await Course.findOne({where:{course_id:req.params.courseid}})
                             courselist = await Course.findAll({where:{
                               training_level:traininglevel,
                               department_id: dpt,
@@ -430,6 +440,8 @@ router.post('/saveclassteachercourse/(:courseid)',ensureAuthenticated,async func
                             "  ngocourses.course_id = courseteacherclasses.course_id inner join stafflists on "+
                             " stafflists.staff_id = courseteacherclasses.teacher_id where ngocourses.department_id='"+ dpt+"' and courseteacherclasses.class_id='"+classname+"'"
                             ;
+                            courseinfo = await NGOCourse.findOne({where:{course_id:req.params.courseid}})
+                 
                             courselist = await NGOCourse.findAll({where:{
                       
                               department_id: dpt,
@@ -441,7 +453,8 @@ router.post('/saveclassteachercourse/(:courseid)',ensureAuthenticated,async func
                             "  industrycourses.course_id = courseteacherclasses.course_id inner join stafflists on "+
                             " stafflists.staff_id = courseteacherclasses.teacher_id where industrycourses.department_id='"+ dpt+"' and courseteacherclasses.class_id='"+classname+"'"
                             ;
-
+                            courseinfo = await IndustryCourse.findOne({where:{course_id:req.params.courseid}})
+                 
                               courselist = await IndustryCourse.findAll({where:{
                       
                               department_id: dpt,
@@ -449,7 +462,7 @@ router.post('/saveclassteachercourse/(:courseid)',ensureAuthenticated,async func
            occinfo =await Department.findOne({where:{department_id:dpt}});
                           }
           const [courseteacher,ctmeta]  = await sequelize.query(qry);
-                        
+                       
     const batchinfo =await Batch.findOne({where:{batch_id:programid}});
     if(!programid || !dpt || !classname || !teachername || !enddate || !startdate){
       errors.push({msg:'Please Add All Required Fields'})
@@ -490,19 +503,36 @@ router.post('/saveclassteachercourse/(:courseid)',ensureAuthenticated,async func
             if(!data)
             {
               CourseTeacherClass.create(courseteachercomData).then(classteachercourse =>{
-                res.render('courseteacher',{programid:programid,
-                  classname:classname,
-                  teacherlist:teacherlist,
-                  traininglevel:traininglevel,
-                  programtype:programtype,
-                  classlist:classlist,
-                  courselist:courselist,
-                  occinfo:occinfo,
-                  tag:tag,
-                  batchinfo:batchinfo,
-                  courseteacher:courseteacher,
-                  dpt:dpt,success_msg:"Successfully Assign UOCs To Trainer"})
-              }).catch(error =>{
+              
+                const note ={
+                  note_id:nid,
+                  notefrom:depinfo.department_name+"Department",
+                  noteto:teachername,
+                  is_read:"No",
+                  note:"You Are Assigned For "+
+                  " Batch Name "+ batchinfo.batch_name+
+                  " Department Name "+depinfo.department_name+
+                  " With Section Name " + classlist.class_name+ 
+                  " UOCs Name "+courseinfo.course_name+
+                  ". You Can Manage Trainees UOC Evaluation Now!"
+                }
+                Notification.create(note).then(()=>{
+                  res.render('courseteacher',{programid:programid,
+                    classname:classname,
+                    teacherlist:teacherlist,
+                    traininglevel:traininglevel,
+                    programtype:programtype,
+                    classlist:classlist,
+                    courselist:courselist,
+                    occinfo:occinfo,
+                    tag:tag,
+                    batchinfo:batchinfo,
+                    courseteacher:courseteacher,
+                    dpt:dpt,success_msg:"Successfully Assign UOCs To Trainer"})
+               
+                })
+              
+                }).catch(error =>{
                 res.render('courseteacher',{programid:programid,
                   classname:classname,
                   teacherlist:teacherlist,
@@ -522,6 +552,19 @@ router.post('/saveclassteachercourse/(:courseid)',ensureAuthenticated,async func
           
            else {
               CourseTeacherClass.update({teacher_id:teachername},{where:{class_id:classname,course_id:req.params.courseid,department_id:dpt,batch_id:programid}}).then(assigned =>{
+                const note ={
+                  note_id:nid,
+                  notefrom:depinfo.department_name+"Department",
+                  noteto:teachername,
+                  is_read:"No",
+                  note:"You Are Assigned As New Trainer For "+
+                  " Batch Name "+ batchinfo.batch_name+
+                  " Department Name "+depinfo.department_name+
+                  " With Section Name " + classlist.class_name+ 
+                  " UOCs Name "+courseinfo.course_name+
+                  ". You Can Manage Trainees UOC Evaluation Now!"
+                }
+                Notification.create(note).then(()=>{
                 res.render('courseteacher',{programid:programid,
                   classname:classname,
                   teacherlist:teacherlist,
@@ -534,6 +577,7 @@ router.post('/saveclassteachercourse/(:courseid)',ensureAuthenticated,async func
                   courseteacher:courseteacher,
                   batchinfo:batchinfo,
                   dpt:dpt,success_msg:"Successfully Update And Assign UOC To Trainer"})
+                 })
               }).catch(err =>{
                 res.render('courseteacher',{programid:programid,
                   classname:classname,
@@ -567,17 +611,57 @@ router.post('/saveclassteachercourse/(:courseid)',ensureAuthenticated,async func
   for (let i = 0; i < myObj.length; i++) {
     copyItems.push(myObj[i]);
   }
+
   console.log(copyItems);
+
     if(copyItems.length >0)
     {
-      console.log("xnnnnnnnnnnnnnnnnnnnnnnnn");
-  copyItems.forEach((item) => {
-     var classid = item.class;
-     var teacherid = item.teacher;
-     ClassInDept.update({rep_teacher_id:teacherid},{where:{class_id:classid}})
-   
-  
-    });
+     
+        console.log("xnnnnnnnnnnnnnnnnnnnnnnnn");
+        copyItems.forEach((item) => {
+           var classid = item.class;
+           var teacherid = item.teacher;
+           const v1options = {
+            node: [0x01, 0x23],
+            clockseq: 0x1234,
+            msecs: new Date('2011-11-01').getTime(),
+            nsecs: 5678,
+          };
+        
+          nid = uuidv4(v1options)
+           ClassInDept.update({rep_teacher_id:teacherid},{where:{class_id:classid}}).then(()=>{
+             
+            Department.findOne({where:{department_id:req.user.department}}).then(dep =>{
+              const depnote =dep
+              ClassInDept.findOne({where:{class_id:classid}}).then(cls =>{
+                const cl =cls 
+                Batch.findOne({where:{batch_id:cl.batch_id}}).then(ba =>{
+                  const batchinfo = ba
+                  const note ={
+                    note_id:nid,
+                    notefrom:depnote.department_name+"Department",
+                    noteto:teacherid,
+                    is_read:"No",
+                    note:"You Are Assigned As Section Representative For "+
+                    " Batch Name "+ batchinfo.batch_name+
+                    " Department Name "+depnote.department_name+
+                    " With Section Name " + cl.class_name+ 
+                    ". You Can Manage Trainees Attendance  Now!"
+                  }
+                  Notification.create(note)
+                })
+              })
+            
+            })
+            
+           })
+         
+        
+          });
+      
+        
+        
+         
   
       res.send({message:'success'})
   

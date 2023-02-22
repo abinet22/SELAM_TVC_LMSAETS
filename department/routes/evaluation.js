@@ -9,6 +9,7 @@ const FunderInfo = db.funderinfo;
 const Department = db.departments;
 const Course = db.courses;
 const Company = db.companies;
+const Notification = db.notifications;
 const User = db.users;
 const LevelBasedTrainee = db.levelbasedtrainees;
 const StudentMarkListLevelBased = db.studentmarklistlevelbaseds;
@@ -288,7 +289,7 @@ for (let i = 0; i < myObj.length; i++) {
 //console.log(copyItems);
   if(copyItems.length >0)
   {
-  
+   
    // console.log("x");
 copyItems.forEach((item) => {
   var institutional_total= item.industry_total;
