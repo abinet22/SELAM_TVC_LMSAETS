@@ -7,6 +7,7 @@ const NGOBasedTraining = db.ngobasedtraining;
 const IndustryBasedTraining = db.industrybasedtraining;
 const FunderInfo = db.funderinfo;
 const Department = db.departments;
+const Occupation = db.occupations;
 const Course = db.courses;
 const User = db.users;
 const Notification = db.notifications;
@@ -197,7 +198,28 @@ router.post('/generatecoursegradeindustrybased/(:classname)',ensureAuthenticated
 
 router.post('/findmyclasstoevaluatecourselevel',ensureAuthenticated,async function(req,res){
      const{batchid,dpt,level} = req.body;
-    
+     const [ngobased, metangobaseddata] = await sequelize.query(
+      "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id"
+    );
+    const [levelbased, metalevelbaseddata] = await sequelize.query(
+      "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+    );
+    const [industrybased, metaindustrybaseddata] = await sequelize.query(
+      "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id"
+    );
+    const department = await Department.findAll({});
+    const occupation = await Occupation.findAll({});
+    if(batchid=="0" || dpt=="0"){
+      res.render('selectprogramtofindclass',{
+        levelbased:levelbased,
+        ngobased:ngobased,
+        industrybased:industrybased,
+        occupation:occupation,
+        department:department
+  
+    });
+  
+    }
      const batchinfo =await Batch.findOne({where:{batch_id:batchid}});
      const [results, metadata] = await sequelize.query(
         "SELECT distinct classindepts.class_id,occupations.occupation_name,classindepts.class_name,classindepts.department_id,classindepts.batch_id,classindepts.training_level,classindepts.class_id,classindepts.training_type FROM  courseteacherclasses "+
@@ -216,6 +238,28 @@ router.post('/findmyclasstoevaluatecourselevel',ensureAuthenticated,async functi
 });
 router.post('/findmyclasstoevaluatecoursengo',ensureAuthenticated,async function(req,res){
   const{batchidn,dptn} = req.body;
+  const [ngobased, metangobaseddata] = await sequelize.query(
+    "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id"
+  );
+  const [levelbased, metalevelbaseddata] = await sequelize.query(
+    "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+  );
+  const [industrybased, metaindustrybaseddata] = await sequelize.query(
+    "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id"
+  );
+  const department = await Department.findAll({});
+  const occupation = await Occupation.findAll({});
+  if(batchidn=="0" || dptn=="0"){
+    res.render('selectprogramtofindclass',{
+      levelbased:levelbased,
+      ngobased:ngobased,
+      industrybased:industrybased,
+      occupation:occupation,
+      department:department
+
+  });
+
+  }
   const batchinfo =await Batch.findOne({where:{batch_id:batchidn}});
   const [results, metadata] = await sequelize.query(
      "SELECT distinct classindepts.class_id,department_name,classindepts.class_name,classindepts.department_id,classindepts.batch_id,classindepts.training_level,classindepts.class_id,classindepts.training_type FROM  courseteacherclasses "+
@@ -231,6 +275,28 @@ router.post('/findmyclasstoevaluatecoursengo',ensureAuthenticated,async function
 });
 router.post('/findmyclasstoevaluatecourseindustry',ensureAuthenticated,async function(req,res){
   const{batchidi,dpti} = req.body;
+  const [ngobased, metangobaseddata] = await sequelize.query(
+    "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id"
+  );
+  const [levelbased, metalevelbaseddata] = await sequelize.query(
+    "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+  );
+  const [industrybased, metaindustrybaseddata] = await sequelize.query(
+    "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id"
+  );
+  const department = await Department.findAll({});
+  const occupation = await Occupation.findAll({});
+  if(batchidi=="0" || dpti=="0"){
+    res.render('selectprogramtofindclass',{
+      levelbased:levelbased,
+      ngobased:ngobased,
+      industrybased:industrybased,
+      occupation:occupation,
+      department:department
+
+  });
+
+  }
   const batchinfo =await Batch.findOne({where:{batch_id:batchidi}});
   const [results, metadata] = await sequelize.query(
     "SELECT distinct classindepts.class_id,department_name, classindepts.class_name,classindepts.department_id,classindepts.batch_id,classindepts.training_level,classindepts.class_id,classindepts.training_type FROM  courseteacherclasses "+

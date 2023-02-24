@@ -88,6 +88,27 @@ router.get('/generateandsubmitgrade',ensureAuthenticated,async function(req,res)
 router.post('/findmyclasstoevaluatecourselevel',ensureAuthenticated,async function(req,res){
     const{batchid,level, dpt,showtype} = req.body;
   
+     if(batchid =="0" || level =="0"|| dpt=="0" ){
+      const [ngobased, metangobaseddata] = await sequelize.query(
+        "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id"
+      );
+      const [levelbased, metalevelbaseddata] = await sequelize.query(
+        "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+      );
+      const [industrybased, metaindustrybaseddata] = await sequelize.query(
+        "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id"
+      );
+      const department = await Department.findAll({});
+      const occupation = await Occupation.findAll({});
+        res.render('searchevaluation',{
+        levelbased:levelbased,
+        ngobased:ngobased,
+        occupation:occupation,
+        industrybased:industrybased,
+        department:department,
+        error_msg:"Please Select Required Fields"
+    });
+     }
     const batchinfo =await Batch.findOne({where:{batch_id:batchid}});
     const [results, metadata] = await sequelize.query(
       "SELECT distinct classindepts.class_id,occupations.occupation_name,classindepts.class_name,classindepts.department_id,classindepts.batch_id,classindepts.training_level,classindepts.class_id,classindepts.training_type FROM  courseteacherclasses "+
@@ -106,6 +127,27 @@ router.post('/findmyclasstoevaluatecourselevel',ensureAuthenticated,async functi
 
 router.post('/findmyclasstoevaluatecourseindustry',ensureAuthenticated,async function(req,res){
   const{batchidi, dpti,showtype} = req.body;
+  if(batchidi =="0" || dpti=="0" ){
+    const [ngobased, metangobaseddata] = await sequelize.query(
+      "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id"
+    );
+    const [levelbased, metalevelbaseddata] = await sequelize.query(
+      "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+    );
+    const [industrybased, metaindustrybaseddata] = await sequelize.query(
+      "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id"
+    );
+    const department = await Department.findAll({});
+    const occupation = await Occupation.findAll({});
+      res.render('searchevaluation',{
+      levelbased:levelbased,
+      ngobased:ngobased,
+      occupation:occupation,
+      industrybased:industrybased,
+      department:department,
+      error_msg:"Please Select Required Fields"
+  });
+   }
   const batchinfo =await Batch.findOne({where:{batch_id:batchidi}});
   const [results, metadata] = await sequelize.query(
     "SELECT distinct classindepts.class_id,classindepts.class_name,department_name,classindepts.department_id,classindepts.batch_id,classindepts.training_level,classindepts.class_id,classindepts.training_type FROM  courseteacherclasses "+
@@ -121,6 +163,27 @@ router.post('/findmyclasstoevaluatecourseindustry',ensureAuthenticated,async fun
 });
 router.post('/findmyclasstoevaluatecoursengo',ensureAuthenticated,async function(req,res){
   const{batchidn, dptn,showtype} = req.body;
+  if(batchidn =="0" || dptn=="0" ){
+    const [ngobased, metangobaseddata] = await sequelize.query(
+      "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id"
+    );
+    const [levelbased, metalevelbaseddata] = await sequelize.query(
+      "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id"
+    );
+    const [industrybased, metaindustrybaseddata] = await sequelize.query(
+      "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id"
+    );
+    const department = await Department.findAll({});
+    const occupation = await Occupation.findAll({});
+      res.render('searchevaluation',{
+      levelbased:levelbased,
+      ngobased:ngobased,
+      occupation:occupation,
+      industrybased:industrybased,
+      department:department,
+      error_msg:"Please Select Required Fields"
+  });
+   }
   const batchinfo =await Batch.findOne({where:{batch_id:batchidn}});
   const [results, metadata] = await sequelize.query(
     "SELECT distinct classindepts.class_id,classindepts.class_name,department_name,classindepts.department_id,classindepts.batch_id,classindepts.training_level,classindepts.class_id,classindepts.training_type FROM  courseteacherclasses "+
