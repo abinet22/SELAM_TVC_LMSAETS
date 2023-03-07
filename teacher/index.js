@@ -75,7 +75,7 @@ app.use(express.static(path.join(__dirname,'./public')));
 
 // app.use('/trainer/classmanage',require('./routes/classmanage.js'));
 
-app.use('/', require('./routes/index.js'));
+app.use('/trainer', require('./routes/index.js'));
 app.use('/programs', require('./routes/programs.js'));
 app.use('/evaluation', require('./routes/evaluation.js'));
 app.use('/trainee', require('./routes/trainee.js'));

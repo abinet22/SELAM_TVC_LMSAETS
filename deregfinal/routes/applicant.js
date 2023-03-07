@@ -295,7 +295,7 @@ router.post('/addnewapplicant',ensureAuthenticated,async function(req,res){
   let errors =[];
   const department = await Occupation.findAll({});
   
-  const {totaltranscript,age,gender,scholarshiptype,specialneedes,
+  const {totaltranscript,age,gender,scholarshiptype,specialneedes,levelend,
  perinfos,addinfo,grade9trans,grade10trans,grade11trans,grade12trans,ave12trans,appid
    ,grade9thtransave,grade10thtransave,grade11thtransave,grade12thtransave,
  programid, ave11trans,paymentinfo,ave10trans,ave9trans,isdisable,choice1,choice2,choice3,
@@ -342,6 +342,7 @@ level,trainingtype,egsec,ssle,grade10score,grade12score
       choice_two:choice2,
       choice_three:choice3,
       choice_level:level,
+      choice_level_end:levelend,
       choice_program_type:trainingtype,
       is_disable:isdisable,
       payment_info:paymentinfo,
