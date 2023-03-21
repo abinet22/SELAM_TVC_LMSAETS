@@ -167,10 +167,95 @@ router.post('/updateapplicanttolevelbasedprogram',ensureAuthenticated, async fun
       "SELECT * FROM newapplicants INNER JOIN batches ON batches.batch_id = newapplicants.application_id where is_selected ='No' and is_current='Yes' and application_id='"+programidlevel+"'"
     );
     
-    res.render('updatenewapplicantresult',{applicantlist:applicantlist,department:department,programidlevel:programidlevel});
+    res.render('updatenewapplicantresult',{tag:"level",applicantlist:applicantlist,department:department,programidlevel:programidlevel});
  
   }
  
+});
+router.post('/updateapplicanttongobasedprogram',ensureAuthenticated, async function(req,res){
+  const {programidlevel} = req.body;
+  const [ngobased, metangobaseddata] = await sequelize.query(
+    "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes' and is_current='Yes'"
+  );
+  const [levelbased, metalevelbaseddata] = await sequelize.query(
+    "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id  where levelbasedprograms.is_open ='Yes' and is_current='Yes'"
+  );
+  const [industrybased, metaindbaseddata] = await sequelize.query(
+    "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes' and is_current='Yes'"
+  );
+ 
+let errors = [];
+if(programidlevel == "0" || !programidlevel){
+  errors.push({msg:'Please Select Program/Batch/ Name First'})
+}
+if(errors.length >0)
+{
+    res.render('selectprogramtoupdate',{
+    levelbased:levelbased,
+    ngobased:ngobased,
+    industrybased:industrybased,
+    errors
+});
+}
+else
+{
+  const department = await Occupation.findAll({});
+  const  [applicantlist, sdfs] = await sequelize.query(
+    "SELECT * FROM newapplicants INNER JOIN batches ON batches.batch_id = newapplicants.application_id where is_selected ='No' and is_current='Yes' and application_id='"+programidlevel+"'"
+  );
+  
+  res.render('updatenewapplicantresult',{tag:"ngo", applicantlist:applicantlist,department:department,programidlevel:programidlevel});
+
+}
+
+});
+
+router.post('/deleteapplicant',ensureAuthenticated, async function(req,res){
+  const {programidlevel,tag,applicantid} = req.body;
+  const [ngobased, metangobaseddata] = await sequelize.query(
+    "SELECT * FROM ngobasedprograms INNER JOIN batches ON batches.batch_id = ngobasedprograms.batch_id where ngobasedprograms.is_open ='Yes' and is_current='Yes'"
+  );
+  const [levelbased, metalevelbaseddata] = await sequelize.query(
+    "SELECT * FROM levelbasedprograms INNER JOIN batches ON batches.batch_id = levelbasedprograms.batch_id  where levelbasedprograms.is_open ='Yes' and is_current='Yes'"
+  );
+  const [industrybased, metaindbaseddata] = await sequelize.query(
+    "SELECT * FROM industrybasedprograms INNER JOIN batches ON batches.batch_id = industrybasedprograms.batch_id where industrybasedprograms.is_open ='Yes' and is_current='Yes'"
+  );
+ 
+let errors = [];
+if(!programidlevel){
+  errors.push({msg:'Please Select Program/Batch/ Name First'})
+}
+if(errors.length >0)
+{
+    res.render('selectprogramtoupdate',{
+    levelbased:levelbased,
+    ngobased:ngobased,
+    industrybased:industrybased,
+    errors
+});
+}
+else
+{
+  const department = await Occupation.findAll({});
+  const  [applicantlist, sdfs] = await sequelize.query(
+    "SELECT * FROM newapplicants INNER JOIN batches ON batches.batch_id = newapplicants.application_id where is_selected ='No' and is_current='Yes' and application_id='"+programidlevel+"'"
+  );
+  
+  NewApplicant.destroy({where:{application_id:programidlevel,applicant_id:applicantid}}).then(appdlt =>{
+    res.render('updatenewapplicantresult',{tag:tag,applicantlist:applicantlist,department:department,programidlevel:programidlevel,
+     success_msg:'Applicant Info Deleted Successfully'
+    });
+
+  }).catch(err =>{
+    res.render('updatenewapplicantresult',{tag:tag,applicantlist:applicantlist,department:department,programidlevel:programidlevel,
+    error_msg:'Cant Delete Applicant Info  Now'
+    });
+
+  })
+
+}
+
 });
 router.post('/updateentraceexamresult/(:applicantid)',ensureAuthenticated,async function(req,res){
     const{entranceresult,programidlevel} =req.body;
@@ -295,7 +380,7 @@ router.post('/addnewapplicant',ensureAuthenticated,async function(req,res){
   let errors =[];
   const department = await Occupation.findAll({});
   
-  const {totaltranscript,age,gender,scholarshiptype,specialneedes,levelend,
+  const {totaltranscript,age,gender,scholarshiptype,specialneedes,levelend,remark,
  perinfos,addinfo,grade9trans,grade10trans,grade11trans,grade12trans,ave12trans,appid
    ,grade9thtransave,grade10thtransave,grade11thtransave,grade12thtransave,
  programid, ave11trans,paymentinfo,ave10trans,ave9trans,isdisable,choice1,choice2,choice3,
@@ -343,6 +428,7 @@ level,trainingtype,egsec,ssle,grade10score,grade12score
       choice_three:choice3,
       choice_level:level,
       choice_level_end:levelend,
+      remark:remark,
       choice_program_type:trainingtype,
       is_disable:isdisable,
       payment_info:paymentinfo,

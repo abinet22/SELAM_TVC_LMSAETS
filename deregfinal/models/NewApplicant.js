@@ -83,6 +83,9 @@ module.exports = (sequelize, DataTypes) => {
         choice_level_end:{
             type: DataTypes.STRING,
         },
+        remark:{
+            type: DataTypes.STRING,
+        },
         choice_program_type: {
             type: DataTypes.STRING,
         },

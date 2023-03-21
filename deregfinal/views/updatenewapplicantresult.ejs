@@ -97,6 +97,7 @@
                                     <th>Update Entrance Exam</th>
                                     <th>Update Apptitude Test</th>
                                     <th>Action TODo</th>
+                                    <th>Action TODo</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -170,7 +171,7 @@ if(row.additional_data != null) {
                                             <button class="btn btn-block btn-outline-primary btn-xs" type="submit">Update Apptitude</button>
                                              </form></td>
                                       <td>
-                                        <% if(row.program_type ==="level"){ %>
+                                        <% if(tag ==="level"){ %>
                                           <form action="/registrardataencoder/applicant/printapplication/<%= row.application_id %>/<%= row.applicant_id %>">
                                           
                                             <button type="submit" class="btn btn-block btn-outline-primary btn-xs">
@@ -186,6 +187,16 @@ if(row.additional_data != null) {
                                         </form>
                                         <% } %>
                                        
+                                      </td>
+                                      <td>
+                                        <form action="/registrardataencoder/applicant/deleteapplicant" method="post">
+                                          <input type="hidden" name="programidlevel" value="<%= row.application_id %>">
+                                          <input type="hidden" name="applicantid" value="<%= row.applicant_id %>">
+                                          <input type="hidden" name="tag" value="<%= tag %>">
+                                          <button type="submit" class="btn btn-block btn-outline-danger btn-xs">
+                                            Delete
+                                          </button>
+                                        </form>
                                       </td>
                                         </tr>
                                    <%  })} else{}     %>
