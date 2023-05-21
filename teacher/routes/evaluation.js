@@ -477,12 +477,16 @@ for (let i = 0; i < myObj.length; i++) {
   
    // console.log("x");
 copyItems.forEach((item) => {
-  var institutional_total= item.industry_total;
+  var institutional_total= item.institutional_total;
+ 
   var industry_total =item.industry_total;
   var total_result= item.total_result;
  var  grade_in_latter=item.grade_in_latter;
  var  grade_in_point=item.grade_in_point;
  var student_id=item.student_id;
+ console.log(institutional_total)
+ console.log(industry_total)
+ console.log(total_result)
   var course_id=item.course_id;
   if(!institutional_total || !industry_total || !total_result || !grade_in_latter || !grade_in_point || !student_id || !course_id){
    errors.push({msg:'please make sure your mark list is correct'})
@@ -496,7 +500,7 @@ copyItems.forEach((item) => {
     class_id:item.class_id,
     student_id:item.student_id,
     course_id:item.course_id,
-    institutional_total:item.industry_total,
+    institutional_total:item.institutional_total,
     industry_total:item.industry_total,
     total_result:item.total_result,
     grade_in_latter:item.grade_in_latter,
@@ -512,14 +516,15 @@ copyItems.forEach((item) => {
    LevelBasedProgress.update({ is_confirm_teacher:"Yes"},{where:{student_id:item.student_id, department_id:item.department_id,
     class_id:item.class_id,course_id:item.course_id}}) 
  }
- StudentMarkListLevelBased.update({ batch_id:item.batch_id,
+ else{
+  StudentMarkListLevelBased.update({ batch_id:item.batch_id,
    program_type:item.program_type,
    training_level:item.training_level,
    department_id:item.department_id,
    class_id:item.class_id,
    student_id:item.student_id,
    course_id:item.course_id,
-   institutional_total:item.industry_total,
+   institutional_total:item.institutional_total,
    industry_total:item.industry_total,
    total_result:item.total_result,
    grade_in_latter:item.grade_in_latter,
@@ -530,9 +535,9 @@ copyItems.forEach((item) => {
    teacher_id:req.user.userid},{where:{student_id:item.student_id,course_id:item.course_id, department_id:item.department_id,
     class_id:item.class_id}}) 
     LevelBasedProgress.update({is_confirm_teacher:"Yes"},{where:{student_id:item.student_id, department_id:item.department_id,
-      class_id:item.class_id,course_id:item.course_id}}) 
+      class_id:item.class_id,course_id:item.course_id}}) }
  }).catch(error =>{
-  errors.push({msg:'please makesure your mark list is correct'})
+  errors.push({msg:'Please make sure your mark list is correct'})
   console.log(error)
  })
  }

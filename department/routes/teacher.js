@@ -462,7 +462,9 @@ router.post('/saveclassteachercourse/(:courseid)',ensureAuthenticated,async func
            occinfo =await Department.findOne({where:{department_id:dpt}});
                           }
           const [courseteacher,ctmeta]  = await sequelize.query(qry);
-                       
+                       console.log("courseteacherafterassign")
+                       console.log(courseteacher)
+
     const batchinfo =await Batch.findOne({where:{batch_id:programid}});
     if(!programid || !dpt || !classname || !teachername || !enddate || !startdate){
       errors.push({msg:'Please Add All Required Fields'})
@@ -502,6 +504,7 @@ router.post('/saveclassteachercourse/(:courseid)',ensureAuthenticated,async func
         console.log("fffffffffffff");
             if(!data)
             {
+              
               CourseTeacherClass.create(courseteachercomData).then(classteachercourse =>{
               
                 const note ={
@@ -516,21 +519,28 @@ router.post('/saveclassteachercourse/(:courseid)',ensureAuthenticated,async func
                   " UOCs Name "+courseinfo.course_name+
                   ". You Can Manage Trainees UOC Evaluation Now!"
                 }
-                Notification.create(note).then(()=>{
-                  res.render('courseteacher',{programid:programid,
-                    classname:classname,
-                    teacherlist:teacherlist,
-                    traininglevel:traininglevel,
-                    programtype:programtype,
-                    classlist:classlist,
-                    courselist:courselist,
-                    occinfo:occinfo,
-                    tag:tag,
-                    batchinfo:batchinfo,
-                    courseteacher:courseteacher,
-                    dpt:dpt,success_msg:"Successfully Assign UOCs To Trainer"})
-               
+                sequelize.query(qry).then(udtcourseteacher =>{
+                  console.log("udtsourseteacher");
+                  console.log(udtcourseteacher)
+                  Notification.create(note).then(()=>{
+                    res.render('courseteacher',{programid:programid,
+                      classname:classname,
+                      teacherlist:teacherlist,
+                      traininglevel:traininglevel,
+                      programtype:programtype,
+                      classlist:classlist,
+                      courselist:courselist,
+                      occinfo:occinfo,
+                      tag:tag,
+                      batchinfo:batchinfo,
+                      courseteacher:udtcourseteacher[0],
+                      dpt:dpt,success_msg:"Successfully Assign UOCs To Trainer"})
+                 
+                  })
+                }).catch(err =>{
+                  console.log(err)
                 })
+               
               
                 }).catch(error =>{
                 res.render('courseteacher',{programid:programid,
@@ -564,20 +574,25 @@ router.post('/saveclassteachercourse/(:courseid)',ensureAuthenticated,async func
                   " UOCs Name "+courseinfo.course_name+
                   ". You Can Manage Trainees UOC Evaluation Now!"
                 }
-                Notification.create(note).then(()=>{
-                res.render('courseteacher',{programid:programid,
-                  classname:classname,
-                  teacherlist:teacherlist,
-                  traininglevel:traininglevel,
-                  programtype:programtype,
-                  classlist:classlist,
-                  courselist:courselist,
-                  occinfo:occinfo,
-                  tag:tag,
-                  courseteacher:courseteacher,
-                  batchinfo:batchinfo,
-                  dpt:dpt,success_msg:"Successfully Update And Assign UOC To Trainer"})
-                 })
+                sequelize.query(qry).then(udtcourseteacher =>{
+                  Notification.create(note).then(()=>{
+                    res.render('courseteacher',{programid:programid,
+                      classname:classname,
+                      teacherlist:teacherlist,
+                      traininglevel:traininglevel,
+                      programtype:programtype,
+                      classlist:classlist,
+                      courselist:courselist,
+                      occinfo:occinfo,
+                      tag:tag,
+                      courseteacher:udtcourseteacher[0],
+                      batchinfo:batchinfo,
+                      dpt:dpt,success_msg:"Successfully Update And Assign UOC To Trainer"})
+                     })
+                }).catch(err =>{
+                    console.log(err)
+                })
+              
               }).catch(err =>{
                 res.render('courseteacher',{programid:programid,
                   classname:classname,

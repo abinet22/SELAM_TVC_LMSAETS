@@ -122,7 +122,9 @@
                                   <li class="mb-1 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Graduated:<%= row.is_graduated %></span> </li>
                                   <li class="mb-1 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Is COC Result Updated?:<%= row.is_pass_coc==""?"NO":"Yes" %></span> </li>
                                   <li class="mb-1 display-28"><span class="display-26 text-secondary me-2 font-weight-600">COC Result:<%= row.is_pass_coc=="PASS"?"Competent":"Not Yet Competent" %></span> </li>
-                                 
+                                  <% if(row.is_graduated ==="Yes") { %>
+                                     <button class="btn btn-sm btn btn-outline-success" id="toggleButton">Show Grade Report</button>
+                                  <%} %>
                                  
                               </ul>
                             </div>
@@ -134,92 +136,78 @@
                
             </div>
             <%- include ('./partials/messages') %>
-            <div class="alert  alert-dismissible fade show" role="alert" style="display: none;" id="servermsg">
-               <p id="msg"></p>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-            
-            <div class="col-md-8 offset-md-2 ">
-         <div class="col-md-12">
-          <form action="/registrardataencoder/trainee/updatestudentdatacocresult" method="post">
-            <div class="form-group">
-                <input type="hidden" name="programtag" id="programtag" value="<%= programtag %>">
-                <input type="hidden" name="traineeid" id="traineeid" value="<%= traineeid %>">  
-                <input type="hidden" name="level" id="level" value="<%= level %>">  
-                <input type="hidden" name="batchid" id="batchid" value="<%= batchid %>">  
-                <input type="hidden" name="deptid" id="deptid" value="<%= deptid %>">  
-             
-              </div>
-              <div class="form-group">
-                  <label>Please Select Option To Update COC Result</label>
-               <select class="form-control" name="cocresult" id="cocresult">
-                   <option value="0">Please Select Option</option>
-                   <option value="PASS">Competent</option>
-                   <option value="FAIL">Not Yet Competent</option>
-               </select>
-              </div>
-              <button type="submit" class="btn btn-primary btn-block btn-sm" >
-               Update COC Result
-               </button> 
-         </form>
-         </div>
-       
-        <!-- <div class="col-md-4">
          
-            <form action="/registrardataencoder/trainee/printgraduatecoclatter" method="post">
-                <div class="form-group">
-                    <input type="hidden" name="programtag" value="<%= programtag %>">
-                    <input type="hidden" name="traineeid" value="<%= traineeid %>">  
-                    <input type="hidden" name="level" value="<%= level %>">  
-                    <input type="hidden" name="programidbatch" value="<%= batchid %>">  
-                    <input type="hidden" name="dept" value="<%= deptid %>">  
+     
+                <div class="row" id="myDiv" style="display:none">
+                  <div class="alert  alert-dismissible fade show" role="alert" style="display: none;" id="servermsg">
+                    <p id="msg"></p>
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                   </div>
                  
-                  </div>
-                  <button type="submit" class="btn btn-block btn-outline-success btn-xs" >
-                    Print COC Latter 
-                   </button> 
-             </form>
-        </div> -->
-         </div>
-         <div class="row">
-          <div class="col-md-4"></div>
-          <div class="col-md-4">
-            <form action="/registrardataencoder/trainee/printgraduatescertificate" method="post">
-               <div class="form-group">
-                   <input type="hidden" name="programtag" value="<%= programtag %>">
-                   <input type="hidden" name="traineeid" value="<%= traineeid %>">  
-                   <input type="hidden" name="level" value="<%= level %>">  
-                   <input type="hidden" name="programidbatch" value="<%= batchid %>">  
-                   <input type="hidden" name="dept" value="<%= deptid %>">  
-                
+                 <div class="col-md-8 offset-md-2 ">
+              <div class="col-md-12">
+               <form action="/registrardataencoder/trainee/updatestudentdatacocresult" method="post">
+                 <div class="form-group">
+                     <input type="hidden" name="programtag" id="programtag" value="<%= programtag %>">
+                     <input type="hidden" name="traineeid" id="traineeid" value="<%= traineeid %>">  
+                     <input type="hidden" name="level" id="level" value="<%= level %>">  
+                     <input type="hidden" name="batchid" id="batchid" value="<%= batchid %>">  
+                     <input type="hidden" name="deptid" id="deptid" value="<%= deptid %>">  
+                  
+                   </div>
+                   <div class="form-group">
+                       <label>Please Select Option To Update COC Result</label>
+                    <select class="form-control" name="cocresult" id="cocresult">
+                        <option value="0">Please Select Option</option>
+                        <option value="PASS">Competent</option>
+                        <option value="FAIL">Not Yet Competent</option>
+                    </select>
+                   </div>
+                   <button type="submit" class="btn btn-primary btn-block btn-sm" >
+                    Update COC Result
+                    </button> 
+              </form>
+              </div>
+           
+              </div>
+                  <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                      <form action="/registrardataencoder/trainee/printgraduatescertificate" method="post">
+                         <div class="form-group">
+                             <input type="hidden" name="programtag" value="<%= programtag %>">
+                             <input type="hidden" name="traineeid" value="<%= traineeid %>">  
+                             <input type="hidden" name="level" value="<%= level %>">  
+                             <input type="hidden" name="programidbatch" value="<%= batchid %>">  
+                             <input type="hidden" name="dept" value="<%= deptid %>">  
+                          
+                           </div>
+                           <button type="submit" class="btn btn-block btn-outline-success btn-xs" data-toggle="modal" data-target="#exampleModal">
+                             Print Certificate 
+                            </button> 
+                      </form>
+                  
                  </div>
-                 <button type="submit" class="btn btn-block btn-outline-success btn-xs" data-toggle="modal" data-target="#exampleModal">
-                   Print Certificate 
-                  </button> 
-            </form>
-        
-       </div>
-       <div class="col-md-4">
-        
-           <form action="/registrardataencoder/trainee/printgraduatesgradereport" method="post">
-               <div class="form-group">
-                   <input type="hidden" name="programtag" value="<%= programtag %>">
-                   <input type="hidden" name="traineeid" value="<%= traineeid %>">  
-                   <input type="hidden" name="level" value="<%= level %>">  
-                   <input type="hidden" name="programidbatch" value="<%= batchid %>">  
-                   <input type="hidden" name="dept" value="<%= deptid %>">  
-                
+                 <div class="col-md-4">
+                  
+                     <form action="/registrardataencoder/trainee/printgraduatesgradereport" method="post">
+                         <div class="form-group">
+                             <input type="hidden" name="programtag" value="<%= programtag %>">
+                             <input type="hidden" name="traineeid" value="<%= traineeid %>">  
+                             <input type="hidden" name="level" value="<%= level %>">  
+                             <input type="hidden" name="programidbatch" value="<%= batchid %>">  
+                             <input type="hidden" name="dept" value="<%= deptid %>">  
+                          
+                           </div>
+                           <button type="submit" class="btn btn-block btn-outline-success btn-xs" >
+                             Print Grade Report 
+                            </button> 
+                      </form>
                  </div>
-                 <button type="submit" class="btn btn-block btn-outline-success btn-xs" >
-                   Print Grade Report 
-                  </button> 
-            </form>
-       </div>
-         </div>
-                <div class="row">
-                  <div class="col-md-12  grid-margin stretch-card">     <div class="card">
+                   </div>
+                  <div class="col-md-12  grid-margin stretch-card" >     <div class="card">
                       <div class="card-header">
                           <h4 class="card-title">Grade Report</h4>
                       </div>
@@ -311,7 +299,18 @@
               </div>
              
             </div>
-        
+        <script>
+          const toggleButton = document.getElementById("toggleButton");
+const myDiv = document.getElementById("myDiv");
+
+toggleButton.addEventListener("click", function() {
+  if (myDiv.style.display === "none") {
+    myDiv.style.display = "block";
+  } else {
+    myDiv.style.display = "none";
+  }
+});
+        </script>
            
        
                 

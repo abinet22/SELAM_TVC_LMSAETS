@@ -75,26 +75,40 @@
                         <div class="row">
                           <% var checkinfo = 0; %>
                         
-                            <% if(student.length >0  ) { %>
+                            <% if(student ) { %>
                                 <% var i = 0 ;%>
-                                   <% student.forEach(function (row){ %>
-                                    <% var name = JSON.parse(JSON.stringify(row.personal_info)) %>
+                                   
+                                    <% var name = JSON.parse(JSON.stringify(student.personal_info)) %>
                                     <div class="row">
+                                     <% if(student.is_graduated ==="Yes") { %>
                                       <div class="col-md-4">
-                                       <form action="/registrardataencoder/trainee/updatestudentdatagraduated" method="post">
-                                         <div class="form-group">
-                                             <input type="hidden" name="programtag" id="programtag" value="<%= programtag %>">
-                                             <input type="hidden" name="traineeid" id="traineeid" value="<%= traineeid %>">  
-                                             <input type="hidden" name="level" id="level" value="<%= level %>">  
-                                             <input type="hidden" name="batchid" id="batchid" value="<%= batchid %>">  
-                                             <input type="hidden" name="deptid" id="deptid" value="<%= deptid %>">  
-                                          
-                                           </div>
-                                           <button type="submit" class="btn btn-primary btn-block btn-sm" >
-                                            Update Trainee Status(Graduated)
-                                            </button> 
-                                      </form>
+                                        <form>
+                                          <div class="form-group">
+                                          <label type="button" class="btn btn-outline-success btn-block btn-sm" >
+                                            Already Updated Graduated
+                                            </label> 
+                                            </div>
+                                        </form>
+                                     
                                       </div>
+                                     <% } else { %>
+                                      <div class="col-md-4">
+                                        <form action="/registrardataencoder/trainee/updatestudentdatagraduated" method="post">
+                                          <div class="form-group">
+                                              <input type="hidden" name="programtag" id="programtag" value="<%= programtag %>">
+                                              <input type="hidden" name="traineeid" id="traineeid" value="<%= traineeid %>">  
+                                              <input type="hidden" name="level" id="level" value="<%= level %>">  
+                                              <input type="hidden" name="batchid" id="batchid" value="<%= batchid %>">  
+                                              <input type="hidden" name="deptid" id="deptid" value="<%= deptid %>">  
+                                           
+                                            </div>
+                                            <button type="submit" class="btn btn-outline-primary btn-block btn-sm" >
+                                             Update Trainee Status(Graduated)
+                                             </button> 
+                                       </form>
+                                       </div>
+                                     <% } %>
+                                     
                                       <div class="col-md-4">
                                           <form action="/registrardataencoder/trainee/printgraduatescertificate" method="post">
                                              <div class="form-group">
@@ -134,7 +148,7 @@
                                     <div class=" p-1-9 p-sm-2-3 p-md-6 p-lg-7">
                                         <div class="row align-items-center">
                                             <div class="col-lg-6 mb-4 mb-lg-0">
-                                                <%  dataphotos = 	'data:image/png;base64,' + new Buffer(row.applicant_photo, 'binary').toString('base64')
+                                                <%  dataphotos = 	'data:image/png;base64,' + new Buffer(student.applicant_photo, 'binary').toString('base64')
                                                 %>
                                                 <img class="img-fluid" id="appphoto"  src="<%= dataphotos %>" height="250px" width="250px" alt="User profile picture">
                      
@@ -155,7 +169,7 @@
                                                             var ageis =  Math.abs(ageDate.getUTCFullYear() - 1970);
                                                           
                                                         %> <%= ageis   %></li>
-                                                    <li class="display-28"><span class="display-26 text-secondary me-2 font-weight-600">ID No:</span> <%= row.student_unique_id %></li>
+                                                    <li class="display-28"><span class="display-26 text-secondary me-2 font-weight-600">ID No:</span> <%= student.student_unique_id %></li>
                                                 </ul>
                                                
                                             </div>
@@ -177,13 +191,14 @@
                                         Level: &nbsp; <%= level %> 
                                         <%}%>
                                       </span>  </li>
-                                    <li class="mb-1 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Program:<%= row.admission_type %></span> </li>
-                                   
+                                    <li class="mb-1 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Program:<%= student.admission_type %></span> </li>
+                                    <button class="btn btn-sm btn btn-outline-success" id="toggleButton">Show Grade Report</button>
+                              
                                    
                                 </ul>
                             </div>
                       
-                             <%  })} else{ %>
+                             <%  } else{ %>
                               <label>Can't Find Student</label>
                             <% }     %>                           
                        
@@ -191,7 +206,7 @@
                 </div>
                
             </div>
-                <div class="row">
+                <div class="row" id="myDiv" style="display:none">
                   <div class="col-md-12  grid-margin stretch-card">     <div class="card">
                       <div class="card-header">
                           <h4 class="card-title">Grade Report</h4>
@@ -288,7 +303,18 @@
         
            
        
-                
+            <script>
+              const toggleButton = document.getElementById("toggleButton");
+    const myDiv = document.getElementById("myDiv");
+    
+    toggleButton.addEventListener("click", function() {
+      if (myDiv.style.display === "none") {
+        myDiv.style.display = "block";
+      } else {
+        myDiv.style.display = "none";
+      }
+    });
+            </script>
 
                    
 				</div>

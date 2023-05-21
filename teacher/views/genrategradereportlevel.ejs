@@ -273,23 +273,37 @@
                                                               <%= total.toFixed(2) %>
                                                             </td>
                                                         
-                                                            <% var gradepoint,gradelater ; 
-                                                            if(total < 50 ){
-                                                         gradelater = "F";
-                                                         gradepoint = 0;
-                                                            }else if(total>=50 && total < 65){
-                                                               gradelater = "D";
-                                                               gradepoint = 1;
-                                                            }else if(total>=65 && total < 74){
-                                                               gradelater = "C";
-                                                               gradepoint = 2;
-                                                            }else if(total>=74 && total < 85){
-                                                               gradelater = "B";
-                                                               gradepoint = 3;
-                                                            }else if(total>=85 && total < 100){
-                                                               gradelater = "A";
-                                                               gradepoint = 4;
-                                                           } %>
+                                                            <% var gradepoint,gradelater ; %>
+                                                            <%  if(total < 74 ){
+                                                              gradelater = "F";
+                                                              gradepoint = 0;
+                                                                 }else if(total>=74 && total < 77){
+                                                                    gradelater = "C";
+                                                                    gradepoint = 2;
+                                                                 }else if(total>=77 && total < 80){
+                                                                    gradelater = "C+";
+                                                                    gradepoint = 2.5;
+                                                                 }else if(total>=80 && total < 83){
+                                                                    gradelater = "B-";
+                                                                    gradepoint = 2.75;
+                                                                 }else if(total>=83 && total < 86){
+                                                                    gradelater = "B";
+                                                                    gradepoint = 3;
+                                                                }else if(total >=86 && total < 89){
+                                                                    gradelater="B+";
+                                                                    gradepoint =3.5;
+                                                                 } else if(total >=89 && total < 92){
+                                                                   gradelater ="A-";
+                                                                     gradepoint =3.75;
+                                                                   }else if (total > 92 && total < 95 ){
+                                                                    gradelater ="A";
+                                                                    gradepoint =4;
+                                                                      } else if(total >= 95){
+                                                                            gradelater ="A+";
+                                                                    gradepoint =4;
+                                                                         }
+                                                                %>
+                                                          
                                                             <td>
                                                            <%= gradelater %>
                                                             </td>
@@ -518,7 +532,7 @@
                                       
                                         <td>
                                           
-                                            <% var institutional = theory + practice;%>
+                                            <% var institutional = theory + practice; %>
                                             <small>   <%= institutional.toFixed(2) %></small>
                                           
                                           </td>
@@ -535,23 +549,38 @@
                                          
                                          </td>
                                      
-                                         <% var gradepoint,gradelater ; 
-                                         if(total < 50 ){
-                                      gradelater = "F";
-                                      gradepoint = 0;
-                                         }else if(total>=50 && total < 65){
-                                            gradelater = "D";
-                                            gradepoint = 1;
-                                         }else if(total>=65 && total < 74){
-                                            gradelater = "C";
-                                            gradepoint = 2;
-                                         }else if(total>=74 && total < 85){
-                                            gradelater = "B";
-                                            gradepoint = 3;
-                                         }else if(total>=85 && total < 100){
-                                            gradelater = "A";
-                                            gradepoint = 4;
-                                        } %>
+                                         <% var gradepoint,gradelater ;  %>
+                                         <%  if(total < 74 ){
+                                          gradelater = "F";
+                                          gradepoint = 0;
+                                             }else if(total>=74 && total < 77){
+                                                gradelater = "C";
+                                                gradepoint = 2;
+                                             }else if(total>=77 && total < 80){
+                                                gradelater = "C+";
+                                                gradepoint = 2.5;
+                                             }else if(total>=80 && total < 83){
+                                                gradelater = "B-";
+                                                gradepoint = 2.75;
+                                             }else if(total>=83 && total < 86){
+                                                gradelater = "B";
+                                                gradepoint = 3;
+                                            }else if(total >=86 && total < 89){
+                                                gradelater="B+";
+                                                gradepoint =3.5;
+                                             } else if(total >=89 && total < 92){
+                                               gradelater ="A-";
+                                                 gradepoint =3.75;
+                                               }else if (total > 92 && total < 95 ){
+                                                gradelater ="A";
+                                                gradepoint =4;
+                                                  } else if(total >= 95){
+                                                        gradelater ="A+";
+                                                gradepoint =4;
+                                                     }
+                                            %>
+
+                                       
                                          <td>
                                        
                                         <small>  <%= gradelater %></small>

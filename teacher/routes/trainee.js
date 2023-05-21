@@ -44,16 +44,16 @@ router.post('/showclassstudentlevel/(:classname)',ensureAuthenticated,async func
     "  inner join studentmarklistlevelbaseds on levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
    "   where studentmarklistlevelbaseds.course_id ='"+courseid+"' "+
      " and studentmarklistlevelbaseds.class_id='"+req.params.classname+"'"+
-     " and is_confirm_teacher='Yes'");
+     " and is_confirm_teacher='Yes' ");
      console.log(studentwithmark)
-      const levelbased = await LevelBasedTrainee.findAll({where:{class_id:req.params.classname}});
+      const levelbased = await LevelBasedTrainee.findAll({where:{class_id:req.params.classname,is_dropout:'No'}});
      res.render('alllevelbasedlist',{addinfo:addinfo,studentwithmark:studentwithmark,courseid:courseid,dpt:dpt,batchid:batchid,levelbased:levelbased,courselist:courselist,classid:req.params.classname,level:level,programtype:programtype})
 
     })
 router.post('/showclassstudentngo/(:classname)',ensureAuthenticated,async function(req,res){
 
   const{level,programtype,dpt,batchid,courseid} = req.body;
-  const levelbased = await NGOBasedTrainee.findAll({where:{class_id:req.params.classname}});
+  const levelbased = await NGOBasedTrainee.findAll({where:{class_id:req.params.classname,is_dropout:'No'}});
   const [courselist, metadata] = await sequelize.query(
       "SELECT * FROM  ngocourses where course_id='"+courseid +"' and batch_id='"+batchid+"' "
     );  
@@ -556,12 +556,24 @@ router.post('/singlethoreticalevaluation/(:traineeid)',ensureAuthenticated,async
       "SELECT * FROM  courses where course_id='"+courseid +"' "
     );   
     console.log(req.body);
-    const levelbased = await LevelBasedTrainee.findAll({where:{class_id:classid}});
-       
+    const levelbased = await LevelBasedTrainee.findAll({where:{class_id:classid,is_dropout:'No'}});
+    const [addinfo,addinfometa] = await sequelize.query(
+      " select * from classindepts "+
+" inner join batches on batches.batch_id = classindepts.batch_id "+
+" inner join occupations on occupation_id = classindepts.department_id "+
+" inner join departments on departments.department_id = occupations.department_id "+
+" where classindepts.class_id='"+classid+"'"
+    );
+    const [studentwithmark, smarkstu] = await sequelize.query ( " SELECT * FROM levelbasedtrainees "+
+    "  inner join studentmarklistlevelbaseds on levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
+   "   where studentmarklistlevelbaseds.course_id ='"+courseid+"' "+
+     " and studentmarklistlevelbaseds.class_id='"+classid+"'"+
+     " and is_confirm_teacher='Yes' ");
      console.log(courseid);
      console.log(classid);
-    if(!mark || courseid == "" || evaluationtype=="0" ){
-        res.render('alllevelbasedlist',{courselist:courselist,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
+     console.log(programtype);
+    if(!mark || courseid == "" || evaluationtype=="0" || !tobeudt){
+        res.render('alllevelbasedlist',{studentwithmark:studentwithmark, addinfo:addinfo, courselist:courselist,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
             error_msg:'Please Add  Evaluation Mark And Select Evaluation Type First'
             })
     }
@@ -581,7 +593,7 @@ router.post('/singlethoreticalevaluation/(:traineeid)',ensureAuthenticated,async
        }    
        const [updateddt, updateddtmeta] = await sequelize.query(udtqry);  
 
-        res.render('alllevelbasedlist',{updateddt:updateddt,courselist:courselist,courseid:courseid,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
+        res.render('alllevelbasedlist',{studentwithmark:studentwithmark,addinfo:addinfo, updateddt:updateddt,courselist:courselist,courseid:courseid,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
             success_msg:'Successfully update evaluation marks'
             })
     }
@@ -593,9 +605,14 @@ router.post('/singlepracticalevaluation/(:traineeid)',ensureAuthenticated,async 
         "SELECT courses.course_name,courses.course_id FROM  courseteacherclasses "+
         "INNER JOIN courses ON courses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+classid+"' "
       );
-  
+    const [addinfo,addinfometa] = await sequelize.query(
+      " select * from classindepts "+
+" inner join batches on batches.batch_id = classindepts.batch_id "+
+" inner join occupations on occupation_id = classindepts.department_id "+
+" inner join departments on departments.department_id = occupations.department_id "+
+" where classindepts.class_id='"+classid+"'");
     if(!thoretical || courseid == "" ){
-        res.render('alllevelbasedlist',{courselist:courselist,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
+        res.render('alllevelbasedlist',{addinfo:addinfo, courselist:courselist,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
             error_msg:'Please Add  Evaluation Mark And Select Course Name First'
             })
     }
@@ -621,7 +638,7 @@ router.post('/singlepracticalevaluation/(:traineeid)',ensureAuthenticated,async 
          StudentMarkListLevelBased.findOne({where:{course_id:courseid,student_id:req.params.traineeid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}}).then(marklist =>{
             if(!marklist){
                 StudentMarkListLevelBased.create(mark).then(marklist =>{
-                    res.render('alllevelbasedlist',{courselist:courselist,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
+                    res.render('alllevelbasedlist',{addinfo:addinfo, courselist:courselist,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
                     success_msg:'Successfully Add  Practical Evaluation'
                     })
         
@@ -631,7 +648,7 @@ router.post('/singlepracticalevaluation/(:traineeid)',ensureAuthenticated,async 
             }
             else{
                StudentMarkListLevelBased.update({practical_evaluation:thoretical},{where:{course_id:courseid,student_id:req.params.traineeid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}}).then(uddt =>{
-                res.render('alllevelbasedlist',{courselist:courselist,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
+                res.render('alllevelbasedlist',{addinfo:addinfo, courselist:courselist,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
                     success_msg:'Successfully Update Practical Evaluation'
                     })
                })
@@ -647,9 +664,15 @@ router.post('/singleinternshipevaluation/(:traineeid)',ensureAuthenticated,async
         "SELECT courses.course_name,courses.course_id FROM  courseteacherclasses "+
         "INNER JOIN courses ON courses.course_id = courseteacherclasses.course_id where courseteacherclasses.teacher_id = '"+req.user.userid+"' and courseteacherclasses.batch_id='"+batchid+"' and courseteacherclasses.level= '"+level+"' and courseteacherclasses.department_id='"+dpt+"' and courseteacherclasses.class_id='"+classid+"' "
       );
-  
+      
+      const [addinfo,addinfometa] = await sequelize.query(
+        " select * from classindepts "+
+  " inner join batches on batches.batch_id = classindepts.batch_id "+
+  " inner join occupations on occupation_id = classindepts.department_id "+
+  " inner join departments on departments.department_id = occupations.department_id "+
+  " where classindepts.class_id='"+classid+"'");
     if(!thoretical || courseid == "" ){
-        res.render('alllevelbasedlist',{courselist:courselist,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
+        res.render('alllevelbasedlist',{addinfo:addinfo, courselist:courselist,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
             error_msg:'Please Add  Evaluation Mark And Select Course Name First'
             })
     }
@@ -675,7 +698,7 @@ router.post('/singleinternshipevaluation/(:traineeid)',ensureAuthenticated,async
          StudentMarkListLevelBased.findOne({where:{course_id:courseid,student_id:req.params.traineeid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}}).then(marklist =>{
             if(!marklist){
                 StudentMarkListLevelBased.create(mark).then(marklist =>{
-                    res.render('alllevelbasedlist',{courselist:courselist,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
+                    res.render('alllevelbasedlist',{addinfo:addinfo, courselist:courselist,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
                     success_msg:'Successfully Add  Internship Evaluation'
                     })
         
@@ -685,7 +708,7 @@ router.post('/singleinternshipevaluation/(:traineeid)',ensureAuthenticated,async
             }
             else{
                StudentMarkListLevelBased.update({field_evaluation:thoretical},{where:{course_id:courseid,student_id:req.params.traineeid,class_id:classid,teacher_id:req.user.userid,training_level:level,program_type:programtype}}).then(uddt =>{
-                res.render('alllevelbasedlist',{courselist:courselist,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
+                res.render('alllevelbasedlist',{addinfo:addinfo, courselist:courselist,dpt:dpt,batchid:batchid,levelbased:levelbased,classid:classid,level:level,programtype:programtype,
                     success_msg:'Successfully Update Internship Evaluation'
                     })
                })

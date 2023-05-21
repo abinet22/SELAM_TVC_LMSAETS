@@ -117,6 +117,8 @@
                                                      <th> <small>Institutional Assessment</small></th>
                                                      <th> <small>Industry Assessment</small></th>
                                                      <th> <small>Total Result</small></th>
+                                                     <th> <small>Grade In Latter</small></th>
+                                                     <th> <small>Grade In Point</small></th>
                                                    </tr>
                                                  </thead>
                                                  <tbody>
@@ -136,7 +138,11 @@
                                                        <tr>
                                                            <td><small><%= y %> </small> </td>
                                                            <td> <small><span style="text-transform: uppercase;"><%= row.student_unique_id %></span></small></td>
-                                                           <td > <small><span style="text-transform: uppercase;"><%= fullname %></span></small></td>
+                                                           <td > <small><span style="text-transform: uppercase;"><%= fullname %> 
+                                                           <% if(row.is_confirm_department ==="Yes"){ %>
+                                                            <label class="text-success">Sent To Registrar <input type="checkbox" checked></label>
+                                                            <%} %>
+                                                          </span></small></td>
                                                          
                                                            
                                                            <td><% var courseid = row.course_id %>
@@ -153,6 +159,8 @@
                                                           <td><small><%= row.institutional_total %></small></td>
                                                           <td><small><%= row.industry_total %></small></td>
                                                           <td><small><%= row.total_result %></small></td>
+                                                          <td><small><%= row.grade_in_point %></small></td>
+                                                          <td><small><%= row.grade_in_latter %></small></td>
                                                         
                
                                                        
@@ -375,7 +383,7 @@ var course = JSON.parse(test2)
                }
            }, "colvis"],
            columnDefs: [ {
-           targets: -1,
+           targets: 1,
            visible: true
        }]
    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');

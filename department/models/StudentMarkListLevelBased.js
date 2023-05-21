@@ -36,19 +36,19 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DECIMAL,
         },
         institutional_total:{
-            type: DataTypes.DECIMAL,
+            type: DataTypes.DECIMAL(10,2),
         },
         industry_total:{
-            type: DataTypes.DECIMAL,
+            type: DataTypes.DECIMAL(10,2),
         },
         total_result:{
-            type: DataTypes.DECIMAL,
+            type: DataTypes.DECIMAL(10,2),
         },
         grade_in_latter:{
             type: DataTypes.STRING,
         },
         grade_in_point:{
-            type: DataTypes.DECIMAL,
+            type: DataTypes.DECIMAL(10,2),
         },
         is_confirm_registrar:{
             type: DataTypes.STRING,

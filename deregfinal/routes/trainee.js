@@ -210,7 +210,7 @@ const{level,traineeid,programidbatch,deptt,programtag} = req.body;
   if(programtag =="level"){
     const [courselist,metacourselist] = await sequelize.query(
       "select * from courses where department_id='"+deptt+"' and training_level='"+level+"'");
-      const student = await LevelBasedTrainee.findAll({where:{student_unique_id:traineeid,department_id:deptt,batch_id:programidbatch,current_level:level}});
+      const student = await LevelBasedTrainee.findOne({where:{student_unique_id:traineeid,department_id:deptt,batch_id:programidbatch,current_level:level}});
       const [marklist, metaclasslist] = await sequelize.query(
           "SELECT * FROM levelbasedtrainees  INNER JOIN studentmarklistlevelbaseds "+
           " ON levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
@@ -324,7 +324,8 @@ router.post('/selecttraineeebyidtosendcoc',ensureAuthenticated,async function(re
     " and studentmarklistlevelbaseds.department_id ='"+dept+"' "+
    " and studentmarklistlevelbaseds.batch_id ='"+programidbatch+"' "+
     "  and courses.training_level='"+level+"'" +
-    "  and courses.department_id='"+dept+"'" 
+    "  and courses.department_id='"+dept+"'" +
+    " and is_graduated='Yes'"
       );
           res.render('singlestudenttococ',{
             marklist:marklist,
@@ -433,82 +434,123 @@ router.post('/reportproblemtodepartment/(:traineeid)',ensureAuthenticated,async 
     const [courseinfo,metacourseinfo] = await sequelize.query(
       "select * from courses where department_id = '"+deptid+"' and training_level='"+level+"'");
      
-      const [marklist, metaclasslist] = await sequelize.query(
-          "SELECT * FROM studentmarklistlevelbaseds INNER JOIN levelbasedtrainees"+
-          " ON levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
-      " where studentmarklistlevelbaseds.course_id ='"+courseid+"'"+
-      " and studentmarklistlevelbaseds.class_id ='"+classid+"' " +
-      " and studentmarklistlevelbaseds.department_id ='"+deptid+"' "+
-      " and studentmarklistlevelbaseds.batch_id ='"+batchid+"' "+
-      " and studentmarklistlevelbaseds.is_confirm_department ='Yes' "+
-      " and studentmarklistlevelbaseds.is_confirm_teacher ='Yes' "
-        );
+      // const [marklist, metaclasslist] = await sequelize.query(
+      //     "SELECT * FROM studentmarklistlevelbaseds INNER JOIN levelbasedtrainees"+
+      //     " ON levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
+      // " where studentmarklistlevelbaseds.course_id ='"+courseid+"'"+
+      // " and studentmarklistlevelbaseds.class_id ='"+classid+"' " +
+      // " and studentmarklistlevelbaseds.department_id ='"+deptid+"' "+
+      // " and studentmarklistlevelbaseds.batch_id ='"+batchid+"' "+
+      // " and studentmarklistlevelbaseds.is_confirm_department ='Yes' "+
+      // " and studentmarklistlevelbaseds.is_confirm_teacher ='Yes' "
+      //   );
         StudentMarkListLevelBased.update({is_confirm_department:'No',is_confirm_registrar:'No'},{where:{batch_id:batchid,course_id:courseid,department_id:deptid,teacher_id:teacherid,student_id:req.params.traineeid}}).then(()=>{
-          res.render('studentdataindepartment',{
-            marklist:marklist,
-            programtag:programtag,
-            deptid:deptid,
-            batchid:batchid,
-            classid:classid,
-            courseid:courseinfo,
-            classinfo:classinfo,
-            level:level,
-            success_msg:'Successfully sent evaluation report problem to department for correction '
-        })
-        }) 
-  }else if(programtag =="ngo"){
-    const [courseinfo,metacourseinfo] = await sequelize.query(
-      "select * from ngocourses where department_id = '"+deptid+"' and batch_id='"+batchid+"'");
-     
-      const [marklist, metaclasslist] = await sequelize.query(
-          "SELECT * FROM studentmarklistlevelbaseds INNER JOIN ngobasedtrianees"+
-          " ON ngobasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
+          sequelize.query(
+            "SELECT * FROM studentmarklistlevelbaseds INNER JOIN levelbasedtrainees"+
+            " ON levelbasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
         " where studentmarklistlevelbaseds.course_id ='"+courseid+"'"+
         " and studentmarklistlevelbaseds.class_id ='"+classid+"' " +
         " and studentmarklistlevelbaseds.department_id ='"+deptid+"' "+
         " and studentmarklistlevelbaseds.batch_id ='"+batchid+"' "+
         " and studentmarklistlevelbaseds.is_confirm_department ='Yes' "+
         " and studentmarklistlevelbaseds.is_confirm_teacher ='Yes' "
-        );
+          ).then(udtmark =>{
+            res.render('studentdataindepartment',{
+              marklist:udtmark[0],
+              programtag:programtag,
+              deptid:deptid,
+              batchid:batchid,
+              classid:classid,
+              courseid:courseinfo,
+              classinfo:classinfo,
+              level:level,
+              tag:"Filtered",
+              success_msg:'Successfully sent evaluation report problem to department for correction '
+          })
+          })
+        
+        }) 
+  }else if(programtag =="ngo"){
+    const [courseinfo,metacourseinfo] = await sequelize.query(
+      "select * from ngocourses where department_id = '"+deptid+"' and batch_id='"+batchid+"'");
+     
+      // const [marklist, metaclasslist] = await sequelize.query(
+      //     "SELECT * FROM studentmarklistlevelbaseds INNER JOIN ngobasedtrianees"+
+      //     " ON ngobasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
+      //   " where studentmarklistlevelbaseds.course_id ='"+courseid+"'"+
+      //   " and studentmarklistlevelbaseds.class_id ='"+classid+"' " +
+      //   " and studentmarklistlevelbaseds.department_id ='"+deptid+"' "+
+      //   " and studentmarklistlevelbaseds.batch_id ='"+batchid+"' "+
+      //   " and studentmarklistlevelbaseds.is_confirm_department ='Yes' "+
+      //   " and studentmarklistlevelbaseds.is_confirm_teacher ='Yes' "
+      //   );
         StudentMarkListLevelBased.update({is_confirm_department:'No'},{where:{batch_id:batchid,course_id:courseid,department_id:deptid,teacher_id:teacherid,student_id:req.params.traineeid}}).then(()=>{
-          res.render('studentdataindepartment',{
-            marklist:marklist,
-            programtag:programtag,
-            deptid:deptid,
-            batchid:batchid,
-            classid:classid,
-            courseid:courseinfo,
-            classinfo:classinfo,
-            level:'',
-            success_msg:'Successfully sent evaluation report problem to department for correction '
-        })
+         
+          sequelize.query(
+            "SELECT * FROM studentmarklistlevelbaseds INNER JOIN ngobasedtrianees"+
+            " ON ngobasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+
+          " where studentmarklistlevelbaseds.course_id ='"+courseid+"'"+
+          " and studentmarklistlevelbaseds.class_id ='"+classid+"' " +
+          " and studentmarklistlevelbaseds.department_id ='"+deptid+"' "+
+          " and studentmarklistlevelbaseds.batch_id ='"+batchid+"' "+
+          " and studentmarklistlevelbaseds.is_confirm_department ='Yes' "+
+          " and studentmarklistlevelbaseds.is_confirm_teacher ='Yes' "
+          ).then(udtmark =>{
+            res.render('studentdataindepartment',{
+              marklist:udtmark[0],
+              programtag:programtag,
+              deptid:deptid,
+              batchid:batchid,
+              classid:classid,
+              courseid:courseinfo,
+              classinfo:classinfo,
+              level:'',
+              tag:"Filtered",
+              success_msg:'Successfully sent evaluation report problem to department for correction '
+          })
+          })
+         
         }) 
   }else if(programtag == "industry"){
     const [courseinfo,metacourseinfo] = await sequelize.query(
       "select * from industrycourses where department_id = '"+deptid+"' and batch_id='"+batchid+"'");
      
-      const [marklist, metaclasslist] = await sequelize.query(
-        "  SELECT * FROM studentmarklistlevelbaseds INNER JOIN industrybasedtrainees "+
-        " ON industrybasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+ 
-      " where studentmarklistlevelbaseds.course_id ='"+courseid+"' "+
-      " and studentmarklistlevelbaseds.class_id ='"+classid+"' " +
-      " and studentmarklistlevelbaseds.department_id ='"+deptid+"' "+
-      " and studentmarklistlevelbaseds.batch_id ='"+batchid+"' "+
-      " and studentmarklistlevelbaseds.is_confirm_department ='Yes' "+
-      " and studentmarklistlevelbaseds.is_confirm_teacher ='Yes' "
-        );
+      // const [marklist, metaclasslist] = await sequelize.query(
+      //   "  SELECT * FROM studentmarklistlevelbaseds INNER JOIN industrybasedtrainees "+
+      //   " ON industrybasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+ 
+      // " where studentmarklistlevelbaseds.course_id ='"+courseid+"' "+
+      // " and studentmarklistlevelbaseds.class_id ='"+classid+"' " +
+      // " and studentmarklistlevelbaseds.department_id ='"+deptid+"' "+
+      // " and studentmarklistlevelbaseds.batch_id ='"+batchid+"' "+
+      // " and studentmarklistlevelbaseds.is_confirm_department ='Yes' "+
+      // " and studentmarklistlevelbaseds.is_confirm_teacher ='Yes' "
+      //   );
         StudentMarkListLevelBased.update({is_confirm_department:'No'},{where:{batch_id:batchid,course_id:courseid,department_id:deptid,teacher_id:teacherid,student_id:req.params.traineeid}}).then(()=>{
-          res.render('studentdataindepartment',{
-            marklist:marklist,
-            programtag:programtag,
-            deptid:deptid,
-            batchid:batchid,
-            classid:classid,
-            courseid:courseinfo,
-            classinfo:classinfo,
-            level:'',
-            success_msg:'Successfully sent evaluation report problem to department for correction '
-        })
+         
+          sequelize.query(
+            "  SELECT * FROM studentmarklistlevelbaseds INNER JOIN industrybasedtrainees "+
+            " ON industrybasedtrainees.trainee_id = studentmarklistlevelbaseds.student_id "+ 
+          " where studentmarklistlevelbaseds.course_id ='"+courseid+"' "+
+          " and studentmarklistlevelbaseds.class_id ='"+classid+"' " +
+          " and studentmarklistlevelbaseds.department_id ='"+deptid+"' "+
+          " and studentmarklistlevelbaseds.batch_id ='"+batchid+"' "+
+          " and studentmarklistlevelbaseds.is_confirm_department ='Yes' "+
+          " and studentmarklistlevelbaseds.is_confirm_teacher ='Yes' "
+            ).then(udtmrk =>{
+              res.render('studentdataindepartment',{
+                marklist:udtmrk[0],
+                programtag:programtag,
+                deptid:deptid,
+                batchid:batchid,
+                classid:classid,
+                courseid:courseinfo,
+                classinfo:classinfo,
+                level:'',
+                tag:"Filtered",
+                success_msg:'Successfully sent evaluation report problem to department for correction '
+            })
+            })
+        
         }) 
         
   }
