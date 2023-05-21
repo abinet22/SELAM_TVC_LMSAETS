@@ -1,0 +1,442 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>selam</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  <!-- Navbar -->
+  <%- include('./partials/top') %>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar  elevation-4">
+    <!-- Brand Logo -->
+         <!-- Brand Logo -->
+         <%- include('./partials/sidebar') %>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Dashboard</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Trainee Grade Report</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="col-md-12">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h4 class="card-title">Trainee Grade Report</h4>
+              </div>
+              <div class="card-body">
+                <%- include ('./partials/messages') %>
+                <div class="alert  alert-dismissible fade show" role="alert" style="display: none;" id="servermsg">
+                   <p id="msg"></p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                
+                
+             <div class="row">
+                <div class="col-md-12">
+                    
+                    <div class="callout callout-success">
+                        <div class="row">
+                          <% var checkinfo = 0; %>
+                        
+                            <% if(student ) { %>
+                                <% var i = 0 ;%>
+                                   
+                                    <% var name = JSON.parse(JSON.stringify(student.personal_info)) %>
+                                   
+                            <div class="col-lg-12 ">
+                                <div class="">
+                                    <div class=" p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                                        <div class="row align-items-center">
+                                            <div class="col-lg-6 mb-4 mb-lg-0">
+                                                <%  dataphotos = 	'data:image/png;base64,' + new Buffer(student.applicant_photo, 'binary').toString('base64')
+                                                %>
+                                                <img class="img-fluid" id="appphoto"  src="<%= dataphotos %>" height="250px" width="250px" alt="User profile picture">
+                     
+                                            </div>
+                                            <div class="col-lg-6 px-xl-10">
+                                                <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 " style="width: 100%;">
+                                                    <h3 class="h2 text-white mb-0">Name: &nbsp;<%= name.firstname  %>&nbsp;<%= name.middlename  %></h3>
+                                              
+                                                </div>
+                                                <ul class="list-unstyled mb-1-9">
+                                                    <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Sex:<%var gen =  name.gender %><%= gen==="m"?"Male":"Female" %></span> </li>
+                                                    <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Birth Date:</span> <%= name.birthday %></li>
+                                                    <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Age:</span> <% 
+                                                       var birthday = name.birthday
+                                                  
+                                                            var ageDifMs = Date.now() - new Date(birthday);
+                                                            var ageDate = new Date(ageDifMs); 
+                                                            var ageis =  Math.abs(ageDate.getUTCFullYear() - 1970);
+                                                          
+                                                        %> <%= ageis   %></li>
+                                                    <li class="display-28"><span class="display-26 text-secondary me-2 font-weight-600">ID No:</span> <%= student.student_unique_id %></li>
+                                                </ul>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="social-icon-style1 list-unstyled mb-0 ps-0">
+                                    <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Year Of Entry:<%= new Date(batch.batch_from).getUTCFullYear() %></span><span class="display-26 text-secondary me-2 font-weight-600">Year Of Graduation:<%= new Date(batch.batch_to).getUTCFullYear()  %></span>  </li>
+                                  
+                                        <% department.forEach(function(row){%>
+                                          <li class="mb-1  display-28"><span class="display-26 text-secondary me-2 font-weight-600">Sector:<%= row.sector_name %></span><br>
+                                            <span class="display-26 text-secondary me-2 font-weight-600">Department :<%= row.department_name %></span> <br>
+                                           <span class="display-26 text-secondary me-2 font-weight-600">Occupation:<%= row.occupation_name %></span> <br>
+                                           
+                                      <%  })%>
+                                
+                                 
+                                      <span class="display-26 text-secondary me-2 font-weight-600"><%if(level){%>
+                                        Level: &nbsp; <%= level %> 
+                                        <%}%>
+                                      </span>  </li>
+                                    <li class="mb-1 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Program:<%= student.admission_type %></span> </li>
+                                    <button class="btn btn-sm btn btn-outline-success" id="toggleButton">Show Grade Report</button>
+                                    <div class="col-md-4">
+                                      <form action="/registrar/trainee/printgraduatescertificate" method="post">
+                                         <div class="form-group">
+                                             <input type="hidden" name="programtag" value="<%= programtag %>">
+                                             <input type="hidden" name="traineeid" value="<%= traineeid %>">  
+                                             <input type="hidden" name="level" value="<%= level %>">  
+                                             <input type="hidden" name="programidbatch" value="<%= batchid %>">  
+                                             <input type="hidden" name="dept" value="<%= deptid %>">  
+                                          
+                                           </div>
+                                           <button type="submit" class="btn btn-primary btn-block btn-sm" data-toggle="modal" data-target="#exampleModal">
+                                             Print Certificate 
+                                            </button> 
+                                      </form>
+                                  
+                                 </div>
+                                 <div class="col-md-4">
+                                  
+                                     <form action="/registrar/trainee/printgraduatesgradereport" method="post">
+                                         <div class="form-group">
+                                             <input type="hidden" name="programtag" value="<%= programtag %>">
+                                             <input type="hidden" name="traineeid" value="<%= traineeid %>">  
+                                             <input type="hidden" name="level" value="<%= level %>">  
+                                             <input type="hidden" name="programidbatch" value="<%= batchid %>">  
+                                             <input type="hidden" name="dept" value="<%= deptid %>">  
+                                          
+                                           </div>
+                                           <button type="submit" class="btn btn-primary btn-block btn-sm" >
+                                             Print Grade Report 
+                                            </button> 
+                                      </form>
+                                 </div>
+                                   
+                                </ul>
+                            </div>
+                      
+                             <%  } else{ %>
+                              <label>Can't Find Student</label>
+                            <% }     %>                           
+                       
+                      </div>
+                </div>
+               
+            </div>
+                <div class="row" id="myDiv" style="display:none">
+                  <div class="col-md-12  grid-margin stretch-card">     <div class="card">
+                      <div class="card-header">
+                          <h4 class="card-title">Grade Report</h4>
+                      </div>
+                      <div class="card-body">
+                      
+                        <div class="row" style="display: none;">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="dt-buttons btn-group flex-wrap">               
+                            <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Copy</span></button> 
+                            <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>CSV</span></button> 
+                            <button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Excel</span></button> 
+                            <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>PDF</span></button>
+                             <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="example1" type="button"><span>Print</span></button> <div class="btn-group">
+                                 <button class="btn btn-secondary buttons-collection dropdown-toggle buttons-colvis" tabindex="0" aria-controls="example1" type="button" aria-haspopup="true" aria-expanded="false"><span>Column visibility</span></button></div> </div></div>
+                                 
+                                 <div class="col-sm-12 col-md-6"><div id="example1_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="example1"></label></div></div>
+                                </div>
+                        <div class="table-responsive" id="trainingdata">
+                            <table aria-describedby="example1_info" role="grid" class="table table-bordered table-striped dataTable dtr-inline" id="example1">
+                                    
+                            <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>Unit Of Competency  </th>
+                                <th>Module Code</th>
+                                <th>Total Hour </th>
+                                                           
+                                <th>Assessement Result 100% </th>
+                                <th>Grade In Letter</th>
+                                <th>Grade In Point</th>
+                             
+                              </tr>
+                            </thead>
+                            <tbody>
+                            <% if(courselist.length >0){ %>
+                              <% var i = 0 ;%>
+                                <% courselist.forEach(function (row){ %>
+                                    <% var courseid = row.course_id %>
+                                    <% var coursecode = row.course_code %>
+                                    <% var coursename = row.course_name %>
+                                    <% var coursehour = row.training_hours %>
+                                    <% i++ %>
+                                    <tr>
+                                      <td><%= i %></td>
+                                      <td ><%= row.course_name %>
+                                   
+                                      </td>
+                                      <td><%= row.course_code  %></td>
+                                      
+                                      <td><%= coursehour %></td>
+                                    <% if(marklist.length >0 ) { %>
+                                       
+                                           <% marklist.forEach(function (row){ %>
+                                           
+                                            <% var name = JSON.parse(JSON.stringify(row.personal_info)) %>
+                                            <% var course = row.course_id %>
+                                             <% if(courseid == course){ %>
+                                               
+                                                  
+                                                    <td><%= row.total_result %> </td>
+                                                    <td><%= row.grade_in_latter %> </td>
+                                                    <td> <%= row.grade_in_point %></td>
+                                               
+                                              
+                                             <% } else{%>
+                                              <% checkinfo++ %>
+                                            
+                                              <td> Not Found </td>
+                                              <td> Not Found </td>
+                                              <td> Not Found </td>
+                                           <% }%>
+                                         <%  })}  %>
+                                        
+                                     
+                                         
+                                        </tr>
+                                    <% })}else{}%> 
+                            
+                            
+                                 
+                            </tbody>
+                          </table>
+                        </div>
+                      
+                      </div>
+                    </div>
+                  </div>
+               
+              
+                </div>
+              </div>
+            </div>
+        
+           
+       
+            <script>
+              const toggleButton = document.getElementById("toggleButton");
+    const myDiv = document.getElementById("myDiv");
+    
+    toggleButton.addEventListener("click", function() {
+      if (myDiv.style.display === "none") {
+        myDiv.style.display = "block";
+      } else {
+        myDiv.style.display = "none";
+      }
+    });
+            </script>
+
+                   
+				</div>
+        
+          </div>
+    
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <script>
+          
+    function storeTblValues()
+    {
+        var TableData = new Array();
+       
+        $('#tablesend tr').each(function (row, tr) {
+         
+          var currentRow=$(this);
+          var col =currentRow.find("td:eq(1)").text();
+if(!col.length )
+{
+
+}
+else{
+var col1_value= currentRow.find("td:eq(0)").text();
+var col2_value=document.getElementById('deptid').value;
+var col3_value=document.getElementById('courseid').value;
+var col4_value=document.getElementById('batchid').value;
+var col5_value=document.getElementById('classid').value;
+
+
+
+var obj={};
+
+obj.batch_id=col4_value.trim();
+obj.department_id=col2_value.trim();
+obj.class_id=col5_value.trim();
+obj.student_id=col1_value.trim();
+obj.course_id=col3_value.trim();
+obj.is_confirm_department="Yes";
+
+
+
+TableData.push(obj);
+
+console.log(obj);
+}
+
+
+        });
+      // first row will be empty - so remove
+        return TableData;
+    }
+
+    function convertArrayToJSON()
+    {
+        var TableData;
+       // TableData = $.toJSON(storeTblValues());
+       TableData =  JSON.stringify(storeTblValues());
+      //  $('#tbConvertToJSON').html('<br>JSON array: <br>' + TableData.replace(/},/g, "},<br>"));
+
+
+$.ajax({
+            type: "POST",
+            url: "/registrardataencoder/grade/confirmsingleclasscoursegradereporttoregistrar",
+            data: "pTableData=" + TableData,    // post TableData to server script
+
+            success: function (data) {
+      
+              if(data.message == 'success'){ // if true (1)
+
+                var x = document.getElementById("servermsg");
+var msg = document.getElementById("msg");
+
+x.style.display = "block";
+x.className="alert alert-success alert-dismissible fade show";
+msg.innerHTML="You are successfully sent student grade data to registrar!";
+setTimeout(function(){// wait for 5 secs(2)
+location.reload(); // then reload the page.(3)
+}, 1000); 
+}
+else{
+
+    var x = document.getElementById("servermsg");
+var msg = document.getElementById("msg");
+x.style.display = "block";
+x.className="alert alert-danger alert-dismissible fade show";
+msg.innerHTML="Something is wrong please try later!"
+setTimeout(function(){// wait for 5 secs(2)
+location.reload(); // then reload the page.(3)
+}, 1000); 
+}
+            }
+        });
+   
+      }
+
+
+</script>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+      <!-- Brand Logo -->
+      <%- include('./partials/footer') %> 
+</footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../../plugins/jszip/jszip.min.js"></script>
+<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+<!-- Page specific script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": true, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+</body>
+</html>

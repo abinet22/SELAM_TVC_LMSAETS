@@ -66,28 +66,28 @@ app.use(function(req, res, next) {
 
 app.use(express.static(path.join(__dirname,'./public')));
 // Routes registrar
-// app.use('/registrar', require('./routes/index.js'));
-// app.use('/registrar/programs', require('./routes/programs.js'));
-// app.use('/registrar/company', require('./routes/company.js'));
-// app.use('/registrar/trainee', require('./routes/trainee.js'));
-// app.use('/registrar/applicant',require('./routes/applicant.js'));
+app.use('/registrar', require('./routes/index.js'));
+app.use('/registrar/programs', require('./routes/programs.js'));
+app.use('/registrar/company', require('./routes/company.js'));
+app.use('/registrar/trainee', require('./routes/trainee.js'));
+app.use('/registrar/applicant',require('./routes/applicant.js'));
 
-// app.use('/registrar/staff',require('./routes/staff.js'));
-// app.use('/registrar/course',require('./routes/course.js'));
+app.use('/registrar/staff',require('./routes/staff.js'));
+app.use('/registrar/course',require('./routes/course.js'));
 
-// app.use('/registrar/classmanage',require('./routes/classmanage.js'));
+app.use('/registrar/classmanage',require('./routes/classmanage.js'));
 
 
-app.use('/', require('./routes/index.js'));
-app.use('/programs', require('./routes/programs.js'));
-app.use('/company', require('./routes/company.js'));
-app.use('/trainee', require('./routes/trainee.js'));
-app.use('/applicant',require('./routes/applicant.js'));
+// app.use('/', require('./routes/index.js'));
+// app.use('/programs', require('./routes/programs.js'));
+// app.use('/company', require('./routes/company.js'));
+// app.use('/trainee', require('./routes/trainee.js'));
+// app.use('/applicant',require('./routes/applicant.js'));
 
-app.use('/staff',require('./routes/staff.js'));
-app.use('/course',require('./routes/course.js'));
+// app.use('/staff',require('./routes/staff.js'));
+// app.use('/course',require('./routes/course.js'));
 
-app.use('/classmanage',require('./routes/classmanage.js'));
+// app.use('/classmanage',require('./routes/classmanage.js'));
 
 
 

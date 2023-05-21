@@ -43,7 +43,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Applicant List</li>
+              <li class="breadcrumb-item active">All Registered Trainee List</li>
             </ol>
           </div>
         </div>
@@ -58,7 +58,7 @@
                 <div class="col-md-12">
                     <div class="card card-primary">
                       <div class="card-header">
-                        <h4 class="card-title">All Applicant List</h4>
+                        <h4 class="card-title">All Registered Trainee List</h4>
                       </div>
                       <div class="card-body">
                        
@@ -79,7 +79,7 @@
                           <div class="card-body">
                            
                             <div class="table-responsive" >
-                                <table aria-describedby="example1_info" role="grid" class="table table-bordered table-striped dataTable dtr-inline" id="example1">
+                                <table aria-describedby="example1_info" role="grid" class="table table-bordered table-striped dataTable " id="example1">
                                   <thead>
                                     <tr>
                     <th>#</th>
@@ -94,8 +94,9 @@
                                       <th>Current Level </th>  
                                       <th>Admission Type </th>                  
                                      
-                                      <th>Is_Graduated</th>
-                                      <th>COC_Result</th>
+                                      <th>Note</th>
+                                      
+                                      <th>Show Grade Report</th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -121,7 +122,9 @@
                                             <td><label style="text-transform: uppercase;"><%= name.gender %></label></td>
                                             
                                             <td>Self:&nbsp;<%= contactself %></td>
-                                            <td>Emergency:&nbsp;<%= contactemergency %></td>
+                                            <td>Emergency:&nbsp;<%= contactemergency %>
+                                           
+                                            </td>
                                           
                                             <td><%= row.is_disable %><br><%= row.disable_info %></td>
                                            
@@ -142,8 +145,29 @@
                                          <td><%= row.current_level %></td>
                                          <td><%= row.admission_type %></td>
                                           
-                                            <td><%= row.is_graduated %></td>
-                                            <td><%= row.is_pass_coc %></td>
+                                            <td>Graduate : &nbsp; <%= row.is_graduated %><br>
+                                              DropOut : &nbsp; <%= row.is_dropout %>
+                                              <br> Continue Study : &nbsp;<%= row.countinue_study %>
+                                            <br> COC Result : &nbsp;<%= row.is_pass_coc==="PASS"?"Competent":"Not Yet Competent" %>
+                                            <br> Sent To JBS DB? : &nbsp;<%= row.is_send_to_jbs==="Yes"?"Yes":"No" %>
+                                          </td>
+                                          
+                                            <td>
+                                              <% if(row.is_graduated ==="Yes") { %>
+                                                <form action="/registrar/trainee/showgraduatetranieegrade" method="post">
+                                                  
+                                                  <input type="hidden" name="level" value="<%= row.current_level %>">
+                                                  <input type="hidden" name="traineeid" value="<%= row.student_unique_id %>">
+                                                  <input type="hidden" name="programidbatch" value="<%= row.batch_id %>">
+                                                  <input type="hidden" name="deptt" value="<%= row.department_id%>">
+                                                  <input type="hidden" name="programtag" value="<%= tag %>">
+                                                  <button type="submit" class="btn btn-sm btn-outline-success">Show Grade Report</button>
+                                                </form>
+                                             <% }else{ %>
+                                                <label class="text-info">Not Graduated</label>
+                                              <%} %>
+                                            </td>
+                                            
                                            
                                             
                                          
@@ -225,7 +249,7 @@
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": false, "lengthChange": true, "autoWidth": true,"width":400,
+      "responsive": false, "lengthChange": true, "autoWidth": true,"width":500,
       "buttons": ["copy", "csv", "excel", "pdf",  {
                 extend: 'print',
                 customize: function ( win ) {
@@ -242,7 +266,7 @@
                 },
                 title: function() {
     return  "  <table> <tr style='  border-collapse: collapse;'><td><img src='../../../dist/img/logoselam.jpg' width='150px' height='150px'></td>"+
-   " <td > <h4>  Organization Name <br> Selam David Roeschli Technical And Vocational College <br> All Trainee List</h4> </td> </tr> </table>"
+   " <td > <h4>  Organization Name <br> Selam  Technical And Vocational College <br>  Registered Trainee List</h4> </td> </tr> </table>"
               
   } ,
 
@@ -252,7 +276,7 @@
                 }
             }, "colvis"],
             columnDefs: [ {
-            targets: -1,
+            targets: 1,
             visible: true
         }]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
